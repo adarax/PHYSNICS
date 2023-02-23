@@ -32,8 +32,6 @@ javafx {
 }
 application {    
    // Define the main class for the application.
-   // TODO: specify the fully qualified name of the class 
-   //       that contains the main method your would like to run.
    mainClass = 'edu.vanier.physnics.App'
 }
 
