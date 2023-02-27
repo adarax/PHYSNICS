@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -52,7 +53,34 @@ public class ConservationController {
     private Slider sliderMass;
     
     @FXML
+    private Pane paneAnimation;
+    
+    @FXML
     public void initialize(){
+        //setup the ramp and the ball
+        setup();
+        
+        
+        btnPlay.setOnAction((e) -> {
+            
+        });
+        
+        btnPause.setOnAction((e) -> {
+            
+        });
+        
+        btnReset.setOnAction((e) -> {
+            
+        });
+        
+        
+        choiceBoxg.setOnAction((e) -> {
+            
+        });
+        
+    }
+    
+    public void setup(){
         
     }
 }
