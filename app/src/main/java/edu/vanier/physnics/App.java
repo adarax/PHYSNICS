@@ -21,7 +21,7 @@ public class App extends Application {
         loader.setController(controller);
         
         Parent root = loader.load();               
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 1920, 1080);
         
         mainMenu.setScene(scene);        
        
