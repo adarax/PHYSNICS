@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -11,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #1C1C28;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -25,9 +24,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="© 2023 Newton's Champions" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2023 Newton's Champions" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="20.0" right="30.0" />
+                  <Insets bottom="70.0" right="20.0" />
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
@@ -43,38 +42,45 @@
                 <RowConstraints maxHeight="173.3333740234375" minHeight="10.0" prefHeight="126.66668701171875" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Projectile Motion" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stacked Block" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Projectile Motion" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <font>
+                        <Font name="Segoe UI" size="30.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="15.0" />
+                     </GridPane.margin></Text>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Stacked Block" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <font>
+                        <Font name="Segoe UI" size="30.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="15.0" />
+                     </GridPane.margin></Text>
                   
                   <!-- Stacked block -->
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" onMousePressed="#stackedBlockPressed">
+                  <ImageView fx:id="buttonStackedBlock" fitHeight="230.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                       <image>
                           <Image url="@/images/stacked_block_icon.png" />
                       </image>
                   </ImageView>
                   
                   <!-- Projectile Motion -->
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" onMousePressed="#projectilePressed">
+                  <ImageView fx:id="buttonProjectile" fitHeight="230.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                       <image>
                           <Image url="@/images/projectile_motion_icon.png" />
                       </image>
                   </ImageView>
                </children>
             </GridPane>
-            <Button mnemonicParsing="false" prefHeight="97.0" prefWidth="100.0" text="Help" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets right="70.0" top="70.0" />
-               </GridPane.margin>
-            </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PHYSNICS" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="PHYSNICS" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
-                  <Font name="Segoe UI" size="70.0" />
+                  <Font name="Segoe UI" size="80.0" />
                </font>
                <GridPane.margin>
-                  <Insets top="70.0" />
+                  <Insets top="55.0" />
                </GridPane.margin>
             </Text>
-            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
               <image>
                   <Image url="@/images/app_icon.png" />
               </image>
@@ -93,7 +99,7 @@
                <children>
                   
                   <!-- Conservation of energy -->
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" onMouseClicked="#conservationPressed">
+                  <ImageView fx:id="buttonConservation" fitHeight="230.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                     <image>
                         <Image url="@/images/conservation_of_energy_icon.png" />
                     </image>
@@ -101,10 +107,13 @@
                      <GridPane.margin>
                         <Insets left="50.0" />
                      </GridPane.margin></ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Convervation of Energy" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Convervation of Energy" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
-                        <Insets left="50.0" />
-                     </GridPane.margin></Text>
+                        <Insets left="50.0" top="15.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Segoe UI" size="30.0" />
+                     </font></Text>
                </children>
             </GridPane>
             <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -112,25 +121,39 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="286.66668701171875" minHeight="10.0" prefHeight="234.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="173.33331298828125" minHeight="10.0" prefHeight="126.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="286.66668701171875" minHeight="10.0" prefHeight="235.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="173.33331298828125" minHeight="10.0" prefHeight="125.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   
                   <!-- Centripetal force -->
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" onMousePressed="#centripetalPressed">
+                  <ImageView fx:id="buttonCentripetal" fitHeight="230.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                     <image>
                         <Image url="@/images/centripetal_force_icon.png" />
                     </image>
                      <GridPane.margin>
                         <Insets right="50.0" />
                      </GridPane.margin></ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Centripetal Force" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centripetal Force" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
-                        <Insets right="50.0" />
-                     </GridPane.margin></Text>
+                        <Insets right="50.0" top="15.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Segoe UI" size="30.0" />
+                     </font></Text>
                </children>
             </GridPane>
+            
+            <!-- Help button -->
+            <ImageView fx:id="buttonHelp" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                <image>
+                    <Image url="@/images/help_icon.png" />
+                </image>
+                
+                <GridPane.margin>
+                  <Insets right="100.0" top="60.0" />
+               </GridPane.margin>
+            </ImageView>
          </children>
       </GridPane>
    </children>
