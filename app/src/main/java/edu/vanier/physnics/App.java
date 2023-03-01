@@ -21,10 +21,10 @@ public class App extends Application {
         loader.setController(mwc);
         
         Parent root = loader.load();               
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1920, 1080);
         
         stage.setScene(scene);
-        stage.setResizable(true);
+        stage.setResizable(false);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
         stage.show();
