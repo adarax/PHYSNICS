@@ -10,6 +10,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 
 /**
  *
@@ -81,6 +83,18 @@ public class ConservationController {
     }
     
     public void setup(){
+        Arc ramp = new Arc();
+        System.out.println(paneAnimation.getLayoutX());
+        System.out.println(paneAnimation.getHeight());
+        //Setting the properties of the arc 
+        ramp.setCenterX(500); 
+        ramp.setCenterY(500); 
+        ramp.setRadiusX(90f); 
+        ramp.setRadiusY(90.0f); 
+        ramp.setStartAngle(180); 
+        ramp.setLength(100f); 
+        ramp.setType(ArcType.OPEN);
         
+        paneAnimation.getChildren().add(ramp);
     }
 }
