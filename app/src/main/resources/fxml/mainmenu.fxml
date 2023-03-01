@@ -107,7 +107,7 @@
                      <GridPane.margin>
                         <Insets left="50.0" />
                      </GridPane.margin></ImageView>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Convervation of Energy" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Conservation of Energy" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="50.0" top="15.0" />
                      </GridPane.margin>
