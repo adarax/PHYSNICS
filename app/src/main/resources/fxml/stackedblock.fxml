@@ -16,9 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="-4.0" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
+      <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1662.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="258.0" />
@@ -28,7 +28,7 @@
           <RowConstraints maxHeight="516.0" minHeight="10.0" prefHeight="134.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane gridLinesVisible="true">
+            <GridPane gridLinesVisible="true" prefHeight="946.0" prefWidth="1602.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -37,7 +37,7 @@
                 <RowConstraints maxHeight="869.0" minHeight="10.0" prefHeight="855.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane gridLinesVisible="true" prefWidth="1682.0">
+                  <GridPane gridLinesVisible="true" prefWidth="1662.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="0.0" prefWidth="111.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="842.0" minWidth="0.0" prefWidth="106.0" />
@@ -48,29 +48,29 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Action 1" />
                             <MenuItem mnemonicParsing="false" text="Action 2" />
                           </items>
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Segoe UI" size="17.0" />
                            </font>
                         </MenuButton>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stacked Block System Simulation" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                            <font>
-                              <Font size="40.0" />
+                              <Font name="Segoe UI" size="42.0" />
                            </font>
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></Text>
-                        <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="Menu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="Menu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <items>
                               <MenuItem mnemonicParsing="false" text="Action 1" />
                               <MenuItem mnemonicParsing="false" text="Action 2" />
                            </items>
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Segoe UI" size="17.0" />
                            </font>
                         </MenuButton>
                         
@@ -101,15 +101,52 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            
+            <!-- Play button -->
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                <image>
+                    <Image url="@/images/play_button.png" />
+                </image>
+               <GridPane.margin>
+                  <Insets left="290.0" />
+               </GridPane.margin>
+            </ImageView>
+            
+            <!-- Pause button -->
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                <image>
+                    <Image url="@/images/pause_button.png" />
+                </image>
+               <GridPane.margin>
+                  <Insets left="160.0" />
+               </GridPane.margin>
+            </ImageView>
+            
+            <!-- Reset button -->
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                <image>
+                    <Image url="@/images/reset_button.png" />
+                </image>
+               <GridPane.margin>
+                  <Insets left="30.0" />
+               </GridPane.margin>
+            </ImageView>
+
+            <!-- Help button -->
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <image>
+                    <Image url="@/images/help_icon.png" />
+                </image>
+               <GridPane.margin>
+                  <Insets left="30.0" />
+               </GridPane.margin>
+            </ImageView>
+            
             <MFXToggleButton GridPane.columnIndex="1" />
             <MFXButton GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
             <Line endX="300.0" endY="130.0" startX="300.0" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets left="400.0" />
+                  <Insets left="390.0" />
                </GridPane.margin>
             </Line>
          </children>
