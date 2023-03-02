@@ -6,6 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,13 +16,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane gridLinesVisible="true" layoutX="-4.0" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1682.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="238.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1662.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="258.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="982.0" minHeight="10.0" prefHeight="946.0" vgrow="SOMETIMES" />
@@ -33,38 +33,54 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="115.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="869.0" minHeight="10.0" prefHeight="831.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="869.0" minHeight="10.0" prefHeight="855.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane gridLinesVisible="true">
+                  <GridPane gridLinesVisible="true" prefWidth="1682.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="0.0" prefWidth="114.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="842.0" minWidth="0.0" prefWidth="127.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1341.0" minWidth="10.0" prefWidth="1286.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="109.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="0.0" prefWidth="111.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="842.0" minWidth="0.0" prefWidth="106.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1589.0" minWidth="10.0" prefWidth="1357.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1341.0" minWidth="10.0" prefWidth="114.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <MenuButton mnemonicParsing="false" prefHeight="75.0" prefWidth="127.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Action 1" />
                             <MenuItem mnemonicParsing="false" text="Action 2" />
                           </items>
                            <font>
-                              <Font size="25.0" />
+                              <Font size="14.0" />
                            </font>
                         </MenuButton>
-                        <MenuButton mnemonicParsing="false" text="MenuButton" GridPane.columnIndex="1">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
-                          </items>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stacked Block System Simulation" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin></Text>
+                        <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="Menu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                           </items>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </MenuButton>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" />
-                        <ImageView fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        
+                        <!-- Light / dark mode button -->
+                        <ImageView fx:id="buttonDarkMode" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                            <image>
+                                <Image url="@/images/dark_moon_icon.png" />
+                            </image>
+                        </ImageView>
+                        
                      </children>
                   </GridPane>
                </children>
