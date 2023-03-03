@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -50,8 +50,7 @@
                      <children>
                         <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                            <MenuItem mnemonicParsing="false" text="Exit program" />
                           </items>
                            <font>
                               <Font name="Segoe UI" size="17.0" />
@@ -66,8 +65,10 @@
                            </GridPane.margin></Text>
                         <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="Menu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                              <MenuItem mnemonicParsing="false" text="Main menu" />
+                              <MenuItem mnemonicParsing="false" text="Conservation of energy simulator" />
+                              <MenuItem mnemonicParsing="false" text="Centripetal force simulator" />
+                              <MenuItem mnemonicParsing="false" text="Projectile motion simulator" />
                            </items>
                            <font>
                               <Font name="Segoe UI" size="17.0" />
@@ -85,77 +86,107 @@
                   </GridPane>
                </children>
             </GridPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="30.0" />
-               </GridPane.margin>
-            </Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M1 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <MFXSlider maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="85.0" />
                </GridPane.margin></MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Angle of force on M1 (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="80.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  <Insets top="140.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="100.0" />
+                  <Insets top="175.0" />
                </GridPane.margin></MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="130.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="150.0" />
-               </GridPane.margin></MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M2 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="230.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="250.0" />
+                  <Insets top="265.0" />
                </GridPane.margin></MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Angle of force on M2 (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets bottom="30.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <Insets top="320.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="60.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER">
-               <GridPane.margin>
-                  <Insets top="100.0" />
+                  <Insets top="355.0" />
                </GridPane.margin></MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Coefficient of friction - floor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="170.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <Insets bottom="30.0" top="410.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="200.0" />
+                  <Insets top="445.0" />
                </GridPane.margin></MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Coefficient of friction - M1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets bottom="30.0" top="300.0" />
-               </GridPane.margin></Text>
-            <MFXSlider GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <Insets top="500.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="300.0" />
+                  <Insets top="535.0" />
+               </GridPane.margin></MFXSlider>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of M1 (kg)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="590.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="625.0" />
+               </GridPane.margin></MFXSlider>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of M2 (kg)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets bottom="30.0" top="680.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="715.0" />
                </GridPane.margin></MFXSlider>
             
-            <MFXToggleButton GridPane.columnIndex="1" GridPane.halignment="LEFT">
+            <MFXToggleButton GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="45.0" top="500.0" />
+                  <Insets left="20.0" top="790.0" />
                </GridPane.margin></MFXToggleButton>
-            <MFXButton prefHeight="47.0" prefWidth="140.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <MFXButton prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="30.0" />
-               </GridPane.margin></MFXButton>
+                  <Insets bottom="40.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></MFXButton>
             
             <!-- Play button -->
             <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
@@ -201,10 +232,13 @@
                   <Insets left="400.0" />
                </GridPane.margin>
             </Line>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Show vectors" textAlignment="CENTER" wrappingWidth="98.13671875" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Show vectors" textAlignment="CENTER" wrappingWidth="136.8033447265625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="500.0" />
+                  <Insets left="20.0" top="800.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Text>
          </children>
       </GridPane>
