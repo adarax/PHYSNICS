@@ -30,9 +30,10 @@ public class App extends Application {
         Scene scene = new Scene(root, 1920, 1080);
         
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setMaximized(true);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
+        stage.setFullScreen(true);
         stage.show();
     }
     
