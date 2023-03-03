@@ -11,11 +11,15 @@ package edu.vanier.physnics.UCMSimulation;
  */
 public class Formulas {
     
-    public static double calculateAccelerationCentr(Car object){
-        return object.getSpeed()*object.getSpeed()/object.getRadius();
+    public static double calculateAccelerationCentr(Car car){
+        double accel = car.getSpeed()*car.getSpeed()/car.getRadius();
+        car.setAccelerationcentr(accel);
+        return accel;
     }    
 
     public static double calculateForce(Car car){
         return car.getAccelerationcentr()*car.getMass();
     }
+    
+    
 }
