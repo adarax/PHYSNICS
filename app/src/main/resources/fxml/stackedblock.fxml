@@ -50,7 +50,7 @@
                      <children>
                         <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Exit program" />
+                            <MenuItem fx:id="menubuttonExit" mnemonicParsing="false" text="Exit program" />
                           </items>
                            <font>
                               <Font name="Segoe UI" size="17.0" />
@@ -65,10 +65,10 @@
                            </GridPane.margin></Text>
                         <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="Menu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <items>
-                              <MenuItem mnemonicParsing="false" text="Main menu" />
-                              <MenuItem mnemonicParsing="false" text="Conservation of energy simulator" />
-                              <MenuItem mnemonicParsing="false" text="Centripetal force simulator" />
-                              <MenuItem mnemonicParsing="false" text="Projectile motion simulator" />
+                              <MenuItem fx:id="menubuttonMainMenu" mnemonicParsing="false" text="Main menu" />
+                              <MenuItem fx:id="menubuttonConservation" mnemonicParsing="false" text="Conservation of energy simulator" />
+                              <MenuItem fx:id="menubuttonCentripetal" mnemonicParsing="false" text="Centripetal force simulator" />
+                              <MenuItem fx:id="menubuttonProjectile" mnemonicParsing="false" text="Projectile motion simulator" />
                            </items>
                            <font>
                               <Font name="Segoe UI" size="17.0" />
@@ -94,7 +94,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <MFXSlider maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderForceOnM1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="85.0" />
                </GridPane.margin></MFXSlider>
@@ -105,7 +105,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderAngleOnM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="175.0" />
                </GridPane.margin></MFXSlider>
@@ -116,7 +116,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderForceOnM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="265.0" />
                </GridPane.margin></MFXSlider>
@@ -127,7 +127,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderAngleOnM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="355.0" />
                </GridPane.margin></MFXSlider>
@@ -138,7 +138,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderFrictionFloor" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="445.0" />
                </GridPane.margin></MFXSlider>
@@ -149,7 +149,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderFrictionM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="535.0" />
                </GridPane.margin></MFXSlider>
@@ -160,7 +160,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="625.0" />
                </GridPane.margin></MFXSlider>
@@ -171,16 +171,16 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="715.0" />
                </GridPane.margin></MFXSlider>
             
-            <MFXToggleButton GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="20.0" top="790.0" />
                </GridPane.margin></MFXToggleButton>
-            <MFXButton prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <MFXButton fx:id="buttonClear" prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="40.0" />
                </GridPane.margin>
@@ -189,7 +189,7 @@
                </font></MFXButton>
             
             <!-- Play button -->
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="buttonPlay" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/play_button.png" />
                 </image>
@@ -199,7 +199,7 @@
             </ImageView>
             
             <!-- Pause button -->
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="buttonPause" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/pause_button.png" />
                 </image>
@@ -209,7 +209,7 @@
             </ImageView>
             
             <!-- Reset button -->
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="buttonReset" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/reset_button.png" />
                 </image>
@@ -219,7 +219,7 @@
             </ImageView>
 
             <!-- Help button -->
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <ImageView fx:id="buttonHelp" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                 <image>
                     <Image url="@/images/help_icon.png" />
                 </image>
