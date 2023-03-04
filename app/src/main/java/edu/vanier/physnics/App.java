@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import edu.vanier.physnics.mainmenu.MainMenuController;
+import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 
 public class App extends Application {
     public Stage mainMenu;
@@ -15,18 +16,24 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         mainMenu = stage;
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
 
-        MainMenuController mwc = new MainMenuController();
-        loader.setController(mwc);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
+
+//        MainMenuController mwc = new MainMenuController();
+//        loader.setController(mwc);
+
+        BlockFrontEndController bfec = new BlockFrontEndController();
+        loader.setController(bfec);
         
         Parent root = loader.load();               
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1920, 1080);
         
         stage.setScene(scene);
-        stage.setResizable(true);
+        stage.setMaximized(true);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
+        stage.setFullScreen(true);
         stage.show();
     }
     
