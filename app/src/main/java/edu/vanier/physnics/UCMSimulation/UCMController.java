@@ -47,13 +47,8 @@ public class UCMController extends Stage{
     @FXML
     void initialize(){
         System.out.println("Booting up simulation...");
-        pauseButton.setDisable(true);
-        resetButton.setDisable(true);
-        playButton.setDisable(true);
-        pause();
-        reset();
-        play();
         submitSimulation();
+        setUp();
     }
     
     @FXML
@@ -135,6 +130,52 @@ public class UCMController extends Stage{
 
             centrAccelText.setText(String.valueOf(Formulas.calculateAccelerationCentr(car)));
             forceText.setText(String.valueOf(Formulas.calculateForce(car)));
+            pauseButton.setDisable(false);
+            resetButton.setDisable(false);
         });
+    }
+    
+    @FXML
+    public void setUp(){
+        pauseButton.setDisable(true);
+        resetButton.setDisable(true);
+        playButton.setDisable(true);
+        radiusTextField.setText("5");
+        massTextField.setText("10");
+        speedTextField.setText("10");
+        setSliders();
+    }
+    
+    public void setSliders(){
+        setSliderRange(radiusSlider, 1, 25);
+        setSliderRange(massSlider, 0, 25);
+        setSliderRange(speedSlider, 0, 30);
+        
+        linkSliderToTextField(radiusSlider, radiusTextField);
+        linkSliderToTextField(massSlider, massTextField);
+        linkSliderToTextField(speedSlider, speedTextField);
+        
+        linkTextFieldToSlider(massSlider, massTextField);
+        linkTextFieldToSlider(radiusSlider, radiusTextField);
+        linkTextFieldToSlider(speedSlider, speedTextField);
+    }
+    
+    public void linkSliderToTextField(Slider slider, TextField textfield){
+        slider.setOnMouseDragged((event) -> {
+            textfield.setText(String.valueOf(slider.getValue()));
+        });
+    }
+    
+    public void linkTextFieldToSlider(Slider slider, TextField textfield){
+        textfield.setOnAction((event) -> {
+            slider.setValue(Double.valueOf(textfield.getText()));
+        });
+    }
+    
+    public void setSliderRange(Slider slider, double min, double max){
+        slider.setMin(min);
+        slider.setMax(max);
+        slider.setShowTickMarks(true);
+        slider.setShowTickLabels(true);
     }
 }
