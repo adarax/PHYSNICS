@@ -4,10 +4,17 @@
  */
 package edu.vanier.physnics.conservation;
 
+import javafx.animation.Timeline;
+
 /**
  *
  * @author benja
  */
 public class AnimationBackend {
+    private Timeline mainAnimation;
+    
+    public void createAnimation(Ball ball){
+        
+    }
     
 }
