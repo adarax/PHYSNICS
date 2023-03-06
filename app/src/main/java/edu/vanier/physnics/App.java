@@ -24,6 +24,8 @@ public class App extends Application {
         Scene scene = new Scene(root, 1920, 1080);
         
         mainMenu.setScene(scene);        
+        mainMenu.setMaximized(true);
+        mainMenu.sizeToScene();
        
         mainMenu.show();
     }

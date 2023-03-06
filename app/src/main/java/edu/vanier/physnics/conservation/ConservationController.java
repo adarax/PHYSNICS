@@ -10,8 +10,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.ArcType;
+import javafx.scene.shape.FillRule;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 /**
  *
@@ -57,8 +63,34 @@ public class ConservationController {
     @FXML
     private Pane paneAnimation;
     
+    //width and height of the animation pane
+    private double width = 1600;
+    private double height = 880;
+    
+    //color of the ramp and the ball
+    private Color rampColor;
+    private Color ballColor;
+    
+    //ball object
+    private Ball ball;
+    
+    //physics variables
+    private double g; //m/s^2
+    private double u; //no units
+    private double initialHeight; //m
+    private double mass; // kg
+    
+    private AnimationBackend animBackend;
+    
     @FXML
     public void initialize(){
+        //setup color of the ramp and the ball
+        rampColor = Color.BLACK;
+        ballColor = Color.RED;
+        
+        //initialize the animation backend
+        animBackend = new AnimationBackend();
+        
         //setup the ramp and the ball
         setup();
         
@@ -75,26 +107,60 @@ public class ConservationController {
             
         });
         
-        
-        choiceBoxg.setOnAction((e) -> {
-            
-        });
-        
     }
     
     public void setup(){
-        Arc ramp = new Arc();
-        System.out.println(paneAnimation.getLayoutX());
-        System.out.println(paneAnimation.getHeight());
-        //Setting the properties of the arc 
-        ramp.setCenterX(500); 
-        ramp.setCenterY(500); 
-        ramp.setRadiusX(90f); 
-        ramp.setRadiusY(90.0f); 
-        ramp.setStartAngle(180); 
-        ramp.setLength(100f); 
-        ramp.setType(ArcType.OPEN);
+        //draw the ramp
+        Path ramp = new Path();
+        ramp.setFill(rampColor);
+        ramp.setStroke(rampColor);
+        ramp.setFillRule(FillRule.EVEN_ODD);
+
+        MoveTo moveTo = new MoveTo();
+        moveTo.setX(width/2.0 - 550);
+        moveTo.setY(250);
+
+        ArcTo arcToInner = new ArcTo();
+        arcToInner.setX(width/2.0 + 550);
+        arcToInner.setY(250);
+        arcToInner.setRadiusX(550);
+        arcToInner.setRadiusY(550);
+
+        MoveTo moveTo2 = new MoveTo();
+        moveTo2.setX(width/2.0 - 550);
+        moveTo2.setY(250);
+
+        HLineTo hLineToRightLeg = new HLineTo();
+        hLineToRightLeg.setX(width/2.0 - 570);
+
+        ArcTo arcTo = new ArcTo();
+        arcTo.setX(width/2.0 + 570);
+        arcTo.setY(250);
+        arcTo.setRadiusX(570);
+        arcTo.setRadiusY(570);
+
+        HLineTo hLineToLeftLeg = new HLineTo();
+        hLineToLeftLeg.setX(width/2.0 + 550);
+
+        ramp.getElements().add(moveTo);
+        ramp.getElements().add(arcToInner);
+        ramp.getElements().add(moveTo2);
+        ramp.getElements().add(hLineToRightLeg);
+        ramp.getElements().add(arcTo);
+        ramp.getElements().add(hLineToLeftLeg);
+
+        //initialize the ball
+        ball = new Ball(ballColor, width/2.0-530, 270);
+        paneAnimation.getChildren().addAll(ball, ramp);
         
-        paneAnimation.getChildren().add(ramp);
+        //initializes the variables
+        mass = 10;
+        initialHeight = 10;
+        g = 9.8;
+        
+        ball.setMass(mass);
+        
     }
+    
+    
 }

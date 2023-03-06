@@ -4,6 +4,7 @@
  */
 package edu.vanier.physnics.conservation;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
@@ -13,9 +14,13 @@ import javafx.scene.shape.Circle;
 public class Ball extends Circle{
     private double currentVelocity;
     private double currentHeight;
+    private double mass;
     
-    public Ball(){
-        
+    public Ball(Color color, double x, double y){
+        this.setCenterX(x);
+        this.setCenterY(y);
+        this.setRadius(20);
+        this.setFill(color);
     }
 
     public double getCurrentVelocity() {
@@ -33,6 +38,16 @@ public class Ball extends Circle{
     public void setCurrentHeight(double currentHeight) {
         this.currentHeight = currentHeight;
     }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
+    
+    
     
     
 }
