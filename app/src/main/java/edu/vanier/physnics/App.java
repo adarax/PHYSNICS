@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import edu.vanier.physnics.projectilemotion.ProjectileController;
+import edu.vanier.physnics.stackedblock.BlockFrontEndController;        
 
 public class App extends Application {
     public Stage mainMenu;

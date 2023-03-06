@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -94,10 +94,11 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <MFXSlider fx:id="sliderForceOnM1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderForceOnM1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="85.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Angle of force on M1 (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="140.0" />
@@ -105,7 +106,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderAngleOnM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderAngleOnM1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="175.0" />
                </GridPane.margin></MFXSlider>
@@ -116,10 +117,11 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderForceOnM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderForceOnM2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="265.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Angle of force on M2 (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="320.0" />
@@ -127,10 +129,11 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderAngleOnM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderAngleOnM2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="355.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Coefficient of friction - floor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets bottom="30.0" top="410.0" />
@@ -138,10 +141,11 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderFrictionFloor" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderFrictionFloor" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="445.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Coefficient of friction - M1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="500.0" />
@@ -149,10 +153,11 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderFrictionM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderFrictionM1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="535.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of M1 (kg)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="590.0" />
@@ -160,10 +165,11 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderMassM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="625.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of M2 (kg)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets bottom="30.0" top="680.0" />
@@ -171,10 +177,11 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderMassM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="715.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             
             <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
