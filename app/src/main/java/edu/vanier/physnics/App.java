@@ -18,15 +18,15 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         mainMenu = stage;
         
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
 
-//        MainMenuController mwc = new MainMenuController();
-//        loader.setController(mwc);
+        MainMenuController mwc = new MainMenuController();
+        loader.setController(mwc);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
 
-        BlockFrontEndController bfec = new BlockFrontEndController();
-        loader.setController(bfec);
+//        BlockFrontEndController bfec = new BlockFrontEndController();
+//        loader.setController(bfec);
         // FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
 
         // ProjectileController PCC = new ProjectileController();
