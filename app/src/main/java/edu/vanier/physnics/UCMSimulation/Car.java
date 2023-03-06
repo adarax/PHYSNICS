@@ -18,6 +18,9 @@ public class Car {
     private double accelerationcentr;
     private double accelerationtang;
 
+    public Car() {
+    }
+    
     public Car(double speed, double radius, double mass) {
         this.speed = speed;
         this.radius = radius;

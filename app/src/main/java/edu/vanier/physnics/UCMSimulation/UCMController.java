@@ -44,6 +44,8 @@ public class UCMController extends Stage{
     @FXML
     Text forceText;
     
+    Car car = new Car();
+    
     @FXML
     void initialize(){
         System.out.println("Booting up simulation...");
@@ -118,18 +120,7 @@ public class UCMController extends Stage{
     void submitSimulation(){
         submitButton.setOnAction((event) -> {
 
-            double radius = retrieveRadiusTextField();
-            double speed = retrieveSpeedTextField();
-            double mass = retrieveMassTextField();
-            System.out.println("Printing: " 
-                                + "\nRadius: " + radius
-                                + "\nSpeed: " + speed
-                                + "\nMass: " +mass);
-            
-            Car car = new Car(speed, radius, mass);
-
-            centrAccelText.setText(String.valueOf(Formulas.calculateAccelerationCentr(car)));
-            forceText.setText(String.valueOf(Formulas.calculateForce(car)));
+            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
             pauseButton.setDisable(false);
             resetButton.setDisable(false);
         });
@@ -143,6 +134,10 @@ public class UCMController extends Stage{
         radiusTextField.setText("5");
         massTextField.setText("10");
         speedTextField.setText("10");
+        radiusSlider.setValue(5);
+        massSlider.setValue(10);
+        speedSlider.setValue(10);
+        useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
         setSliders();
     }
     
@@ -163,12 +158,15 @@ public class UCMController extends Stage{
     public void linkSliderToTextField(Slider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
             textfield.setText(String.valueOf(slider.getValue()));
+            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
+       
         });
     }
     
     public void linkTextFieldToSlider(Slider slider, TextField textfield){
-        textfield.setOnAction((event) -> {
+        textfield.setOnKeyTyped((event) -> {
             slider.setValue(Double.valueOf(textfield.getText()));
+            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
         });
     }
     
@@ -177,5 +175,19 @@ public class UCMController extends Stage{
         slider.setMax(max);
         slider.setShowTickMarks(true);
         slider.setShowTickLabels(true);
+    }
+    
+    public void useEnteredValuesToCalculate(Double mass, Double speed, Double radius){
+        System.out.println("Printing: " 
+                            + "\nRadius: " + radius
+                            + "\nSpeed: " + speed
+                            + "\nMass: " +mass);
+
+        car.setMass(mass);
+        car.setSpeed(speed);
+        car.setRadius(radius);
+
+        centrAccelText.setText(String.valueOf(Formulas.calculateAccelerationCentr(car)));
+        forceText.setText(String.valueOf(Formulas.calculateForce(car)));    
     }
 }
