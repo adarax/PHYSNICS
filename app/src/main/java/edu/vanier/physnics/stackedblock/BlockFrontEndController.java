@@ -195,6 +195,22 @@ public class BlockFrontEndController {
         toggleShowVectors.setOnAction(e -> {
             // Show or hide the vectors
         });
-
+        
+        buttonPlay.setOnMouseClicked(e -> {
+            handlePlay(e);
+        });
+        
+        buttonPause.setOnMouseClicked(e -> {
+            handlePause(e);
+        });
+        
+        buttonReset.setOnMouseClicked(e -> {
+            handleReset(e);
+        });
+        
+        buttonHelp.setOnMouseClicked(e -> {
+            handleHelp(e);
+        });
+        
     }
 }

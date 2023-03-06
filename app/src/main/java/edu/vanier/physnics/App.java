@@ -18,10 +18,10 @@ public class App extends Application {
         
 //        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
-
 //        MainMenuController mwc = new MainMenuController();
 //        loader.setController(mwc);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
 
         BlockFrontEndController bfec = new BlockFrontEndController();
         loader.setController(bfec);
