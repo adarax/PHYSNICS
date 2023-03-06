@@ -24,12 +24,17 @@ public class ProjectileAnimation {
         Path path = new Path();
 
         MoveTo moveTo = new MoveTo();
+        // Sets initial position of ball
         moveTo.setX(50);
         moveTo.setY(800);
 
         QuadCurveTo quadTo = new QuadCurveTo();
+        
+        // Sets a point on the arc (in this case the max height)
         quadTo.setControlX(725);
-        quadTo.setControlY(300);
+        quadTo.setControlY(-600);
+        
+        //Final point (final displacement)
         quadTo.setX(1500);
         quadTo.setY(800);
         path.getElements().add(moveTo);
