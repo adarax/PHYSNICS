@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane gridLinesVisible="true" maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1743.9998779296875" minWidth="10.0" prefWidth="1653.59990234375" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.800048828125" minWidth="10.0" prefWidth="267.2000976562499" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints maxHeight="173.59998168945313" minHeight="0.0" prefHeight="96.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="985.2" minHeight="10.0" prefHeight="878.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="346.0000366210936" minHeight="0.0" prefHeight="102.40007324218743" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <ChoiceBox fx:id="choiceBoxg" prefHeight="50.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="25.0" top="65.0" />
+         </GridPane.margin>
+      </ChoiceBox>
+      <Button fx:id="btnMenu" mnemonicParsing="false" prefHeight="33.0" prefWidth="109.0" text="Menu" GridPane.rowIndex="1">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="btnFile" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" text="File" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="130.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of the block (kg)" wrappingWidth="235.99609375" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="575.0" left="15.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gravitational acceleration (m/s^2)" textAlignment="JUSTIFY" wrappingWidth="237.1708984375" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" top="10.0" />
+         </GridPane.margin>
+      </Text>
+      <ChoiceBox fx:id="choiceBoxu" layoutX="1688.0" layoutY="145.0" prefHeight="50.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets bottom="150.0" left="20.0" />
+         </GridPane.margin>
+      </ChoiceBox>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Friction coefficient" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="270.0" left="30.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Height of the ramp" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="20.0" left="20.0" />
+         </GridPane.margin>
+      </Text>
+      <Button fx:id="btnPlay" mnemonicParsing="false" prefHeight="53.0" prefWidth="118.0" text="Play" GridPane.rowIndex="3">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnPause" layoutX="10.0" layoutY="1012.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="118.0" text="Pause" GridPane.rowIndex="3">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="130.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="btnReset" layoutX="140.0" layoutY="1012.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="118.0" text="Reset" GridPane.rowIndex="3">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="260.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="btnHelp" mnemonicParsing="false" prefHeight="54.0" prefWidth="122.0" text="Help" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnHome" layoutX="1663.0" layoutY="1011.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="122.0" text="Home" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="130.0" />
+         </GridPane.margin>
+      </Button>
+      <CheckBox fx:id="checkBoxFriction" mnemonicParsing="false" prefHeight="27.0" prefWidth="214.0" text="Friction" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="400.0" left="20.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </CheckBox>
+      <Slider fx:id="sliderMass" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="500.0" left="20.0" right="20.0" />
+         </GridPane.margin>
+      </Slider>
+      <Slider fx:id="sliderHeight" layoutX="1683.0" layoutY="264.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="20.0" right="20.0" top="40.0" />
+         </GridPane.margin>
+      </Slider>
+      <Pane fx:id="paneAnimation" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
+   </children>
+</GridPane>
