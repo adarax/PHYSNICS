@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import edu.vanier.physnics.mainmenu.MainMenuController;
-import edu.vanier.physnics.stackedblock.BlockFrontEndController;
+import edu.vanier.physnics.projectilemotion.ProjectileController;
 
 public class App extends Application {
     public Stage mainMenu;
@@ -25,6 +25,10 @@ public class App extends Application {
 
         BlockFrontEndController bfec = new BlockFrontEndController();
         loader.setController(bfec);
+        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
+
+        // ProjectileController PCC = new ProjectileController();
+        // loader.setController(PCC);
         
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
