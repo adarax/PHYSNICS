@@ -35,7 +35,7 @@ javafx {
 }
 application {    
    // Define the main class for the application.
-   mainClass = 'edu.vanier.physnics.App'
+   mainClass = 'edu.vanier.physnics.UCMSimulation.UCMMainApp'
 }
 
 test {
