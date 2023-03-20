@@ -4,6 +4,7 @@
  */
 package edu.vanier.physnics.conservation;
 
+import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 
 /**
@@ -14,7 +15,7 @@ public class AnimationBackend {
     private Timeline mainAnimation;
     
     public void createAnimation(Ball ball){
-        
+        PathTransition ballCurve = new PathTransition();
     }
     
 }

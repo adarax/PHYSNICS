@@ -74,12 +74,13 @@ public class ConservationController {
     //ball object
     private Ball ball;
     
-    //physics variables
+    //physics variables (TODO: add units to variables and rename)
     private double g; //m/s^2
     private double u; //no units
     private double initialHeight; //m
     private double mass; // kg
     
+    //object to generate the animation of the ball
     private AnimationBackend animBackend;
     
     @FXML
