@@ -5,19 +5,16 @@ import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 
 /**
  *
  * @author adarax
  */
 public class BlockFrontEndController {
-    
-    
+
     @FXML
     private MFXButton buttonClear;
 
@@ -62,7 +59,7 @@ public class BlockFrontEndController {
 
     @FXML
     private MFXToggleButton toggleShowVectors;
-    
+
     @FXML
     private ImageView buttonDarkMode;
 
@@ -77,140 +74,167 @@ public class BlockFrontEndController {
 
     @FXML
     private ImageView buttonHelp;
-    
+
     private boolean isDark = false;
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
-    
-    public void handleDarkMode(MouseEvent e) {
-        if (this.isDark) {
+
+    public void handleDarkMode(MouseEvent e)
+    {
+        if (this.isDark)
+        {
             // Go to light mode (on rest of app)
-            
+
             buttonDarkMode.setImage(DARK_MOON);
-        }
-        else {
+        } else
+        {
             // Go to dark mode (on rest of app)
-            
+
             buttonDarkMode.setImage(LIGHT_MOON);
         }
-        
+
         // Change boolean value
         isDark = !isDark;
     }
 
-    public void handlePlay(MouseEvent e) {
+    public void handlePlay(MouseEvent e)
+    {
         // Play the simulation
     }
 
-    public void handlePause(MouseEvent e) {
+    public void handlePause(MouseEvent e)
+    {
         // Pause the simulation
     }
 
-    public void handleReset(MouseEvent e) {
-        // Reset the simulation
+    public void handleReset(MouseEvent e)
+    {
+
     }
 
-    public void handleHelp(MouseEvent e) {
+    public void handleHelp(MouseEvent e)
+    {
         // Open the help screen
     }
 
-    public void handleClear(MouseEvent e) {
-        // Clear the screen
+    public void handleClear()
+    {
+        // Get all sliders
+        // Set values to 0
+        // Set "show vectors" to OFF
+        // Reset animation
     }
 
-    public void goToCentripetalForce(MouseEvent e) {
+    public void handleExitOfApplication()
+    {
+
+    }
+
+    public void goToCentripetalForce()
+    {
         // Go to centripetal force screen
     }
 
-    public void goToConservationOfEnergy(MouseEvent e) {
+    public void goToConservationOfEnergy()
+    {
         // Go to conservation of energy screen
     }
 
-    public void goToMainMenu(MouseEvent e) {
+    public void goToMainMenu()
+    {
         // Go to main menu screen
     }
 
-    public void goToProjectileMotion(MouseEvent e) {
+    public void goToProjectileMotion()
+    {
         // Go to projectile motion screen
     }
-    
+
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
         buttonDarkMode.setOnMouseClicked(e -> handleDarkMode(e));
-        
+
         // Create a setOnAction for each FXML item above
+        buttonClear.setOnAction(e -> handleClear());
 
-        buttonClear.setOnAction(e -> {
-            // Clear the screen
+        menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
+
+        menubuttonConservation.setOnAction(e -> goToConservationOfEnergy());
+
+        menubuttonProjectile.setOnAction(e -> goToProjectileMotion());
+
+        menubuttonExit.setOnAction(e -> handleExitOfApplication());
+
+        menubuttonMainMenu.setOnAction(e ->
+        {
+            // Return to main menu
         });
 
-        menubuttonCentripetal.setOnAction(e -> {
-            // Go to centripetal force screen
-        });
-
-        menubuttonConservation.setOnAction(e -> {
-            // Go to conservation of energy screen
-        });
-
-        menubuttonExit.setOnAction(e -> {
-            // Exit the app
-        });
-
-        menubuttonProjectile.setOnAction(e -> {
-            // Go to projectile motion screen
-        });
-
-        sliderAngleOnM1.setOnMouseDragged(e -> {
+        sliderAngleOnM1.setOnMouseDragged(e ->
+        {
             // Change the angle of M1
         });
 
-        sliderAngleOnM2.setOnMouseDragged(e -> {
+        sliderAngleOnM2.setOnMouseDragged(e ->
+        {
             // Change the angle of M2
         });
 
-        sliderForceOnM1.setOnMouseDragged(e -> {
+        sliderForceOnM1.setOnMouseDragged(e ->
+        {
             // Change the force on M1
         });
 
-        sliderForceOnM2.setOnMouseDragged(e -> {
+        sliderForceOnM2.setOnMouseDragged(e ->
+        {
             // Change the force on M2
         });
 
-        sliderFrictionFloor.setOnMouseDragged(e -> {
+        sliderFrictionFloor.setOnMouseDragged(e ->
+        {
             // Change the friction on the floor
         });
 
-        sliderFrictionM1.setOnMouseDragged(e -> {
+        sliderFrictionM1.setOnMouseDragged(e ->
+        {
             // Change the friction on M1
         });
 
-        sliderMassM1.setOnMouseDragged(e -> {
+        sliderMassM1.setOnMouseDragged(e ->
+        {
             // Change the mass of M1
         });
 
-        sliderMassM2.setOnMouseDragged(e -> {
+        sliderMassM2.setOnMouseDragged(e ->
+        {
             // Change the mass of M2
         });
 
-        toggleShowVectors.setOnAction(e -> {
+        toggleShowVectors.setOnAction(e ->
+        {
             // Show or hide the vectors
         });
-        
-        buttonPlay.setOnMouseClicked(e -> {
+
+        buttonPlay.setOnMouseClicked(e ->
+        {
             handlePlay(e);
         });
-        
-        buttonPause.setOnMouseClicked(e -> {
+
+        buttonPause.setOnMouseClicked(e ->
+        {
             handlePause(e);
         });
-        
-        buttonReset.setOnMouseClicked(e -> {
+
+        buttonReset.setOnMouseClicked(e ->
+        {
             handleReset(e);
         });
-        
-        buttonHelp.setOnMouseClicked(e -> {
+
+        buttonHelp.setOnMouseClicked(e ->
+        {
             handleHelp(e);
         });
-        
+
     }
 }
