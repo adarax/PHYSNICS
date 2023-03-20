@@ -14,6 +14,12 @@ public class Vector {
     private double directionInDegrees;
     
     
+    public Vector(double magnitudeInNewtons, double directionInDegrees)
+    {
+        this.magnitudeInNewtons = magnitudeInNewtons;
+        this.directionInDegrees = directionInDegrees;
+    }
+    
     public int findQuadrant(double directionInDegrees)
     {
         // Handle any illegal direction values
