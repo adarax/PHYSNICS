@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -99,10 +99,6 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <MFXSlider fx:id="sliderInitialVelocity" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="300.0" />
-               </GridPane.margin></MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Launch angle (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="360.0" />
@@ -110,10 +106,6 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderLaunchAngle" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="400.0" />
-               </GridPane.margin></MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gravitational acceleration (m/s²)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets bottom="30.0" top="460.0" />
@@ -121,10 +113,6 @@
                <font>
                   <Font size="16.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderGravity" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="500.0" />
-               </GridPane.margin></MFXSlider>
             <MFXButton fx:id="buttonClear" prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="40.0" />
@@ -193,6 +181,21 @@
                   <Insets bottom="700.0" left="55.0" />
                </GridPane.margin>
             </ImageView>
+            <MFXSlider fx:id="sliderGravity" prefWidth="180.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="50.0" top="50.0" />
+               </GridPane.margin>
+            </MFXSlider>
+            <MFXSlider fx:id="sliderLaunchAngle" prefWidth="180.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="50.0" top="-150.0" />
+               </GridPane.margin>
+            </MFXSlider>
+            <MFXSlider fx:id="sliderInitialVelocity" prefHeight="0.0" prefWidth="180.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="50.0" top="-350.0" />
+               </GridPane.margin>
+            </MFXSlider>
          </children>
       </GridPane>
    </children>
