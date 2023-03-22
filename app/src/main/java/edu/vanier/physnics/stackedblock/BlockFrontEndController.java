@@ -3,11 +3,14 @@ package edu.vanier.physnics.stackedblock;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -74,89 +77,34 @@ public class BlockFrontEndController {
 
     @FXML
     private ImageView buttonHelp;
+    
+    @FXML
+    private MFXButton buttonSet;
+
+    @FXML
+    private Pane paneAnimation;
 
     private boolean isDark = false;
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
 
-    public void handleDarkMode(MouseEvent e)
-    {
-        if (this.isDark)
-        {
-            // Go to light mode (on rest of app)
-
-            buttonDarkMode.setImage(DARK_MOON);
-        } else
-        {
-            // Go to dark mode (on rest of app)
-
-            buttonDarkMode.setImage(LIGHT_MOON);
-        }
-
-        // Change boolean value
-        isDark = !isDark;
-    }
-
-    public void handlePlay(MouseEvent e)
-    {
-        // Play the simulation
-    }
-
-    public void handlePause(MouseEvent e)
-    {
-        // Pause the simulation
-    }
-
-    public void handleReset(MouseEvent e)
-    {
-
-    }
-
-    public void handleHelp(MouseEvent e)
-    {
-        // Open the help screen
-    }
-
-    public void handleClear()
-    {
-        // Get all sliders
-        // Set values to 0
-        // Set "show vectors" to OFF
-        // Reset animation
-    }
-
-    public void handleExitOfApplication()
-    {
-
-    }
-
-    public void goToCentripetalForce()
-    {
-        // Go to centripetal force screen
-    }
-
-    public void goToConservationOfEnergy()
-    {
-        // Go to conservation of energy screen
-    }
-
-    public void goToMainMenu()
-    {
-        // Go to main menu screen
-    }
-
-    public void goToProjectileMotion()
-    {
-        // Go to projectile motion screen
-    }
-
     @FXML
     public void initialize()
     {
+
+        // Calls this after everything is rendered, eventually this won't be needed
+        // because the methods are only going to be called from events
+//        Platform.runLater(() ->
+//        {
+//            // Testing animation methods
+//        });
+//        ///
+
         buttonDarkMode.setOnMouseClicked(e -> handleDarkMode(e));
 
-        // Create a setOnAction for each FXML item above
         buttonClear.setOnAction(e -> handleClear());
+        
+        buttonSet.setOnAction(e -> handleSet());
 
         menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
 
@@ -237,4 +185,89 @@ public class BlockFrontEndController {
         });
 
     }
+
+    public void handleDarkMode(MouseEvent e)
+    {
+        if (this.isDark)
+        {
+            // Go to light mode (on rest of app)
+
+            buttonDarkMode.setImage(DARK_MOON);
+        } else
+        {
+            // Go to dark mode (on rest of app)
+
+            buttonDarkMode.setImage(LIGHT_MOON);
+        }
+
+        // Change boolean value
+        isDark = !isDark;
+    }
+
+    public void handlePlay(MouseEvent e)
+    {
+        // Play the simulation
+    }
+
+    public void handlePause(MouseEvent e)
+    {
+        // Pause the simulation
+    }
+
+    public void handleReset(MouseEvent e)
+    {
+
+    }
+
+    public void handleHelp(MouseEvent e)
+    {
+        // Open the help screen
+    }
+
+    public void handleClear()
+    {
+        // Get all sliders
+        // Set values to 0
+        // Set "show vectors" to OFF
+        // Reset animation
+    }
+    
+    
+    // TODO: draw floor separately: as soon as program opens
+    public void handleSet()
+    {
+        // Set simulation based on parameters (sliders values)
+        
+        BlockAnimation blockAnimationHandler = new BlockAnimation();
+        
+        // Eventually this must use slider values, and computed forces
+        blockAnimationHandler.situateBlocks(new Block(10, 0, new ArrayList<>()), new Block(20, 1, new ArrayList<>()), this.paneAnimation);
+
+    }
+
+    public void handleExitOfApplication()
+    {
+
+    }
+
+    public void goToCentripetalForce()
+    {
+        // Go to centripetal force screen
+    }
+
+    public void goToConservationOfEnergy()
+    {
+        // Go to conservation of energy screen
+    }
+
+    public void goToMainMenu()
+    {
+        // Go to main menu screen
+    }
+
+    public void goToProjectileMotion()
+    {
+        // Go to projectile motion screen
+    }
+
 }
