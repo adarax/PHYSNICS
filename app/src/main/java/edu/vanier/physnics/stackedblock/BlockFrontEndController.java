@@ -92,7 +92,7 @@ public class BlockFrontEndController {
 
     @FXML
     public void initialize()
-    {        
+    {
         // Calls this after everything is rendered, which is needed
         // because otherwise the height of certain fields and Panes is 0
         Platform.runLater(() ->
@@ -235,10 +235,10 @@ public class BlockFrontEndController {
     public void handleSet()
     {
         paneAnimation.getChildren().clear();
-        
-        Block topBlock = handleBlockCreation("TOP");
-        Block bottomBlock = handleBlockCreation("BOTTOM");
-        
+
+        Block topBlock = handleBlockCreation(POSITION.TOP);
+        Block bottomBlock = handleBlockCreation(POSITION.BOTTOM);
+
         blockAnimationHandler.drawFloor(paneAnimation);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
     }
@@ -268,19 +268,24 @@ public class BlockFrontEndController {
         // Go to projectile motion screen
     }
 
-    public Block handleBlockCreation(String position)
+    public Block handleBlockCreation(POSITION relativeBlockPosition)
     {
         Block createdBlock = null;
 
-        switch (position)
+        switch (relativeBlockPosition)
         {
-            case "TOP" ->
+            case TOP ->
                 createdBlock = new Block(sliderMassM2.getValue(), 1, new ArrayList<>());
 
-            case "BOTTOM" ->
+            case BOTTOM ->
                 createdBlock = new Block(sliderMassM1.getValue(), 0, new ArrayList<>());
         }
-        
+
         return createdBlock;
+    }
+
+    public enum POSITION {
+        TOP,
+        BOTTOM
     }
 }
