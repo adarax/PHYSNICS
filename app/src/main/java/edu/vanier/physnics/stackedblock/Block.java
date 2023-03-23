@@ -29,21 +29,20 @@ public class Block extends StackPane {
         this.forcesExperienced = forcesExperienced;
 
         /*
-        Height is mass (in kg) * 12px
-        Width is mass (in kg) * 10px
+         * Logarithmic growth is best, since this way the block starts off at a
+         * resonable size and yet doesn't get so big that it goes out of the
+         * screen. This allows the simulation to be able to handle a larger
+         * range of mass values.
          */
-        
-        // TODO: Better proportions for block sizes and make font size scale to block size
-        
-        this.drawingHeight = mass * 12;
-        this.drawingWidth = mass * 10;
+        this.drawingHeight = 80 * Math.log(mass) + 80;
+        this.drawingWidth = this.drawingHeight * 1.5;
 
         this.blockColor = determineColor();
         this.blockDrawing = new Rectangle(this.drawingWidth, this.drawingHeight);
         this.blockDrawing.setFill(this.blockColor);
 
         this.nametag = new Label(determineLabel());
-        this.nametag.setFont(new Font("SansSerif Bold", 30));
+        this.nametag.setFont(new Font("SansSerif Bold", determineLabelFontSize()));
 
         this.getChildren().addAll(blockDrawing, nametag);
     }
@@ -98,7 +97,6 @@ public class Block extends StackPane {
         this.drawingHeight = drawingHeight;
     }
 
-    // Returns height of the rectangle
     public double getDrawingWidth()
     {
         return drawingWidth;
@@ -142,5 +140,16 @@ public class Block extends StackPane {
         }
 
         return correspondingColor;
+    }
+
+    /**
+     * Using logarithmic scaling to determine the appropriate font size of the
+     * block's name tag.
+     *
+     * @return The font size of the block's label.
+     */
+    public final int determineLabelFontSize()
+    {
+        return (int) (7 * Math.log(this.drawingHeight));
     }
 }
