@@ -1,5 +1,7 @@
 package edu.vanier.physnics.stackedblock;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author adarax
@@ -36,4 +38,13 @@ public class BlockFormulas {
         return coefficientOfFriction * normalForce;
     }
     
+    
+    // Vector calculations for a given block's forces
+    public Vector calculateNetForceAndDirection(ArrayList<Vector> forcesExperienced)
+    {
+        // top block treated differently from bottom (friction mainly)
+        // sum up x and y components, figure out magnitude and direction
+
+        return null;
+    }
 }
