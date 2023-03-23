@@ -49,7 +49,6 @@ public class BlockAnimation {
         topBlock.setLayoutX(paneWidth / 2 - topBlock.getDrawingWidth() / 2);
         topBlock.setLayoutY(topBlockYCoordinate);
 
-        // Add to animation Pane
         animationPane.getChildren().addAll(bottomBlock, topBlock);
     }
 
