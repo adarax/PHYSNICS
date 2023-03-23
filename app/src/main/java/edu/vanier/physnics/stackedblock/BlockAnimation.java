@@ -1,5 +1,6 @@
 package edu.vanier.physnics.stackedblock;
 
+import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -9,6 +10,8 @@ import javafx.scene.shape.Rectangle;
  * @author adarax
  */
 public class BlockAnimation {
+
+    private final int floorHeight = 50;
 
     /**
      * @param topBlock
@@ -28,49 +31,42 @@ public class BlockAnimation {
     {
         double paneWidth = animationPane.getWidth();
         double paneHeight = animationPane.getHeight();
-        int floorHeight = 50;
-
-        // The -1 is to prevent overlap with the border of the gridpane
-        Rectangle paneFloor = new Rectangle(0, paneHeight - floorHeight - 1,
-                paneWidth - 1, floorHeight);
-        
-        // TODO: find a darker brown
-        paneFloor.setFill(Color.BROWN);
-
-        // Determine height and width of blocks based on the mass
-        // (1kg = 12.5px of height)
-        
-        // TODO: Maybe make the scale logarithmic, it gets big too fast, and 
-        // this way there can be are bigger range of mass on the sliders
-        double heightTopBlock = topBlock.getMass() * 12.5;
-        double heightBottomBlock = bottomBlock.getMass() * 12.5;
-
-        // Width is 1.75 times height of the block (for aesthetics)
-        double widthTopBlock = heightTopBlock * 1.75;
-        double widthBottomBlock = heightBottomBlock * 1.75;
 
         // Drawn from top to bottom, so anything the block must be above must
         // be subtracted from the paneHeight
-        double bottomBlockYCoordinate = paneHeight - floorHeight
-                - heightBottomBlock;
-        double topBlockYCoordinate = paneHeight - floorHeight
-                - heightBottomBlock - heightTopBlock;
+        // The -1 is to prevent overlap with the border of the gridpane
+        double bottomBlockYCoordinate = paneHeight - this.floorHeight
+                - bottomBlock.getDrawingHeight() - 1;
 
-        // Create Rectangle objects for the blocks
-        Rectangle drawingBottomBlock = new Rectangle(paneWidth / 2
-                - widthBottomBlock / 2, bottomBlockYCoordinate,
-                widthBottomBlock, heightBottomBlock);
+        double topBlockYCoordinate = paneHeight - this.floorHeight
+                - bottomBlock.getDrawingHeight()
+                - topBlock.getDrawingHeight() - 1;
 
-        Rectangle drawingTopBlock = new Rectangle(paneWidth / 2
-                - widthTopBlock / 2, topBlockYCoordinate,
-                widthTopBlock, heightTopBlock);
+        // Position the blocks in the center
+        bottomBlock.setLayoutX(paneWidth / 2 - bottomBlock.getDrawingWidth() / 2);
+        bottomBlock.setLayoutY(bottomBlockYCoordinate);
 
-        // Give the blocks colour
-        drawingTopBlock.setFill(Color.GREEN);
-        drawingBottomBlock.setFill(Color.RED);
+        topBlock.setLayoutX(paneWidth / 2 - topBlock.getDrawingWidth() / 2);
+        topBlock.setLayoutY(topBlockYCoordinate);
 
         // Add to animation Pane
-        animationPane.getChildren().addAll(paneFloor,
-                drawingBottomBlock, drawingTopBlock);
+        animationPane.getChildren().addAll(bottomBlock, topBlock);
+    }
+
+    public void drawFloor(Pane animationPane)
+    {
+        double paneWidth = animationPane.getWidth();
+        double paneHeight = animationPane.getHeight();
+
+        Rectangle floorDrawing = new Rectangle(0, paneHeight - this.floorHeight - 1,
+                paneWidth - 1, this.floorHeight);
+        floorDrawing.setFill(Color.web("807979"));
+        
+        animationPane.getChildren().add(floorDrawing);
+    }
+
+    public void drawFreeBodyDiagram(ArrayList<Vector> forcesExperienced)
+    {
+        // Animate vectors (arrows) onto block
     }
 }
