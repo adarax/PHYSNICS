@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -166,7 +166,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderMassM1" max="20.0" min="1.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM1" max="20.0" min="1.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="625.0" />
                </GridPane.margin>
@@ -178,7 +178,7 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderMassM2" max="20.0" min="1.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM2" max="20.0" min="1.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="715.0" />
                </GridPane.margin>
