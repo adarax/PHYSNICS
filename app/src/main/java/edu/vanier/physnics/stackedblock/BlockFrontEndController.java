@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
  */
 public class BlockFrontEndController {
 
+    private final BlockAnimation blockAnimationHandler = new BlockAnimation();
+
     @FXML
     private MFXButton buttonClear;
 
@@ -77,7 +79,7 @@ public class BlockFrontEndController {
 
     @FXML
     private ImageView buttonHelp;
-    
+
     @FXML
     private MFXButton buttonSet;
 
@@ -90,20 +92,18 @@ public class BlockFrontEndController {
 
     @FXML
     public void initialize()
-    {
-
-        // Calls this after everything is rendered, eventually this won't be needed
-        // because the methods are only going to be called from events
-//        Platform.runLater(() ->
-//        {
-//            // Testing animation methods
-//        });
-//        ///
+    {        
+        // Calls this after everything is rendered, which is needed
+        // because otherwise the height of certain fields and Panes is 0
+        Platform.runLater(() ->
+        {
+            blockAnimationHandler.drawFloor(paneAnimation);
+        });
 
         buttonDarkMode.setOnMouseClicked(e -> handleDarkMode(e));
 
         buttonClear.setOnAction(e -> handleClear());
-        
+
         buttonSet.setOnAction(e -> handleSet());
 
         menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
@@ -216,7 +216,7 @@ public class BlockFrontEndController {
 
     public void handleReset(MouseEvent e)
     {
-
+        // Reset the simulation
     }
 
     public void handleHelp(MouseEvent e)
@@ -231,18 +231,16 @@ public class BlockFrontEndController {
         // Set "show vectors" to OFF
         // Reset animation
     }
-    
-    
-    // TODO: draw floor separately: as soon as program opens
+
     public void handleSet()
     {
-        // Set simulation based on parameters (sliders values)
+        paneAnimation.getChildren().clear();
         
-        BlockAnimation blockAnimationHandler = new BlockAnimation();
+        Block topBlock = handleBlockCreation("TOP");
+        Block bottomBlock = handleBlockCreation("BOTTOM");
         
-        // Eventually this must use slider values, and computed forces
-        blockAnimationHandler.situateBlocks(new Block(10, 0, new ArrayList<>()), new Block(20, 1, new ArrayList<>()), this.paneAnimation);
-
+        blockAnimationHandler.drawFloor(paneAnimation);
+        blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
     }
 
     public void handleExitOfApplication()
@@ -270,4 +268,19 @@ public class BlockFrontEndController {
         // Go to projectile motion screen
     }
 
+    public Block handleBlockCreation(String position)
+    {
+        Block createdBlock = null;
+
+        switch (position)
+        {
+            case "TOP" ->
+                createdBlock = new Block(sliderMassM2.getValue(), 1, new ArrayList<>());
+
+            case "BOTTOM" ->
+                createdBlock = new Block(sliderMassM1.getValue(), 0, new ArrayList<>());
+        }
+        
+        return createdBlock;
+    }
 }
