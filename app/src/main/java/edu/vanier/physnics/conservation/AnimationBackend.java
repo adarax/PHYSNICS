@@ -30,11 +30,11 @@ public class AnimationBackend {
         PathTransition ballCurve = new PathTransition();
         ballPath = ball.getBallPath();
                 
-        ballCurve.setDuration(Duration.millis(4000));
+        ballCurve.setDuration(Duration.millis(6000));
         ballCurve.setNode(ball);
         ballCurve.setPath(ballPath);
         ballCurve.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-        ballCurve.setCycleCount(1);
+        ballCurve.setCycleCount(Timeline.INDEFINITE);
         ballCurve.setAutoReverse(true);
         ballCurve.setInterpolator(Interpolator.EASE_BOTH);
         
@@ -43,5 +43,13 @@ public class AnimationBackend {
     
     public void play(){
         mainAnimation.play();
+    }
+    
+    public void stop(){
+        mainAnimation.stop();
+    }
+    
+    public void pause(){
+        mainAnimation.pause();
     }
 }

@@ -96,16 +96,18 @@ public class ConservationController {
         setup();
         
         
-        btnMenu.setOnAction((e) -> {
+        btnPlay.setOnAction((e) -> {
             animBackend.play();
         });
         
         btnPause.setOnAction((e) -> {
-            
+            animBackend.pause();
         });
         
         btnReset.setOnAction((e) -> {
-            
+            animBackend.stop();
+            ball.setCenterX(270);
+            ball.setCenterY(270);
         });
         
     }
@@ -189,7 +191,7 @@ public class ConservationController {
         ballArc.setY(ballPosition[1]);
         //I dont understand how this works
         ballArc.setRadiusX(200);
-        ballArc.setRadiusY(200);
+        ballArc.setRadiusY(192);
         ballArc.setXAxisRotation(180);
         
         Path ballPath = new Path();
