@@ -39,12 +39,27 @@ public class BlockFormulas {
     }
     
     
-    // Vector calculations for a given block's forces
+    /**
+     * Calculates the magnitude and direction of a resultant vector by adding
+     * the components of all forces experienced by the block.
+     * 
+     * @param forcesExperienced
+     * @return The resultant vector of all forces from forcesExperienced.
+     */
     public Vector calculateNetForceAndDirection(ArrayList<Vector> forcesExperienced)
     {
-        // top block treated differently from bottom (friction mainly)
-        // sum up x and y components, figure out magnitude and direction
-
-        return null;
+        double sumXComponents = 0, sumYComponents = 0;
+        
+        for (Vector forceVector : forcesExperienced)
+        {
+            sumXComponents += Math.cos(forceVector.getDirectionInDegrees()) * forceVector.getMagnitudeInNewtons();
+            sumYComponents += Math.sin(forceVector.getDirectionInDegrees()) * forceVector.getMagnitudeInNewtons();
+        }
+        
+        // Calculate magnitude and direction of resultant
+        double magnitudeOfResultant = Math.sqrt(Math.pow(sumXComponents, 2) + Math.pow(sumYComponents, 2));
+        double directionOfResultant = Math.atan(sumYComponents / sumXComponents);
+        
+        return new Vector(magnitudeOfResultant, directionOfResultant);
     }
 }
