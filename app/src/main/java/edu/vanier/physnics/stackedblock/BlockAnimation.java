@@ -14,10 +14,6 @@ public class BlockAnimation {
     private final int floorHeight = 50;
 
     /**
-     * @param topBlock
-     * @param bottomBlock
-     * @param animationPane
-     *
      * Sets up the blocks in their initial positions, and is used when the
      * simulation is reset.
      *
@@ -26,6 +22,10 @@ public class BlockAnimation {
      *
      * animationPane parameter is the Pane in which the animation takes place in
      * the GUI.
+     *
+     * @param topBlock
+     * @param bottomBlock
+     * @param animationPane
      */
     public void situateBlocks(Block topBlock, Block bottomBlock, Pane animationPane)
     {
