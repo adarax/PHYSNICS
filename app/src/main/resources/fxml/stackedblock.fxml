@@ -186,11 +186,11 @@
             
             <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="25.0" top="753.0" />
+                  <Insets left="25.0" top="768.0" />
                </GridPane.margin></MFXToggleButton>
             <MFXButton fx:id="buttonClear" prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="22.5" />
+                  <Insets bottom="60.0" />
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
@@ -242,20 +242,12 @@
             </Line>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Show vectors" textAlignment="CENTER" wrappingWidth="136.8033447265625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="760.0" />
+                  <Insets left="20.0" top="775.0" />
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
             </Text>
-            <MFXButton fx:id="buttonSet" prefHeight="55.0" prefWidth="180.0" text="Set" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="100.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font>
-            </MFXButton>
          </children>
       </GridPane>
    </children>
