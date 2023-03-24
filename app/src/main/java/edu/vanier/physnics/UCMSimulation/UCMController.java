@@ -5,12 +5,28 @@
  */
 package edu.vanier.physnics.UCMSimulation;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.ArcTo;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.ClosePath;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 /**
@@ -43,8 +59,13 @@ public class UCMController extends Stage{
     Text centrAccelText;
     @FXML
     Text forceText;
+    @FXML
+    Pane paneUCMSimulate;
     
     Car car = new Car();
+    Path path = new Path();
+    PathTransition pathTransitionCircle = new PathTransition();
+    
     
     @FXML
     void initialize(){
@@ -139,6 +160,48 @@ public class UCMController extends Stage{
         speedSlider.setValue(10);
         useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
         setSliders();
+        revolveCar();
+    }
+    
+    public void revolveCar(){
+        Circle center = new Circle(250, 250, 2, Color.RED);
+        Rectangle rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
+        rectTest.setLayoutX(200);
+        rectTest.setLayoutY(150);
+
+        paneUCMSimulate.getChildren().addAll(center, rectTest);        
+        path = createEllipsePath(250, 90, 200, 200, 0);
+        pathTransitionCircle = new PathTransition();
+        pathTransitionCircle.setDuration(Duration.seconds(20/retrieveSpeedTextField()));
+        pathTransitionCircle.setPath(path);
+        pathTransitionCircle.setNode(rectTest);
+        pathTransitionCircle.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransitionCircle.setCycleCount(Timeline.INDEFINITE);
+        pathTransitionCircle.setAutoReverse(false);
+        pathTransitionCircle.setInterpolator(Interpolator.LINEAR);
+        
+        pathTransitionCircle.play();
+    }
+    
+    private Path createEllipsePath(double centerX, double centerY, double radiusX, double radiusY, double rotate)
+    {
+        ArcTo arcTo = new ArcTo();
+        arcTo.setX(centerX - radiusX + 1); // to simulate a full 360 degree celcius circle.
+        arcTo.setY(centerY - radiusY);
+        arcTo.setSweepFlag(false);
+        arcTo.setLargeArcFlag(true);
+        arcTo.setRadiusX(radiusX);
+        arcTo.setRadiusY(radiusY);
+        arcTo.setXAxisRotation(rotate);
+
+        Path path = new Path();
+        path.getElements().addAll(
+                new MoveTo(centerX - radiusX, centerY - radiusY),
+                arcTo,
+                new ClosePath()); // close 1 px gap.
+        path.setStroke(Color.DODGERBLUE);
+        path.getStrokeDashArray().setAll(5d, 5d);
+        return path;
     }
     
     public void setSliders(){
