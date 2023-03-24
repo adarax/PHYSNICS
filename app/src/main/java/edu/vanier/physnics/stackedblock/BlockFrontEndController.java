@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -19,7 +18,7 @@ import javafx.scene.layout.Pane;
 public class BlockFrontEndController {
 
     private final BlockAnimation blockAnimationHandler = new BlockAnimation();
-
+    
     @FXML
     private MFXButton buttonClear;
 
@@ -100,6 +99,8 @@ public class BlockFrontEndController {
             blockAnimationHandler.drawFloor(paneAnimation);
         });
 
+        addSliderEventHandlers();
+        
         buttonDarkMode.setOnMouseClicked(e -> handleDarkMode());
 
         buttonClear.setOnAction(e -> handleClear());
@@ -117,46 +118,6 @@ public class BlockFrontEndController {
         menubuttonMainMenu.setOnAction(e ->
         {
             // Return to main menu
-        });
-
-        sliderAngleOnM1.setOnMouseDragged(e ->
-        {
-            // Change the angle of M1
-        });
-
-        sliderAngleOnM2.setOnMouseDragged(e ->
-        {
-            // Change the angle of M2
-        });
-
-        sliderForceOnM1.setOnMouseDragged(e ->
-        {
-            // Change the force on M1
-        });
-
-        sliderForceOnM2.setOnMouseDragged(e ->
-        {
-            // Change the force on M2
-        });
-
-        sliderFrictionFloor.setOnMouseDragged(e ->
-        {
-            // Change the friction on the floor
-        });
-
-        sliderFrictionM1.setOnMouseDragged(e ->
-        {
-            handleSet();
-        });
-
-        sliderMassM1.setOnMouseDragged(e ->
-        {
-            handleSet();
-        });
-
-        sliderMassM2.setOnMouseDragged(e ->
-        {
-            handleSet();
         });
 
         toggleShowVectors.setOnAction(e ->
@@ -183,7 +144,27 @@ public class BlockFrontEndController {
         {
             handleHelp();
         });
+    }
 
+    public void addSliderEventHandlers()
+    {
+        ArrayList<MFXSlider> allSliders = new ArrayList<>() {
+            {
+                add(sliderAngleOnM1);
+                add(sliderAngleOnM2);
+                add(sliderForceOnM1);
+                add(sliderForceOnM2);
+                add(sliderFrictionFloor);
+                add(sliderFrictionM1);
+                add(sliderMassM1);
+                add(sliderMassM2);
+            }
+        };
+
+        for (MFXSlider slider : allSliders)
+        {
+            slider.setOnMouseDragged(drag -> handleSet());
+        }
     }
 
     public void handleDarkMode()
