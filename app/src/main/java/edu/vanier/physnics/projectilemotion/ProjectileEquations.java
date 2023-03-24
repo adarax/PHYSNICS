@@ -9,26 +9,56 @@ package edu.vanier.physnics.projectilemotion;
  * @author vires
  */
 public class ProjectileEquations {
-    double initialVelocity;
-    double launchAngle;
-    double gravityAccel;
-    double sinAngle = Math.toDegrees(Math.sin(launchAngle));
-    
-    public double getMaxHeight() {
-        
-       double maxHeight = Math.pow(initialVelocity, 2);
-        
-       return 0.0;
+    /**
+     * Method representing the formula for max height of projectile motion.
+     * H(m) = (initialVelocityMPS^2(sin(launchAngleDeg))^2) / (2 * gravityAccelMPSS)
+     *
+     * @param gravityAccelMPSS - Gravitational Acceleration entered by user
+     * @param launchAngleDeg - Launch Angle entered by user
+     * @param initialVelocityMPS - Initial Velocity entered by user
+     * @return maxHeightM (The maximum height reached by projectile motion (m))
+     */
+    public double getMaxHeight(double launchAngleDeg, double initialVelocityMPS, double gravityAccelMPSS) {
+       double sinSquaredThetaDeg = Math.pow(Math.sin(launchAngleDeg), 2);
+       double velocitySquaredMPS = Math.pow(initialVelocityMPS, 2);
+       double maxHeightM = (velocitySquaredMPS * sinSquaredThetaDeg) / (2 * gravityAccelMPSS);
+       
+       return maxHeightM;
     }
     
-    public static double getXdisplacement() {
-        return 0.0;
+    /**
+     * Method representing the formula for the max displacement in the x direction of the 
+     * projectile motion.
+     * D(m) = (initialVelocityMPS^2 * sin(2 * launchAngleDeg)) / gravityAccelMPSS
+     * 
+     * @param gravityAccelMPSS - Gravitational Acceleration entered by user
+     * @param launchAngleDeg - Launch Angle entered by user
+     * @param initialVelocityMPS - Initial Velocity entered by user
+     * @return xDisplacementM (Max displacement in the X direction (m))
+     */
+    public static double getXdisplacement(double launchAngleDeg, double initialVelocityMPS, double gravityAccelMPSS) {
+        double velocitySquaredMPS = Math.pow(initialVelocityMPS, 2);
+        double sin2LaunchAngleDeg = Math.sin(2 * launchAngleDeg);
+        double xDisplacementM = (velocitySquaredMPS * sin2LaunchAngleDeg) / gravityAccelMPSS;
+        
+        return xDisplacementM;
     }
     
-    public double getFlightTime() {
+    /**
+     * Method representing the formula for the total time the projectile is in air. 
+     * t(s) = (2 * initialVelocityMPS * sin(launchAngleDeg)) / gravityAccelMPSS
+     * 
+     * @param gravityAccelMPSS - Gravitational Acceleration entered by user
+     * @param launchAngleDeg - Launch Angle entered by user
+     * @param initialVelocityMPS - Initial Velocity entered by user
+     * @return flightTimeS (Time that projectile in in the air (s))
+     */
+    public double getFlightTime(double launchAngleDeg, double initialVelocityMPS, double gravityAccelMPSS) {
         
-        double flightTime = (2.0 * initialVelocity * sinAngle) / gravityAccel;
-        return flightTime;
+        double sinLaunchAngleDeg = Math.sin(launchAngleDeg);
+        double flightTimeS = (2 * initialVelocityMPS * sinLaunchAngleDeg) / gravityAccelMPSS;
+        
+        return flightTimeS;
     }
     
     
