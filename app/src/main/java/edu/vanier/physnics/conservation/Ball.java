@@ -5,7 +5,9 @@
 package edu.vanier.physnics.conservation;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
 
 /**
  *
@@ -16,18 +18,17 @@ public class Ball extends Circle{
     private double currentHeightMeters;
     private double massKilograms;
     
-    private double animationCenterX;
-    private double animationCenterY;
+    private Path ballPath;
     
+    public Ball(){
+        this.setRadius(20);
+    }
     
     public Ball(Color color, double x, double y){
         this.setCenterX(x);
         this.setCenterY(y);
         this.setRadius(20);
         this.setFill(color);
-        
-        animationCenterX = x;
-        animationCenterY = y;
     }
 
     public double getCurrentVelocity() {
@@ -78,23 +79,11 @@ public class Ball extends Circle{
         this.massKilograms = massKilograms;
     }
 
-    public double getAnimationCenterX() {
-        return animationCenterX;
+    public Path getBallPath() {
+        return ballPath;
     }
 
-    public void setAnimationCenterX(double animationCenterX) {
-        this.animationCenterX = animationCenterX;
+    public void setBallPath(Path ballPath) {
+        this.ballPath = ballPath;
     }
-
-    public double getAnimationCenterY() {
-        return animationCenterY;
-    }
-
-    public void setAnimationCenterY(double animationCenterY) {
-        this.animationCenterY = animationCenterY;
-    }
-    
-    
-    
-    
 }

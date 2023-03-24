@@ -96,8 +96,8 @@ public class ConservationController {
         setup();
         
         
-        btnPlay.setOnAction((e) -> {
-            
+        btnMenu.setOnAction((e) -> {
+            animBackend.play();
         });
         
         btnPause.setOnAction((e) -> {
@@ -111,48 +111,9 @@ public class ConservationController {
     }
     
     public void setup(){
-        //draw the ramp
-        Path ramp = new Path();
-        ramp.setFill(rampColor);
-        ramp.setStroke(rampColor);
-        ramp.setFillRule(FillRule.EVEN_ODD);
-
-        MoveTo moveTo = new MoveTo();
-        moveTo.setX(width/2.0 - 550);
-        moveTo.setY(250);
-
-        ArcTo arcToInner = new ArcTo();
-        arcToInner.setX(width/2.0 + 550);
-        arcToInner.setY(250);
-        arcToInner.setRadiusX(550);
-        arcToInner.setRadiusY(550);
-
-        MoveTo moveTo2 = new MoveTo();
-        moveTo2.setX(width/2.0 - 550);
-        moveTo2.setY(250);
-
-        HLineTo hLineToRightLeg = new HLineTo();
-        hLineToRightLeg.setX(width/2.0 - 570);
-
-        ArcTo arcTo = new ArcTo();
-        arcTo.setX(width/2.0 + 570);
-        arcTo.setY(250);
-        arcTo.setRadiusX(570);
-        arcTo.setRadiusY(570);
-
-        HLineTo hLineToLeftLeg = new HLineTo();
-        hLineToLeftLeg.setX(width/2.0 + 550);
-
-        ramp.getElements().add(moveTo);
-        ramp.getElements().add(arcToInner);
-        ramp.getElements().add(moveTo2);
-        ramp.getElements().add(hLineToRightLeg);
-        ramp.getElements().add(arcTo);
-        ramp.getElements().add(hLineToLeftLeg);
-
-        //initialize the ball
-        ball = new Ball(ballColor, width/2.0-530, 270);
-        paneAnimation.getChildren().addAll(ball, ramp);
+        //initialize the ball and ramp
+        ball = new Ball();
+        paneAnimation.getChildren().addAll(ball, rampAndBallPath());
         
         //initializes the variables
         mass = 10;
@@ -161,7 +122,83 @@ public class ConservationController {
         
         ball.setMass(mass);
         
+        animBackend.createAnimation(ball);
+        
     }
     
+    public Path rampAndBallPath(){
+        //draw the ramp
+        double[] initialPosition = {250, 250};
+        double[] finalPosition = {1350, 250};
+        double radiusInner = 550;
+        double radiusOuter = 570;
+        double[] ballPosition = {270, 270};
+        
+        Path ramp = new Path();
+        ramp.setFill(rampColor);
+        ramp.setStroke(rampColor);
+        ramp.setFillRule(FillRule.EVEN_ODD);
+
+        MoveTo initialMoveTo = new MoveTo();
+        initialMoveTo.setX(initialPosition[0]);
+        initialMoveTo.setY(initialPosition[1]);
+
+        ArcTo arcToInner = new ArcTo();
+        arcToInner.setX(width/2.0 + 550);
+        arcToInner.setY(250);
+        arcToInner.setRadiusX(radiusInner);
+        arcToInner.setRadiusY(radiusInner);
+
+        MoveTo moveTo2 = new MoveTo();
+        moveTo2.setX(initialPosition[0]);
+        moveTo2.setY(initialPosition[1]);
+
+        HLineTo hLineToRightLeg = new HLineTo();
+        hLineToRightLeg.setX(width/2.0 - 570);
+
+        ArcTo arcTo = new ArcTo();
+        arcTo.setX(width/2.0 + 570);
+        arcTo.setY(finalPosition[1]);
+        arcTo.setRadiusX(radiusOuter);
+        arcTo.setRadiusY(radiusOuter);
+
+        HLineTo hLineToLeftLeg = new HLineTo();
+        hLineToLeftLeg.setX(finalPosition[0]);
+
+        ramp.getElements().add(initialMoveTo);
+        ramp.getElements().add(arcToInner);
+        ramp.getElements().add(moveTo2);
+        ramp.getElements().add(hLineToRightLeg);
+        ramp.getElements().add(arcTo);
+        ramp.getElements().add(hLineToLeftLeg);
+        
+        //set the path of the ball
+        ball.setCenterX(initialPosition[0] + 20);
+        ball.setCenterY(initialPosition[1] + 20);
+        ball.setFill(ballColor);
+        
+        //create path for the ball
+        
+        //starting position
+        MoveTo initialBallPos = new MoveTo();
+        initialBallPos.setX(ballPosition[0]);
+        initialBallPos.setY(ballPosition[1]);
+        
+        ArcTo ballArc = new ArcTo();
+        ballArc.setX(width/2.0 + 550 - 20);
+        ballArc.setY(ballPosition[1]);
+        //I dont understand how this works
+        ballArc.setRadiusX(200);
+        ballArc.setRadiusY(200);
+        ballArc.setXAxisRotation(180);
+        
+        Path ballPath = new Path();
+        ballPath.getElements().add(initialBallPos);
+        ballPath.getElements().add(ballArc);
+        ball.setBallPath(ballPath);
+        
+        return ramp;
+
+    }
     
 }
