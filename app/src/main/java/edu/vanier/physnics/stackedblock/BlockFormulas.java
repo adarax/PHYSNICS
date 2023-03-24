@@ -8,11 +8,16 @@ import java.util.ArrayList;
  */
 public class BlockFormulas {
     
-    // Value in m/s/s
+    // Value in m/s^2
     private final double GRAVITATIONAL_ACCELERATION = 9.81;
     
-    // Var-args treats the inputs as an array
-    // @return Value in Newtons
+    /**
+     * Calculates the total normal force on a block and returns it as a vector
+     * pointing 90 degrees.
+     * 
+     * @param contributingMassInKg
+     * @return Vector who's magnitude is the total normal force on the block.
+     */
     public Vector calculateNormalForceVector(double... contributingMassInKg)
     {
         double sumOfMasses = 0;
@@ -56,7 +61,6 @@ public class BlockFormulas {
             sumYComponents += Math.sin(forceVector.getDirectionInDegrees()) * forceVector.getMagnitudeInNewtons();
         }
         
-        // Calculate magnitude and direction of resultant
         double magnitudeOfResultant = Math.sqrt(Math.pow(sumXComponents, 2) + Math.pow(sumYComponents, 2));
         double directionOfResultant = Math.atan(sumYComponents / sumXComponents);
         
