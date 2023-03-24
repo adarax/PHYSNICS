@@ -100,7 +100,7 @@ public class BlockFrontEndController {
             blockAnimationHandler.drawFloor(paneAnimation);
         });
 
-        buttonDarkMode.setOnMouseClicked(e -> handleDarkMode(e));
+        buttonDarkMode.setOnMouseClicked(e -> handleDarkMode());
 
         buttonClear.setOnAction(e -> handleClear());
 
@@ -146,47 +146,47 @@ public class BlockFrontEndController {
 
         sliderFrictionM1.setOnMouseDragged(e ->
         {
-            // Change the friction on M1
+            handleSet();
         });
 
         sliderMassM1.setOnMouseDragged(e ->
         {
-            // Change the mass of M1
+            handleSet();
         });
 
         sliderMassM2.setOnMouseDragged(e ->
         {
-            // Change the mass of M2
+            handleSet();
         });
 
         toggleShowVectors.setOnAction(e ->
         {
-            // Show or hide the vectors
+            handleShowVectors();
         });
 
         buttonPlay.setOnMouseClicked(e ->
         {
-            handlePlay(e);
+            handlePlay();
         });
 
         buttonPause.setOnMouseClicked(e ->
         {
-            handlePause(e);
+            handlePause();
         });
 
         buttonReset.setOnMouseClicked(e ->
         {
-            handleReset(e);
+            handleReset();
         });
 
         buttonHelp.setOnMouseClicked(e ->
         {
-            handleHelp(e);
+            handleHelp();
         });
 
     }
 
-    public void handleDarkMode(MouseEvent e)
+    public void handleDarkMode()
     {
         if (this.isDark)
         {
@@ -204,22 +204,22 @@ public class BlockFrontEndController {
         isDark = !isDark;
     }
 
-    public void handlePlay(MouseEvent e)
+    public void handlePlay()
     {
         // Play the simulation
     }
 
-    public void handlePause(MouseEvent e)
+    public void handlePause()
     {
         // Pause the simulation
     }
 
-    public void handleReset(MouseEvent e)
+    public void handleReset()
     {
         // Reset the simulation
     }
 
-    public void handleHelp(MouseEvent e)
+    public void handleHelp()
     {
         // Open the help screen
     }
@@ -282,6 +282,11 @@ public class BlockFrontEndController {
         }
 
         return createdBlock;
+    }
+
+    private void handleShowVectors()
+    {
+        // Show/hide vectors
     }
 
     public enum POSITION {
