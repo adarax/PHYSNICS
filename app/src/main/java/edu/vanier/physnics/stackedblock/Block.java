@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 
 /**
  *
@@ -19,32 +18,20 @@ public class Block extends StackPane {
     private double drawingWidth;
     private ArrayList<Vector> forcesExperienced;
     private Color blockColor;
-    private final Rectangle blockDrawing;
-    private final Label nametag;
+    private Rectangle blockDrawing;
+    private String name;
+    private Label nametag;
 
-    public Block(double mass, int blockNumber, ArrayList<Vector> forcesExperienced)
+    public Block(double mass, int blockNumber)
     {
         this.mass = mass;
+        
+        determineAndSetDrawingHeight();
+        determineAndSetDrawingWidth();
+        
         this.blockNumber = blockNumber;
-        this.forcesExperienced = forcesExperienced;
-
-        /*
-         * Logarithmic growth is best, since this way the block starts off at a
-         * resonable size and yet doesn't get so big that it goes out of the
-         * screen. This allows the simulation to be able to handle a larger
-         * range of mass values.
-         */
-        this.drawingHeight = 80 * Math.log(mass) + 80;
-        this.drawingWidth = this.drawingHeight * 1.5;
-
         this.blockColor = determineColor();
-        this.blockDrawing = new Rectangle(this.drawingWidth, this.drawingHeight);
-        this.blockDrawing.setFill(this.blockColor);
-
-        this.nametag = new Label(determineLabel());
-        this.nametag.setFont(new Font("SansSerif Bold", determineLabelFontSize()));
-
-        this.getChildren().addAll(blockDrawing, nametag);
+        this.name = determineName();
     }
 
     public double getMass()
@@ -87,14 +74,57 @@ public class Block extends StackPane {
         this.blockColor = blockColor;
     }
 
-    public double getDrawingHeight()
+    public Rectangle getBlockDrawing()
     {
-        return drawingHeight;
+        return blockDrawing;
     }
 
-    public void setDrawingHeight(double drawingHeight)
+    public void setBlockDrawing(Rectangle blockDrawing)
     {
-        this.drawingHeight = drawingHeight;
+        this.blockDrawing = blockDrawing;
+    }
+
+    public Label getNametag()
+    {
+        return nametag;
+    }
+
+    public void setNametag(Label nametag)
+    {
+        this.nametag = nametag;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public void drawBlock()
+    {
+        this.getChildren().clear();
+        this.getChildren().addAll(blockDrawing, nametag);
+    }
+
+    /*
+     * Logarithmic growth is best, since this way the block starts off at a
+     * resonable size and yet doesn't get so big that it goes out of the screen.
+     * This allows the simulation to be able to handle a larger range of mass
+     * values.
+     */
+    public final void determineAndSetDrawingWidth()
+    {
+        this.setDrawingWidth(drawingHeight * 1.5);
+    }
+
+    public final void determineAndSetDrawingHeight()
+    {
+        double heightValue = 80 * Math.log(mass) + 80;
+        this.setDrawingHeight(heightValue);
     }
 
     public double getDrawingWidth()
@@ -107,8 +137,18 @@ public class Block extends StackPane {
         this.drawingWidth = drawingWidth;
     }
 
+    public double getDrawingHeight()
+    {
+        return drawingHeight;
+    }
+
+    public void setDrawingHeight(double drawingHeight)
+    {
+        this.drawingHeight = drawingHeight;
+    }
+
     // The bottom block is blockNumber 0, the top is blockNumber 1
-    public final String determineLabel()
+    public final String determineName()
     {
         String label = "";
 
@@ -152,4 +192,18 @@ public class Block extends StackPane {
     {
         return (int) (7 * Math.log(this.drawingHeight));
     }
+
+    
+    // TODO: no need for this in release, it's just for testing
+    @Override
+    public String toString()
+    {
+        return "Block{" + "mass=" + mass + ", blockNumber=" + blockNumber + ", drawingHeight=" + drawingHeight + ", drawingWidth=" + drawingWidth + ", forcesExperienced=" + forcesExperienced + '}';
+    }
+    
+    
+    
+    
+    
+    
 }
