@@ -17,8 +17,6 @@ import javafx.scene.layout.Pane;
  */
 public class BlockFrontEndController {
 
-    private final BlockAnimation blockAnimationHandler = new BlockAnimation();
-    
     @FXML
     private MFXButton buttonClear;
 
@@ -80,10 +78,16 @@ public class BlockFrontEndController {
     private ImageView buttonHelp;
 
     @FXML
-    private MFXButton buttonSet;
-
-    @FXML
     private Pane paneAnimation;
+
+    private final BlockAnimation blockAnimationHandler = new BlockAnimation();
+    private final BlockFormulas blockFormulasCalculator = new BlockFormulas();
+    
+    // Basic initial setup of blocks
+    private final Block topBlock = new Block(1, 1);
+    private final Block bottomBlock = new Block(1, 0);
+    
+    private ArrayList<MFXSlider> allSliders;
 
     private boolean isDark = false;
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
@@ -92,20 +96,22 @@ public class BlockFrontEndController {
     @FXML
     public void initialize()
     {
-        // Calls this after everything is rendered, which is needed
-        // because otherwise the height of certain fields and Panes is 0
+        /*
+         * Calls this after everything is rendered, which is needed because
+         * otherwise the height of the Panes is 0
+         */
         Platform.runLater(() ->
         {
+            // Put blocks and floor into scene on launch
             blockAnimationHandler.drawFloor(paneAnimation);
+            updateScene();
         });
 
         addSliderEventHandlers();
-        
+
         buttonDarkMode.setOnMouseClicked(e -> handleDarkMode());
 
         buttonClear.setOnAction(e -> handleClear());
-
-        buttonSet.setOnAction(e -> handleSet());
 
         menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
 
@@ -148,7 +154,7 @@ public class BlockFrontEndController {
 
     public void addSliderEventHandlers()
     {
-        ArrayList<MFXSlider> allSliders = new ArrayList<>() {
+        allSliders = new ArrayList<>() {
             {
                 add(sliderAngleOnM1);
                 add(sliderAngleOnM2);
@@ -163,13 +169,13 @@ public class BlockFrontEndController {
 
         for (MFXSlider slider : allSliders)
         {
-            slider.setOnMouseDragged(drag -> handleSet());
+            slider.setOnMouseDragged(drag -> updateScene());
         }
     }
 
     public void handleDarkMode()
     {
-        if (this.isDark)
+        if (isDark)
         {
             // Go to light mode (on rest of app)
 
@@ -181,7 +187,6 @@ public class BlockFrontEndController {
             buttonDarkMode.setImage(LIGHT_MOON);
         }
 
-        // Change boolean value
         isDark = !isDark;
     }
 
@@ -205,24 +210,62 @@ public class BlockFrontEndController {
         // Open the help screen
     }
 
+    /**
+     * Set all sliders back to their minimum values and resets the animation.
+     */
     public void handleClear()
     {
-        // Get all sliders
-        // Set values to 0
-        // Set "show vectors" to OFF
-        // Reset animation
+        allSliders.forEach(slider ->
+        {
+            slider.setValue(slider.getMin());
+        });
+
+        handleReset();
+        updateScene();
     }
 
-    public void handleSet()
+    public void updateScene()
     {
         paneAnimation.getChildren().clear();
 
-        Block topBlock = handleBlockCreation(POSITION.TOP);
-        Block bottomBlock = handleBlockCreation(POSITION.BOTTOM);
-
+        updateBlocks();
+        
         blockAnimationHandler.drawFloor(paneAnimation);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
     }
+    
+    public void updateBlocks()
+    {   
+        topBlock.setMass(sliderMassM2.getValue());
+        bottomBlock.setMass(sliderMassM1.getValue());
+
+        topBlock.setForcesExperienced(getForcesExperiencedM2());
+        bottomBlock.setForcesExperienced(getForcesExperiencedM1());
+    }
+    
+    public ArrayList<Vector> getForcesExperiencedM1()
+    {
+        ArrayList<Vector> allForcesOnM1 = new ArrayList<>();
+        
+        Vector forceVectorOnM1 = new Vector(sliderForceOnM1.getValue(), sliderAngleOnM1.getValue());
+        allForcesOnM1.add(forceVectorOnM1);
+        
+        double normalForceM1 = blockFormulasCalculator.calculateNormalForceMagnitude(topBlock.getMass(), bottomBlock.getMass());
+        Vector frictionVectorDueToFloor = blockFormulasCalculator.calculateFrictionVector(sliderFrictionFloor.getValue(), normalForceM1 ,forceVectorOnM1);
+        allForcesOnM1.add(frictionVectorDueToFloor);
+        
+        // TODO: friction vector due to top block
+        
+        
+        return allForcesOnM1;
+    }
+    
+    public ArrayList<Vector> getForcesExperiencedM2()
+    {
+        // Similar to M1, but slightly simpler
+        
+        return null;
+    } 
 
     public void handleExitOfApplication()
     {
@@ -249,27 +292,14 @@ public class BlockFrontEndController {
         // Go to projectile motion screen
     }
 
-    public Block handleBlockCreation(POSITION relativeBlockPosition)
-    {
-        Block createdBlock = null;
-
-        switch (relativeBlockPosition)
-        {
-            case TOP ->
-                createdBlock = new Block(sliderMassM2.getValue(), 1, new ArrayList<>());
-
-            case BOTTOM ->
-                createdBlock = new Block(sliderMassM1.getValue(), 0, new ArrayList<>());
-        }
-
-        return createdBlock;
-    }
 
     private void handleShowVectors()
     {
         // Show/hide vectors
     }
 
+    
+    // Might not be needed
     public enum POSITION {
         TOP,
         BOTTOM
