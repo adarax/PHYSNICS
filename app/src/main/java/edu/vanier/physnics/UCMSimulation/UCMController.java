@@ -6,8 +6,6 @@
 package edu.vanier.physnics.UCMSimulation;
 
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
@@ -17,7 +15,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.ClosePath;
@@ -114,6 +111,7 @@ public class UCMController extends Stage{
             pauseButton.setDisable(true);
             playButton.setDisable(false);
             resetButton.setDisable(false);
+            pathTransitionCircle.pause();
         });
     }
     
@@ -134,6 +132,7 @@ public class UCMController extends Stage{
             resetButton.setDisable(true);
             pauseButton.setDisable(false);
             playButton.setDisable(false);
+            paneUCMSimulate.getChildren().clear();
         });
     }    
     
@@ -144,6 +143,8 @@ public class UCMController extends Stage{
             useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
             pauseButton.setDisable(false);
             resetButton.setDisable(false);
+            pathTransitionCircle.setDuration(Duration.seconds(20/car.getSpeed()));            
+            revolveCar();
         });
     }
     
@@ -160,7 +161,9 @@ public class UCMController extends Stage{
         speedSlider.setValue(10);
         useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
         setSliders();
-        revolveCar();
+        pause();
+        play();
+        reset();
     }
     
     public void revolveCar(){
@@ -168,11 +171,13 @@ public class UCMController extends Stage{
         Rectangle rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
         rectTest.setLayoutX(200);
         rectTest.setLayoutY(150);
-
+        
+        
+        
         paneUCMSimulate.getChildren().addAll(center, rectTest);        
         path = createEllipsePath(250, 90, 200, 200, 0);
         pathTransitionCircle = new PathTransition();
-        pathTransitionCircle.setDuration(Duration.seconds(20/retrieveSpeedTextField()));
+        pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));
         pathTransitionCircle.setPath(path);
         pathTransitionCircle.setNode(rectTest);
         pathTransitionCircle.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -222,7 +227,7 @@ public class UCMController extends Stage{
         slider.setOnMouseDragged((event) -> {
             textfield.setText(String.valueOf(slider.getValue()));
             useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
-       
+            
         });
     }
     
