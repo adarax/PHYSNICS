@@ -62,7 +62,7 @@ public class UCMController extends Stage{
     Car car = new Car();
     Path path = new Path();
     PathTransition pathTransitionCircle = new PathTransition();
-    
+    Rectangle rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
     
     @FXML
     void initialize(){
@@ -122,6 +122,7 @@ public class UCMController extends Stage{
             playButton.setDisable(true);
             pauseButton.setDisable(false);
             resetButton.setDisable(false);
+            pathTransitionCircle.play();
         });
     }
 
@@ -130,19 +131,21 @@ public class UCMController extends Stage{
         resetButton.setOnAction((event) -> {
             System.out.println("resetting...");
             resetButton.setDisable(true);
-            pauseButton.setDisable(false);
-            playButton.setDisable(false);
-            paneUCMSimulate.getChildren().clear();
+            pauseButton.setDisable(true);
+            playButton.setDisable(true);
+            submitButton.setDisable(false);
+            paneUCMSimulate.getChildren().remove(rectTest);
         });
     }    
     
     @FXML
     void submitSimulation(){
         submitButton.setOnAction((event) -> {
-
             useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
             pauseButton.setDisable(false);
             resetButton.setDisable(false);
+            playButton.setDisable(true);
+            submitButton.setDisable(true);
             pathTransitionCircle.setDuration(Duration.seconds(20/car.getSpeed()));            
             revolveCar();
         });
@@ -160,21 +163,20 @@ public class UCMController extends Stage{
         massSlider.setValue(10);
         speedSlider.setValue(10);
         useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
+        Circle center = new Circle(250, 250, 2, Color.RED);
+        paneUCMSimulate.getChildren().add(center);  
         setSliders();
         pause();
         play();
         reset();
     }
     
-    public void revolveCar(){
-        Circle center = new Circle(250, 250, 2, Color.RED);
-        Rectangle rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
+    public void revolveCar(){      
+        rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
         rectTest.setLayoutX(200);
-        rectTest.setLayoutY(150);
+        rectTest.setLayoutY(150); 
         
-        
-        
-        paneUCMSimulate.getChildren().addAll(center, rectTest);        
+        paneUCMSimulate.getChildren().add(rectTest);        
         path = createEllipsePath(250, 90, 200, 200, 0);
         pathTransitionCircle = new PathTransition();
         pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));
@@ -216,21 +218,28 @@ public class UCMController extends Stage{
         
         linkSliderToTextField(radiusSlider, radiusTextField);
         linkSliderToTextField(massSlider, massTextField);
-        linkSliderToTextField(speedSlider, speedTextField);
+        linkSpeedSliderToTextField(speedSlider, speedTextField);
         
         linkTextFieldToSlider(massSlider, massTextField);
         linkTextFieldToSlider(radiusSlider, radiusTextField);
-        linkTextFieldToSlider(speedSlider, speedTextField);
+        linkSpeedTextFieldToSlider(speedSlider, speedTextField);
     }
     
     public void linkSliderToTextField(Slider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
             textfield.setText(String.valueOf(slider.getValue()));
-            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
-            
+            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
         });
     }
     
+    public void linkSpeedSliderToTextField(Slider slider, TextField textfield){
+        slider.setOnMouseDragged((event) -> {
+            textfield.setText(String.valueOf(slider.getValue()));
+            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
+            pathTransitionCircle.setRate(0.1*car.getSpeed());
+        });
+    }
+
     public void linkTextFieldToSlider(Slider slider, TextField textfield){
         textfield.setOnKeyTyped((event) -> {
             slider.setValue(Double.valueOf(textfield.getText()));
@@ -238,6 +247,14 @@ public class UCMController extends Stage{
         });
     }
     
+    public void linkSpeedTextFieldToSlider(Slider slider, TextField textfield){
+        textfield.setOnKeyTyped((event) -> {
+            slider.setValue(Double.valueOf(textfield.getText()));
+            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+            pathTransitionCircle.setRate(0.1*car.getSpeed());
+        });
+    }
+
     public void setSliderRange(Slider slider, double min, double max){
         slider.setMin(min);
         slider.setMax(max);
