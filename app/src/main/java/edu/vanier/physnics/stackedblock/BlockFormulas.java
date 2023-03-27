@@ -51,7 +51,7 @@ public class BlockFormulas {
      * @param forcesExperienced
      * @return The resultant vector of all forces from forcesExperienced.
      */
-    public Vector calculateNetForceAndDirection(ArrayList<Vector> forcesExperienced)
+    public Vector calculateNetForceVector(ArrayList<Vector> forcesExperienced)
     {
         double sumXComponents = 0, sumYComponents = 0;
 
@@ -66,4 +66,44 @@ public class BlockFormulas {
 
         return new Vector(magnitudeOfResultant, directionOfResultant);
     }
+
+    public ArrayList<Vector> determineForcesExperienced(Block topBlock,
+            Block bottomBlock,
+            double forceOnM1,
+            double forceOnM2,
+            double angleOfForceOnM1,
+            double angleOfForceOnM2,
+            double frictionCoeffFloor,
+            double frictionCoeffM1,
+            int blockNumber)
+    {
+        ArrayList<Vector> allForcesExperienced = new ArrayList<>();
+
+        double normalForceM2 = calculateNormalForceMagnitude(topBlock.getMass());
+        Vector forceVectorOnM2 = new Vector(forceOnM2, angleOfForceOnM2);
+        Vector frictionVectorOnM2 = calculateFrictionVector(frictionCoeffM1, normalForceM2, forceVectorOnM2);
+
+        // For top block (M2)        
+        if (blockNumber == 1)
+        {
+            allForcesExperienced.add(forceVectorOnM2);
+            allForcesExperienced.add(frictionVectorOnM2);
+        } // For bottom block (M1)
+        else if (blockNumber == 0)
+        {
+            double normalForceM1 = calculateNormalForceMagnitude(topBlock.getMass(), bottomBlock.getMass());
+            Vector forceVectorOnM1 = new Vector(forceOnM1, angleOfForceOnM1);
+            Vector frictionVectorDueToFloor = calculateFrictionVector(frictionCoeffFloor, normalForceM1, forceVectorOnM1);
+            frictionVectorOnM2.flipDirection();
+
+            allForcesExperienced.add(frictionVectorDueToFloor);
+            allForcesExperienced.add(forceVectorOnM1);
+            allForcesExperienced.add(frictionVectorOnM2);
+        }
+
+        // TODO: turn into actual tests, ensure values are correct
+//        System.out.println(calculateNetForceVector(allForcesExperienced).getMagnitudeInNewtons());
+        return allForcesExperienced;
+    }
+    
 }

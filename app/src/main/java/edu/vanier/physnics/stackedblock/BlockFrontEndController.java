@@ -82,11 +82,11 @@ public class BlockFrontEndController {
 
     private final BlockAnimation blockAnimationHandler = new BlockAnimation();
     private final BlockFormulas blockFormulasCalculator = new BlockFormulas();
-    
+
     // Basic initial setup of blocks
-    private final Block topBlock = new Block(1, 1);
-    private final Block bottomBlock = new Block(1, 0);
-    
+    private final Block topBlock = new Block(1);
+    private final Block bottomBlock = new Block(0);
+
     private ArrayList<MFXSlider> allSliders;
 
     private boolean isDark = false;
@@ -229,43 +229,32 @@ public class BlockFrontEndController {
         paneAnimation.getChildren().clear();
 
         updateBlocks();
-        
+
         blockAnimationHandler.drawFloor(paneAnimation);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
     }
-    
+
     public void updateBlocks()
-    {   
+    {
         topBlock.setMass(sliderMassM2.getValue());
         bottomBlock.setMass(sliderMassM1.getValue());
 
-        topBlock.setForcesExperienced(getForcesExperiencedM2());
-        bottomBlock.setForcesExperienced(getForcesExperiencedM1());
+        topBlock.setForcesExperienced(getForcesExperienced(topBlock.getBlockNumber()));
+        bottomBlock.setForcesExperienced(getForcesExperienced(bottomBlock.getBlockNumber()));
     }
-    
-    public ArrayList<Vector> getForcesExperiencedM1()
+
+    public ArrayList<Vector> getForcesExperienced(int blockNumber)
     {
-        ArrayList<Vector> allForcesOnM1 = new ArrayList<>();
-        
-        Vector forceVectorOnM1 = new Vector(sliderForceOnM1.getValue(), sliderAngleOnM1.getValue());
-        allForcesOnM1.add(forceVectorOnM1);
-        
-        double normalForceM1 = blockFormulasCalculator.calculateNormalForceMagnitude(topBlock.getMass(), bottomBlock.getMass());
-        Vector frictionVectorDueToFloor = blockFormulasCalculator.calculateFrictionVector(sliderFrictionFloor.getValue(), normalForceM1 ,forceVectorOnM1);
-        allForcesOnM1.add(frictionVectorDueToFloor);
-        
-        // TODO: friction vector due to top block
-        
-        
-        return allForcesOnM1;
+        return blockFormulasCalculator.determineForcesExperienced(topBlock,
+                bottomBlock,
+                sliderForceOnM1.getValue(),
+                sliderForceOnM2.getValue(),
+                sliderAngleOnM1.getValue(),
+                sliderAngleOnM2.getValue(),
+                sliderFrictionFloor.getValue(),
+                sliderFrictionM1.getValue(),
+                blockNumber);
     }
-    
-    public ArrayList<Vector> getForcesExperiencedM2()
-    {
-        // Similar to M1, but slightly simpler
-        
-        return null;
-    } 
 
     public void handleExitOfApplication()
     {
@@ -292,13 +281,11 @@ public class BlockFrontEndController {
         // Go to projectile motion screen
     }
 
-
     private void handleShowVectors()
     {
         // Show/hide vectors
     }
 
-    
     // Might not be needed
     public enum POSITION {
         TOP,
