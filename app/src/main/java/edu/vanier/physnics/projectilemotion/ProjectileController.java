@@ -70,14 +70,16 @@ public class ProjectileController {
 
     @FXML
     private Circle projectileBall;
-
-
-
+    
+    
     // Event handlers for the action events.
     public void handlePlay(MouseEvent e) {
         // Play the simulation
         System.out.println("Play");
-        ProjectileAnimation.ballAnimation(projectileBall);
+        double gravityAccelMPSS = sliderGravity.getValue();
+        double initialVelocityMPS = sliderInitialVelocity.getValue();
+        double launchAngleDeg = sliderLaunchAngle.getValue();
+        ProjectileAnimation.ballAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
     public void handlePause(MouseEvent e) {
