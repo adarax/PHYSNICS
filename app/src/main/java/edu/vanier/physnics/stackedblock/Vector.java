@@ -11,7 +11,7 @@ public class Vector {
     private final double magnitudeInNewtons;
 
     // Values range from 0 to 360 degrees
-    private final double directionInDegrees;
+    private double directionInDegrees;
 
     public Vector(double magnitudeInNewtons, double directionInDegrees)
     {
@@ -54,6 +54,24 @@ public class Vector {
         asComponents.add(yComponent);
 
         return asComponents;
+    }
+    
+    /**
+     * Changes the direction of the vector by 180 degrees, and ensures that
+     * the vectors direction has not exceeded 360 degrees.
+     */
+    public void flipDirection()
+    {
+        double currentDirection = this.directionInDegrees;
+        
+        currentDirection += 180;
+        
+        if (currentDirection >= 360)
+        {
+            currentDirection -= 360;
+        }
+        
+        this.directionInDegrees = currentDirection;
     }
 
     public double getMagnitudeInNewtons()
