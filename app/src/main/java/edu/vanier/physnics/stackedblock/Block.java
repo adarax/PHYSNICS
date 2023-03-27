@@ -22,9 +22,9 @@ public class Block extends StackPane {
     private String name;
     private Label nametag;
 
-    public Block(double mass, int blockNumber)
+    public Block(int blockNumber)
     {
-        this.mass = mass;
+        this.mass = 1.0;
         
         determineAndSetDrawingHeight();
         determineAndSetDrawingWidth();
