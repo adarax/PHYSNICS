@@ -41,6 +41,8 @@ public class UCMMainApp extends Application{
         }
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
+        stage.setTitle("UCM Controller");
+        stage.setFullScreen(true);
         stage.show();
     }
 }

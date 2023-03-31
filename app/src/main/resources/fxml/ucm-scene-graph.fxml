@@ -45,7 +45,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="624.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="802.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -86,7 +86,7 @@
         </Menu>
       </menus>
     </MenuBar>
-      <Pane prefHeight="627.0" prefWidth="911.0">
+      <Pane prefHeight="779.0" prefWidth="1151.0">
          <children>
             <Text layoutX="236.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Uniform Circular Motion Simulation" textAlignment="CENTER" wrappingWidth="388.8033752441406">
                <font>
@@ -94,30 +94,30 @@
                </font>
             </Text>
             <Pane fx:id="paneUCMSimulate" layoutX="14.0" layoutY="47.0" prefHeight="453.0" prefWidth="543.0" />
-            <Slider fx:id="radiusSlider" layoutX="581.0" layoutY="99.0" prefHeight="14.0" prefWidth="300.0" />
-            <Slider fx:id="speedSlider" layoutX="584.0" layoutY="171.0" prefHeight="14.0" prefWidth="300.0" />
-            <Slider fx:id="massSlider" layoutX="584.0" layoutY="251.0" prefHeight="14.0" prefWidth="300.0" />
-            <Text layoutX="595.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radius (m):" />
-            <Text layoutX="591.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Speed (m/s):" />
-            <Text layoutX="597.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass (kg):" />
-            <TextField fx:id="radiusTextField" layoutX="678.0" layoutY="66.0" prefHeight="25.0" prefWidth="192.0" />
-            <TextField fx:id="massTextField" layoutX="678.0" layoutY="215.0" prefHeight="25.0" prefWidth="192.0" />
-            <TextField fx:id="speedTextField" layoutX="678.0" layoutY="140.0" prefHeight="25.0" prefWidth="192.0" />
-            <Text layoutX="585.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Centripetal Acceleration (m/s^2):" />
-            <Text fx:id="centrAccelText" layoutX="808.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="586.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Force (N):" />
-            <Text fx:id="forceText" layoutX="808.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Button fx:id="pauseButton" layoutX="189.0" layoutY="509.0" mnemonicParsing="false" text="Pause" />
-            <Button fx:id="playButton" layoutX="267.0" layoutY="509.0" mnemonicParsing="false" text="Play" />
-            <Button fx:id="resetButton" layoutX="333.0" layoutY="509.0" mnemonicParsing="false" text="Reset" />
-            <TextArea layoutX="571.0" layoutY="396.0" prefHeight="189.0" prefWidth="327.0" />
-            <Text layoutX="575.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Information:" />
-            <Text layoutX="699.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parameters" textAlignment="CENTER">
+            <Slider fx:id="radiusSlider" layoutX="743.0" layoutY="134.0" prefHeight="14.0" prefWidth="300.0" />
+            <Slider fx:id="speedSlider" layoutX="743.0" layoutY="243.0" prefHeight="14.0" prefWidth="300.0" />
+            <Slider fx:id="massSlider" layoutX="743.0" layoutY="346.0" prefHeight="14.0" prefWidth="300.0" />
+            <Text layoutX="738.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radius (m):" />
+            <Text layoutX="743.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Speed (m/s):" />
+            <Text layoutX="733.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass (kg):" />
+            <TextField fx:id="radiusTextField" layoutX="851.0" layoutY="95.0" prefHeight="25.0" prefWidth="192.0" />
+            <TextField fx:id="massTextField" layoutX="851.0" layoutY="305.0" prefHeight="25.0" prefWidth="192.0" />
+            <TextField fx:id="speedTextField" layoutX="851.0" layoutY="191.0" prefHeight="25.0" prefWidth="192.0" />
+            <Text layoutX="738.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Centripetal Acceleration (m/s^2):" />
+            <Text fx:id="centrAccelText" layoutX="997.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="734.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Force (N):" />
+            <Text fx:id="forceText" layoutX="997.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Button fx:id="pauseButton" layoutX="213.0" layoutY="716.0" mnemonicParsing="false" text="Pause" />
+            <Button fx:id="playButton" layoutX="336.0" layoutY="716.0" mnemonicParsing="false" text="Play" />
+            <Button fx:id="resetButton" layoutX="456.0" layoutY="716.0" mnemonicParsing="false" text="Reset" />
+            <TextArea layoutX="741.0" layoutY="564.0" prefHeight="189.0" prefWidth="327.0" />
+            <Text layoutX="741.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Information:" />
+            <Text layoutX="733.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parameters" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="submitButton" layoutX="708.0" layoutY="343.0" mnemonicParsing="false" text="Submit" />
+            <Button fx:id="submitButton" layoutX="878.0" layoutY="500.0" mnemonicParsing="false" text="Submit" />
          </children>
       </Pane>
   </children>
