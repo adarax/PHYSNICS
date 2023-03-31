@@ -10,6 +10,8 @@ import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -60,9 +62,11 @@ public class UCMController extends Stage{
     Pane paneUCMSimulate;
     
     Car car = new Car();
-    Path path = new Path();
+    Path path1 = new Path();
+    Path path2 = new Path();
     PathTransition pathTransitionCircle = new PathTransition();
-    Rectangle rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
+    Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
+    Group group = new Group();    
     
     @FXML
     void initialize(){
@@ -134,7 +138,7 @@ public class UCMController extends Stage{
             pauseButton.setDisable(true);
             playButton.setDisable(true);
             submitButton.setDisable(false);
-            paneUCMSimulate.getChildren().remove(rectTest);
+            group.getChildren().removeAll(rectTest, path1);
         });
     }    
     
@@ -172,20 +176,25 @@ public class UCMController extends Stage{
     }
     
     public void revolveCar(){      
-        rectTest = new Rectangle(50,30, Color.CORNFLOWERBLUE);
         rectTest.setLayoutX(200);
-        rectTest.setLayoutY(150); 
+        rectTest.setLayoutY(160); 
         
-        paneUCMSimulate.getChildren().add(rectTest);        
-        path = createEllipsePath(250, 90, 200, 200, 0);
+        path1 = createEllipsePath(250, 90, 200, 200, 0);
         pathTransitionCircle = new PathTransition();
         pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));
-        pathTransitionCircle.setPath(path);
+        pathTransitionCircle.setPath(path1);
         pathTransitionCircle.setNode(rectTest);
         pathTransitionCircle.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransitionCircle.setCycleCount(Timeline.INDEFINITE);
         pathTransitionCircle.setAutoReverse(false);
-        pathTransitionCircle.setInterpolator(Interpolator.LINEAR);
+        pathTransitionCircle.setInterpolator(Interpolator.LINEAR);      
+
+        Point2D accelVector = new Point2D(300, 300);
+
+        
+        path2 = createEllipsePath(450, 250, 200, 200, 0);
+        group.getChildren().addAll(rectTest, path2, accelVector);                
+        paneUCMSimulate.getChildren().add(group);
         
         pathTransitionCircle.play();
     }
@@ -200,7 +209,7 @@ public class UCMController extends Stage{
         arcTo.setRadiusX(radiusX);
         arcTo.setRadiusY(radiusY);
         arcTo.setXAxisRotation(rotate);
-
+        
         Path path = new Path();
         path.getElements().addAll(
                 new MoveTo(centerX - radiusX, centerY - radiusY),
