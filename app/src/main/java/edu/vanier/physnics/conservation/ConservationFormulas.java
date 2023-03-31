@@ -23,7 +23,7 @@ public class ConservationFormulas {
     }
     
     public static double getArcTime(double height, double g){
-        return 2*Math.sqrt(2*height/g);
+        return 2.0*Math.sqrt((2.0*height)/g);
     }
 
 }

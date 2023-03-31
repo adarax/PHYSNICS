@@ -11,13 +11,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcTo;
-import javafx.scene.shape.ArcType;
-import javafx.scene.shape.FillRule;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 
 /**
  *
@@ -117,6 +110,7 @@ public class ConservationController {
         
         //draw the ramp
         Ramp ramp = new Ramp(500, 20, width/2, height/2+400, rampColor);
+        
         //set the path of the ball
         ramp.createBallPath(ball);
         
@@ -129,7 +123,7 @@ public class ConservationController {
         
         ball.setMass(mass);
         
-        animBackend.createAnimation(ball);
+        animBackend.createAnimation(ball, initialHeight, g);
         
     }
     
