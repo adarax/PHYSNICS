@@ -22,9 +22,8 @@ public class ConservationFormulas {
         return ((TME-PE)*2)/mass;
     }
     
-    /*
-    public static double getArcTime(double mass, double g){
-        return 0;
+    public static double getArcTime(double height, double g){
+        return 2*Math.sqrt(2*height/g);
     }
-*/
+
 }
