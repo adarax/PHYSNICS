@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -84,6 +84,7 @@
                         
                      </children>
                   </GridPane>
+                  <Pane fx:id="paneAnimation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="868.0" prefWidth="1662.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M1 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
@@ -91,21 +92,22 @@
                   <Insets top="50.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
             </Text>
-            <MFXSlider fx:id="sliderForceOnM1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderForceOnM1" max="50.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="85.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Angle of force on M1 (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="140.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderAngleOnM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderAngleOnM1" max="360.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="175.0" />
                </GridPane.margin></MFXSlider>
@@ -114,78 +116,84 @@
                   <Insets top="230.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderForceOnM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderForceOnM2" max="50.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="265.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Angle of force on M2 (°)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="320.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderAngleOnM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderAngleOnM2" max="360.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="355.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Coefficient of friction - floor" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets bottom="30.0" top="410.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderFrictionFloor" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderFrictionFloor" decimalPrecision="2" max="2.0" minorTicksCount="1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="445.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Coefficient of friction - M1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="500.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderFrictionM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderFrictionM1" decimalPrecision="2" max="2.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="535.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of M1 (kg)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="590.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderMassM1" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM1" max="20.0" min="1.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="625.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of M2 (kg)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets bottom="30.0" top="680.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></Text>
-            <MFXSlider fx:id="sliderMassM2" prefWidth="150.0" scaleZ="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <MFXSlider fx:id="sliderMassM2" max="20.0" min="1.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="715.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             
             <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="790.0" />
+                  <Insets left="25.0" top="768.0" />
                </GridPane.margin></MFXToggleButton>
             <MFXButton fx:id="buttonClear" prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="40.0" />
+                  <Insets bottom="60.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font></MFXButton>
             
             <!-- Play button -->
@@ -234,10 +242,10 @@
             </Line>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Show vectors" textAlignment="CENTER" wrappingWidth="136.8033447265625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="800.0" />
+                  <Insets left="20.0" top="775.0" />
                </GridPane.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
             </Text>
          </children>
