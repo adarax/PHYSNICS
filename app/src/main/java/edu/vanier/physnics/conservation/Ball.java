@@ -20,8 +20,9 @@ public class Ball extends Circle{
     
     private Path ballPath;
     
-    public Ball(){
-        this.setRadius(20);
+    public Ball(double radius, Color ballColor){
+        this.setRadius(radius);
+        this.setFill(ballColor);
     }
     
     public Ball(Color color, double x, double y){

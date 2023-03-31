@@ -21,19 +21,22 @@ import javafx.util.Duration;
 public class AnimationBackend {
     private Path ballPath;
     private Transition mainAnimation;
+    private double speedTime;
     
     public AnimationBackend(){
         ballPath = new Path();
+        speedTime = 3000;
     }
     
     public void createAnimation(Ball ball){
         PathTransition ballCurve = new PathTransition();
         ballPath = ball.getBallPath();
                 
-        ballCurve.setDuration(Duration.millis(6000));
+        ballCurve.setDuration(Duration.millis(speedTime));
         ballCurve.setNode(ball);
         ballCurve.setPath(ballPath);
         ballCurve.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
+        
         ballCurve.setCycleCount(Timeline.INDEFINITE);
         ballCurve.setAutoReverse(true);
         ballCurve.setInterpolator(Interpolator.EASE_BOTH);
