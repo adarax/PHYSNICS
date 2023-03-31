@@ -19,9 +19,10 @@ public class ProjectileEquations {
      * @return maxHeightM (The maximum height reached by projectile motion (m))
      */
     public static double getMaxHeight(double launchAngleDeg, double initialVelocityMPS, double gravityAccelMPSS) {
-       double sinSquaredThetaDeg = Math.pow(Math.sin(launchAngleDeg), 2);
+       double sinSquaredThetaDeg = Math.pow(Math.sin(Math.toRadians(launchAngleDeg)), 2);
        double velocitySquaredMPS = Math.pow(initialVelocityMPS, 2);
        double maxHeightM = (velocitySquaredMPS * sinSquaredThetaDeg) / (2 * gravityAccelMPSS);
+       
        
        return maxHeightM;
     }
@@ -38,7 +39,7 @@ public class ProjectileEquations {
      */
     public static double getXdisplacement(double launchAngleDeg, double initialVelocityMPS, double gravityAccelMPSS) {
         double velocitySquaredMPS = Math.pow(initialVelocityMPS, 2);
-        double sin2LaunchAngleDeg = Math.sin(2 * launchAngleDeg);
+        double sin2LaunchAngleDeg = Math.sin(2 * Math.toRadians(launchAngleDeg));
         double xDisplacementM = (velocitySquaredMPS * sin2LaunchAngleDeg) / gravityAccelMPSS;
         
         return xDisplacementM;
@@ -55,7 +56,7 @@ public class ProjectileEquations {
      */
     public static double getFlightTime(double launchAngleDeg, double initialVelocityMPS, double gravityAccelMPSS) {
         
-        double sinLaunchAngleDeg = Math.sin(launchAngleDeg);
+        double sinLaunchAngleDeg = Math.sin(Math.toRadians(launchAngleDeg));
         double flightTimeS = (2 * initialVelocityMPS * sinLaunchAngleDeg) / gravityAccelMPSS;
         
         return flightTimeS;
