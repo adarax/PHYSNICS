@@ -28,7 +28,7 @@ dependencies {
     // MaterialFX
     implementation 'io.github.palexdev:materialfx:11.13.9'
     
-    //Junit for testing
+    // JUnit testing 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 }
 //-- Loads the JavaFX modules of the selected JavaFX version.
@@ -41,10 +41,7 @@ application {
    mainClass = 'edu.vanier.physnics.App'
 }
 
-test {
-    exclude '**/*'
-}
-
 tasks.named('test') {
+    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
