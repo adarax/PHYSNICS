@@ -24,6 +24,12 @@ dependencies {
     compileOnly  "org.openjfx:javafx-controls:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-fxml:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-graphics:18.0.2:javadoc"
+
+    // MaterialFX
+    implementation 'io.github.palexdev:materialfx:11.13.9'
+    
+    // JUnit testing 
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 }
 //-- Loads the JavaFX modules of the selected JavaFX version.
 javafx {    
@@ -35,7 +41,7 @@ application {
    mainClass = 'edu.vanier.physnics.App'
 }
 
-test {
-    exclude '**/*'
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
 }
-
