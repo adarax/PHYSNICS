@@ -105,9 +105,8 @@ public class ConservationController {
         });
         
         btnReset.setOnAction((e) -> {
-            animBackend.stop();
-            ball.setCenterX(270);
-            ball.setCenterY(270);
+            animBackend.reset();
+            ball.reset();
         });
         
     }

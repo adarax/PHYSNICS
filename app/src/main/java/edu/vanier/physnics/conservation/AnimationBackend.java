@@ -48,8 +48,9 @@ public class AnimationBackend {
         mainAnimation.play();
     }
     
-    public void stop(){
+    public void reset(){
         mainAnimation.stop();
+        mainAnimation.jumpTo(Duration.ZERO);
     }
     
     public void pause(){

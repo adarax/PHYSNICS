@@ -83,7 +83,10 @@ public class Ramp extends Path{
     public void createBallPath(Ball ball){
         ball.setCenterX(positionX-radius+ball.getRadius());
         ball.setCenterY(positionY-radius-thickness);
-        //ball.setFill(ballColor);
+        
+        ball.setInitialPositionX(positionX-radius+ball.getRadius());
+        ball.setInitialPositionY(positionY-radius-thickness);
+        
         
         //create path for the ball
         
@@ -95,10 +98,9 @@ public class Ramp extends Path{
         ArcTo ballArc = new ArcTo();
         ballArc.setX(positionX+radius-ball.getRadius());
         ballArc.setY(positionY-radius-thickness);
-        //I dont understand how this works
         ballArc.setRadiusX(radius-ball.getRadius());
         ballArc.setRadiusY(radius-ball.getRadius());
-        //ballArc.setXAxisRotation(180);
+        
         
         Path ballPath = new Path();
         ballPath.getElements().add(initialBallPos);
