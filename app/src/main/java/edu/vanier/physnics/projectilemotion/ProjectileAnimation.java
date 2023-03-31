@@ -51,13 +51,15 @@ public class ProjectileAnimation {
          * Use a scale of 10 (1560px = 156 meters)
          * So grab the values and X10
          */
+        
+        
         // Sets a point on the arc (in this case the max height or middle of the arc)
         quadTo.setControlX(xDisplacementPX / 2);
         quadTo.setControlY(maxHeightPX);
         
         //Final point (final displacement)
         quadTo.setX(xDisplacementPX);
-        quadTo.setY(29);
+        quadTo.setY(800);
         path.getElements().add(moveTo);
         path.getElements().add(quadTo);
         

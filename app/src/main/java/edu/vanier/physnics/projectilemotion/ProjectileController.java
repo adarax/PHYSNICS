@@ -78,7 +78,7 @@ public class ProjectileController {
         System.out.println("Play");
         double gravityAccelMPSS = sliderGravity.getValue();
         double initialVelocityMPS = sliderInitialVelocity.getValue();
-        double launchAngleDeg = sliderLaunchAngle.getValue();
+        double launchAngleDeg = Math.toRadians(sliderLaunchAngle.getValue());
         ProjectileAnimation.ballAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
