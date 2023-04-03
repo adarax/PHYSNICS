@@ -27,8 +27,10 @@ public class ProjectileAnimation {
         double xDisplacementM = ProjectileEquations.getXdisplacement(launchAngle, initialVelocityMPS, gravityAccelMPSS);
         double flightTimeS = ProjectileEquations.getFlightTime(launchAngle, initialVelocityMPS, gravityAccelMPSS);
         
-        double maxHeightPX = maxHeightM * -10;
-        double xDisplacementPX = xDisplacementM * 10;
+        // Set the scaling from meters to pixels 
+        // TODO: Scale the y-axis 
+        double xDisplacementPX = xDisplacementM * 50;
+        double maxHeightPX = - maxHeightM;
         
 
         MoveTo moveTo = new MoveTo();
@@ -54,7 +56,7 @@ public class ProjectileAnimation {
         
         
         // Sets a point on the arc (in this case the max height or middle of the arc)
-        quadTo.setControlX(xDisplacementPX / 2);
+        quadTo.setControlX((xDisplacementPX - 50) / 2);
         quadTo.setControlY(maxHeightPX);
         
         //Final point (final displacement)
@@ -68,8 +70,10 @@ public class ProjectileAnimation {
         pathTransition.setDuration(Duration.seconds(flightTimeS));
         pathTransition.setPath(path);
         pathTransition.setNode(ball);
-        pathTransition.setCycleCount(Timeline.INDEFINITE);
-        pathTransition.setAutoReverse(true);
+        pathTransition.setCycleCount(5);
+        pathTransition.setAutoReverse(false);
         pathTransition.play();
     }
+    
+    
 }
