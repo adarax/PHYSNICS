@@ -89,9 +89,4 @@ public class BlockAnimation {
 
         animationPane.getChildren().add(floorDrawing);
     }
-
-    public void drawFreeBodyDiagram(ArrayList<Vector> forcesExperienced)
-    {
-        // Animate vectors (arrows) onto block
-    }
 }
