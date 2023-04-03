@@ -93,6 +93,8 @@ public class BlockFrontEndController {
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
 
+    private boolean isVectorShowing = false;
+    
     @FXML
     public void initialize()
     {
@@ -283,7 +285,15 @@ public class BlockFrontEndController {
 
     private void handleShowVectors()
     {
-        // Show/hide vectors
+        isVectorShowing = !isVectorShowing;
+        
+        if (isVectorShowing)
+        {
+            topBlock.drawFreeBodyDiagram(paneAnimation);
+            bottomBlock.drawFreeBodyDiagram(paneAnimation);
+        }
+        
+        // Otherwise clear FBD
     }
 
     // Might not be needed
