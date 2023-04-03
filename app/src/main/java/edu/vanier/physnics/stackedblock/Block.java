@@ -2,6 +2,7 @@ package edu.vanier.physnics.stackedblock;
 
 import java.util.ArrayList;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -193,6 +194,41 @@ public class Block extends StackPane {
         return (int) (7 * Math.log(this.drawingHeight));
     }
 
+    /**
+     * Using arrow shapes, draw the vectors affecting the block.
+     * 
+     * @param animationPane
+     */
+    public void drawFreeBodyDiagram(Pane animationPane)
+    {
+        // Animate vectors (arrows) onto block
+        
+        // TODO: figure out how to get position of rectangle
+        // Possible fix: Use getters and setters of position once that value
+        //               gets determined in blockAnimation
+//        double startPositionX = blockDrawing.getLayoutX();
+//        double startPositionY = blockDrawing.getLayoutY();
+        
+        
+        
+//        System.out.println(startPositionX);
+//        System.out.println(startPositionY);
+        
+//        double endPositionX = startPositionX + 320;
+//        double endPositionY = startPositionY;
+        
+        double startPositionX = 100;
+        double startPositionY = 100;
+
+        double endPositionX = startPositionX + 320;
+        double endPositionY = startPositionY;
+        
+        double arrowHeadSize = 50;
+        
+        Arrow vector = new Arrow(startPositionX, startPositionY, endPositionX, endPositionY, arrowHeadSize);
+        
+        animationPane.getChildren().addAll(vector);
+    }
     
     // TODO: no need for this in release, it's just for testing
     @Override
