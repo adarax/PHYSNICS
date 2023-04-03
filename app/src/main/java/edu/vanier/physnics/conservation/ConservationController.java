@@ -98,7 +98,9 @@ public class ConservationController {
     private Text textMass;
     private Text textg;
     
-    boolean friction;
+    private boolean friction;
+    
+    private Ramp ramp;
     
     @FXML
     public void initialize(){
@@ -116,10 +118,13 @@ public class ConservationController {
         });
         
         btnReset.setOnMouseClicked((e) -> {
-            animBackend.reset();
-            ball.reset();
+            resetBall();
         });
         
+        btnGraph.setOnMouseClicked((e) -> {
+            //open graph window
+        });
+             
         sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
                 mass = sliderMass.getValue();
@@ -147,28 +152,27 @@ public class ConservationController {
         
         checkBoxFriction.setOnAction((e) -> {
             friction = !friction;
-            System.out.println(friction);
+            
         });
         
     }
     
     public void setup(){
+        //initialize the animation backend
+        animBackend = new AnimationBackend();
+        
+        //setup color of the ramp and the ball
+        rampColor = Color.BLACK;
+        ballColor = Color.RED;
+        
         //initialize the ball and ramp
         ball = new Ball(20, ballColor);
         
         //no friction on initialize
         friction = false;
         
-        //setup color of the ramp and the ball
-        rampColor = Color.BLACK;
-        ballColor = Color.RED;
-        
-        //initialize the animation backend
-        animBackend = new AnimationBackend();
-        
-        
         //draw the ramp
-        Ramp ramp = new Ramp(500, 20, width/2, height/2+300, rampColor);
+        ramp = new Ramp(500, 20, width/2, height/2+300, rampColor);
         
         //set the path of the ball
         ramp.createBallPath(ball);
@@ -250,5 +254,15 @@ public class ConservationController {
         }
             
         return Double.parseDouble(value);
+    }
+    
+    private void resetBall(){
+        animBackend.reset();
+        paneAnimation.getChildren().remove(ball);
+        ball = null;
+        ball = new Ball(20, ballColor);
+        ramp.createBallPath(ball);
+        paneAnimation.getChildren().add(ball);
+            
     }
 }

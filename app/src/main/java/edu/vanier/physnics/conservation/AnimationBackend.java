@@ -64,7 +64,8 @@ public class AnimationBackend {
     public void reset(){
         playing = false;
         mainAnimation.stop();
-        mainAnimation.jumpTo(Duration.ZERO);
+        mainAnimation = null;
+       
     }
     
     public void pause(){

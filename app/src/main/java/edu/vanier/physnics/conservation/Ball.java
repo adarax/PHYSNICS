@@ -18,9 +18,6 @@ public class Ball extends Circle{
     private double currentHeightMeters;
     private double massKilograms;
     
-    private double initialPositionX;
-    private double initialPositionY;
-    
     private Path ballPath;
     
     public Ball(double radius, Color ballColor){
@@ -32,16 +29,8 @@ public class Ball extends Circle{
         this.setCenterX(x);
         this.setCenterY(y);
         
-        initialPositionX = x;
-        initialPositionY = y;
-        
         this.setRadius(radius);
         this.setFill(color);
-    }
-    
-    public void reset(){
-        this.setCenterX(initialPositionX);
-        this.setCenterY(initialPositionY);
     }
 
     public double getCurrentVelocity() {
@@ -99,22 +88,4 @@ public class Ball extends Circle{
     public void setBallPath(Path ballPath) {
         this.ballPath = ballPath;
     }
-
-    public double getInitialPositionX() {
-        return initialPositionX;
-    }
-
-    public void setInitialPositionX(double initialPositionX) {
-        this.initialPositionX = initialPositionX;
-    }
-
-    public double getInitialPositionY() {
-        return initialPositionY;
-    }
-
-    public void setInitialPositionY(double initialPositionY) {
-        this.initialPositionY = initialPositionY;
-    }
-    
-    
 }

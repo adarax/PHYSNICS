@@ -21,6 +21,9 @@ public class Ramp extends Path{
     private double positionX;
     private double positionY;
     private Color rampColor;
+    
+    private double initialBallPositionX;
+    private double initialBallPositionY;
 
     public Ramp(double radius, double thickness, double positionX, double positionY, Color rampColor) {
         this.radius = radius;
@@ -84,8 +87,8 @@ public class Ramp extends Path{
         ball.setCenterX(positionX-radius+ball.getRadius());
         ball.setCenterY(positionY-radius-thickness);
         
-        ball.setInitialPositionX(positionX-radius+ball.getRadius());
-        ball.setInitialPositionY(positionY-radius-thickness);
+        initialBallPositionX = positionX-radius+ball.getRadius();
+        initialBallPositionY = positionY-radius-thickness;
         
         
         //create path for the ball
@@ -108,6 +111,7 @@ public class Ramp extends Path{
         ball.setBallPath(ballPath);
         
     }
+    
 
     public double getRadius() {
         return radius;
