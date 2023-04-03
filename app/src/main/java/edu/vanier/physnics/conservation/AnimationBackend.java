@@ -23,9 +23,11 @@ public class AnimationBackend {
     private Transition mainAnimation;
     private double cycleTime;
     
+    private boolean playing;
+    
     public AnimationBackend(){
         ballPath = new Path();
-       
+        playing = false;
     }
     
     public void createAnimation(Ball ball, double height, double g){
@@ -47,11 +49,20 @@ public class AnimationBackend {
         mainAnimation = ballCurve;
     }
     
-    public void play(){
-        mainAnimation.play();
+    public void play(Ball ball, double height, double g){
+        if(playing){
+            mainAnimation.play();
+        }
+        else{
+            createAnimation(ball,height,g);
+            mainAnimation.play();
+        }
+        playing = true;
+        
     }
     
     public void reset(){
+        playing = false;
         mainAnimation.stop();
         mainAnimation.jumpTo(Duration.ZERO);
     }
