@@ -26,6 +26,7 @@ public class App extends Application {
         mainMenu.setScene(scene);        
         mainMenu.setMaximized(true);
         mainMenu.sizeToScene();
+        mainMenu.setFullScreen(true);
        
         mainMenu.show();
     }

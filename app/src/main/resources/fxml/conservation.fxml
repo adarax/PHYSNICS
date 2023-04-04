@@ -63,7 +63,7 @@
                   <Insets left="50.0" top="15.0" />
                </VBox.margin>
             </ChoiceBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of the block (kg)" wrappingWidth="235.99609375">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of the ball (kg)" wrappingWidth="235.99609375">
                <font>
                   <Font size="18.0" />
                </font>
