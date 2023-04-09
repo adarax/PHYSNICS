@@ -5,7 +5,9 @@
  */
 package edu.vanier.physnics.UCMSimulation;
 
+import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
@@ -14,6 +16,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -60,12 +63,16 @@ public class UCMController extends Stage{
     Text forceText;
     @FXML
     Pane paneUCMSimulate;
+    @FXML
+    TextArea UCMAddInfo;
+    Timeline timeline;
     
     Car car = new Car();
     Path path1 = new Path();
     Path path2 = new Path();
     PathTransition pathTransitionCircle = new PathTransition();
     Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
+    Circle center = new Circle(250, 250, 2, Color.RED);
     Group group = new Group();    
     
     @FXML
@@ -74,6 +81,7 @@ public class UCMController extends Stage{
         submitSimulation();
         setUp();
     }
+    
     
     @FXML
     public double retrieveRadiusTextField(){
@@ -167,12 +175,12 @@ public class UCMController extends Stage{
         massSlider.setValue(10);
         speedSlider.setValue(10);
         useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
-        Circle center = new Circle(250, 250, 2, Color.RED);
         paneUCMSimulate.getChildren().add(center);  
         setSliders();
         pause();
         play();
         reset();
+        updateInfo();
     }
     
     public void revolveCar(){      
@@ -189,11 +197,10 @@ public class UCMController extends Stage{
         pathTransitionCircle.setAutoReverse(false);
         pathTransitionCircle.setInterpolator(Interpolator.LINEAR);      
 
-        Point2D accelVector = new Point2D(300, 300);
 
         
         path2 = createEllipsePath(450, 250, 200, 200, 0);
-        group.getChildren().addAll(rectTest, path2, accelVector);                
+        group.getChildren().addAll(rectTest, path2);                
         paneUCMSimulate.getChildren().add(group);
         
         pathTransitionCircle.play();
@@ -201,6 +208,7 @@ public class UCMController extends Stage{
     
     private Path createEllipsePath(double centerX, double centerY, double radiusX, double radiusY, double rotate)
     {
+        //https://stackoverflow.com/questions/14171856/javafx-2-circle-path-for-animation
         ArcTo arcTo = new ArcTo();
         arcTo.setX(centerX - radiusX + 1); // to simulate a full 360 degree celcius circle.
         arcTo.setY(centerY - radiusY);
@@ -236,14 +244,14 @@ public class UCMController extends Stage{
     
     public void linkSliderToTextField(Slider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(slider.getValue()));
+            textfield.setText(String.valueOf(round(slider.getValue())));
             useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
         });
     }
     
     public void linkSpeedSliderToTextField(Slider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(slider.getValue()));
+            textfield.setText(String.valueOf(round(slider.getValue())));
             useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
             pathTransitionCircle.setRate(0.1*car.getSpeed());
         });
@@ -275,13 +283,32 @@ public class UCMController extends Stage{
         System.out.println("Printing: " 
                             + "\nRadius: " + radius
                             + "\nSpeed: " + speed
-                            + "\nMass: " +mass);
+                            + "\nMass: " +round(mass));
 
         car.setMass(mass);
         car.setSpeed(speed);
         car.setRadius(radius);
 
-        centrAccelText.setText(String.valueOf(Formulas.calculateAccelerationCentr(car)));
-        forceText.setText(String.valueOf(Formulas.calculateForce(car)));    
+        System.out.println(round(mass));
+        
+        centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentr(car))));
+        forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));    
+    }
+    
+    public double round(double value){
+        //https://stackoverflow.com/questions/5710394/how-do-i-round-a-double-to-two-decimal-places-in-java
+        double valueToRound = Math.round(value*100.00);
+        valueToRound = valueToRound/100.00;
+        return valueToRound;
+    }
+    
+    public void updateInfo(){
+    //https://www.reddit.com/r/javahelp/comments/kaloto/any_of_you_know_how_to_update_a_javafx_or_fxml/ 
+    timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> { System.out.println(getAngle()); })); 
+    timeline.setCycleCount(Animation.INDEFINITE);    
+    }
+    
+    public double getAngle(){
+        return Math.atan((rectTest.getLayoutY()-center.getCenterY())/rectTest.getLayoutX()-center.getCenterX());
     }
 }

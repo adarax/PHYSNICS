@@ -110,7 +110,7 @@
             <Button fx:id="pauseButton" layoutX="213.0" layoutY="716.0" mnemonicParsing="false" text="Pause" />
             <Button fx:id="playButton" layoutX="336.0" layoutY="716.0" mnemonicParsing="false" text="Play" />
             <Button fx:id="resetButton" layoutX="456.0" layoutY="716.0" mnemonicParsing="false" text="Reset" />
-            <TextArea layoutX="741.0" layoutY="564.0" prefHeight="189.0" prefWidth="327.0" />
+            <TextArea fx:id="UCMAddInfo" layoutX="741.0" layoutY="564.0" prefHeight="189.0" prefWidth="327.0" />
             <Text layoutX="741.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Information:" />
             <Text layoutX="733.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parameters" textAlignment="CENTER">
                <font>
