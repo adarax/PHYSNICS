@@ -19,7 +19,9 @@ import javafx.util.Duration;
  */
 public class ProjectileAnimation {
     
-    public static void ballAnimation(Circle ball, double launchAngle, double gravityAccelMPSS, double initialVelocityMPS) {
+    PathTransition pathTransition = new PathTransition();
+    
+    public void playAnimation(Circle ball, double launchAngle, double gravityAccelMPSS, double initialVelocityMPS) {
         
         Path path = new Path();
         
@@ -65,14 +67,14 @@ public class ProjectileAnimation {
         path.getElements().add(moveTo);
         path.getElements().add(quadTo);
         
-        PathTransition pathTransition = new PathTransition();
-        
         pathTransition.setDuration(Duration.seconds(flightTimeS));
         pathTransition.setPath(path);
         pathTransition.setNode(ball);
-        pathTransition.setCycleCount(5);
-        pathTransition.setAutoReverse(false);
         pathTransition.play();
+    }
+    
+    public void pauseAnimation() {
+        pathTransition.pause();
     }
     
     
