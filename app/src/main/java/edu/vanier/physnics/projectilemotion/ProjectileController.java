@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.MoveTo;
 
 /**
  * Instantiates the FXML UI controls and shapes to be used in the animation.
@@ -71,9 +72,15 @@ public class ProjectileController {
     @FXML
     private Circle projectileBall;
     
+    ProjectileAnimation animation = new ProjectileAnimation();
     
-    // Event handlers for the action events.
-    public void handlePlay(MouseEvent e) {
+    /**
+     * Plays the animation. Gets the values from sliders, and uses them as
+     * parameters for the animation.
+     * 
+     * @param leftClick 
+     */
+    public void handlePlay(MouseEvent leftClick) {
         // Play the simulation
         System.out.println("Play");
         double gravityAccelMPSS = sliderGravity.getValue();
@@ -81,15 +88,23 @@ public class ProjectileController {
         double launchAngleDeg = sliderLaunchAngle.getValue();
         
         System.out.println(ProjectileEquations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS));
-        ProjectileAnimation.ballAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
+        animation.playAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
-    public void handlePause(MouseEvent e) {
+    public void handlePause(MouseEvent leftClick) {
         // Pause the simulation
+        animation.pauseAnimation();
     }
-
-    public void handleReset(MouseEvent e) {
-        // Reset the simulation
+    
+    
+    /**
+     * Resets the the ball back to the default position on leftClick.
+     * 
+     * @param leftClick  
+     */
+    public void handleReset(MouseEvent leftClick) {
+        projectileBall.setCenterX(0);
+        projectileBall.setCenterY(0);
     }
 
     public void handleHelp(MouseEvent e) {
@@ -136,16 +151,16 @@ public class ProjectileController {
             // Change the force of gravity
         });
 
-        buttonPlay.setOnMouseClicked(e -> {
-            handlePlay(e);
+        buttonPlay.setOnMouseClicked(leftClick -> {
+            handlePlay(leftClick);
         });
 
-        buttonReset.setOnMouseClicked(e -> {
-            // Calls handleReset
+        buttonReset.setOnMouseClicked(leftClick -> {
+            handleReset(leftClick);
         });
 
-        buttonPause.setOnMouseClicked(e -> {
-            // Calls handlePause
+        buttonPause.setOnMouseClicked(leftClick -> {
+            handlePause(leftClick);
         });
 
     }
