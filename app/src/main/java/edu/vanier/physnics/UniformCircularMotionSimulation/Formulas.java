@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.vanier.physnics.UCMSimulation;
+package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 /**
  *
@@ -11,7 +11,7 @@ package edu.vanier.physnics.UCMSimulation;
  */
 public class Formulas {
     
-    public static double calculateAccelerationCentr(Car car){
+    public static double calculateAccelerationCentripetal(Car car){
         double accel = car.getSpeed()*car.getSpeed()/car.getRadius();
         car.setAccelerationcentr(accel);
         return accel;

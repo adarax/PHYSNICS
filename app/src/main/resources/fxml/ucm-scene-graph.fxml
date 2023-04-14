@@ -92,7 +92,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Pane fx:id="paneUCMSimulate" layoutX="14.0" layoutY="47.0" prefHeight="453.0" prefWidth="543.0" />
+            <Pane fx:id="paneSimulate" layoutX="14.0" layoutY="47.0" prefHeight="453.0" prefWidth="543.0" />
             <Slider fx:id="radiusSlider" layoutX="743.0" layoutY="134.0" prefHeight="14.0" prefWidth="300.0" />
             <Slider fx:id="speedSlider" layoutX="743.0" layoutY="243.0" prefHeight="14.0" prefWidth="300.0" />
             <Slider fx:id="massSlider" layoutX="743.0" layoutY="346.0" prefHeight="14.0" prefWidth="300.0" />

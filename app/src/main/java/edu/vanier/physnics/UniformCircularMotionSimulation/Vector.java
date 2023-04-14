@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.vanier.physnics.UCMSimulation;
+package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -32,6 +32,7 @@ public class Vector {
         (angle+157), 7);
         vectorHeadRight = setLine(vectorHeadRight, vectorBody.getEndX(), vectorBody.getEndY(),
         (angle+203), 7);
+        
         //root.getChildren().add(line1);
     }
   
@@ -44,7 +45,14 @@ public class Vector {
         line.setStartY(startY);    
         rotateVectorPart(line, startX, startY, angle, length);
         line.setStrokeWidth(3);
+        line.setOpacity(0.5);
         return line;
+    }
+    
+    public void setOpacity(double mass){
+        vectorBody.setOpacity(0.05*mass);
+        vectorHeadLeft.setOpacity(0.05*mass);
+        vectorHeadRight.setOpacity(0.05*mass);
     }
     
     public void rotateVector(double angle){
@@ -59,7 +67,7 @@ public class Vector {
         line.setEndX(startX+length*Math.cos(Math.toRadians(angle)));
         line.setEndY(startY-length*Math.sin(Math.toRadians(angle)));        
     }
-    
+
     public double getStartX() {
         return this.startX;
     }

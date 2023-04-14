@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.vanier.physnics.UCMSimulation;
+package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -37,7 +37,7 @@ import javafx.util.Duration;
  *
  * @author Admin
  */
-public class UCMController extends Stage{
+public class Controller extends Stage{
         
     @FXML
     Button pauseButton;
@@ -64,7 +64,7 @@ public class UCMController extends Stage{
     @FXML
     Text forceText;
     @FXML
-    Pane paneUCMSimulate;
+    Pane paneSimulate;
     @FXML
     Text angleTextField;
     @FXML
@@ -91,12 +91,28 @@ public class UCMController extends Stage{
     AnimationTimer timerAngle = new AnimationTimer() {
         @Override
         public void handle(long l) {
-            double coordX = v.getVectorBody().getTranslateX();
-            double coordY = v.getVectorBody().getTranslateY();
-            double angle = Math.atan(coordY/coordX*180/Math.PI);
+            double coordinateX = v.getVectorBody().getTranslateX();
+            double coordinateY = center.getRadius()-v.getVectorBody().getTranslateY();
+            double angle = Math.atan((coordinateY/coordinateX))*180/Math.PI;
+            if (coordinateX > 0) {
+                if (coordinateY > 0) {
+                    angle = Math.abs(angle);
+                }
+                else{
+                    angle = 360-Math.abs(angle);
+                }
+            }
+            else{
+                if (coordinateY > 0) {
+                    angle = 180-Math.abs(angle);
+                }
+                else{
+                    angle = 180+Math.abs(angle);
+                }            
+            }           
             angleTextField.setText(String.valueOf(angle));
-            angleTextField.setText(String.valueOf(Math.cos(angle)*Double.valueOf(centrAccelText.getText())));
-            angleTextField.setText(String.valueOf(Math.sin(angle)*Double.valueOf(centrAccelText.getText())));
+            accelXTextField.setText(String.valueOf(-Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText())));
+            accelYTextField.setText(String.valueOf(-Math.sin(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText())));
         }
     };
     
@@ -112,35 +128,35 @@ public class UCMController extends Stage{
     
     @FXML
     public double retrieveRadiusTextField(){
-        double d = 0;
+        double radius = 0;
         try {
-            d = Double.valueOf(radiusTextField.getText());
+            radius = Double.valueOf(radiusTextField.getText());
         } catch (Exception e) {
             System.out.println("Error");
         }
-        return d;
+        return radius;
     }
     
     @FXML
     public double retrieveSpeedTextField(){
-        double d = 0;
+        double speed = 0;
         try {
-            d = Double.valueOf(speedTextField.getText());
+            speed = Double.valueOf(speedTextField.getText());
         } catch (Exception e) {
             System.out.println("Error");
         }
-        return d;
+        return speed;
     }
 
     @FXML
     public double retrieveMassTextField(){
-        double d = 0;
+        double mass = 0;
         try {
-            d = Double.valueOf(massTextField.getText());
+            mass = Double.valueOf(massTextField.getText());
         } catch (Exception e) {
             System.out.println("Error");
         }
-        return d;
+        return mass;
     }
     
     @FXML
@@ -210,14 +226,14 @@ public class UCMController extends Stage{
         massSlider.setValue(10);
         speedSlider.setValue(10);
         useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
-        paneUCMSimulate.getChildren().add(center);  
+        paneSimulate.getChildren().add(center);  
         setSliders();
         pause();
         play();
         reset();
         updateInfo();
         v = new Vector(250, 200, 270);
-        paneUCMSimulate.getChildren().add(group);
+        paneSimulate.getChildren().add(group);
     }
     
     public void revolveCar(){      
@@ -285,10 +301,10 @@ public class UCMController extends Stage{
         setSliderRange(speedSlider, 0, 30);
         
         linkSliderToTextField(radiusSlider, radiusTextField);
-        linkSliderToTextField(massSlider, massTextField);
+        linkMassSliderToTextField(massSlider, massTextField);
         linkSpeedSliderToTextField(speedSlider, speedTextField);
         
-        linkTextFieldToSlider(massSlider, massTextField);
+        linkMassTextFieldToSlider(massSlider, massTextField);
         linkTextFieldToSlider(radiusSlider, radiusTextField);
         linkSpeedTextFieldToSlider(speedSlider, speedTextField);
     }
@@ -308,6 +324,14 @@ public class UCMController extends Stage{
         });
     }
 
+    public void linkMassSliderToTextField(Slider slider, TextField textfield){
+        slider.setOnMouseDragged((event) -> {
+            textfield.setText(String.valueOf(round(slider.getValue())));
+            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
+            v.setOpacity(Double.valueOf(textfield.getText()));
+        });
+    }
+
     public void linkTextFieldToSlider(Slider slider, TextField textfield){
         textfield.setOnKeyTyped((event) -> {
             slider.setValue(Double.valueOf(textfield.getText()));
@@ -320,6 +344,14 @@ public class UCMController extends Stage{
             slider.setValue(Double.valueOf(textfield.getText()));
             useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
             pathTransitionCircle.setRate(0.1*car.getSpeed());
+        });
+    }
+
+    public void linkMassTextFieldToSlider(Slider slider, TextField textfield){
+        textfield.setOnKeyTyped((event) -> {
+            slider.setValue(Double.valueOf(textfield.getText()));
+            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+            v.setOpacity(Double.valueOf(textfield.getText()));
         });
     }
 
@@ -342,7 +374,7 @@ public class UCMController extends Stage{
 
         System.out.println(round(mass));
         
-        centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentr(car))));
+        centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
         forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));    
     }
     
