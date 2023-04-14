@@ -78,7 +78,7 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
     
-   
+    Stage currentStage;
     
    
     //values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
@@ -121,6 +121,7 @@ public class ConservationController {
     
     private Ramp ramp;
     
+   
     @FXML
     public void initialize(){
         
@@ -149,7 +150,7 @@ public class ConservationController {
         });
         
         buttonHome.setOnMouseClicked((e) -> {        
-                openMainWindow();
+            openMainWindow();
         });
              
         sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
@@ -225,8 +226,8 @@ public class ConservationController {
         initialHeight = 10;
         g = 9.8;
         
-        sliderMass.setValue(10);
-        sliderHeight.setValue(10);
+        sliderMass.setValue(mass);
+        sliderHeight.setValue(initialHeight);
         
         ball.setMass(mass);
         
@@ -296,6 +297,20 @@ public class ConservationController {
     }
     
     private void openMainWindow() {
+        Stage stage = (Stage) paneAnimation.getScene().getWindow();
         
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
+        MainMenuController mwc = new MainMenuController(stage);
+        loader.setController(mwc);
+        
+        Scene scene = null;
+         try {
+             scene = new Scene(loader.load());
+         } catch (IOException ex) {
+            System.out.println("Main stage could not be opened");
+         }
+         stage.setScene(scene);
+        
+        stage.show();
     }
 }

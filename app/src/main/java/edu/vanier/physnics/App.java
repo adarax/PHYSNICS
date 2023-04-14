@@ -34,15 +34,13 @@ public class App extends Application {
         this.stage.setMaximized(true);
         this.stage.sizeToScene();
         this.stage.setFullScreen(true);
+        this.stage.getIcons().add(new Image("/images/app_icon.png"));
        
         this.stage.show();
         
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.sizeToScene();
-        stage.getIcons().add(new Image("/images/app_icon.png"));
-        stage.setFullScreen(true);
-        stage.show();
+        
+        
+        
 
     }
     
