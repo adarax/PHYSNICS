@@ -38,7 +38,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -110,7 +109,6 @@
             <Button fx:id="pauseButton" layoutX="213.0" layoutY="716.0" mnemonicParsing="false" text="Pause" />
             <Button fx:id="playButton" layoutX="336.0" layoutY="716.0" mnemonicParsing="false" text="Play" />
             <Button fx:id="resetButton" layoutX="456.0" layoutY="716.0" mnemonicParsing="false" text="Reset" />
-            <TextArea fx:id="UCMAddInfo" layoutX="741.0" layoutY="564.0" prefHeight="189.0" prefWidth="327.0" />
             <Text layoutX="741.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Information:" />
             <Text layoutX="733.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parameters" textAlignment="CENTER">
                <font>
@@ -118,6 +116,12 @@
                </font>
             </Text>
             <Button fx:id="submitButton" layoutX="878.0" layoutY="500.0" mnemonicParsing="false" text="Submit" />
+            <Text layoutX="738.0" layoutY="593.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Angle (Degrees)" />
+            <Text fx:id="angleTextField" layoutX="997.0" layoutY="593.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="743.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ax (N)" />
+            <Text layoutX="743.0" layoutY="641.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ay (N)" />
+            <Text fx:id="accelXTextField" layoutX="997.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="accelYTextField" layoutX="997.0" layoutY="648.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
          </children>
       </Pane>
   </children>

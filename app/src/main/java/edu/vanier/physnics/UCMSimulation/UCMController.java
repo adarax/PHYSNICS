@@ -6,6 +6,7 @@
 package edu.vanier.physnics.UCMSimulation;
 
 import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
@@ -14,6 +15,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
@@ -64,16 +66,33 @@ public class UCMController extends Stage{
     @FXML
     Pane paneUCMSimulate;
     @FXML
-    TextArea UCMAddInfo;
+    Text angleTextField;
     Timeline timeline;
     
     Car car = new Car();
     Path path1 = new Path();
     Path path2 = new Path();
-    PathTransition pathTransitionCircle = new PathTransition();
+    Path path3 = new Path();
+    Path path4 = new Path();
     Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
     Circle center = new Circle(250, 250, 2, Color.RED);
     Group group = new Group();    
+    Vector v;
+    PathTransition pathTransitionCircle = new PathTransition();
+    PathTransition pathTransitionCircle2 = new PathTransition();
+    PathTransition pathTransitionCircle3 = new PathTransition();
+    PathTransition pathTransitionCircle4 = new PathTransition();
+
+    AnimationTimer timerAngle = new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+            double coordX = v.getVectorBody().getTranslateX();
+            double coordY = v.getVectorBody().getTranslateY();
+            angleTextField.setText(String.valueOf(Math.atan(coordY/coordX)*180/Math.PI));
+        }
+    };
+    
+    
     
     @FXML
     void initialize(){
@@ -124,6 +143,9 @@ public class UCMController extends Stage{
             playButton.setDisable(false);
             resetButton.setDisable(false);
             pathTransitionCircle.pause();
+            pathTransitionCircle2.pause();
+            pathTransitionCircle3.pause();
+            pathTransitionCircle4.pause();
         });
     }
     
@@ -135,6 +157,9 @@ public class UCMController extends Stage{
             pauseButton.setDisable(false);
             resetButton.setDisable(false);
             pathTransitionCircle.play();
+            pathTransitionCircle2.play();
+            pathTransitionCircle3.play();
+            pathTransitionCircle4.play();
         });
     }
 
@@ -146,7 +171,7 @@ public class UCMController extends Stage{
             pauseButton.setDisable(true);
             playButton.setDisable(true);
             submitButton.setDisable(false);
-            group.getChildren().removeAll(rectTest, path1);
+            group.getChildren().clear();
         });
     }    
     
@@ -158,8 +183,10 @@ public class UCMController extends Stage{
             resetButton.setDisable(false);
             playButton.setDisable(true);
             submitButton.setDisable(true);
-            pathTransitionCircle.setDuration(Duration.seconds(20/car.getSpeed()));            
+            pathTransitionCircle.setRate(0.1*car.getSpeed());
             revolveCar();
+            timerAngle.start();
+
         });
     }
     
@@ -181,29 +208,45 @@ public class UCMController extends Stage{
         play();
         reset();
         updateInfo();
+        v = new Vector(250, 200, 270);
+        paneUCMSimulate.getChildren().add(group);
     }
     
     public void revolveCar(){      
-        rectTest.setLayoutX(200);
-        rectTest.setLayoutY(160); 
+        v.getVectorHeadLeft().setLayoutX(-2);
+        //v.getVectorHeadLeft().setLayoutY(0);
+        v.getVectorHeadRight().setLayoutX(2);
+        //v.getVectorHeadRight().setLayoutY(0);
         
-        path1 = createEllipsePath(250, 90, 200, 200, 0);
-        pathTransitionCircle = new PathTransition();
+        path1 = createEllipsePath(450, 250, 200, 200, 0);
+        path2 = createEllipsePath(430, 250, 180, 180, 0);
+        path3 = createEllipsePath(410, 250, 160, 160, 0);
+        path4 = createEllipsePath(410, 250, 160, 160, 0);
+        
+        pathTransitionCircle = createPathTransitionCircle(path1, rectTest);
+        pathTransitionCircle2 = createPathTransitionCircle(path2, v.getVectorBody());
+        pathTransitionCircle3 = createPathTransitionCircle(path3, v.getVectorHeadRight());
+        pathTransitionCircle4 = createPathTransitionCircle(path4, v.getVectorHeadLeft());
+                
+        group.getChildren().addAll(rectTest, path1, path2, path3, v.getVectorBody(), v.getVectorHeadLeft(), v.getVectorHeadRight());                
+        v.getVectorHeadLeft().setStroke(Color.RED);
+
+        pathTransitionCircle.play();
+        pathTransitionCircle2.play();
+        pathTransitionCircle3.play();
+        pathTransitionCircle4.play();
+    }
+    
+    private PathTransition createPathTransitionCircle(Path path, Node node){
+        PathTransition pathTransitionCircle = new PathTransition();
         pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));
-        pathTransitionCircle.setPath(path1);
-        pathTransitionCircle.setNode(rectTest);
+        pathTransitionCircle.setPath(path);
+        pathTransitionCircle.setNode(node);
         pathTransitionCircle.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransitionCircle.setCycleCount(Timeline.INDEFINITE);
         pathTransitionCircle.setAutoReverse(false);
-        pathTransitionCircle.setInterpolator(Interpolator.LINEAR);      
-
-
-        
-        path2 = createEllipsePath(450, 250, 200, 200, 0);
-        group.getChildren().addAll(rectTest, path2);                
-        paneUCMSimulate.getChildren().add(group);
-        
-        pathTransitionCircle.play();
+        pathTransitionCircle.setInterpolator(Interpolator.LINEAR);       
+        return pathTransitionCircle;
     }
     
     private Path createEllipsePath(double centerX, double centerY, double radiusX, double radiusY, double rotate)
