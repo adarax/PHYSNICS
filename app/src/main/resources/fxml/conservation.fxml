@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXSlider?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox prefHeight="117.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnMenu" mnemonicParsing="false" prefHeight="33.0" prefWidth="109.0" text="Menu">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" top="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnFile" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" text="File">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" top="50.0" />
+               </HBox.margin>
+            </Button>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <Pane fx:id="paneAnimation" prefHeight="790.0" prefWidth="1480.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="40.0" />
+         </BorderPane.margin></Pane>
+   </center>
+   <right>
+      <VBox prefHeight="980.0" prefWidth="320.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gravitational acceleration (m/s^2)" textAlignment="JUSTIFY" wrappingWidth="203.1708984375">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </Text>
+            <ChoiceBox fx:id="choiceBoxg" prefHeight="50.0" prefWidth="218.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="50.0" top="15.0" />
+               </VBox.margin>
+            </ChoiceBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mass of the ball (kg)" wrappingWidth="235.99609375">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" top="20.0" />
+               </VBox.margin>
+            </Text>
+            <MFXSlider fx:id="sliderMass" max="20.0" min="1.0" prefHeight="3.0" prefWidth="205.0">
+               <VBox.margin>
+                  <Insets left="50.0" top="40.0" />
+               </VBox.margin>
+            </MFXSlider>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Friction coefficient">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" top="40.0" />
+               </VBox.margin>
+            </Text>
+            <ChoiceBox fx:id="choiceBoxu" prefHeight="50.0" prefWidth="218.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </ChoiceBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Height of the ramp" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" top="40.0" />
+               </VBox.margin>
+            </Text>
+            <MFXSlider fx:id="sliderHeight" max="50.0" min="1.0" prefHeight="10.0" prefWidth="196.0">
+               <VBox.margin>
+                  <Insets left="50.0" top="40.0" />
+               </VBox.margin>
+            </MFXSlider>
+            <ImageView fx:id="btnGraph" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="50.0" top="75.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../images/graph_icon.png" />
+               </image>
+            </ImageView>
+            <CheckBox fx:id="checkBoxFriction" mnemonicParsing="false" prefHeight="47.0" prefWidth="139.0" text="Friction">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" top="30.0" />
+               </VBox.margin>
+            </CheckBox>
+         </children>
+         <BorderPane.margin>
+            <Insets right="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="btnPlay" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/play_button.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btnPause" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/pause_button.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btnReset" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/reset_button.png" />
+               </image>
+            </ImageView>
+            <HBox prefHeight="140.0" prefWidth="332.0" style="-fx-border-color: black;">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="1237.0" />
+               </HBox.margin>
+               <children>
+                  <ImageView fx:id="btnHelp" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="100.0" top="20.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../images/help_icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
