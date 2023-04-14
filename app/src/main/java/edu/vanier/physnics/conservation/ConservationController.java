@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -36,14 +38,13 @@ import javafx.stage.Stage;
  * @author benja
  */
 public class ConservationController {
-     @FXML
-    private Button btnFile;
+    
 
     @FXML
     private ImageView btnGraph;
 
     @FXML
-    private Button btnMenu;
+    private MenuItem menuItemQuit;
 
     @FXML
     private ImageView btnPause;
@@ -181,6 +182,10 @@ public class ConservationController {
         checkBoxFriction.setOnAction((e) -> {
             friction = !friction;
             
+        });
+        
+        menuItemQuit.setOnAction((e) -> {
+            Platform.exit();
         });
         
         

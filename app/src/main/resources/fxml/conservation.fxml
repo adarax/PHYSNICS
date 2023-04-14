@@ -2,9 +2,10 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXSlider?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -18,22 +19,32 @@
    <top>
       <HBox prefHeight="117.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnMenu" mnemonicParsing="false" prefHeight="33.0" prefWidth="109.0" text="Menu">
-               <font>
-                  <Font size="24.0" />
-               </font>
+            <MenuButton fx:id="MenuButtonMenu" mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Menu">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Projectile motion" />
+                <MenuItem mnemonicParsing="false" text="UCM" />
+                  <MenuItem mnemonicParsing="false" text="Stacked blocks" />
+                  <MenuItem fx:id="menuItemQuit" mnemonicParsing="false" text="Quit" />
+              </items>
                <HBox.margin>
                   <Insets left="20.0" top="50.0" />
                </HBox.margin>
-            </Button>
-            <Button fx:id="btnFile" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" text="File">
                <font>
                   <Font size="24.0" />
                </font>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" prefHeight="51.0" prefWidth="128.0" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
                <HBox.margin>
-                  <Insets left="20.0" top="50.0" />
+                  <Insets left="40.0" top="50.0" />
                </HBox.margin>
-            </Button>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </MenuButton>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conservation of energy">
                <font>
                   <Font size="96.0" />
