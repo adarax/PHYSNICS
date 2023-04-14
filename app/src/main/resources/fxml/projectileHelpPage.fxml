@@ -25,7 +25,7 @@
          <children>
             <ImageView fitHeight="48.0" fitWidth="199.0" GridPane.columnIndex="1">
                <image>
-                  <Image url="@../../../../../../../../../Desktop/Help%20Images/Media%20Buttons.png" />
+                  <Image url="@/images/ProjectileHelpPage/media_buttons.png" />
                </image>
                <GridPane.margin>
                   <Insets top="10.0" />
@@ -33,7 +33,7 @@
             </ImageView>
             <ImageView fitHeight="157.0" fitWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../../../../../../Desktop/Help%20Images/Sliders.png" />
+                  <Image url="@/images/ProjectileHelpPage/sliders.png" />
                </image>
                <GridPane.margin>
                   <Insets left="40.0" top="10.0" />
@@ -41,7 +41,7 @@
             </ImageView>
             <ImageView fitHeight="103.0" fitWidth="119.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
-                  <Image url="@../../../../../../../../../Desktop/Help%20Images/Graph%20Button.png" />
+                  <Image url="@/images/ProjectileHelpPage/graph_button.png" />
                </image>
                <GridPane.margin>
                   <Insets left="40.0" />
@@ -49,7 +49,7 @@
             </ImageView>
             <ImageView fitHeight="85.0" fitWidth="167.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
-                  <Image url="@../../../../../../../../../Desktop/Help%20Images/Clear%20Values%20Button.png" />
+                  <Image url="@/images/ProjectileHelpPage/clear_values_button.png" />
                </image>
                <GridPane.margin>
                   <Insets left="20.0" />
