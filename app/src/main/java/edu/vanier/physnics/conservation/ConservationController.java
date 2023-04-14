@@ -79,9 +79,6 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
     
-    Stage currentStage;
-    
-   
     //values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
     private final String[] GRAVITATIONAL_CONSTANTS = {
         "Earth: 9.8", "Moon: 1.6", "Mars: 3.7", "Venus: 8.87", "Jupiter: 24.5", "Sun: 275"};
@@ -93,9 +90,7 @@ public class ConservationController {
     private final String[] FRICTION_COEFFICIENTS = 
     {"Aluminium: 0.61", "Brass: 0.5", "Cast Iron: 0.4", "Copper: 0.53", "Steel: 0.8"};
     
-    //width and height of the animation pane
-    private double width = 1480;
-    private double height = 790;
+    
     
     //color of the ramp and the ball
     private Color rampColor;
@@ -107,7 +102,7 @@ public class ConservationController {
     //physics variables (TODO: add units to variables and rename)
     private double g; //m/s^2
     private double u; //no units
-    private double initialHeight; //m
+    private double rampHeight; //m
     private double mass; // kg
     
     //object to generate the animation of the ball
@@ -131,7 +126,7 @@ public class ConservationController {
         
         
         btnPlay.setOnMouseClicked((e) -> {
-            animBackend.play(ball, initialHeight, g);
+            animBackend.play(ball, rampHeight, g);
         });
         
         btnPause.setOnMouseClicked((e) -> {
@@ -164,8 +159,8 @@ public class ConservationController {
         
         sliderHeight.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
-                initialHeight = sliderHeight.getValue();
-                textHeight.setText("Height: " + initialHeight + " m");
+                rampHeight = sliderHeight.getValue();
+                textHeight.setText("Height: " + rampHeight + " m");
             } 
         });
         
@@ -201,13 +196,14 @@ public class ConservationController {
         ballColor = Color.RED;
         
         //initialize the ball and ramp
-        ball = new Ball(20, ballColor);
+        ball = new Ball(Settings.BALL_RADIUS, ballColor);
         
         //no friction on initialize
         friction = false;
         
         //draw the ramp
-        ramp = new Ramp(500, 20, width/2, height/2+300, rampColor);
+        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS, 
+                Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
         
         //set the path of the ball
         ramp.createBallPath(ball);
@@ -228,11 +224,11 @@ public class ConservationController {
         
         //initializes the variables
         mass = 10;
-        initialHeight = 10;
+        rampHeight = 10;
         g = 9.8;
         
         sliderMass.setValue(mass);
-        sliderHeight.setValue(initialHeight);
+        sliderHeight.setValue(rampHeight);
         
         ball.setMass(mass);
         
@@ -242,41 +238,29 @@ public class ConservationController {
     
     public void setValueIndicators(){
         //height text placed to the left of the ramp
-        textHeight = new Text("Height: " + initialHeight + " m");
-        textHeight.setFont(new Font("Times new roman", 30));
+        textHeight = new Text("Height: " + rampHeight + " m");
+        textHeight.setFont(new Font(Settings.TEXT_FONT, Settings.FONT_SIZE));
         paneAnimation.getChildren().add(textHeight);
-        textHeight.setX(50);
-        textHeight.setY(height/2);
+        textHeight.setX(Settings.HEIGHT_TEXT_POSITION_X);
+        textHeight.setY(Settings.HEIGHT_TEXT_POSITION_Y);
         
         //mass text placed on top of the ramp
         textMass = new Text("Mass of the ball: " + mass + " kg");
-        textMass.setFont(new Font("Times new roman", 30));
+        textMass.setFont(new Font(Settings.TEXT_FONT, Settings.FONT_SIZE));
         paneAnimation.getChildren().add(textMass);
-        textMass.setX(width/2-100);
-        textMass.setY(height/7);
+        textMass.setX(Settings.MASS_TEXT_POSITION_X);
+        textMass.setY(Settings.MASS_TEXT_POSITION_Y);
         
         //acceleration text placed to the right of the ramp
-        textg = new Text("Gravitational\n acceleration: " + g + " m/s^2");
-        textg.setFont(new Font("Times new roman", 25));
+        textg = new Text("Gravitational\n acceleration: \n" + g + " m/s^2");
+        textg.setFont(new Font(Settings.TEXT_FONT, Settings.FONT_SIZE));
         paneAnimation.getChildren().add(textg);
-        textg.setX(width-150);
-        textg.setY(height/4);
-        
-        //draw arrowShaft and the two points for gravitational acceleration
-        Line arrowShaft = new Line();
-        arrowShaft.setStartY(300);
-        arrowShaft.setStartX(width-75);
-        arrowShaft.setEndX(width-75);
-        arrowShaft.setEndY(height-200);
-        arrowShaft.setStrokeWidth(5);
-        
-        Line leftPoint = new Line(width-75, height-200, width-50, height-220);
-        leftPoint.setStrokeWidth(5);
-        
-        Line rightPoint = new Line(width-75, height-200, width-100, height-220);
-        rightPoint.setStrokeWidth(5);
-        
-        paneAnimation.getChildren().addAll(arrowShaft, leftPoint, rightPoint);
+        textg.setX(Settings.ACCELERATION_TEXT_POSITION_X);
+        textg.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
+       
+        drawArrow(Settings.ARROW_POSITION_X, 
+                Settings.ARROW_POSITION_Y, Settings.ARROW_LENGTH, 
+                Settings.ARROW_THICKNESS, Settings.ARROW_POINT_WIDTH);
         
     }
     
@@ -295,7 +279,7 @@ public class ConservationController {
         animBackend.reset();
         paneAnimation.getChildren().remove(ball);
         ball = null;
-        ball = new Ball(20, ballColor);
+        ball = new Ball(Settings.BALL_RADIUS, ballColor);
         ramp.createBallPath(ball);
         paneAnimation.getChildren().add(ball);
             
@@ -317,5 +301,23 @@ public class ConservationController {
          stage.setScene(scene);
         
         stage.show();
+    }
+    
+    public void drawArrow(double posx, double posy, double length, double width, double pointWidth){
+        //draw arrowShaft and the two points for gravitational acceleration
+        Line arrowShaft = new Line();
+        arrowShaft.setStartY(posy);
+        arrowShaft.setStartX(posx);
+        arrowShaft.setEndX(posx);
+        arrowShaft.setEndY(posy+length);
+        arrowShaft.setStrokeWidth(width);
+        
+        Line leftPoint = new Line(posx, posy+length, posx+pointWidth , posy+length-pointWidth);
+        leftPoint.setStrokeWidth(width);
+        
+        Line rightPoint = new Line(posx, posy+length, posx-pointWidth , posy+length-pointWidth);
+        rightPoint.setStrokeWidth(width);
+        
+        paneAnimation.getChildren().addAll(arrowShaft, leftPoint, rightPoint);
     }
 }

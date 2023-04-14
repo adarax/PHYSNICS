@@ -30,11 +30,9 @@ public class App extends Application {
         ConservationController mwc = new ConservationController();
         loader.setController(mwc);
         
-        
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
-        
-
+       
         this.stage.setScene(scene);        
         this.stage.setMaximized(true);
         this.stage.sizeToScene();
@@ -42,18 +40,9 @@ public class App extends Application {
         this.stage.getIcons().add(new Image("/images/app_icon.png"));
        
         this.stage.show();
-        
-        
-        
-        
-
     }
     
     public static void main(String[] args) {
         launch(args);
-    }
-    
-    public static void returnToMainMenu(){
-        
     }
 }
