@@ -43,6 +43,9 @@ public class ConservationController {
 
     @FXML
     private ImageView btnReset;
+    
+    @FXML
+    private ImageView btnHelp;
 
     @FXML
     private CheckBox checkBoxFriction;
@@ -62,6 +65,7 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
     
+   
     //values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
     private final String[] gravitationalConstants = {
         "Earth: 9.8", "Moon: 1.6", "Mars: 3.7", "Venus: 8.87", "Jupiter: 24.5", "Sun: 275"};
@@ -124,6 +128,10 @@ public class ConservationController {
         btnGraph.setOnMouseClicked((e) -> {
             //open graph window
         });
+        
+        btnHelp.setOnMouseClicked((e) -> {
+        
+        });
              
         sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
@@ -154,6 +162,8 @@ public class ConservationController {
             friction = !friction;
             
         });
+        
+        
         
     }
     
