@@ -67,6 +67,11 @@ public class UCMController extends Stage{
     Pane paneUCMSimulate;
     @FXML
     Text angleTextField;
+    @FXML
+    Text accelXTextField;
+    @FXML
+    Text accelYTextField;
+    
     Timeline timeline;
     
     Car car = new Car();
@@ -88,7 +93,10 @@ public class UCMController extends Stage{
         public void handle(long l) {
             double coordX = v.getVectorBody().getTranslateX();
             double coordY = v.getVectorBody().getTranslateY();
-            angleTextField.setText(String.valueOf(Math.atan(coordY/coordX)*180/Math.PI));
+            double angle = Math.atan(coordY/coordX*180/Math.PI);
+            angleTextField.setText(String.valueOf(angle));
+            angleTextField.setText(String.valueOf(Math.cos(angle)*Double.valueOf(centrAccelText.getText())));
+            angleTextField.setText(String.valueOf(Math.sin(angle)*Double.valueOf(centrAccelText.getText())));
         }
     };
     
