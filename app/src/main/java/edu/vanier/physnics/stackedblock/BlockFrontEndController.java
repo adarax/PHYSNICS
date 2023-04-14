@@ -3,21 +3,20 @@ package edu.vanier.physnics.stackedblock;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author adarax
  */
 public class BlockFrontEndController {
-    
-    
+
     @FXML
     private MFXButton buttonClear;
 
@@ -62,7 +61,7 @@ public class BlockFrontEndController {
 
     @FXML
     private MFXToggleButton toggleShowVectors;
-    
+
     @FXML
     private ImageView buttonDarkMode;
 
@@ -77,124 +76,219 @@ public class BlockFrontEndController {
 
     @FXML
     private ImageView buttonHelp;
-    
+
+    @FXML
+    private Pane paneAnimation;
+
+    private final BlockAnimation blockAnimationHandler = new BlockAnimation();
+    private final BlockFormulas blockFormulasCalculator = new BlockFormulas();
+
+    // Basic initial setup of blocks
+    private final Block topBlock = new Block(1);
+    private final Block bottomBlock = new Block(0);
+
+    private ArrayList<MFXSlider> allSliders;
+
     private boolean isDark = false;
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
-    
-    public void handleDarkMode(MouseEvent e) {
-        if (this.isDark) {
-            // Go to light mode (on rest of app)
-            
-            buttonDarkMode.setImage(DARK_MOON);
+
+    @FXML
+    public void initialize()
+    {
+        /*
+         * Calls this after everything is rendered, which is needed because
+         * otherwise the height of the Panes is 0
+         */
+        Platform.runLater(() ->
+        {
+            // Put blocks and floor into scene on launch
+            blockAnimationHandler.drawFloor(paneAnimation);
+            updateScene();
+        });
+
+        addSliderEventHandlers();
+
+        buttonDarkMode.setOnMouseClicked(e -> handleDarkMode());
+
+        buttonClear.setOnAction(e -> handleClear());
+
+        menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
+
+        menubuttonConservation.setOnAction(e -> goToConservationOfEnergy());
+
+        menubuttonProjectile.setOnAction(e -> goToProjectileMotion());
+
+        menubuttonExit.setOnAction(e -> handleExitOfApplication());
+
+        menubuttonMainMenu.setOnAction(e ->
+        {
+            // Return to main menu
+        });
+
+        toggleShowVectors.setOnAction(e ->
+        {
+            handleShowVectors();
+        });
+
+        buttonPlay.setOnMouseClicked(e ->
+        {
+            handlePlay();
+        });
+
+        buttonPause.setOnMouseClicked(e ->
+        {
+            handlePause();
+        });
+
+        buttonReset.setOnMouseClicked(e ->
+        {
+            handleReset();
+        });
+
+        buttonHelp.setOnMouseClicked(e ->
+        {
+            handleHelp();
+        });
+    }
+
+    public void addSliderEventHandlers()
+    {
+        allSliders = new ArrayList<>() {
+            {
+                add(sliderAngleOnM1);
+                add(sliderAngleOnM2);
+                add(sliderForceOnM1);
+                add(sliderForceOnM2);
+                add(sliderFrictionFloor);
+                add(sliderFrictionM1);
+                add(sliderMassM1);
+                add(sliderMassM2);
+            }
+        };
+
+        for (MFXSlider slider : allSliders)
+        {
+            slider.setOnMouseDragged(drag -> updateScene());
         }
-        else {
+    }
+
+    public void handleDarkMode()
+    {
+        if (isDark)
+        {
+            // Go to light mode (on rest of app)
+
+            buttonDarkMode.setImage(DARK_MOON);
+        } else
+        {
             // Go to dark mode (on rest of app)
-            
+
             buttonDarkMode.setImage(LIGHT_MOON);
         }
-        
-        // Change boolean value
+
         isDark = !isDark;
     }
 
-    public void handlePlay(MouseEvent e) {
+    public void handlePlay()
+    {
         // Play the simulation
     }
 
-    public void handlePause(MouseEvent e) {
+    public void handlePause()
+    {
         // Pause the simulation
     }
 
-    public void handleReset(MouseEvent e) {
+    public void handleReset()
+    {
         // Reset the simulation
     }
 
-    public void handleHelp(MouseEvent e) {
+    public void handleHelp()
+    {
         // Open the help screen
     }
 
-    public void handleClear(MouseEvent e) {
-        // Clear the screen
+    /**
+     * Set all sliders back to their minimum values and resets the animation.
+     */
+    public void handleClear()
+    {
+        allSliders.forEach(slider ->
+        {
+            slider.setValue(slider.getMin());
+        });
+
+        handleReset();
+        updateScene();
     }
 
-    public void goToCentripetalForce(MouseEvent e) {
+    public void updateScene()
+    {
+        paneAnimation.getChildren().clear();
+
+        updateBlocks();
+
+        blockAnimationHandler.drawFloor(paneAnimation);
+        blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
+    }
+
+    public void updateBlocks()
+    {
+        topBlock.setMass(sliderMassM2.getValue());
+        bottomBlock.setMass(sliderMassM1.getValue());
+
+        topBlock.setForcesExperienced(getForcesExperienced(topBlock.getBlockNumber()));
+        bottomBlock.setForcesExperienced(getForcesExperienced(bottomBlock.getBlockNumber()));
+    }
+
+    public ArrayList<Vector> getForcesExperienced(int blockNumber)
+    {
+        return blockFormulasCalculator.determineForcesExperienced(topBlock,
+                bottomBlock,
+                sliderForceOnM1.getValue(),
+                sliderForceOnM2.getValue(),
+                sliderAngleOnM1.getValue(),
+                sliderAngleOnM2.getValue(),
+                sliderFrictionFloor.getValue(),
+                sliderFrictionM1.getValue(),
+                blockNumber);
+    }
+
+    public void handleExitOfApplication()
+    {
+
+    }
+
+    public void goToCentripetalForce()
+    {
         // Go to centripetal force screen
     }
 
-    public void goToConservationOfEnergy(MouseEvent e) {
+    public void goToConservationOfEnergy()
+    {
         // Go to conservation of energy screen
     }
 
-    public void goToMainMenu(MouseEvent e) {
+    public void goToMainMenu()
+    {
         // Go to main menu screen
     }
 
-    public void goToProjectileMotion(MouseEvent e) {
+    public void goToProjectileMotion()
+    {
         // Go to projectile motion screen
     }
-    
-    @FXML
-    public void initialize() {
-        buttonDarkMode.setOnMouseClicked(e -> handleDarkMode(e));
-        
-        // Create a setOnAction for each FXML item above
 
-        buttonClear.setOnAction(e -> {
-            // Clear the screen
-        });
+    private void handleShowVectors()
+    {
+        // Show/hide vectors
+    }
 
-        menubuttonCentripetal.setOnAction(e -> {
-            // Go to centripetal force screen
-        });
-
-        menubuttonConservation.setOnAction(e -> {
-            // Go to conservation of energy screen
-        });
-
-        menubuttonExit.setOnAction(e -> {
-            // Exit the app
-        });
-
-        menubuttonProjectile.setOnAction(e -> {
-            // Go to projectile motion screen
-        });
-
-        sliderAngleOnM1.setOnMouseDragged(e -> {
-            // Change the angle of M1
-        });
-
-        sliderAngleOnM2.setOnMouseDragged(e -> {
-            // Change the angle of M2
-        });
-
-        sliderForceOnM1.setOnMouseDragged(e -> {
-            // Change the force on M1
-        });
-
-        sliderForceOnM2.setOnMouseDragged(e -> {
-            // Change the force on M2
-        });
-
-        sliderFrictionFloor.setOnMouseDragged(e -> {
-            // Change the friction on the floor
-        });
-
-        sliderFrictionM1.setOnMouseDragged(e -> {
-            // Change the friction on M1
-        });
-
-        sliderMassM1.setOnMouseDragged(e -> {
-            // Change the mass of M1
-        });
-
-        sliderMassM2.setOnMouseDragged(e -> {
-            // Change the mass of M2
-        });
-
-        toggleShowVectors.setOnAction(e -> {
-            // Show or hide the vectors
-        });
-
+    // Might not be needed
+    public enum POSITION {
+        TOP,
+        BOTTOM
     }
 }

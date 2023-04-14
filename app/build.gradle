@@ -35,6 +35,9 @@ dependencies {
 javafx {    
     version = "18.0.2"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
+    
+    // Support for rule switch statements
+    sourceCompatibility = '14';
 }
 application {    
    // Define the main class for the application.
