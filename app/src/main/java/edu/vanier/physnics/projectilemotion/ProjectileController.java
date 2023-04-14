@@ -107,8 +107,9 @@ public class ProjectileController {
         projectileBall.setCenterY(0);
     }
 
-    public void handleHelp(MouseEvent e) {
-        // Open the help screen
+    public void handleHelp(MouseEvent leftClick) {
+        ProjectileHelpPage PHP = new ProjectileHelpPage();
+        PHP.openHelpWindow();
     }
 
     public void handleClear(MouseEvent e) {
@@ -161,6 +162,10 @@ public class ProjectileController {
 
         buttonPause.setOnMouseClicked(leftClick -> {
             handlePause(leftClick);
+        });
+        
+        buttonHelp.setOnMouseClicked(leftClick -> {
+            handleHelp(leftClick);
         });
 
     }
