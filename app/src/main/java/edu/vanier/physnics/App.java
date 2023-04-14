@@ -7,9 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import edu.vanier.physnics.mainmenu.MainMenuController;
-// import edu.vanier.physnics.stackedblock.BlockFrontEndController;   
-// import edu.vanier.physnics.conservation.ConservationController;
-// import edu.vanier.physnics.projectilemotion.ProjectileController;
 
 public class App extends Application {
     public Stage mainMenu;
@@ -23,13 +20,9 @@ public class App extends Application {
         MainMenuController mwc = new MainMenuController(mainMenu);
         loader.setController(mwc);
         
-        // ProjectileController PCC = new ProjectileController();
-        // loader.setController(PCC);
-        
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
         
-
         mainMenu.setScene(scene);        
         mainMenu.setMaximized(true);
         mainMenu.sizeToScene();
