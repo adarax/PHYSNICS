@@ -4,12 +4,21 @@
  */
 package edu.vanier.physnics.conservation;
 
+import edu.vanier.physnics.App;
+import edu.vanier.physnics.mainmenu.MainMenuController;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXSlider;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -20,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -46,6 +56,9 @@ public class ConservationController {
     
     @FXML
     private ImageView btnHelp;
+    
+    @FXML 
+    private ImageView buttonHome;
 
     @FXML
     private CheckBox checkBoxFriction;
@@ -64,6 +77,8 @@ public class ConservationController {
 
     @FXML
     private MFXSlider sliderMass;
+    
+   
     
    
     //values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
@@ -131,6 +146,10 @@ public class ConservationController {
         
         btnHelp.setOnMouseClicked((e) -> {
         
+        });
+        
+        buttonHome.setOnMouseClicked((e) -> {        
+                openMainWindow();
         });
              
         sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
@@ -274,5 +293,9 @@ public class ConservationController {
         ramp.createBallPath(ball);
         paneAnimation.getChildren().add(ball);
             
+    }
+    
+    private void openMainWindow() {
+        
     }
 }

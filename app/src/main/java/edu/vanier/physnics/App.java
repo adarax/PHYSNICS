@@ -12,15 +12,15 @@ import edu.vanier.physnics.mainmenu.MainMenuController;
 // import edu.vanier.physnics.projectilemotion.ProjectileController;
 
 public class App extends Application {
-    public Stage mainMenu;
+    public Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception
     {    
-        mainMenu = stage;
+        this.stage = stage;
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController(mainMenu);
+        MainMenuController mwc = new MainMenuController(this.stage);
         loader.setController(mwc);
         
         // ProjectileController PCC = new ProjectileController();
@@ -30,12 +30,12 @@ public class App extends Application {
         Scene scene = new Scene(root, 1920, 1080);
         
 
-        mainMenu.setScene(scene);        
-        mainMenu.setMaximized(true);
-        mainMenu.sizeToScene();
-        mainMenu.setFullScreen(true);
+        this.stage.setScene(scene);        
+        this.stage.setMaximized(true);
+        this.stage.sizeToScene();
+        this.stage.setFullScreen(true);
        
-        mainMenu.show();
+        this.stage.show();
         
         stage.setScene(scene);
         stage.setMaximized(true);
@@ -48,5 +48,9 @@ public class App extends Application {
     
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public static void returnToMainMenu(){
+        
     }
 }

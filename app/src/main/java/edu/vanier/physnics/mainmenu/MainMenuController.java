@@ -87,6 +87,7 @@ public class MainMenuController extends App {
         System.out.println("Help was requested");
     }
     
+    
     @FXML
     public void initialize() {
         /**
