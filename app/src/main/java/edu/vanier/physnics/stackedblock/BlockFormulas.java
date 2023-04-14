@@ -34,14 +34,13 @@ public class BlockFormulas {
     public Vector calculateFrictionVector(double coefficientOfFriction, double normalForceVector, Vector correspondingForceVector)
     {
         double frictionVectorMagnitude = coefficientOfFriction * normalForceVector;
-        double frictionVectorDirection = correspondingForceVector.getDirectionInDegrees() + 180;
+        double frictionVectorDirection = correspondingForceVector.getDirectionInDegrees();
+        
+        Vector resultant = new Vector(frictionVectorMagnitude, frictionVectorDirection);
 
-        if (frictionVectorDirection >= 360)
-        {
-            frictionVectorDirection -= 360;
-        }
-
-        return new Vector(frictionVectorMagnitude, frictionVectorDirection);
+        resultant.flipDirection();
+        
+        return resultant;
     }
 
     /**
