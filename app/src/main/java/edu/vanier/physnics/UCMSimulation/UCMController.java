@@ -193,7 +193,7 @@ public class UCMController extends Stage{
 
         
         path2 = createEllipsePath(450, 250, 200, 200, 0);
-        group.getChildren().addAll(rectTest, path2, accelVector);                
+        //group.getChildren().addAll(rectTest, path2, accelVector);                
         paneUCMSimulate.getChildren().add(group);
         
         pathTransitionCircle.play();
