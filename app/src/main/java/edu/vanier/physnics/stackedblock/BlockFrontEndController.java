@@ -1,15 +1,24 @@
 package edu.vanier.physnics.stackedblock;
 
+import edu.vanier.physnics.UCMSimulation.UCMController;
+import edu.vanier.physnics.conservation.ConservationController;
+import edu.vanier.physnics.mainmenu.MainMenuController;
+import edu.vanier.physnics.projectilemotion.ProjectileController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -111,44 +120,41 @@ public class BlockFrontEndController {
 
         addSliderEventHandlers();
 
-        buttonDarkMode.setOnMouseClicked(e -> handleDarkMode());
+        buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
 
-        buttonClear.setOnAction(e -> handleClear());
+        buttonClear.setOnAction(press -> handleClear());
 
-        menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
+        menubuttonCentripetal.setOnAction(press -> switchSimulation("ucm-scene-graph"));
 
-        menubuttonConservation.setOnAction(e -> goToConservationOfEnergy());
+        menubuttonConservation.setOnAction(press -> switchSimulation("conservation"));
 
-        menubuttonProjectile.setOnAction(e -> goToProjectileMotion());
+        menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
 
-        menubuttonExit.setOnAction(e -> handleExitOfApplication());
+        menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
 
-        menubuttonMainMenu.setOnAction(e ->
-        {
-            // Return to main menu
-        });
+        menubuttonExit.setOnAction(press -> handleExitOfApplication());
 
-        toggleShowVectors.setOnAction(e ->
+        toggleShowVectors.setOnAction(toggle ->
         {
             handleShowVectors();
         });
 
-        buttonPlay.setOnMouseClicked(e ->
+        buttonPlay.setOnMouseClicked(press ->
         {
             handlePlay();
         });
 
-        buttonPause.setOnMouseClicked(e ->
+        buttonPause.setOnMouseClicked(press ->
         {
             handlePause();
         });
 
-        buttonReset.setOnMouseClicked(e ->
+        buttonReset.setOnMouseClicked(press ->
         {
             handleReset();
         });
 
-        buttonHelp.setOnMouseClicked(e ->
+        buttonHelp.setOnMouseClicked(press ->
         {
             handleHelp();
         });
@@ -260,27 +266,52 @@ public class BlockFrontEndController {
 
     public void handleExitOfApplication()
     {
-
+        Platform.exit();
     }
 
-    public void goToCentripetalForce()
+    
+    public void switchSimulation(String simulationName)
     {
-        // Go to centripetal force screen
-    }
+        Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
 
-    public void goToConservationOfEnergy()
-    {
-        // Go to conservation of energy screen
-    }
+        String destination = "/fxml/" + simulationName + ".fxml";
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
+        
+        switch (simulationName)
+        {
+            case "conservation" ->
+            {
+                ConservationController conservationController = new ConservationController();
+                loader.setController(conservationController);
+            }
+            case "projectile" ->
+            {
+                ProjectileController projectileController = new ProjectileController();
+                loader.setController(projectileController);
+            }
+            case "ucm-scene-graph" ->
+            {
+                UCMController ucmController = new UCMController();
+                loader.setController(ucmController);
+            }
+            case "mainmenu" ->
+            {
+                MainMenuController menuController = new MainMenuController(currentStage);
+                loader.setController(menuController);
+            }
+            default -> System.out.println("Invalid simulation name");
+        }
 
-    public void goToMainMenu()
-    {
-        // Go to main menu screen
-    }
-
-    public void goToProjectileMotion()
-    {
-        // Go to projectile motion screen
+        try
+        {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1920, 1080);
+            currentStage.setScene(scene);
+        } catch (IOException ex)
+        {
+            System.out.println("Something went wrong changing scenes.");
+        }
     }
 
     private void handleShowVectors()
