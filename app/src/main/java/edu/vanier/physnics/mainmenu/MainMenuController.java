@@ -1,6 +1,9 @@
 package edu.vanier.physnics.mainmenu;
 
 import edu.vanier.physnics.App;
+import edu.vanier.physnics.UCMSimulation.UCMController;
+import edu.vanier.physnics.conservation.ConservationController;
+import edu.vanier.physnics.projectilemotion.ProjectileController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -34,18 +37,36 @@ public class MainMenuController extends App {
     
     @FXML
     private ImageView buttonCentripetal;
-
     
-    public void handleConservationPressed(MouseEvent e) {
-        System.out.println("Conservation of energy pressed");
-
+    public MainMenuController(Stage stage){
+        this.stage = stage;
     }
     
-    public void handleStackedBlockPressed(MouseEvent e) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
-
-        BlockFrontEndController bfec = new BlockFrontEndController();
-        loader.setController(bfec);
+    public void openNewScene(String type){
+        FXMLLoader loader = null;
+        if(type.equals("stackedblock")){
+            loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
+            BlockFrontEndController controller = new BlockFrontEndController();
+            loader.setController(controller);
+        }
+        else if(type.equals("conservation")){
+            loader = new FXMLLoader(getClass().getResource("/fxml/conservation.fxml"));
+            ConservationController controller = new ConservationController();
+            loader.setController(controller);
+        }
+        else if(type.equals("projectile")){
+            loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
+            ProjectileController controller = new ProjectileController();
+            loader.setController(controller);
+        }
+        else if(type.equals("UCM")){
+            loader = new FXMLLoader(getClass().getResource("/fxml/ucm-scene-graph.fxml"));
+            UCMController controller = new UCMController();
+            loader.setController(controller);
+        }
+       
+        
+       
         
         try {
             Parent root = loader.load();
@@ -63,15 +84,7 @@ public class MainMenuController extends App {
         stage.show();
     }
     
-    public void handleProjectilePressed(MouseEvent e) {
-        System.out.println("Projectile motion pressed");
-
-    }
-    
-    public void handleCentripetalPressed(MouseEvent e) {
-        System.out.println("Centripetal pressed");
-
-    }
+   
     
     public void handleHelpPressed(MouseEvent e) {
         System.out.println("Help was requested");
@@ -84,10 +97,10 @@ public class MainMenuController extends App {
          * actually images.
          */
         
-        buttonConservation.setOnMouseClicked(e -> handleConservationPressed(e));
-        buttonStackedBlock.setOnMouseClicked(e -> handleStackedBlockPressed(e));
-        buttonProjectile.setOnMouseClicked(e -> handleProjectilePressed(e));
-        buttonCentripetal.setOnMouseClicked(e -> handleCentripetalPressed(e));
+        buttonConservation.setOnMouseClicked(e -> {openNewScene("conservation");});
+        buttonStackedBlock.setOnMouseClicked(e -> {openNewScene("stackedblock");});
+        buttonProjectile.setOnMouseClicked(e -> {openNewScene("projectile");});
+        buttonCentripetal.setOnMouseClicked(e -> {openNewScene("UCM");});
         buttonHelp.setOnMouseClicked(e -> handleHelpPressed(e));
     }
 }

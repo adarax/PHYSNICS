@@ -20,7 +20,7 @@ public class App extends Application {
         mainMenu = stage;
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController();
+        MainMenuController mwc = new MainMenuController(mainMenu);
         loader.setController(mwc);
         
         // ProjectileController PCC = new ProjectileController();
@@ -29,21 +29,21 @@ public class App extends Application {
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
         
-<<<<<<< HEAD
+
         mainMenu.setScene(scene);        
         mainMenu.setMaximized(true);
         mainMenu.sizeToScene();
         mainMenu.setFullScreen(true);
        
         mainMenu.show();
-=======
+        
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
         stage.setFullScreen(true);
         stage.show();
->>>>>>> main
+
     }
     
     public static void main(String[] args) {

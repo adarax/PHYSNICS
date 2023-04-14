@@ -25,16 +25,16 @@ dependencies {
     compileOnly  "org.openjfx:javafx-fxml:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-graphics:18.0.2:javadoc"
 
-<<<<<<< HEAD
+
     //MaterialsFX
     implementation 'io.github.palexdev:materialfx:11.15.0'
-=======
+
     // MaterialFX
     implementation 'io.github.palexdev:materialfx:11.13.9'
     
     // JUnit testing 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
->>>>>>> main
+
 }
 //-- Loads the JavaFX modules of the selected JavaFX version.
 javafx {    
