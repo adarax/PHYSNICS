@@ -63,10 +63,7 @@ public class MainMenuController extends App {
             loader = new FXMLLoader(getClass().getResource("/fxml/ucm-scene-graph.fxml"));
             UCMController controller = new UCMController();
             loader.setController(controller);
-        }
-       
-        
-       
+        } 
         
         try {
             Parent root = loader.load();
