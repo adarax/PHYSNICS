@@ -61,12 +61,14 @@ public class BlockAnimation {
 
     public void drawBlocks(Block topBlock, Block bottomBlock)
     {
-        for (Block block : new ArrayList<Block>() {
+        ArrayList<Block> blocks = new ArrayList<Block>() {
             {
                 add(topBlock);
                 add(bottomBlock);
             }
-        })
+        };
+
+        for (Block block : blocks)
         {
             block.determineAndSetDrawingHeight();
             block.determineAndSetDrawingWidth();
