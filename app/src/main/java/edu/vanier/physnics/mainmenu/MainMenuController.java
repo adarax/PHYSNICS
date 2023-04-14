@@ -20,87 +20,100 @@ import javafx.stage.Stage;
  * @author adarax
  */
 public class MainMenuController extends App {
-    
+
     private Stage stage;
-    
+
     @FXML
     private ImageView buttonHelp;
-    
+
     @FXML
     private ImageView buttonConservation;
-    
+
     @FXML
     private ImageView buttonStackedBlock;
-    
+
     @FXML
     private ImageView buttonProjectile;
-    
+
     @FXML
     private ImageView buttonCentripetal;
-    
-    public MainMenuController(Stage stage){
+
+    public MainMenuController(Stage stage)
+    {
         this.stage = stage;
     }
-    
-    public void openNewScene(String type){
+
+    public void openNewScene(String type)
+    {
         FXMLLoader loader = null;
-        if(type.equals("stackedblock")){
+        if (type.equals("stackedblock"))
+        {
             loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
             BlockFrontEndController controller = new BlockFrontEndController();
             loader.setController(controller);
-        }
-        else if(type.equals("conservation")){
+        } else if (type.equals("conservation"))
+        {
             loader = new FXMLLoader(getClass().getResource("/fxml/conservation.fxml"));
             ConservationController controller = new ConservationController();
             loader.setController(controller);
-        }
-        else if(type.equals("projectile")){
+        } else if (type.equals("projectile"))
+        {
             loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
             ProjectileController controller = new ProjectileController();
             loader.setController(controller);
-        }
-        else if(type.equals("UCM")){
+        } else if (type.equals("UCM"))
+        {
             loader = new FXMLLoader(getClass().getResource("/fxml/ucm-scene-graph.fxml"));
             UCMController controller = new UCMController();
             loader.setController(controller);
         }
-       
-        
-       
-        
-        try {
+
+        try
+        {
             Parent root = loader.load();
             Scene scene = new Scene(root, 1920, 1080);
             stage.setScene(scene);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println("Something went wrong changing scenes.");
         }
-        
+
         stage.setMaximized(true);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
         stage.setFullScreen(true);
         stage.show();
     }
-    
-   
-    
-    public void handleHelpPressed(MouseEvent e) {
+
+    public void handleHelpPressed(MouseEvent e)
+    {
         System.out.println("Help was requested");
     }
-    
+
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
         /**
          * setOnMouseClicked() is used, not setOnAction(), since the buttons are
          * actually images.
          */
-        
-        buttonConservation.setOnMouseClicked(e -> {openNewScene("conservation");});
-        buttonStackedBlock.setOnMouseClicked(e -> {openNewScene("stackedblock");});
-        buttonProjectile.setOnMouseClicked(e -> {openNewScene("projectile");});
-        buttonCentripetal.setOnMouseClicked(e -> {openNewScene("UCM");});
+
+        buttonConservation.setOnMouseClicked(e ->
+        {
+            openNewScene("conservation");
+        });
+        buttonStackedBlock.setOnMouseClicked(e ->
+        {
+            openNewScene("stackedblock");
+        });
+        buttonProjectile.setOnMouseClicked(e ->
+        {
+            openNewScene("projectile");
+        });
+        buttonCentripetal.setOnMouseClicked(e ->
+        {
+            openNewScene("UCM");
+        });
         buttonHelp.setOnMouseClicked(e -> handleHelpPressed(e));
     }
 }
