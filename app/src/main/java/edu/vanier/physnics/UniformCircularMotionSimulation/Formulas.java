@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 package edu.vanier.physnics.UniformCircularMotionSimulation;
-
 /**
  *
  * @author Admin
  */
-public class Formulas {
-    
+class Formulas {
     public static double calculateAccelerationCentripetal(Car car){
         double accel = car.getSpeed()*car.getSpeed()/car.getRadius();
         car.setAccelerationcentr(accel);
@@ -19,7 +17,5 @@ public class Formulas {
 
     public static double calculateForce(Car car){
         return car.getAccelerationcentr()*car.getMass();
-    }
-    
-    
+    }    
 }

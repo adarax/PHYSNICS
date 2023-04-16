@@ -79,6 +79,7 @@ public class Controller extends Stage{
     Path path2 = new Path();
     Path path3 = new Path();
     Path path4 = new Path();
+    
     Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
     Circle center = new Circle(250, 250, 2, Color.RED);
     Group group = new Group();    
@@ -195,7 +196,17 @@ public class Controller extends Stage{
             pauseButton.setDisable(true);
             playButton.setDisable(true);
             submitButton.setDisable(false);
+            pathTransitionCircle.pause();
+            pathTransitionCircle2.pause();
+            pathTransitionCircle3.pause();
+            pathTransitionCircle4.pause();
             group.getChildren().clear();
+            radiusTextField.setText("25");
+            massTextField.setText("10");
+            speedTextField.setText("10");
+            radiusSlider.setValue(25);
+            massSlider.setValue(10);
+            speedSlider.setValue(10);
         });
     }    
     
@@ -207,10 +218,8 @@ public class Controller extends Stage{
             resetButton.setDisable(false);
             playButton.setDisable(true);
             submitButton.setDisable(true);
-            pathTransitionCircle.setRate(0.1*car.getSpeed());
             revolveCar();
             timerAngle.start();
-
         });
     }
     
@@ -219,10 +228,10 @@ public class Controller extends Stage{
         pauseButton.setDisable(true);
         resetButton.setDisable(true);
         playButton.setDisable(true);
-        radiusTextField.setText("5");
+        radiusTextField.setText("25");
         massTextField.setText("10");
         speedTextField.setText("10");
-        radiusSlider.setValue(5);
+        radiusSlider.setValue(25);
         massSlider.setValue(10);
         speedSlider.setValue(10);
         useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
@@ -231,7 +240,6 @@ public class Controller extends Stage{
         pause();
         play();
         reset();
-        updateInfo();
         v = new Vector(250, 200, 270);
         paneSimulate.getChildren().add(group);
     }
@@ -254,7 +262,6 @@ public class Controller extends Stage{
                 
         group.getChildren().addAll(rectTest, path1, path2, path3, v.getVectorBody(), v.getVectorHeadLeft(), v.getVectorHeadRight());                
         v.getVectorHeadLeft().setStroke(Color.RED);
-
         pathTransitionCircle.play();
         pathTransitionCircle2.play();
         pathTransitionCircle3.play();
@@ -300,19 +307,27 @@ public class Controller extends Stage{
         setSliderRange(massSlider, 0, 25);
         setSliderRange(speedSlider, 0, 30);
         
-        linkSliderToTextField(radiusSlider, radiusTextField);
+        linkRadiusSliderToTextField(radiusSlider, radiusTextField);
         linkMassSliderToTextField(massSlider, massTextField);
         linkSpeedSliderToTextField(speedSlider, speedTextField);
         
         linkMassTextFieldToSlider(massSlider, massTextField);
-        linkTextFieldToSlider(radiusSlider, radiusTextField);
+        linkRadiusTextFieldToSlider(radiusSlider, radiusTextField);
         linkSpeedTextFieldToSlider(speedSlider, speedTextField);
     }
     
-    public void linkSliderToTextField(Slider slider, TextField textfield){
+    public void linkRadiusSliderToTextField(Slider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
             textfield.setText(String.valueOf(round(slider.getValue())));
             useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
+            pathTransitionCircle.pause();
+            group.getChildren().remove(path1);
+            group.getChildren().remove(rectTest);
+            path1 = createEllipsePath(450+8*(retrieveRadiusTextField()-25), 250, 200+8*(retrieveRadiusTextField()-25), 200+8*(retrieveRadiusTextField()-25), 0);
+            group.getChildren().addAll(path1, rectTest);
+
+            pathTransitionCircle = createPathTransitionCircle(path1, rectTest);
+            pathTransitionCircle.play();
         });
     }
     
@@ -332,10 +347,17 @@ public class Controller extends Stage{
         });
     }
 
-    public void linkTextFieldToSlider(Slider slider, TextField textfield){
+    public void linkRadiusTextFieldToSlider(Slider slider, TextField textfield){
         textfield.setOnKeyTyped((event) -> {
             slider.setValue(Double.valueOf(textfield.getText()));
             useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+            pathTransitionCircle.pause();
+            group.getChildren().remove(rectTest);
+            group.getChildren().remove(path1);
+            path1 = createEllipsePath(450+8*(retrieveRadiusTextField()-25), 250, 200+8*(retrieveRadiusTextField()-25), 200+8*(retrieveRadiusTextField()-25), 0);
+            group.getChildren().addAll(path1, rectTest);
+            pathTransitionCircle = createPathTransitionCircle(path1, rectTest);
+            pathTransitionCircle.play();
         });
     }
     
@@ -383,12 +405,6 @@ public class Controller extends Stage{
         double valueToRound = Math.round(value*100.00);
         valueToRound = valueToRound/100.00;
         return valueToRound;
-    }
-    
-    public void updateInfo(){
-    //https://www.reddit.com/r/javahelp/comments/kaloto/any_of_you_know_how_to_update_a_javafx_or_fxml/ 
-    timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> { System.out.println(getAngle()); })); 
-    timeline.setCycleCount(Animation.INDEFINITE);    
     }
     
     public double getAngle(){
