@@ -10,6 +10,7 @@ package edu.vanier.physnics.UniformCircularMotionSimulation;
  * @author Admin
  */
 public class Car {
+    
     private double speed;
     private double radius;
     private double mass;

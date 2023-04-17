@@ -41,7 +41,7 @@ public class MainApp extends Application{
         }
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
-        stage.setTitle("UCM Controller");
+        stage.setTitle("Uniform Circular Motion Controller");
         stage.setFullScreen(true);
         stage.show();
     }

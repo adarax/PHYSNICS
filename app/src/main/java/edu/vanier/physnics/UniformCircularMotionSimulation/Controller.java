@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
@@ -171,6 +172,7 @@ public class Controller extends Stage{
             pathTransitionCircle2.pause();
             pathTransitionCircle3.pause();
             pathTransitionCircle4.pause();
+            timerAngle.stop();
         });
     }
     
@@ -185,6 +187,7 @@ public class Controller extends Stage{
             pathTransitionCircle2.play();
             pathTransitionCircle3.play();
             pathTransitionCircle4.play();
+            timerAngle.start();
         });
     }
 
@@ -207,6 +210,7 @@ public class Controller extends Stage{
             radiusSlider.setValue(25);
             massSlider.setValue(10);
             speedSlider.setValue(10);
+            timerAngle.stop();
         });
     }    
     
@@ -320,14 +324,15 @@ public class Controller extends Stage{
         slider.setOnMouseDragged((event) -> {
             textfield.setText(String.valueOf(round(slider.getValue())));
             useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
-            pathTransitionCircle.pause();
-            group.getChildren().remove(path1);
-            group.getChildren().remove(rectTest);
+            removePathAndNodes();
             path1 = createEllipsePath(450+8*(retrieveRadiusTextField()-25), 250, 200+8*(retrieveRadiusTextField()-25), 200+8*(retrieveRadiusTextField()-25), 0);
-            group.getChildren().addAll(path1, rectTest);
-
-            pathTransitionCircle = createPathTransitionCircle(path1, rectTest);
-            pathTransitionCircle.play();
+            path2 = createEllipsePath(430+180/25*(retrieveRadiusTextField()-25), 250, 180+180/25*(retrieveRadiusTextField()-25), 180+180/25*(retrieveRadiusTextField()-25), 0);
+            path3 = createEllipsePath(410+160/25*(retrieveRadiusTextField()-25), 250, 160+160/25*(retrieveRadiusTextField()-25), 160+160/25*(retrieveRadiusTextField()-25), 0);
+            path4 = createEllipsePath(410+160/25*(retrieveRadiusTextField()-25), 250, 160+160/25*(retrieveRadiusTextField()-25), 160+160/25*(retrieveRadiusTextField()-25), 0);
+            updateRadiusSimulation(pathTransitionCircle, path1, rectTest);
+            updateRadiusSimulation(pathTransitionCircle2, path2, v.getVectorBody());
+            updateRadiusSimulation(pathTransitionCircle3, path3, v.getVectorHeadLeft());
+            updateRadiusSimulation(pathTransitionCircle4, path4, v.getVectorHeadRight());
         });
     }
     
@@ -341,40 +346,73 @@ public class Controller extends Stage{
 
     public void linkMassSliderToTextField(Slider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(round(slider.getValue())));
-            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
-            v.setOpacity(Double.valueOf(textfield.getText()));
-        });
+                textfield.setText(String.valueOf(round(slider.getValue())));
+                useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
+                v.setOpacity(Double.valueOf(textfield.getText()));                    
+    });        
     }
 
     public void linkRadiusTextFieldToSlider(Slider slider, TextField textfield){
         textfield.setOnKeyTyped((event) -> {
-            slider.setValue(Double.valueOf(textfield.getText()));
-            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-            pathTransitionCircle.pause();
-            group.getChildren().remove(rectTest);
-            group.getChildren().remove(path1);
-            path1 = createEllipsePath(450+8*(retrieveRadiusTextField()-25), 250, 200+8*(retrieveRadiusTextField()-25), 200+8*(retrieveRadiusTextField()-25), 0);
-            group.getChildren().addAll(path1, rectTest);
-            pathTransitionCircle = createPathTransitionCircle(path1, rectTest);
-            pathTransitionCircle.play();
+            try {
+                slider.setValue(Double.valueOf(textfield.getText()));
+                useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+                removePathAndNodes();
+                path1 = createEllipsePath(450+8*(retrieveRadiusTextField()-25), 250, 200+8*(retrieveRadiusTextField()-25), 200+8*(retrieveRadiusTextField()-25), 0);
+                path2 = createEllipsePath(430+180/25*(retrieveRadiusTextField()-25), 250, 180+180/25*(retrieveRadiusTextField()-25), 180+180/25*(retrieveRadiusTextField()-25), 0);
+                path3 = createEllipsePath(410+160/25*(retrieveRadiusTextField()-25), 250, 160+160/25*(retrieveRadiusTextField()-25), 160+160/25*(retrieveRadiusTextField()-25), 0);
+                path4 = createEllipsePath(410+160/25*(retrieveRadiusTextField()-25), 250, 160+160/25*(retrieveRadiusTextField()-25), 160+160/25*(retrieveRadiusTextField()-25), 0);
+                updateRadiusSimulation(pathTransitionCircle, path1, rectTest);
+                updateRadiusSimulation(pathTransitionCircle2, path2, v.getVectorBody());
+                updateRadiusSimulation(pathTransitionCircle3, path3, v.getVectorHeadLeft());
+                updateRadiusSimulation(pathTransitionCircle4, path4, v.getVectorHeadRight());                
+            } catch (NumberFormatException e) {
+                    if (!textfield.getText().isBlank()) {
+                    System.out.println("error");
+                    System.out.println(e);
+                    radiusSlider.setValue(25);
+                    reset();
+                    popAlert("Invalid Radius Input. Please Try Again");
+                    }
+            }
         });
     }
     
     public void linkSpeedTextFieldToSlider(Slider slider, TextField textfield){
         textfield.setOnKeyTyped((event) -> {
-            slider.setValue(Double.valueOf(textfield.getText()));
-            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-            pathTransitionCircle.setRate(0.1*car.getSpeed());
+            try {
+                slider.setValue(Double.valueOf(textfield.getText()));
+                useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+                pathTransitionCircle.setRate(0.1*car.getSpeed());                
+            } catch (NumberFormatException e) {
+                    if (!textfield.getText().isBlank()) {
+                        System.out.println("error");
+                        System.out.println(e);
+                        speedSlider.setValue(10);
+                        reset();
+                        popAlert("Invalid Speed Input. Please Try Again");
+                    }
+            }
         });
     }
 
     public void linkMassTextFieldToSlider(Slider slider, TextField textfield){
-        textfield.setOnKeyTyped((event) -> {
-            slider.setValue(Double.valueOf(textfield.getText()));
-            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-            v.setOpacity(Double.valueOf(textfield.getText()));
-        });
+            textfield.setOnKeyTyped((event) -> {
+                try {
+                    slider.setValue(Double.valueOf(textfield.getText()));
+                    useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+                    v.setOpacity(Double.valueOf(textfield.getText()));
+                        } 
+                catch (NumberFormatException e) {
+                    if (!textfield.getText().isBlank()) {
+                        System.out.println("Error");
+                        System.out.println(e);
+                        massTextField.setText("10");
+                        reset();
+                        popAlert("Invalid Mass Input. Please Try Again");                        
+                        }
+                    }
+            });                    
     }
 
     public void setSliderRange(Slider slider, double min, double max){
@@ -410,4 +448,36 @@ public class Controller extends Stage{
     public double getAngle(){
         return Math.atan((rectTest.getLayoutY()-center.getCenterY())/rectTest.getLayoutX()-center.getCenterX());
     }
+    
+    public void updateRadiusSimulation(PathTransition pathTransition, Path path, Node node){
+        pathTransition.pause();
+        group.getChildren().addAll(path, node);
+        pathTransition = createPathTransitionCircle(path, node);
+        pathTransition.play();    
+    }
+    
+    public void removePathAndNodes(){
+        group.getChildren().remove(rectTest);
+        group.getChildren().remove(path1);    
+        
+        group.getChildren().remove(v.getVectorBody());    
+        group.getChildren().remove(path2);    
+
+        group.getChildren().remove(v.getVectorHeadLeft());    
+        group.getChildren().remove(path3);    
+
+        group.getChildren().remove(v.getVectorHeadRight());    
+        group.getChildren().remove(path4);    
+    }
+    
+    
+    /**
+     * Makes an alert pop-up
+     * @param string the String to display in the pop-up message
+     */
+    public void popAlert(String string){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText(string);
+        a.show();
+    }    
 }
