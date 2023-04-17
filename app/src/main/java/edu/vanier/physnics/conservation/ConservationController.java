@@ -107,6 +107,8 @@ public class ConservationController {
     
     private Ramp ramp;
     
+    private ConservationGraphsController graphController;
+    
    
     @FXML
     public void initialize(){
@@ -297,14 +299,14 @@ public class ConservationController {
         Stage stage = new Stage();
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation_graphs.fxml"));
-        ConservationGraphsController controller = new ConservationGraphsController();
-        loader.setController(controller);
+        graphController = new ConservationGraphsController(ball);
+        loader.setController(graphController);
         
         Scene scene = null;
         try {
             scene = new Scene(loader.load(),600, 400);
         } catch (IOException ex) {
-            System.out.println("Grpah stage could not be opened");
+            System.out.println("Graaph stage could not be opened");
         }
         
         stage.setScene(scene);

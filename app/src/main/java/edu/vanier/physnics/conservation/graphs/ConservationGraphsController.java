@@ -44,6 +44,10 @@ public class ConservationGraphsController {
     private double paneWidth = 600;
     
     private Ball ball;
+    
+    public ConservationGraphsController(Ball ball){
+        this.ball = ball;
+    }
    
     @FXML
     private void initialize(){
