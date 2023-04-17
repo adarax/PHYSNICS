@@ -4,6 +4,8 @@
  */
 package edu.vanier.physnics.conservation;
 
+import javafx.scene.text.Font;
+
 /**
  *
  * @author benja
@@ -43,8 +45,10 @@ public class Settings {
     public static final double ACCELERATION_TEXT_POSITION_X = WIDTH_ANIMATION_PANE-170;
     public static final double ACCELERATION_TEXT_POSITION_Y = HEIGHT_ANIMATION_PANE/4;
     
-    public static final double FONT_SIZE = 30;
-    public static final String TEXT_FONT = "Times new roman";
+    //public static final double FONT_SIZE = 30;
+    //public static final String TEXT_FONT = "Times new roman";
+    public static final Font TEXT_FONT = new Font("Times new roman", 30);
+    public static final Font GRAPH_TEXT_FONT = new Font("Times new roman", 20);
     
     
     public static final double ARROW_POSITION_X = WIDTH_ANIMATION_PANE-50;

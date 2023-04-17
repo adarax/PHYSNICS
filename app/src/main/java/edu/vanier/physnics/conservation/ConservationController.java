@@ -229,21 +229,21 @@ public class ConservationController {
     public void setValueIndicators(){
         //height text placed to the left of the ramp
         textHeight = new Text("Height: " + rampHeight + " m");
-        textHeight.setFont(new Font(Settings.TEXT_FONT, Settings.FONT_SIZE));
+        textHeight.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textHeight);
         textHeight.setX(Settings.HEIGHT_TEXT_POSITION_X);
         textHeight.setY(Settings.HEIGHT_TEXT_POSITION_Y);
         
         //mass text placed on top of the ramp
         textMass = new Text("Mass of the ball: " + mass + " kg");
-        textMass.setFont(new Font(Settings.TEXT_FONT, Settings.FONT_SIZE));
+        textMass.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textMass);
         textMass.setX(Settings.MASS_TEXT_POSITION_X);
         textMass.setY(Settings.MASS_TEXT_POSITION_Y);
         
         //acceleration text placed to the right of the ramp
         textg = new Text("Gravitational\n acceleration: \n" + g + " m/s^2");
-        textg.setFont(new Font(Settings.TEXT_FONT, Settings.FONT_SIZE));
+        textg.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textg);
         textg.setX(Settings.ACCELERATION_TEXT_POSITION_X);
         textg.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
@@ -304,7 +304,7 @@ public class ConservationController {
         try {
             scene = new Scene(loader.load(),600, 400);
         } catch (IOException ex) {
-            System.out.println("Main stage could not be opened");
+            System.out.println("Grpah stage could not be opened");
         }
         
         stage.setScene(scene);

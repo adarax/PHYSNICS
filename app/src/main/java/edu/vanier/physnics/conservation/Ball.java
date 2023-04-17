@@ -14,7 +14,7 @@ import javafx.scene.shape.Path;
  * @author benja
  */
 public class Ball extends Circle{
-    private double currentVelocityJoules;
+    private double currentVelocity;
     private double currentHeightMeters;
     private double massKilograms;
     
@@ -34,11 +34,11 @@ public class Ball extends Circle{
     }
 
     public double getCurrentVelocity() {
-        return currentVelocityJoules;
+        return currentVelocity;
     }
 
     public void setCurrentVelocity(double currentVelocity) {
-        this.currentVelocityJoules = currentVelocity;
+        this.currentVelocity = currentVelocity;
     }
 
     public double getCurrentHeight() {
@@ -55,14 +55,6 @@ public class Ball extends Circle{
 
     public void setMass(double mass) {
         this.massKilograms = mass;
-    }
-
-    public double getCurrentVelocityJoules() {
-        return currentVelocityJoules;
-    }
-
-    public void setCurrentVelocityJoules(double currentVelocityJoules) {
-        this.currentVelocityJoules = currentVelocityJoules;
     }
 
     public double getCurrentHeightMeters() {
