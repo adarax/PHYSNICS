@@ -5,6 +5,7 @@
 package edu.vanier.physnics.conservation;
 
 import edu.vanier.physnics.App;
+import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXSlider;
@@ -127,7 +128,7 @@ public class ConservationController {
         });
         
         btnGraph.setOnMouseClicked((e) -> {
-            //open graph window
+            openGraphWindow();
         });
         
         btnHelp.setOnMouseClicked((e) -> {
@@ -289,6 +290,25 @@ public class ConservationController {
          }
          stage.setScene(scene);
         
+        stage.show();
+    }
+    
+    public void openGraphWindow(){
+        Stage stage = new Stage();
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation_graphs.fxml"));
+        ConservationGraphsController controller = new ConservationGraphsController();
+        loader.setController(controller);
+        
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load(),600, 400);
+        } catch (IOException ex) {
+            System.out.println("Main stage could not be opened");
+        }
+        
+        stage.setScene(scene);
+        stage.setTitle("Current energy levels");
         stage.show();
     }
     
