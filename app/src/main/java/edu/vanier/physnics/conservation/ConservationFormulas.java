@@ -19,7 +19,7 @@ public class ConservationFormulas {
     }
     
     public static double getCurrentVelocity(double TME, double PE, double mass){
-        return ((TME-PE)*2)/mass;
+        return Math.sqrt(((TME-PE)*2)/mass);
     }
     
     public static double getArcTime(double height, double g){

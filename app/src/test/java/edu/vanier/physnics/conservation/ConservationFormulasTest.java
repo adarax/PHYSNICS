@@ -42,14 +42,14 @@ public class ConservationFormulasTest {
     @Test
     public void testPotentialEnergy() {
         System.out.println("potentialEnergy");
-        double mass = 0.0;
-        double g = 0.0;
-        double height = 0.0;
-        double expResult = 0.0;
+        double mass = 20.0;
+        double g = 9.8;
+        double height = 100;
+        double expResult = 19600.0;
         double result = ConservationFormulas.potentialEnergy(mass, g, height);
-        assertEquals(expResult, result, 0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 0.1);
+        System.out.println("Expected: " + expResult);
+        System.out.println("Result: " + result);
     }
 
     /**
@@ -58,13 +58,12 @@ public class ConservationFormulasTest {
     @Test
     public void testKineticEnergy() {
         System.out.println("kineticEnergy");
-        double mass = 0.0;
-        double velocity = 0.0;
-        double expResult = 0.0;
+        double mass = 5;
+        double velocity = 10.0;
+        double expResult = 250;
         double result = ConservationFormulas.kineticEnergy(mass, velocity);
-        assertEquals(expResult, result, 0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 0.1);
+        
     }
 
     /**
@@ -73,14 +72,15 @@ public class ConservationFormulasTest {
     @Test
     public void testGetCurrentVelocity() {
         System.out.println("getCurrentVelocity");
-        double TME = 0.0;
-        double PE = 0.0;
-        double mass = 0.0;
-        double expResult = 0.0;
+        double TME = 20;
+        double PE = 5;
+        double mass = 2.0;
+        double expResult = 3.87298;
         double result = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
-        assertEquals(expResult, result, 0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Expected: " + expResult);
+        System.out.println("Result: " + result);
+        assertEquals(expResult, result, 0.1);
+        
     }
 
     /**
@@ -89,13 +89,12 @@ public class ConservationFormulasTest {
     @Test
     public void testGetArcTime() {
         System.out.println("getArcTime");
-        double height = 0.0;
-        double g = 0.0;
-        double expResult = 0.0;
+        double height = 25;
+        double g = 1.6;
+        double expResult = 11.18;
         double result = ConservationFormulas.getArcTime(height, g);
-        assertEquals(expResult, result, 0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result, 0.1);
+       
     }
     
 }

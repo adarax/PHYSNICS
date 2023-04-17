@@ -79,18 +79,7 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
     
-    //values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
-    private final String[] GRAVITATIONAL_CONSTANTS = {
-        "Earth: 9.8", "Moon: 1.6", "Mars: 3.7", "Venus: 8.87", "Jupiter: 24.5", "Sun: 275"};
-    
-    /*
-    values for u obtained from https://www.engineersedge.com/coeffients_of_friction.htm
-    Ball is assumed to be made of steel (TODO: find better values)
-    */
-    private final String[] FRICTION_COEFFICIENTS = 
-    {"Aluminium: 0.61", "Brass: 0.5", "Cast Iron: 0.4", "Copper: 0.53", "Steel: 0.8"};
-    
-    
+   
     
     //color of the ramp and the ball
     private Color rampColor;
@@ -211,16 +200,16 @@ public class ConservationController {
         paneAnimation.getChildren().addAll(ball, ramp);
         
         //add the options to the choiceboxes
-        for(int i = 0; i<GRAVITATIONAL_CONSTANTS.length; i++){
-            choiceBoxg.getItems().add(GRAVITATIONAL_CONSTANTS[i]);
+        for(int i = 0; i<Settings.GRAVITATIONAL_CONSTANTS.length; i++){
+            choiceBoxg.getItems().add(Settings.GRAVITATIONAL_CONSTANTS[i]);
         }
-        choiceBoxg.setValue(GRAVITATIONAL_CONSTANTS[0]);
+        choiceBoxg.setValue(Settings.GRAVITATIONAL_CONSTANTS[0]);
         
          //add the options to the choiceboxes
-        for(int i = 0; i<FRICTION_COEFFICIENTS.length; i++){
-            choiceBoxu.getItems().add(FRICTION_COEFFICIENTS[i]);
+        for(int i = 0; i<Settings.FRICTION_COEFFICIENTS.length; i++){
+            choiceBoxu.getItems().add(Settings.FRICTION_COEFFICIENTS[i]);
         }
-        choiceBoxu.setValue(FRICTION_COEFFICIENTS[0]);
+        choiceBoxu.setValue(Settings.FRICTION_COEFFICIENTS[0]);
         
         //initializes the variables
         mass = 10;

@@ -10,6 +10,19 @@ package edu.vanier.physnics.conservation;
  */
 public class Settings {
     
+     //values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
+    public static final String[] GRAVITATIONAL_CONSTANTS = {
+        "Earth: 9.8", "Moon: 1.6", "Mars: 3.7", "Venus: 8.87", "Jupiter: 24.5", "Sun: 275"};
+    
+    /*
+    values for u obtained from https://www.engineersedge.com/coeffients_of_friction.htm
+    Ball is assumed to be made of steel (TODO: find better values)
+    */
+    public static final String[] FRICTION_COEFFICIENTS = 
+    {"Aluminium: 0.61", "Brass: 0.5", "Cast Iron: 0.4", "Copper: 0.53", "Steel: 0.8"};
+    
+    
+    
     public static final double HEIGHT_ANIMATION_PANE = 790;
     public static final double WIDTH_ANIMATION_PANE = 1480;
     
