@@ -23,7 +23,7 @@ public class ProjectileEquationsTest {
         double initialVelocityMPS = 20;
         double gravityAccelMPSS = 15;
         double expResult = 3.33;
-        double result = ProjectileEquations.getMaxHeight(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        double result = Equations.getMaxHeight(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
         assertEquals(expResult, result, 0.1);
         // TODO review the generated test code and remove the default call to fail.
     }
@@ -38,7 +38,7 @@ public class ProjectileEquationsTest {
         double initialVelocityMPS = 20;
         double gravityAccelMPSS = 15;
         double expResult = 23.09;
-        double result = ProjectileEquations.getXdisplacement(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        double result = Equations.getXdisplacement(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
         assertEquals(expResult, result, 0.1);
         // TODO review the generated test code and remove the default call to fail.
     }
@@ -53,7 +53,7 @@ public class ProjectileEquationsTest {
         double initialVelocityMPS = 20;
         double gravityAccelMPSS = 15;
         double expResult = 1.33;
-        double result = ProjectileEquations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        double result = Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
         assertEquals(expResult, result, 0.1);
         // TODO review the generated test code and remove the default call to fail.
     }

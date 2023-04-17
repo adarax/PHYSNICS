@@ -20,7 +20,7 @@ import javafx.scene.shape.MoveTo;
  * Handles action events.
  * @author vires
  */
-public class ProjectileController {
+public class MainAppController {
     @FXML
     private MenuItem menubuttonExit;
 
@@ -72,7 +72,7 @@ public class ProjectileController {
     @FXML
     private Circle projectileBall;
     
-    ProjectileAnimation animation = new ProjectileAnimation();
+    Animation animation = new Animation();
     
     /**
      * Plays the animation. Gets the values from sliders, and uses them as
@@ -87,7 +87,7 @@ public class ProjectileController {
         double initialVelocityMPS = sliderInitialVelocity.getValue();
         double launchAngleDeg = sliderLaunchAngle.getValue();
         
-        System.out.println(ProjectileEquations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS));
+        System.out.println(Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS));
         animation.playAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
@@ -108,7 +108,7 @@ public class ProjectileController {
     }
 
     public void handleHelp(MouseEvent leftClick) {
-        ProjectileHelpPage PHP = new ProjectileHelpPage();
+        HelpPage PHP = new HelpPage();
         PHP.openHelpWindow();
     }
 

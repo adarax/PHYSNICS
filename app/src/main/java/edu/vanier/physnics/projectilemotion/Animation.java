@@ -17,7 +17,7 @@ import javafx.util.Duration;
  *
  * @author vires
  */
-public class ProjectileAnimation {
+public class Animation {
     
     PathTransition pathTransition = new PathTransition();
     
@@ -25,9 +25,9 @@ public class ProjectileAnimation {
         
         Path path = new Path();
         
-        double maxHeightM = ProjectileEquations.getMaxHeight(launchAngle, initialVelocityMPS, gravityAccelMPSS);
-        double xDisplacementM = ProjectileEquations.getXdisplacement(launchAngle, initialVelocityMPS, gravityAccelMPSS);
-        double flightTimeS = ProjectileEquations.getFlightTime(launchAngle, initialVelocityMPS, gravityAccelMPSS);
+        double maxHeightM = Equations.getMaxHeight(launchAngle, initialVelocityMPS, gravityAccelMPSS);
+        double xDisplacementM = Equations.getXdisplacement(launchAngle, initialVelocityMPS, gravityAccelMPSS);
+        double flightTimeS = Equations.getFlightTime(launchAngle, initialVelocityMPS, gravityAccelMPSS);
         
         // Set the scaling from meters to pixels 
         // TODO: Scale the y-axis 

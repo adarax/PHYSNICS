@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  *
  * @author vires
  */
-public class ProjectileHelpPage {
+public class HelpPage {
     public void openHelpWindow() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectileHelpPage.fxml"));
         ScrollPane root = null;
@@ -25,7 +25,7 @@ public class ProjectileHelpPage {
         try {
             root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(ProjectileHelpPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Scene helpWindow = new Scene(root);

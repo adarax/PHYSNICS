@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 // import edu.vanier.physnics.stackedblock.BlockFrontEndController;   
 // import edu.vanier.physnics.conservation.ConservationController;
-// import edu.vanier.physnics.projectilemotion.ProjectileController;
+ import edu.vanier.physnics.projectilemotion.MainAppController;
 
 public class App extends Application {
     public Stage mainMenu;
@@ -19,12 +19,10 @@ public class App extends Application {
     {    
         mainMenu = stage;
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController();
-        loader.setController(mwc);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
         
-        // ProjectileController PCC = new ProjectileController();
-        // loader.setController(PCC);
+        MainAppController PCC = new MainAppController();
+        loader.setController(PCC);
         
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
