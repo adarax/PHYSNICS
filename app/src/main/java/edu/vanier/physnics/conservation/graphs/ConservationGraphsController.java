@@ -16,10 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javax.swing.tree.FixedHeightLayoutCache;
+
 
 /**
  *
@@ -45,8 +44,11 @@ public class ConservationGraphsController {
     
     private Ball ball;
     
+    private Stage currentStage;
+    
     public ConservationGraphsController(Ball ball){
         this.ball = ball;
+        
     }
    
     @FXML
@@ -55,8 +57,8 @@ public class ConservationGraphsController {
         setup();
         
         buttonClose.setOnAction((eventHandler) -> {
-            Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
-            currentStage.close();
+            
+            currentStage.hide();
         });
         
     }
@@ -90,5 +92,28 @@ public class ConservationGraphsController {
         paneAnimation.getChildren().addAll(textVelocity, textKineticEnergy, 
                 textPotentialEnergy, PEGraph, KEGraph);
     }
+    
+    public void show(){
+        currentStage = (Stage) paneAnimation.getScene().getWindow();
+        currentStage.show();
+    }
+
+    public Rectangle getPEGraph() {
+        return PEGraph;
+    }
+
+    public void setPEGraph(Rectangle PEGraph) {
+        this.PEGraph = PEGraph;
+    }
+
+    public Rectangle getKEGraph() {
+        return KEGraph;
+    }
+
+    public void setKEGraph(Rectangle KEGraph) {
+        this.KEGraph = KEGraph;
+    }
+    
+    
     
 }

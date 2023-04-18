@@ -118,7 +118,8 @@ public class ConservationController {
         
         
         btnPlay.setOnMouseClicked((e) -> {
-            animBackend.play(ball, rampHeight, g);
+            animBackend.createGraphAnimation(graphController.getPEGraph(), graphController.getKEGraph()); 
+            animBackend.playBallAnimation(ball, rampHeight, g);
         });
         
         btnPause.setOnMouseClicked((e) -> {
@@ -130,7 +131,7 @@ public class ConservationController {
         });
         
         btnGraph.setOnMouseClicked((e) -> {
-            openGraphWindow();
+            graphController.show();
         });
         
         btnHelp.setOnMouseClicked((e) -> {
@@ -180,6 +181,7 @@ public class ConservationController {
     }
     
     public void setup(){
+        openGraphWindow();
         //initialize the animation backend
         animBackend = new AnimationBackend();
         
@@ -225,6 +227,8 @@ public class ConservationController {
         ball.setMass(mass);
         
         setValueIndicators();
+        
+        
         
     }
     
@@ -311,7 +315,7 @@ public class ConservationController {
         
         stage.setScene(scene);
         stage.setTitle("Current energy levels");
-        stage.show();
+        
     }
     
     public void drawArrow(double posx, double posy, double length, double width, double pointWidth){

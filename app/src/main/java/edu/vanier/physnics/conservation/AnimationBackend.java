@@ -5,13 +5,16 @@
 package edu.vanier.physnics.conservation;
 
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -20,7 +23,7 @@ import javafx.util.Duration;
  */
 public class AnimationBackend {
     private Path ballPath;
-    private Transition mainAnimation;
+    private ParallelTransition mainAnimation;
     private double cycleTime;
     
     private boolean playing;
@@ -28,9 +31,10 @@ public class AnimationBackend {
     public AnimationBackend(){
         ballPath = new Path();
         playing = false;
+        mainAnimation = new ParallelTransition();
     }
     
-    public void createAnimation(Ball ball, double height, double g){
+    public void createBallAnimation(Ball ball, double height, double g){
         
         cycleTime = ConservationFormulas.getArcTime(height, g);
         System.out.println(ConservationFormulas.getArcTime(height, g));
@@ -46,20 +50,36 @@ public class AnimationBackend {
         ballCurve.setAutoReverse(true);
         ballCurve.setInterpolator(Interpolator.EASE_BOTH);
         
-        mainAnimation = ballCurve;
+        mainAnimation.getChildren().add(ballCurve);
     }
     
-    public void play(Ball ball, double height, double g){
+    public void createGraphAnimation(Rectangle PE, Rectangle KE){
+        ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime), KE);
+        
+        stKe.setFromY(0);
+        stKe.setToY(1);
+        
+        stKe.setCycleCount(Timeline.INDEFINITE);
+        stKe.setAutoReverse(true);
+        stKe.setInterpolator(Interpolator.EASE_BOTH);
+        
+        mainAnimation.getChildren().add(stKe);
+    }
+    
+    public void playBallAnimation(Ball ball, double height, double g){
         if(playing){
             mainAnimation.play();
         }
         else{
-            createAnimation(ball,height,g);
+            createBallAnimation(ball,height,g);
+            
             mainAnimation.play();
         }
         playing = true;
         
     }
+    
+    
     
     public void reset(){
         if(playing){
@@ -75,6 +95,5 @@ public class AnimationBackend {
         if(playing){
             mainAnimation.pause();
         }
-        
     }
 }
