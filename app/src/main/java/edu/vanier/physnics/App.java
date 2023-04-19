@@ -26,17 +26,9 @@ public class App extends Application {
         mainMenu.setScene(scene);        
         mainMenu.setMaximized(true);
         mainMenu.sizeToScene();
+        mainMenu.getIcons().add(new Image("/images/app_icon.png"));
         mainMenu.setFullScreen(true);
-       
         mainMenu.show();
-        
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.sizeToScene();
-        stage.getIcons().add(new Image("/images/app_icon.png"));
-        stage.setFullScreen(true);
-        stage.show();
-
     }
     
     public static void main(String[] args) {
