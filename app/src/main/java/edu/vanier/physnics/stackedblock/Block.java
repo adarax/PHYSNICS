@@ -21,7 +21,7 @@ public class Block extends StackPane {
     private Color blockColor;
     private Rectangle blockDrawing;
     private String name;
-    private Label nametag;
+    private Label nameTag;
 
     public Block(int blockNumber)
     {
@@ -85,14 +85,14 @@ public class Block extends StackPane {
         this.blockDrawing = blockDrawing;
     }
 
-    public Label getNametag()
+    public Label getNameTag()
     {
-        return nametag;
+        return nameTag;
     }
 
-    public void setNametag(Label nametag)
+    public void setNameTag(Label nameTag)
     {
-        this.nametag = nametag;
+        this.nameTag = nameTag;
     }
 
     public String getName()
@@ -105,10 +105,10 @@ public class Block extends StackPane {
         this.name = name;
     }
     
-    public void drawBlock()
+    public void draw()
     {
         this.getChildren().clear();
-        this.getChildren().addAll(blockDrawing, nametag);
+        this.getChildren().addAll(blockDrawing, nameTag);
     }
 
     /*
@@ -201,33 +201,22 @@ public class Block extends StackPane {
      */
     public void drawFreeBodyDiagram(Pane animationPane)
     {
-        // Animate vectors (arrows) onto block
+        ArrayList<Arrow> vectorDrawings = new ArrayList<>();
         
-        // TODO: figure out how to get position of rectangle
-        // Possible fix: Use getters and setters of position once that value
-        //               gets determined in blockAnimation
-//        double startPositionX = blockDrawing.getLayoutX();
-//        double startPositionY = blockDrawing.getLayoutY();
+        for (Vector forceVector : forcesExperienced)
+        {
+            if (forceVector.getMagnitudeInNewtons() > 0)
+            {
+                Arrow vectorDrawing = new Arrow(forceVector, this);
+                vectorDrawings.add(vectorDrawing);
+            }
+        }
         
-        
-        
-//        System.out.println(startPositionX);
-//        System.out.println(startPositionY);
-        
-//        double endPositionX = startPositionX + 320;
-//        double endPositionY = startPositionY;
-        
-        double startPositionX = 100;
-        double startPositionY = 100;
-
-        double endPositionX = startPositionX + 320;
-        double endPositionY = startPositionY;
-        
-        double arrowHeadSize = 50;
-        
-        Arrow vector = new Arrow(startPositionX, startPositionY, endPositionX, endPositionY, arrowHeadSize);
-        
-        animationPane.getChildren().addAll(vector);
+        for (Arrow vectorDrawing : vectorDrawings)
+        {
+            vectorDrawing.draw();
+            animationPane.getChildren().addAll(vectorDrawing);
+        }
     }
     
     // TODO: no need for this in release, it's just for testing

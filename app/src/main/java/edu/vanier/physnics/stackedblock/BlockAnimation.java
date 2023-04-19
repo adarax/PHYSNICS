@@ -74,9 +74,9 @@ public class BlockAnimation {
             block.determineAndSetDrawingWidth();
             block.setBlockDrawing(new Rectangle(block.getDrawingWidth(), block.getDrawingHeight()));
             block.getBlockDrawing().setFill(block.determineColor());
-            block.setNametag(new Label(block.getName()));
-            block.getNametag().setFont(new Font("SansSerif Bold", block.determineLabelFontSize()));
-            block.drawBlock();
+            block.setNameTag(new Label(block.getName()));
+            block.getNameTag().setFont(new Font("SansSerif Bold", block.determineLabelFontSize()));
+            block.draw();
         }
     }
 
