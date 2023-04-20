@@ -91,10 +91,9 @@ public class BlockFrontEndController {
 
     private final BlockAnimation blockAnimationHandler = new BlockAnimation();
     private final BlockFormulas blockFormulasCalculator = new BlockFormulas();
-
-    // Basic initial setup of blocks
-    private final Block topBlock = new Block(1);
-    private final Block bottomBlock = new Block(0);
+    
+    private final Block topBlock = new Block(POSITION.TOP);
+    private final Block bottomBlock = new Block(POSITION.BOTTOM);
 
     private ArrayList<MFXSlider> allSliders;
 
@@ -103,7 +102,7 @@ public class BlockFrontEndController {
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
 
     private boolean isVectorShowing = false;
-    
+
     @FXML
     public void initialize()
     {
@@ -134,10 +133,7 @@ public class BlockFrontEndController {
 
         menubuttonExit.setOnAction(press -> handleExitOfApplication());
 
-        toggleShowVectors.setOnAction(toggle ->
-        {
-            handleShowVectors();
-        });
+        toggleShowVectors.setOnAction(toggle -> handleShowVectors(true));
 
         buttonPlay.setOnMouseClicked(press ->
         {
@@ -240,6 +236,10 @@ public class BlockFrontEndController {
 
         blockAnimationHandler.drawFloor(paneAnimation);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
+
+        // If the vectors should be drawn, draw the vectors
+        if (isVectorShowing)
+            handleShowVectors(false);
     }
 
     public void updateBlocks()
@@ -247,11 +247,11 @@ public class BlockFrontEndController {
         topBlock.setMass(sliderMassM2.getValue());
         bottomBlock.setMass(sliderMassM1.getValue());
 
-        topBlock.setForcesExperienced(getForcesExperienced(topBlock.getBlockNumber()));
-        bottomBlock.setForcesExperienced(getForcesExperienced(bottomBlock.getBlockNumber()));
+        topBlock.setForcesExperienced(getForcesExperienced(POSITION.TOP));
+        bottomBlock.setForcesExperienced(getForcesExperienced(POSITION.BOTTOM));
     }
 
-    public ArrayList<Vector> getForcesExperienced(int blockNumber)
+    public ArrayList<Vector> getForcesExperienced(POSITION blockId)
     {
         return blockFormulasCalculator.determineForcesExperienced(topBlock,
                 bottomBlock,
@@ -261,7 +261,7 @@ public class BlockFrontEndController {
                 sliderAngleOnM2.getValue(),
                 sliderFrictionFloor.getValue(),
                 sliderFrictionM1.getValue(),
-                blockNumber);
+                blockId);
     }
 
     public void handleExitOfApplication()
@@ -269,15 +269,14 @@ public class BlockFrontEndController {
         Platform.exit();
     }
 
-    
     public void switchSimulation(String simulationName)
     {
         Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
 
         String destination = "/fxml/" + simulationName + ".fxml";
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
-        
+
         switch (simulationName)
         {
             case "conservation" ->
@@ -300,7 +299,8 @@ public class BlockFrontEndController {
                 MainMenuController menuController = new MainMenuController(currentStage);
                 loader.setController(menuController);
             }
-            default -> System.out.println("Invalid simulation name");
+            default ->
+                System.out.println("Invalid simulation name");
         }
 
         try
@@ -314,20 +314,21 @@ public class BlockFrontEndController {
         }
     }
 
-    private void handleShowVectors()
+    private void handleShowVectors(boolean toggled)
     {
-        isVectorShowing = !isVectorShowing;
-        
+        // Change boolean value, since the button was toggled
+        if (toggled)
+        {
+            isVectorShowing = !isVectorShowing;
+        }
+
         if (isVectorShowing)
         {
             topBlock.drawFreeBodyDiagram(paneAnimation);
             bottomBlock.drawFreeBodyDiagram(paneAnimation);
         }
-        
-        // Otherwise clear FBD
     }
 
-    // Might not be needed
     public enum POSITION {
         TOP,
         BOTTOM

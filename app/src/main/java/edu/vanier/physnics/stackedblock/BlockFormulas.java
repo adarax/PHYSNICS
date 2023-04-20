@@ -1,5 +1,6 @@
 package edu.vanier.physnics.stackedblock;
 
+import edu.vanier.physnics.stackedblock.BlockFrontEndController.POSITION;
 import java.util.ArrayList;
 
 /**
@@ -74,21 +75,20 @@ public class BlockFormulas {
             double angleOfForceOnM2,
             double frictionCoeffFloor,
             double frictionCoeffM1,
-            int blockNumber)
+            POSITION blockId)
     {
         ArrayList<Vector> allForcesExperienced = new ArrayList<>();
 
         double normalForceM2 = calculateNormalForceMagnitude(topBlock.getMass());
         Vector forceVectorOnM2 = new Vector(forceOnM2, angleOfForceOnM2);
         Vector frictionVectorOnM2 = calculateFrictionVector(frictionCoeffM1, normalForceM2, forceVectorOnM2);
-
-        // For top block (M2)        
-        if (blockNumber == 1)
+      
+        if (blockId == POSITION.TOP)
         {
             allForcesExperienced.add(forceVectorOnM2);
             allForcesExperienced.add(frictionVectorOnM2);
-        } // For bottom block (M1)
-        else if (blockNumber == 0)
+        }
+        else if (blockId == POSITION.BOTTOM)
         {
             double normalForceM1 = calculateNormalForceMagnitude(topBlock.getMass(), bottomBlock.getMass());
             Vector forceVectorOnM1 = new Vector(forceOnM1, angleOfForceOnM1);
@@ -100,8 +100,6 @@ public class BlockFormulas {
             allForcesExperienced.add(frictionVectorOnM2);
         }
 
-        // TODO: turn into actual tests, ensure values are correct
-//        System.out.println(calculateNetForceVector(allForcesExperienced).getMagnitudeInNewtons());
         return allForcesExperienced;
     }
     

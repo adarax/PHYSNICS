@@ -22,10 +22,9 @@ public class Vector {
     // This method may be useful for drawing the vectors onto the screen
     public int findQuadrant(double directionInDegrees)
     {
-        // Handle any illegal direction values
         if (directionInDegrees < 0 || directionInDegrees > 360)
         {
-            return 0;
+            throw new IllegalArgumentException("Invalid direction value");
         }
 
         if (directionInDegrees <= 90)
