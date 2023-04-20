@@ -5,8 +5,11 @@
 package edu.vanier.physnics.conservation;
 
 import edu.vanier.physnics.App;
+import edu.vanier.physnics.UCMSimulation.UCMController;
 import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
+import edu.vanier.physnics.projectilemotion.ProjectileController;
+import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
@@ -45,7 +48,16 @@ public class ConservationController {
     private ImageView btnGraph;
 
     @FXML
+    private MenuItem menuItemProjectile;
+
+    @FXML
     private MenuItem menuItemQuit;
+
+    @FXML
+    private MenuItem menuItemStacked;
+
+    @FXML
+    private MenuItem menuItemUCM;
 
     @FXML
     private ImageView btnPause;
@@ -138,10 +150,6 @@ public class ConservationController {
         
         });
         
-        buttonHome.setOnMouseClicked((e) -> {        
-            openMainWindow();
-        });
-             
         sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
                 mass = sliderMass.getValue();
@@ -176,9 +184,24 @@ public class ConservationController {
             Platform.exit();
         });
         
+        buttonHome.setOnMouseClicked((e) -> {        
+            switchSimulation("mainmenu");
+        });
+        
+        menuItemProjectile.setOnAction((e) ->{
+            switchSimulation("projectile");
+        });
+        
+        menuItemStacked.setOnAction((e) ->{
+            switchSimulation("stackedblock");
+        });
+         
+        menuItemUCM.setOnAction((e) ->{
+            switchSimulation("ucm-scene-graph");
+        });
         
         
-    }
+    };
     
     public void setup(){
         openGraphWindow();
@@ -281,22 +304,49 @@ public class ConservationController {
             
     }
     
-    private void openMainWindow() {
-        Stage stage = (Stage) paneAnimation.getScene().getWindow();
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController(stage);
-        loader.setController(mwc);
-        
-        Scene scene = null;
-         try {
-             scene = new Scene(loader.load());
-         } catch (IOException ex) {
-            System.out.println("Main stage could not be opened");
-         }
-         stage.setScene(scene);
-        
-        stage.show();
+    public void switchSimulation(String simulationName)
+    {
+        Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
+
+        String destination = "/fxml/" + simulationName + ".fxml";
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
+
+        switch (simulationName)
+        {
+            case "stackedblock" ->
+            {
+                BlockFrontEndController blockcontroller = new BlockFrontEndController();
+                loader.setController(blockcontroller);
+            }
+            case "projectile" ->
+            {
+                ProjectileController projectileController = new ProjectileController();
+                loader.setController(projectileController);
+            }
+            case "ucm-scene-graph" ->
+            {
+                UCMController ucmController = new UCMController();
+                loader.setController(ucmController);
+            }
+            case "mainmenu" ->
+            {
+                MainMenuController menuController = new MainMenuController(currentStage);
+                loader.setController(menuController);
+            }
+            default ->
+                System.out.println("Invalid simulation name");
+        }
+
+        try
+        {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1920, 1080);
+            currentStage.setScene(scene);
+        } catch (IOException ex)
+        {
+            System.out.println("Something went wrong changing scenes.");
+        }
     }
     
     public void openGraphWindow(){

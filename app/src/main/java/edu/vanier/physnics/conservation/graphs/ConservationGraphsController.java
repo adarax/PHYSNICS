@@ -57,7 +57,6 @@ public class ConservationGraphsController {
         setup();
         
         buttonClose.setOnAction((eventHandler) -> {
-            
             currentStage.hide();
         });
         
