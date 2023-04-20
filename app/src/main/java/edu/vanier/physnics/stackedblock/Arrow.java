@@ -60,5 +60,47 @@ public class Arrow extends StackPane {
         // Position on block
         
         // TODO: Get quadrant and figure out how to place and angle arrows based on that
+        int quadrant = 0;
+        
+        try
+        {
+            quadrant = forceVector.findQuadrant();
+        }
+        catch (IllegalArgumentException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+        
+        if (quadrant == 2 || quadrant == 3)
+        {
+            placeVectorOnSide(SIDE.LEFT);
+        }
+        else
+        {
+            placeVectorOnSide(SIDE.RIGHT);
+        }
+    }
+    
+    private void placeVectorOnSide(SIDE side)
+    {
+        switch (side)
+        {
+            case LEFT ->
+            {
+                // Position vector on left side
+            }
+            
+            case RIGHT ->
+            {
+                // Position vector on right side
+            }
+        }
+    }
+    
+    private enum SIDE
+    {
+        RIGHT,
+        LEFT
     }
 }
