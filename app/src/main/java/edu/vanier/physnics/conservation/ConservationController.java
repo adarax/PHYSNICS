@@ -329,6 +329,11 @@ public class ConservationController {
                 UCMController ucmController = new UCMController();
                 loader.setController(ucmController);
             }
+            case "conservation" ->
+            {
+                ConservationController controller = new ConservationController();
+                loader.setController(controller);
+            }
             case "mainmenu" ->
             {
                 MainMenuController menuController = new MainMenuController(currentStage);
