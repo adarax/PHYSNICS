@@ -19,9 +19,17 @@ public class Vector {
         this.directionInDegrees = directionInDegrees;
     }
     
-    // This method may be useful for drawing the vectors onto the screen
-    public int findQuadrant(double directionInDegrees)
-    {
+    /**
+     * Finds the quadrant of the Vector using the directionInDegrees
+     * variable that gets instantiated in the constructor.
+     * 
+     * Quadrants are based on a 2D Cartesian plane, the angle is with respect
+     * to the positive x-axis.
+     * 
+     * @return The quadrant of the Vector instance.
+     */
+    public int findQuadrant()
+    {        
         if (directionInDegrees < 0 || directionInDegrees > 360)
         {
             throw new IllegalArgumentException("Invalid direction value");
