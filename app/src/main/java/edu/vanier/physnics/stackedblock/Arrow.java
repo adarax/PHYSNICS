@@ -14,24 +14,24 @@ import javafx.scene.text.TextAlignment;
  */
 public class Arrow extends StackPane {
 
-    private final Image arrowBodyObject = new Image(getClass().getResourceAsStream("/images/arrow.png"));
-    private final ImageView arrowBody;
-    private final Label nameTag;
     private final Block correspondingBlock;
     private final Vector forceVector;
+    private final Image arrowBodyObject;
+    private final ImageView arrowBody;
+    private final Label nameTag;
 
     public Arrow(Vector forceVector, Block correspondingBlock)
     {
         this.correspondingBlock = correspondingBlock;
         this.forceVector = forceVector;
+        
+        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/arrow_" + determineColor() + ".png"));
         this.arrowBody = new ImageView(arrowBodyObject);
 
         String magnitudeAsString = String.format("%.2f", forceVector.getMagnitudeInNewtons()) + " N";
         this.nameTag = new Label(magnitudeAsString);
-
-        this.setLayoutX(correspondingBlock.getLayoutX() - (arrowBody.getFitWidth() / 2));
-        this.setLayoutY(correspondingBlock.getLayoutY() - (arrowBody.getFitHeight() / 2));
-        arrowBody.setRotate(forceVector.getDirectionInDegrees());
+        
+        sizeAndPositionToBlock();
     }
 
     public void draw()
@@ -56,6 +56,8 @@ public class Arrow extends StackPane {
         nameTag.setFont(new Font("SansSerif", blockHeight * 0.1));
         nameTag.setTextFill(Color.color(1, 1, 1));
         nameTag.setTextAlignment(TextAlignment.CENTER);
+        
+        orientNameTagAndArrow();
         
         // Position on block
         
@@ -84,17 +86,85 @@ public class Arrow extends StackPane {
     
     private void placeVectorOnSide(SIDE side)
     {
+        double blockPositionX = correspondingBlock.getLayoutX();
+        double blockPositionY = correspondingBlock.getLayoutY();
+        
+        double blockWidth = correspondingBlock.getDrawingWidth();
+        double blockHeight = correspondingBlock.getDrawingHeight();
+        
+        
+        // Nodes draw from the top-left corner
         switch (side)
         {
             case LEFT ->
             {
-                // Position vector on left side
+                /*
+                 TODO: Use the type to prevent overlap of arrows.
+                       Do this by having the lower half of the block reserved
+                       for friction forces, top half for applied forces (using its type)
+                
+                 TODO: Friction is always less than or equal to the force applied
+                       and so fricion vectors should not appear without a corresponding force
+                       vector, nor should the magnitude ever get bigger than the force no matter the friction coeff.
+                */
+                
+                this.setLayoutX(blockPositionX - arrowBody.getFitWidth());
+                
+                this.setLayoutY(blockPositionY + arrowBody.getFitHeight());
             }
             
             case RIGHT ->
             {
-                // Position vector on right side
+                this.setLayoutX(blockPositionX + blockWidth);
+                this.setLayoutY(blockPositionY + arrowBody.getFitHeight());
             }
+        }
+    }
+    
+    private void orientNameTagAndArrow()
+    {
+        /*
+         * The (* -1) is to get the Arrow to rotate CCW as the angle slider value 
+         * increases, which standarizes the angle to a Cartesian plane
+         */
+        double rotationInDegrees = forceVector.getDirectionInDegrees() * -1;
+        
+        arrowBody.setRotate(rotationInDegrees);
+        
+        // Keep text upright (readable)
+        if (Math.abs(rotationInDegrees) > 90 && Math.abs(rotationInDegrees) < 270)
+        {
+            nameTag.setRotate(rotationInDegrees + 180);
+        }
+        else
+        {
+            nameTag.setRotate(rotationInDegrees);
+        }
+    }
+    
+    /**
+     * Determines the color of the Arrow based on its FORCE_TYPE.
+     * 
+     * @return the color of the arrow.
+     */
+    private String determineColor()
+    {        
+        switch(forceVector.getForceType())
+        {
+            case APPLIED ->
+            {
+                return "red";
+            }
+            case NORMAL ->
+            {
+                return "black";
+            }
+            case FRICTION ->
+            {
+                return "blue";
+            }
+            default ->
+                throw new IllegalArgumentException("Invalid force type");
         }
     }
     
