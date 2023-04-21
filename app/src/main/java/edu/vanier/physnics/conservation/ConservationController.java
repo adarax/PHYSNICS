@@ -92,8 +92,6 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
     
-   
-    
     //color of the ramp and the ball
     private Color rampColor;
     private Color ballColor;
@@ -130,8 +128,8 @@ public class ConservationController {
         
         
         btnPlay.setOnMouseClicked((e) -> {
-            animBackend.createGraphAnimation(graphController.getPEGraph(), graphController.getKEGraph()); 
-            animBackend.playBallAnimation(ball, rampHeight, g);
+            animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(), 
+                    graphController.getPEGraph());
         });
         
         btnPause.setOnMouseClicked((e) -> {

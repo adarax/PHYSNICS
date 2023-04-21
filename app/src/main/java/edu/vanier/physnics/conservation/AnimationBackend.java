@@ -4,6 +4,7 @@
  */
 package edu.vanier.physnics.conservation;
 
+import edu.vanier.physnics.conservation.graphs.GraphSettings;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
@@ -11,6 +12,7 @@ import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -37,7 +39,6 @@ public class AnimationBackend {
     public void createBallAnimation(Ball ball, double height, double g){
         
         cycleTime = ConservationFormulas.getArcTime(height, g);
-        System.out.println(ConservationFormulas.getArcTime(height, g));
         PathTransition ballCurve = new PathTransition();
         ballPath = ball.getBallPath();
                 
@@ -53,8 +54,9 @@ public class AnimationBackend {
         mainAnimation.getChildren().add(ballCurve);
     }
     
-    public void createGraphAnimation(Rectangle PE, Rectangle KE){
-        ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime), KE);
+    public void createGraphAnimation(Rectangle KE, Rectangle PE){
+        ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime/2), KE);
+        stKe.setNode(KE);
         
         stKe.setFromY(0);
         stKe.setToY(1);
@@ -63,16 +65,42 @@ public class AnimationBackend {
         stKe.setAutoReverse(true);
         stKe.setInterpolator(Interpolator.EASE_BOTH);
         
-        mainAnimation.getChildren().add(stKe);
+        TranslateTransition kineticEnergyGraphTranslation = 
+                new TranslateTransition(Duration.seconds(cycleTime/2), KE);
+        kineticEnergyGraphTranslation.setFromY(GraphSettings.KEGraphPositionY);
+        kineticEnergyGraphTranslation.setToY(GraphSettings.KEGraphPositionY - 100);
+        kineticEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
+        kineticEnergyGraphTranslation.setAutoReverse(true);
+        kineticEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
+        
+        ScaleTransition stPe = new ScaleTransition(Duration.seconds(cycleTime/2), PE);
+        stPe.setNode(PE);
+        
+        stPe.setFromY(1);
+        stPe.setToY(0);
+       
+        stPe.setCycleCount(Timeline.INDEFINITE);
+        stPe.setAutoReverse(true);
+        stPe.setInterpolator(Interpolator.EASE_BOTH);
+        
+         TranslateTransition potentialEnergyGraphTranslation = 
+                new TranslateTransition(Duration.seconds(cycleTime/2), PE);
+        potentialEnergyGraphTranslation.setToY(GraphSettings.PEGraphPositionY);
+        potentialEnergyGraphTranslation.setFromY(GraphSettings.PEGraphPositionY - 100);
+        potentialEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
+        potentialEnergyGraphTranslation.setAutoReverse(true);
+        potentialEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
+        
+        mainAnimation.getChildren().addAll(stKe, kineticEnergyGraphTranslation, stPe, potentialEnergyGraphTranslation);
     }
     
-    public void playBallAnimation(Ball ball, double height, double g){
+    public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, Rectangle PE){
         if(playing){
             mainAnimation.play();
         }
         else{
             createBallAnimation(ball,height,g);
-            
+            createGraphAnimation(KE, PE);
             mainAnimation.play();
         }
         playing = true;
