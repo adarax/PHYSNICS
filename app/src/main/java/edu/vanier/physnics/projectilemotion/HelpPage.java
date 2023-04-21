@@ -21,6 +21,8 @@ public class HelpPage {
     public void openHelpWindow() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectileHelpPage.fxml"));
         ScrollPane root = null;
+        HelpPageController helpPageController = new HelpPageController();
+        loader.setController(helpPageController);
         
         try {
             root = loader.load();
@@ -32,6 +34,7 @@ public class HelpPage {
         Stage stage = new Stage();
         stage.setScene(helpWindow);
         stage.sizeToScene();
+        stage.setTitle("Help Page");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
         
