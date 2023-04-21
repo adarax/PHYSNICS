@@ -54,7 +54,7 @@ public class Vector {
         }
     }
 
-    public ArrayList<Double> vectorToComponents(double magnitudeInNewtons, double directionInDegrees)
+    public ArrayList<Double> toComponents()
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
