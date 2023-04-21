@@ -7,6 +7,8 @@ package edu.vanier.physnics.projectilemotion;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -94,6 +96,7 @@ public class MainAppController {
     public void handlePause(MouseEvent leftClick) {
         // Pause the simulation
         animation.pauseAnimation();
+            
     }
     
     
@@ -120,6 +123,12 @@ public class MainAppController {
     @FXML
     public void initialize() {
 
+        List<MFXSlider> sliderList = new ArrayList<MFXSlider>();
+        sliderList.add(sliderGravity);
+        sliderList.add(sliderInitialVelocity);
+        sliderList.add(sliderLaunchAngle);
+        
+        
         buttonClear.setOnAction(e -> {
             // Resets the animation and brings the sliders to default values
         });
@@ -154,20 +163,46 @@ public class MainAppController {
 
         buttonPlay.setOnMouseClicked(leftClick -> {
             handlePlay(leftClick);
+            disableSliders(sliderList);
         });
 
         buttonReset.setOnMouseClicked(leftClick -> {
             handleReset(leftClick);
+            enableSliders(sliderList);
         });
 
         buttonPause.setOnMouseClicked(leftClick -> {
             handlePause(leftClick);
+            disableSliders(sliderList);
         });
         
         buttonHelp.setOnMouseClicked(leftClick -> {
             handleHelp(leftClick);
         });
 
+    }
+    
+    
+    /**
+     * Method that disables all sliders present in the scene. 
+     * 
+     * @param sliderList is a list of all sliders
+     */
+    private void disableSliders(List<MFXSlider> sliderList) {
+        for(MFXSlider slider : sliderList) {
+            slider.setDisable(true);
+        }
+    }
+    
+     /**
+     * Method that enables all sliders present in the scene. 
+     * 
+     * @param sliderList is a list of all sliders
+     */
+    private void enableSliders(List<MFXSlider> sliderList) {
+        for(MFXSlider slider : sliderList) {
+            slider.setDisable(false);
+        }
     }
 
 }
