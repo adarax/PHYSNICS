@@ -1,5 +1,6 @@
 package edu.vanier.physnics.stackedblock;
 
+import edu.vanier.physnics.stackedblock.Vector.FORCE_TYPE;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -98,47 +99,74 @@ public class Arrow extends StackPane {
         {
             case LEFT ->
             {
+                // If it's a friction force which otherwise should not rotate
+                // but the arrow needs to be on the left, flip the orientation
+                if (forceVector.getForceType() == FORCE_TYPE.FRICTION)
+                {
+                    arrowBody.setRotate(180);
+                }
                 /*
                  TODO: Use the type to prevent overlap of arrows.
                        Do this by having the lower half of the block reserved
                        for friction forces, top half for applied forces (using its type)
-                
-                 TODO: Friction is always less than or equal to the force applied
-                       and so fricion vectors should not appear without a corresponding force
-                       vector, nor should the magnitude ever get bigger than the force no matter the friction coeff.
+              ** Issue: There are two friciton forces that overlap under certain conditions, not sure what to do about that yet...
                 */
                 
                 this.setLayoutX(blockPositionX - arrowBody.getFitWidth());
-                
-                this.setLayoutY(blockPositionY + arrowBody.getFitHeight());
             }
             
             case RIGHT ->
             {
                 this.setLayoutX(blockPositionX + blockWidth);
-                this.setLayoutY(blockPositionY + arrowBody.getFitHeight());
+//                this.setLayoutY(blockPositionY + arrowBody.getFitHeight());
             }
         }
+        
+        double yValueOffset = 0;
+        
+        switch (forceVector.getForceType())
+        {
+            case APPLIED ->
+            {
+                yValueOffset = blockHeight * (2/3);
+            }
+            case NORMAL ->
+            {
+                // Need to position normal forces at 90 degrees, but they don't even get displayed yet --> do this
+                
+            }
+            case FRICTION ->
+            {
+                yValueOffset = blockHeight / 3;
+            }
+        }
+        
+        this.setLayoutY(blockPositionY + yValueOffset);
+        
     }
     
     private void orientNameTagAndArrow()
     {
-        /*
-         * The (* -1) is to get the Arrow to rotate CCW as the angle slider value 
-         * increases, which standarizes the angle to a Cartesian plane
-         */
+        // The (* -1) is to get the Arrow to rotate CCW as the angle slider value 
+        // increases, which standarizes the angle to a Cartesian plane
         double rotationInDegrees = forceVector.getDirectionInDegrees() * -1;
         
-        arrowBody.setRotate(rotationInDegrees);
+       
+        // Only applied forces can rotate, friction vectors are always 0 or
+        // 180 degrees and normal force is always 90 degrees (to the floor)
+        if (forceVector.getForceType() == FORCE_TYPE.APPLIED)
+        {
+            arrowBody.setRotate(rotationInDegrees);
         
-        // Keep text upright (readable)
-        if (Math.abs(rotationInDegrees) > 90 && Math.abs(rotationInDegrees) < 270)
-        {
-            nameTag.setRotate(rotationInDegrees + 180);
-        }
-        else
-        {
-            nameTag.setRotate(rotationInDegrees);
+            // Keep text upright (readable)
+            if (Math.abs(rotationInDegrees) > 90 && Math.abs(rotationInDegrees) < 270)
+            {
+                nameTag.setRotate(rotationInDegrees + 180);
+            }
+            else
+            {
+                nameTag.setRotate(rotationInDegrees);
+            }
         }
     }
     
