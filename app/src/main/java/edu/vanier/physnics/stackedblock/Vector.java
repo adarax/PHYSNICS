@@ -8,15 +8,19 @@ import java.util.ArrayList;
  */
 public class Vector {
 
-    private final double magnitudeInNewtons;
+    private double magnitudeInNewtons;
 
     // Values range from 0 to 360 degrees
     private double directionInDegrees;
+    
+    // Setting the type of force is useful when animating the various Vectors
+    private FORCE_TYPE forceType;
 
-    public Vector(double magnitudeInNewtons, double directionInDegrees)
+    public Vector(double magnitudeInNewtons, double directionInDegrees, FORCE_TYPE forceType)
     {
         this.magnitudeInNewtons = magnitudeInNewtons;
         this.directionInDegrees = directionInDegrees;
+        this.forceType = forceType;
     }
     
     /**
@@ -89,5 +93,17 @@ public class Vector {
     public double getDirectionInDegrees()
     {
         return directionInDegrees;
+    }
+    
+    public FORCE_TYPE getForceType()
+    {
+        return forceType;
+    }
+    
+    public enum FORCE_TYPE
+    {
+        APPLIED,
+        FRICTION,
+        NORMAL
     }
 }

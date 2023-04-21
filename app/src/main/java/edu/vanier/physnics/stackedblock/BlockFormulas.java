@@ -1,6 +1,7 @@
 package edu.vanier.physnics.stackedblock;
 
 import edu.vanier.physnics.stackedblock.BlockFrontEndController.POSITION;
+import edu.vanier.physnics.stackedblock.Vector.FORCE_TYPE;
 import java.util.ArrayList;
 
 /**
@@ -37,7 +38,7 @@ public class BlockFormulas {
         double frictionVectorMagnitude = coefficientOfFriction * normalForceVector;
         double frictionVectorDirection = correspondingForceVector.getDirectionInDegrees();
         
-        Vector resultant = new Vector(frictionVectorMagnitude, frictionVectorDirection);
+        Vector resultant = new Vector(frictionVectorMagnitude, frictionVectorDirection, FORCE_TYPE.FRICTION);
 
         resultant.flipDirection();
         
@@ -64,7 +65,7 @@ public class BlockFormulas {
         double magnitudeOfResultant = Math.sqrt(Math.pow(sumXComponents, 2) + Math.pow(sumYComponents, 2));
         double directionOfResultant = Math.atan(sumYComponents / sumXComponents);
 
-        return new Vector(magnitudeOfResultant, directionOfResultant);
+        return new Vector(magnitudeOfResultant, directionOfResultant, FORCE_TYPE.NORMAL);
     }
 
     public ArrayList<Vector> determineForcesExperienced(Block topBlock,
@@ -80,7 +81,7 @@ public class BlockFormulas {
         ArrayList<Vector> allForcesExperienced = new ArrayList<>();
 
         double normalForceM2 = calculateNormalForceMagnitude(topBlock.getMass());
-        Vector forceVectorOnM2 = new Vector(forceOnM2, angleOfForceOnM2);
+        Vector forceVectorOnM2 = new Vector(forceOnM2, angleOfForceOnM2, FORCE_TYPE.APPLIED);
         Vector frictionVectorOnM2 = calculateFrictionVector(frictionCoeffM1, normalForceM2, forceVectorOnM2);
       
         if (blockId == POSITION.TOP)
@@ -91,7 +92,7 @@ public class BlockFormulas {
         else if (blockId == POSITION.BOTTOM)
         {
             double normalForceM1 = calculateNormalForceMagnitude(topBlock.getMass(), bottomBlock.getMass());
-            Vector forceVectorOnM1 = new Vector(forceOnM1, angleOfForceOnM1);
+            Vector forceVectorOnM1 = new Vector(forceOnM1, angleOfForceOnM1, FORCE_TYPE.APPLIED);
             Vector frictionVectorDueToFloor = calculateFrictionVector(frictionCoeffFloor, normalForceM1, forceVectorOnM1);
             frictionVectorOnM2.flipDirection();
 
