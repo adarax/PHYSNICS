@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -119,6 +120,8 @@ public class ConservationController {
     
     private ConservationGraphsController graphController;
     
+    private AnimationTimer updater;
+    
    
     @FXML
     public void initialize(){
@@ -130,6 +133,7 @@ public class ConservationController {
         btnPlay.setOnMouseClicked((e) -> {
             animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(), 
                     graphController.getPEGraph());
+            updater.start();
         });
         
         btnPause.setOnMouseClicked((e) -> {
@@ -249,8 +253,20 @@ public class ConservationController {
         
         setValueIndicators();
         
-        
-        
+        updater = new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+            updateValues();
+        }
+        };   
+    }
+    public void updateValues(){
+        double currentHeight = 
+                (0.5*(-g)*animBackend.getCurrentTime()*animBackend.getCurrentTime())+100;
+        graphController.setVelocityText(ConservationFormulas.getCurrentVelocity(
+                ConservationFormulas.potentialEnergy(mass, g, rampHeight), 
+                ConservationFormulas.potentialEnergy(mass, g, currentHeight), mass));
+        System.out.println(currentHeight);
     }
     
     public void setValueIndicators(){

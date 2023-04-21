@@ -144,6 +144,30 @@ public class Ramp extends Path{
     public void setPositionY(double positionY) {
         this.positionY = positionY;
     }
+
+    public Color getRampColor() {
+        return rampColor;
+    }
+
+    public void setRampColor(Color rampColor) {
+        this.rampColor = rampColor;
+    }
+
+    public double getInitialBallPositionX() {
+        return initialBallPositionX;
+    }
+
+    public void setInitialBallPositionX(double initialBallPositionX) {
+        this.initialBallPositionX = initialBallPositionX;
+    }
+
+    public double getInitialBallPositionY() {
+        return initialBallPositionY;
+    }
+
+    public void setInitialBallPositionY(double initialBallPositionY) {
+        this.initialBallPositionY = initialBallPositionY;
+    }
     
     
     

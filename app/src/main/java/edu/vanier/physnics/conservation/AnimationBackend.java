@@ -28,12 +28,17 @@ public class AnimationBackend {
     private ParallelTransition mainAnimation;
     private double cycleTime;
     
+    private double currentCycle;
+    private double currentTime;
+    
     private boolean playing;
     
     public AnimationBackend(){
         ballPath = new Path();
         playing = false;
         mainAnimation = new ParallelTransition();
+        currentTime = 0;
+        currentCycle = 0;
     }
     
     public void createBallAnimation(Ball ball, double height, double g){
@@ -123,5 +128,21 @@ public class AnimationBackend {
         if(playing){
             mainAnimation.pause();
         }
+    }
+    
+    public double getCurrentTime(){
+        Duration time = mainAnimation.getCurrentTime();
+        currentTime = time.toSeconds();
+        
+        if(currentTime>cycleTime){
+            currentCycle++;
+            currentTime = currentTime - cycleTime*currentCycle;
+        }
+        System.out.println("Current time: " + currentTime);
+        System.out.println("CurrentCycle: " + currentCycle);
+        
+       
+       return currentTime;
+        
     }
 }

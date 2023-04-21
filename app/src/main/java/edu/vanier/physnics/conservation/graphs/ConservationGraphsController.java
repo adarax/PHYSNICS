@@ -113,6 +113,14 @@ public class ConservationGraphsController {
         this.KEGraph = KEGraph;
     }
     
+    public void setKeText(double ke){
+        textKineticEnergy.setText("PE: "  
+                + "J");
+    }
+    
+    public void setVelocityText(double v){
+        textVelocity.setText("Current velocity: "  + v + " m/s");
+    }
     
     
 }
