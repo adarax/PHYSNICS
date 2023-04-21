@@ -33,16 +33,41 @@ public class BlockFormulas {
         return magnitudeOfForce;
     }
 
-    public Vector calculateFrictionVector(double coefficientOfFriction, double normalForceVector, Vector correspondingForceVector)
+    
+    /**
+     * Calculates the magnitude and direction of the friction vector.
+     * 
+     * The friction vector is always parallel to the surface. Therefore,
+     * the vector's direction can only be 0 or 180 degrees.
+     * 
+     * The friction vector is always less than the x component of the corresponding
+     * force vector.
+     * 
+     * @param coefficientOfFriction
+     * @param normalForceMagnitude
+     * @param correspondingForceVector
+     * @return The friction vector with the correct magnitude and direction based on
+     *         the coefficient of friction, the normal force and corresponding force vector.
+     */
+    public Vector calculateFrictionVector(double coefficientOfFriction, double normalForceMagnitude, Vector correspondingForceVector)
     {
-        double frictionVectorMagnitude = coefficientOfFriction * normalForceVector;
-        double frictionVectorDirection = correspondingForceVector.getDirectionInDegrees();
+        double frictionVectorMagnitude = coefficientOfFriction * normalForceMagnitude;
+        double correspondingForceVectorXComponent = correspondingForceVector.toComponents().get(0);
         
-        Vector resultant = new Vector(frictionVectorMagnitude, frictionVectorDirection, FORCE_TYPE.FRICTION);
-
-        resultant.flipDirection();
+        if (frictionVectorMagnitude > correspondingForceVectorXComponent)
+        {
+            frictionVectorMagnitude = correspondingForceVectorXComponent;
+        }
         
-        return resultant;
+        double frictionVectorDirection = 180;
+        double correspondingVectorDirection = correspondingForceVector.getDirectionInDegrees();
+        
+        if (correspondingVectorDirection > 90 && correspondingVectorDirection < 270)
+        {
+            frictionVectorDirection = 0;
+        }
+        
+        return new Vector(frictionVectorMagnitude, frictionVectorDirection, FORCE_TYPE.FRICTION);
     }
 
     /**
@@ -84,6 +109,8 @@ public class BlockFormulas {
         Vector forceVectorOnM2 = new Vector(forceOnM2, angleOfForceOnM2, FORCE_TYPE.APPLIED);
         Vector frictionVectorOnM2 = calculateFrictionVector(frictionCoeffM1, normalForceM2, forceVectorOnM2);
       
+        // TODO: Create normal for vectors for each block.
+
         if (blockId == POSITION.TOP)
         {
             allForcesExperienced.add(forceVectorOnM2);
