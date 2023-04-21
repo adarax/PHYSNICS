@@ -6,6 +6,7 @@ package edu.vanier.physnics.projectilemotion;
 
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.scene.control.Alert;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.MoveTo;
@@ -32,16 +33,17 @@ public class Animation {
         // Set the scaling from meters to pixels 
         // TODO: Scale the y-axis 
         double xDisplacementPX = xDisplacementM * 50;
-        double maxHeightPX = - maxHeightM;
+        double maxHeightPX =  - maxHeightM;
         
 
         MoveTo moveTo = new MoveTo();
         // Sets initial position of ball
-        moveTo.setX(50);
+        moveTo.setX(maxHeightM);
         moveTo.setY(800);
 
         // Projectile motion can be reresented by a quadratic curve
         QuadCurveTo quadTo = new QuadCurveTo();
+        
         
         
         //TODO: Add exception handling so that the animation doesn't exceed the pixel boundaries
@@ -61,16 +63,22 @@ public class Animation {
         quadTo.setControlX((xDisplacementPX - 50) / 2);
         quadTo.setControlY(maxHeightPX);
         
-        //Final point (final displacement)
+        // Final point (final displacement)
         quadTo.setX(xDisplacementPX);
         quadTo.setY(800);
         path.getElements().add(moveTo);
         path.getElements().add(quadTo);
         
-        pathTransition.setDuration(Duration.seconds(flightTimeS));
-        pathTransition.setPath(path);
-        pathTransition.setNode(ball);
-        pathTransition.play();
+        if (xDisplacementM < 1652 && maxHeightPX > 20) {
+            pathTransition.setDuration(Duration.seconds(flightTimeS));
+            pathTransition.setPath(path);
+            pathTransition.setNode(ball);
+            pathTransition.play();
+        }
+        else {
+            Alert alertAnimationOutOfRange = new Alert(Alert.AlertType.ERROR);
+                alertAnimationOutOfRange.showAndWait();
+        }
     }
     
     public void pauseAnimation() {

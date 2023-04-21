@@ -115,8 +115,10 @@ public class MainAppController {
         PHP.openHelpWindow();
     }
 
-    public void handleClear(MouseEvent e) {
-        // Reset the animation and bring the sliders to default values
+    public void handleClear(MouseEvent leftClick, List<MFXSlider> sliderList) {
+        for (MFXSlider slider : sliderList) {
+            slider.setValue(slider.getMin());
+        }
     }
 
 
@@ -128,10 +130,6 @@ public class MainAppController {
         sliderList.add(sliderInitialVelocity);
         sliderList.add(sliderLaunchAngle);
         
-        
-        buttonClear.setOnAction(e -> {
-            // Resets the animation and brings the sliders to default values
-        });
 
         menubuttonCentripetal.setOnAction(e -> {
             // Go to centripetal force screen
@@ -179,6 +177,11 @@ public class MainAppController {
         buttonHelp.setOnMouseClicked(leftClick -> {
             handleHelp(leftClick);
         });
+        
+        buttonClear.setOnMouseClicked(leftClick -> {
+            // Resets the animation and brings the sliders to default values
+            handleClear(leftClick, sliderList);
+        });
 
     }
     
@@ -204,5 +207,6 @@ public class MainAppController {
             slider.setDisable(false);
         }
     }
+    
 
 }
