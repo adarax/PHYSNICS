@@ -312,6 +312,8 @@ public class BlockFrontEndController {
         {
             System.out.println("Something went wrong changing scenes.");
         }
+        
+        currentStage.setFullScreen(true);
     }
 
     private void handleShowVectors(boolean toggled)
