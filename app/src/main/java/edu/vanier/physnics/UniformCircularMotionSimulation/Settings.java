@@ -10,8 +10,8 @@ package edu.vanier.physnics.UniformCircularMotionSimulation;
  * @author Admin
  */
 public class Settings {
-    static final double CENTER_MARKER_X_COORDINATE = 450;
-    static final double CENTER_MARKER_Y_COORDINATE = 250;
-    static final double CENTER_MARKER_RADIUS = 250;
+    static final double CENTER_MARKER_X_COORDINATE = 503;
+    static final double CENTER_MARKER_Y_COORDINATE = 346.5;
+    static final double CENTER_MARKER_INITIAL_RADIUS = 200;
     
 }

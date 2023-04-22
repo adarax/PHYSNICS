@@ -99,7 +99,7 @@ public class UniformCircularMotionController extends Stage{
     Path path4 = new Path();
     
     Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
-    Circle center = new Circle(250, 250, 2, Color.RED);
+    Circle center = new Circle(Settings.CENTER_MARKER_X_COORDINATE, Settings.CENTER_MARKER_Y_COORDINATE, 2, Color.RED);
     Group group = new Group();    
     Vector v;
     PathTransition pathTransitionCircle = new PathTransition();
@@ -110,9 +110,9 @@ public class UniformCircularMotionController extends Stage{
     AnimationTimer timerAngle = new AnimationTimer() {
         @Override
         public void handle(long l) {
-            double coordinateX = v.getVectorBody().getTranslateX();
-            double coordinateY = center.getRadius()-v.getVectorBody().getTranslateY();
-            double angle = Math.atan((coordinateY/coordinateX))*180/Math.PI;
+            double coordinateX = rectTest.getTranslateX()-center.getCenterX();
+            double coordinateY = center.getCenterY()-rectTest.getTranslateY();
+            double angle = Math.atan(getAngle())*180/Math.PI;
             if (coordinateX > 0) {
                 if (coordinateY > 0) {
                     angle = Math.abs(angle);
@@ -129,9 +129,13 @@ public class UniformCircularMotionController extends Stage{
                     angle = 180+Math.abs(angle);
                 }            
             }           
-            centrAccelText.setText(String.valueOf(angle));
+            angleText.setText(String.valueOf(angle));
+            centrAccelText.setText(String.valueOf(Formulas.calculateAccelerationCentripetal(car)));
             accelXText.setText(String.valueOf(Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText())));
             accelYText.setText(String.valueOf(Math.sin(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText())));
+            forceText.setText(String.valueOf(Formulas.calculateForce(car)));
+            forceXText.setText(String.valueOf(Math.cos(Math.toRadians(angle))*Double.valueOf(forceText.getText())));
+            forceYText.setText(String.valueOf(Math.sin(Math.toRadians(angle))*Double.valueOf(forceText.getText())));
         }
     };
     
@@ -255,7 +259,7 @@ public class UniformCircularMotionController extends Stage{
         pause();
         play();
         reset();
-        v = new Vector(100, 200, 270);
+        v = new Vector(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS, center.getCenterY()-Settings.CENTER_MARKER_INITIAL_RADIUS, 270);
         paneSimulate.getChildren().add(group);
     }
     
@@ -265,10 +269,19 @@ public class UniformCircularMotionController extends Stage{
         v.getVectorHeadRight().setLayoutX(2);
         //v.getVectorHeadRight().setLayoutY(0);
         
-        path1 = createEllipsePath(450+8*(radiusSlider.getValue()-25), 250, 200+8*(radiusSlider.getValue()-25), 200+8*(radiusSlider.getValue()-25), 0);
-        path2 = createEllipsePath(430+180/25*(radiusSlider.getValue()-25), 250, 180+180/25*(radiusSlider.getValue()-25), 180+180/25*(radiusSlider.getValue()-25), 0);
-        path3 = createEllipsePath(410+160/25*(radiusSlider.getValue()-25), 250, 160+160/25*(radiusSlider.getValue()-25), 160+160/25*(radiusSlider.getValue()-25), 0);
-        path4 = createEllipsePath(410+160/25*(radiusSlider.getValue()-25), 250, 160+160/25*(radiusSlider.getValue()-25), 160+160/25*(radiusSlider.getValue()-25), 0);
+        
+        path1 = createEllipsePath(337.5+center.getCenterY()+8*(Double.valueOf(radiusTextField.getText())-25),
+                center.getCenterY(),200+8*(Double.valueOf(radiusTextField.getText())-25),
+                200+8*(Double.valueOf(radiusTextField.getText())-25), 0);
+        path2 = createEllipsePath(317.5+center.getCenterY()+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+        path3 = createEllipsePath(297.5+center.getCenterY()+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+        path4 = createEllipsePath(297.5+center.getCenterY()+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
                
         group.getChildren().addAll(rectTest, path1, path2, path3, v.getVectorBody(), v.getVectorHeadLeft(), v.getVectorHeadRight());                
 
@@ -335,10 +348,18 @@ public class UniformCircularMotionController extends Stage{
                 useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());       
                 pauseAllPathTransition();
                 removePathAndNodes();
-                path1 = createEllipsePath(450+8*(car.getRadius()-25), 250, 200+8*(car.getRadius()-25), 200+8*(car.getRadius()-25), 0);
-                path2 = createEllipsePath(430+180/25*(car.getRadius()-25), 250, 180+180/25*(car.getRadius()-25), 180+180/25*(car.getRadius()-25), 0);
-                path3 = createEllipsePath(410+160/25*(car.getRadius()-25), 250, 160+160/25*(car.getRadius()-25), 160+160/25*(car.getRadius()-25), 0);
-                path4 = createEllipsePath(410+160/25*(car.getRadius()-25), 250, 160+160/25*(car.getRadius()-25), 160+160/25*(car.getRadius()-25), 0);
+                path1 = createEllipsePath(337.5+center.getCenterY()+8*(Double.valueOf(radiusTextField.getText())-25),
+                        center.getCenterY(),200+8*(Double.valueOf(radiusTextField.getText())-25),
+                        200+8*(Double.valueOf(radiusTextField.getText())-25), 0);
+                path2 = createEllipsePath(317.5+center.getCenterY()+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                        center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                        180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                path3 = createEllipsePath(297.5+center.getCenterY()+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                path4 = createEllipsePath(297.5+center.getCenterY()+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
                 updateRadiusSimulation(pathTransitionCircle, path1, rectTest);
                 updateRadiusSimulation(pathTransitionCircle2, path2, v.getVectorBody());
                 updateRadiusSimulation(pathTransitionCircle3, path3, v.getVectorHeadLeft());
@@ -379,10 +400,18 @@ public class UniformCircularMotionController extends Stage{
                 useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
                 pauseAllPathTransition();
                 removePathAndNodes();
-                path1 = createEllipsePath(450+8*(retrieveRadiusTextField()-25), 250, 200+8*(retrieveRadiusTextField()-25), 200+8*(retrieveRadiusTextField()-25), 0);
-                path2 = createEllipsePath(430+180/25*(retrieveRadiusTextField()-25), 250, 180+180/25*(retrieveRadiusTextField()-25), 180+180/25*(retrieveRadiusTextField()-25), 0);
-                path3 = createEllipsePath(410+160/25*(retrieveRadiusTextField()-25), 250, 160+160/25*(retrieveRadiusTextField()-25), 160+160/25*(retrieveRadiusTextField()-25), 0);
-                path4 = createEllipsePath(410+160/25*(retrieveRadiusTextField()-25), 250, 160+160/25*(retrieveRadiusTextField()-25), 160+160/25*(retrieveRadiusTextField()-25), 0);
+                path1 = createEllipsePath(337.5+center.getCenterY()+8*(Double.valueOf(radiusTextField.getText())-25),
+                        center.getCenterY(),200+8*(Double.valueOf(radiusTextField.getText())-25),
+                        200+8*(Double.valueOf(radiusTextField.getText())-25), 0);
+                path2 = createEllipsePath(317.5+center.getCenterY()+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                        center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                        180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                path3 = createEllipsePath(297.5+center.getCenterY()+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                path4 = createEllipsePath(297.5+center.getCenterY()+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                        160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
                 updateRadiusSimulation(pathTransitionCircle, path1, rectTest);
                 updateRadiusSimulation(pathTransitionCircle2, path2, v.getVectorBody());
                 updateRadiusSimulation(pathTransitionCircle3, path3, v.getVectorHeadLeft());
@@ -473,7 +502,7 @@ public class UniformCircularMotionController extends Stage{
     }
     
     public double getAngle(){
-        return Math.atan((rectTest.getLayoutY()-center.getCenterY())/rectTest.getLayoutX()-center.getCenterX());
+        return Math.atan((center.getCenterY()-rectTest.getTranslateY())/(rectTest.getTranslateX()-center.getCenterX()));
     }
     
     public void updateRadiusSimulation(PathTransition pathTransition, Path path, Node node){
