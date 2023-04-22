@@ -31,8 +31,8 @@ public class MainApp extends Application{
     @Override
     public void start(Stage stage){
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ucm-scene-graph.fxml"));
-        loader.setController(new Controller());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/uniform-circular-motion.fxml"));
+        loader.setController(new UniformCircularMotionController());
         Pane root = null;
         try {
             root = loader.load();
