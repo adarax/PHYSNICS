@@ -14,38 +14,25 @@ import edu.vanier.physnics.mainmenu.MainMenuController;
 // import edu.vanier.physnics.projectilemotion.MainAppController;
 
 public class App extends Application {
-    public Stage stage;
+    public Stage mainMenu;
 
     @Override
     public void start(Stage stage) throws Exception
     {    
-        this.stage = stage;
+        mainMenu = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController(this.stage);
+        MainMenuController mwc = new MainMenuController(mainMenu);
         loader.setController(mwc);
-        
-        // ProjectileController PCC = new ProjectileController();
-        // loader.setController(PCC);
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation.fxml"));
-        // ConservationController mwc = new ConservationController();
-        // loader.setController(mwc);
-        // mainMenu = stage;
-        
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
-        
-        // MainAppController PCC = new MainAppController();
-        // loader.setController(PCC);
         
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
-       
-        this.stage.setScene(scene);        
-        this.stage.setMaximized(true);
-        this.stage.sizeToScene();
-        this.stage.setFullScreen(true);
-        this.stage.getIcons().add(new Image("/images/app_icon.png"));
-       
-        this.stage.show();
+        
+        mainMenu.setScene(scene);        
+        mainMenu.setMaximized(true);
+        mainMenu.sizeToScene();
+        mainMenu.getIcons().add(new Image("/images/app_icon.png"));
+        mainMenu.setFullScreen(true);
+        mainMenu.show();
     }
     
     public static void main(String[] args) {
