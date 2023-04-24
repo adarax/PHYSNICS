@@ -32,6 +32,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
@@ -89,6 +90,16 @@ public class UniformCircularMotionController extends Stage{
     Text forceYText;
     @FXML
     MenuButton MenuButtonMenu;
+    @FXML
+    BorderPane uniformCircularMotionBorderPane;
+    
+    @FXML
+    Text warningMassText = new Text();
+    @FXML
+    Text warningSpeedText = new Text();
+    @FXML
+    Text warningRadiusText = new Text();
+    
 
     Timeline timeline;
     
@@ -107,7 +118,9 @@ public class UniformCircularMotionController extends Stage{
     PathTransition pathTransitionCircle3 = new PathTransition();
     PathTransition pathTransitionCircle4 = new PathTransition();
 
+    
     AnimationTimer timerAngle = new AnimationTimer() {
+        
         @Override
         public void handle(long l) {
             double coordinateX = rectTest.getTranslateX()-center.getCenterX();
@@ -381,6 +394,8 @@ public class UniformCircularMotionController extends Stage{
             pathTransitionCircle4.setNode(v.getVectorHeadLeft());
             pathTransitionCircle4.setPath(path4);
 
+            warningRadiusText.setText("");
+            
             if (!pauseButton.isDisabled()) {
                 playAllPathTransition();
             }
@@ -402,6 +417,7 @@ public class UniformCircularMotionController extends Stage{
             pathTransitionCircle2.setRate(0.1*car.getSpeed());
             pathTransitionCircle3.setRate(0.1*car.getSpeed());
             pathTransitionCircle4.setRate(0.1*car.getSpeed());
+            warningSpeedText.setText("");
             if (!pauseButton.isDisabled()) {
                playAllPathTransition();
             }
@@ -412,7 +428,8 @@ public class UniformCircularMotionController extends Stage{
         slider.setOnMouseDragged((event) -> {
                 textfield.setText(String.valueOf(round(slider.getValue())));
                 useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
-                v.setOpacity(Double.valueOf(textfield.getText()));                    
+                v.setOpacity(Double.valueOf(textfield.getText()));           
+                warningMassText.setText("");
     });        
     }
 
@@ -429,18 +446,37 @@ public class UniformCircularMotionController extends Stage{
                 clearPathElements();
                 clearPathTransitions();           
                 clearPathTransitions();
-                path1 = createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
+                if (car.getRadius() <= 41) {
+                    path1 = createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
                         center.getCenterY(),200+8*(car.getRadius()-25),
                         200+8*(car.getRadius()-25), 0);
-                path2 = createEllipsePath(center.getCenterX()+180+180/25*(car.getRadius()-25), 
-                        center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
-                        180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
-                path3 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
-                        center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
-                        160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
-                path4 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
-                        center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
-                       160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                    path2 = createEllipsePath(center.getCenterX()+180+180/25*(car.getRadius()-25), 
+                            center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
+                            180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                    path3 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
+                            center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                            160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+                    path4 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
+                            center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
+                           160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);                
+                    warningRadiusText.setText("");
+                }
+                else{
+                    path1 = createEllipsePath(center.getCenterX()+200+8*(41-25),
+                        center.getCenterY(),200+8*(41-25),
+                        200+8*(41-25), 0);
+                    path2 = createEllipsePath(center.getCenterX()+180+180/25*(41-25), 
+                            center.getCenterY(), 180+180/25*(41-25), 
+                            180+180/25*(41-25), 0);
+                    path3 = createEllipsePath(center.getCenterX()+160+160/25*(41-25),
+                            center.getCenterY(), 160+160/25*(41-25),
+                            160+160/25*(41-25), 0);
+                    path4 = createEllipsePath(center.getCenterX()+160+160/25*(41-25),
+                            center.getCenterY(), 160+160/25*(41-25),
+                           160+160/25*(41-25), 0);
+                    warningRadiusText.setText(Settings.RADIUS_LIMIT_MESSAGE);
+                    warningRadiusText.setFill(Color.RED);                
+                }
 
                 pathTransitionCircle.setNode(rectTest);
                 pathTransitionCircle.setPath(path1);
@@ -453,7 +489,8 @@ public class UniformCircularMotionController extends Stage{
 
                 pathTransitionCircle4.setNode(v.getVectorHeadLeft());
                 pathTransitionCircle4.setPath(path4);
-
+                
+                
                 if (!pauseButton.isDisabled()) {
                     playAllPathTransition();
                 }
@@ -467,9 +504,11 @@ public class UniformCircularMotionController extends Stage{
                     if (!textfield.getText().isBlank()) {
                     System.out.println("error");
                     System.out.println(e);
-                    radiusSlider.setValue(25);
-                    reset();
+                    radiusSlider.setValue(20);
+                    radiusTextField.setText("20");
+                    useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
                     popAlert("Invalid Radius Input. Please Try Again");
+                        linkRadiusTextFieldToSlider(slider, textfield);
                     }
             }
         });
@@ -480,17 +519,30 @@ public class UniformCircularMotionController extends Stage{
             try {
                 slider.setValue(Double.valueOf(textfield.getText()));
                 useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                pathTransitionCircle.setRate(0.1*car.getSpeed());
-                pathTransitionCircle2.setRate(0.1*car.getSpeed());
-                pathTransitionCircle3.setRate(0.1*car.getSpeed());
-                pathTransitionCircle4.setRate(0.1*car.getSpeed());
+                if (car.getSpeed() <= 10000) {
+                    pathTransitionCircle.setRate(0.1*car.getSpeed());
+                    pathTransitionCircle2.setRate(0.1*car.getSpeed());
+                    pathTransitionCircle3.setRate(0.1*car.getSpeed());
+                    pathTransitionCircle4.setRate(0.1*car.getSpeed());                    
+                    warningSpeedText.setText("");
+                }
+                else{
+                    pathTransitionCircle.setRate(1000);
+                    pathTransitionCircle2.setRate(1000);
+                    pathTransitionCircle3.setRate(1000);
+                    pathTransitionCircle4.setRate(1000);   
+                    warningSpeedText.setText(Settings.SPEED_LIMIT_MESSAGE);
+                    warningSpeedText.setFill(Color.RED);
+                }
             } catch (NumberFormatException e) {
                     if (!textfield.getText().isBlank()) {
                         System.out.println("error");
                         System.out.println(e);
                         speedSlider.setValue(10);
-                        reset();
+                        speedTextField.setText("10");
                         popAlert("Invalid Speed Input. Please Try Again");
+                        useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+                        linkSpeedSliderToTextField(slider, textfield);
                     }
             }
         });
@@ -501,15 +553,23 @@ public class UniformCircularMotionController extends Stage{
                 try {
                     slider.setValue(Double.valueOf(textfield.getText()));
                     useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                    v.setOpacity(Double.valueOf(textfield.getText()));
-                        } 
+                    if (car.getMass() <= 40) {
+                        v.setOpacity(Double.valueOf(textfield.getText()));                        
+                    }
+                    else{
+                        warningMassText.setText(Settings.MASS_LIMIT_MESSAGE);
+                        warningMassText.setFill(Color.RED);                    
+                    }
+                } 
                 catch (NumberFormatException e) {
                     if (!textfield.getText().isBlank()) {
                         System.out.println("Error");
                         System.out.println(e);
                         massTextField.setText("10");
-                        reset();
+                        massSlider.setValue(10);
                         popAlert("Invalid Mass Input. Please Try Again");                        
+                        useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
+                        linkMassTextFieldToSlider(slider, textfield);
                         }
                     }
             });                    
@@ -533,8 +593,8 @@ public class UniformCircularMotionController extends Stage{
 
         System.out.println(round(mass));
         
-        //centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
-        //forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));    
+        centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
+        forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));    
     }
     
     /**
@@ -678,7 +738,7 @@ public class UniformCircularMotionController extends Stage{
      */
     public void switchSimulation(String simulationName)
         {
-            Stage currentStage = (Stage) paneSimulate.getScene().getWindow();
+            Stage currentStage = (Stage) uniformCircularMotionBorderPane.getScene().getWindow();
 
             String destination = "/fxml/" + simulationName + ".fxml";
 

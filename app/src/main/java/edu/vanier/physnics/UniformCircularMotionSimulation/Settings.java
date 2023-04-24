@@ -14,4 +14,7 @@ public class Settings {
     static final double CENTER_MARKER_Y_COORDINATE = 346.5;
     static final double CENTER_MARKER_INITIAL_RADIUS = 200;
     
+    static final String RADIUS_LIMIT_MESSAGE = "Simulation can only show radius up to 41 m. Any radius set beyond that reflect the simulation of a radius of 41 m.";    
+    static final String SPEED_LIMIT_MESSAGE = "Simulation can only show speeds up to 10000 m/s. Any speed set beyond that reflect the simulation of a speed of 10000 m/s.";
+    static final String MASS_LIMIT_MESSAGE = "Simulation can only simulate masses up to 40 kg. Any mass set beyond that reflect the simulation of a mass of 40 kg.";
 }

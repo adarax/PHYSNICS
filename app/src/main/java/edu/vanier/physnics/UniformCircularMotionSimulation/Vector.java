@@ -45,14 +45,14 @@ public class Vector {
         line.setStartY(startY);    
         rotateVectorPart(line, startX, startY, angle, length);
         line.setStrokeWidth(3);
-        line.setOpacity(0.5);
+        line.setOpacity(0.25);
         return line;
     }
     
     public void setOpacity(double mass){
-        vectorBody.setOpacity(0.05*mass);
-        vectorHeadLeft.setOpacity(0.05*mass);
-        vectorHeadRight.setOpacity(0.05*mass);
+        vectorBody.setOpacity(0.025*mass);
+        vectorHeadLeft.setOpacity(0.025*mass);
+        vectorHeadRight.setOpacity(0.025*mass);
     }
     
     public void rotateVector(double angle){
