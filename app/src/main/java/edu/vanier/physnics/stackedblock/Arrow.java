@@ -60,9 +60,6 @@ public class Arrow extends StackPane {
         
         orientNameTagAndArrow();
         
-        // Position on block
-        
-        // TODO: Get quadrant and figure out how to place and angle arrows based on that
         int quadrant = 0;
         
         try
@@ -105,12 +102,8 @@ public class Arrow extends StackPane {
                 {
                     arrowBody.setRotate(180);
                 }
-                /*
-                 TODO: Use the type to prevent overlap of arrows.
-                       Do this by having the lower half of the block reserved
-                       for friction forces, top half for applied forces (using its type)
-              ** Issue: There are two friciton forces that overlap under certain conditions, not sure what to do about that yet...
-                */
+                
+                // Issue: There are two friciton forces that overlap under certain conditions, need to fix this
                 
                 this.setLayoutX(blockPositionX - arrowBody.getFitWidth());
             }
@@ -118,7 +111,6 @@ public class Arrow extends StackPane {
             case RIGHT ->
             {
                 this.setLayoutX(blockPositionX + blockWidth);
-//                this.setLayoutY(blockPositionY + arrowBody.getFitHeight());
             }
         }
         
@@ -132,7 +124,10 @@ public class Arrow extends StackPane {
             }
             case NORMAL ->
             {
-                // Need to position normal forces at 90 degrees, but they don't even get displayed yet --> do this
+                // TODO: implement normal force vector if time permits
+                
+//                this.setLayoutX(blockPositionX + (arrowBody.getFitHeight()));
+                
                 
             }
             case FRICTION ->
@@ -168,6 +163,12 @@ public class Arrow extends StackPane {
                 nameTag.setRotate(rotationInDegrees);
             }
         }
+        // Normal force vectors points up, opposite of the floor
+//        else if (forceVector.getForceType() == FORCE_TYPE.NORMAL)
+//        {
+//            arrowBody.setRotate(-90);
+//            nameTag.setRotate(-90);
+//        }
     }
     
     /**
