@@ -11,16 +11,13 @@ import edu.vanier.physnics.projectilemotion.ProjectileController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -29,8 +26,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -97,6 +92,8 @@ public class UniformCircularMotionController extends Stage{
     MenuItem menuItemStacked;
     @FXML
     MenuItem menuItemProjectile;
+    @FXML
+    MenuItem menuItemQuit;
     @FXML
     ImageView buttonHome;
     
@@ -186,6 +183,10 @@ public class UniformCircularMotionController extends Stage{
          
         menuItemConservationEnergy.setOnAction((e) ->{
             switchSimulation("conservation");
+        });
+        
+        menuItemQuit.setOnAction((e) ->{
+            switchSimulation("quit");
         });
     }
     
@@ -771,53 +772,58 @@ public class UniformCircularMotionController extends Stage{
      * A method used to switch the present simulation to another simulation
      * @param simulationName the name of the simulation that is being switched to
      */
-    public void switchSimulation(String simulationName)
-        {
+    public void switchSimulation(String simulationName){
+        
             Stage currentStage = (Stage) uniformCircularMotionBorderPane.getScene().getWindow();
 
             String destination = "/fxml/" + simulationName + ".fxml";
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
 
-            switch (simulationName)
-            {
-                case "stackedblock" ->
-                {
-                    BlockFrontEndController blockcontroller = new BlockFrontEndController();
-                    loader.setController(blockcontroller);
-                }
-                case "projectile" ->
-                {
-                    ProjectileController projectileController = new ProjectileController();
-                    loader.setController(projectileController);
-                }
-                case "ucm-scene-graph" ->
-                {
-                    UniformCircularMotionController ucmController = new UniformCircularMotionController();
-                    loader.setController(ucmController);
-                }
-                case "conservation" ->
-                {
-                    ConservationController controller = new ConservationController();
-                    loader.setController(controller);
-                }
-                case "mainmenu" ->
-                {
-                    MainMenuController menuController = new MainMenuController(currentStage);
-                    loader.setController(menuController);
-                }
-                default ->
-                    System.out.println("Invalid simulation name");
+            if (simulationName.equals("quit")) {
+                currentStage.close();
             }
+            else{
+                switch (simulationName)
+                {
+                    case "stackedblock" ->
+                    {
+                        BlockFrontEndController blockcontroller = new BlockFrontEndController();
+                        loader.setController(blockcontroller);
+                    }
+                    case "projectile" ->
+                    {
+                        ProjectileController projectileController = new ProjectileController();
+                        loader.setController(projectileController);
+                    }
+                    case "ucm-scene-graph" ->
+                    {
+                        UniformCircularMotionController ucmController = new UniformCircularMotionController();
+                        loader.setController(ucmController);
+                    }
+                    case "conservation" ->
+                    {
+                        ConservationController controller = new ConservationController();
+                        loader.setController(controller);
+                    }
+                    case "mainmenu" ->
+                    {
+                        MainMenuController menuController = new MainMenuController(currentStage);
+                        loader.setController(menuController);
+                    }
+                    default ->
+                        System.out.println("Invalid simulation name");
+                }
 
-            try
-            {
-                Parent root = loader.load();
-                Scene scene = new Scene(root, 1920, 1080);
-                currentStage.setScene(scene);
-            } catch (IOException ex)
-            {
-                System.out.println("Something went wrong changing scenes.");
-            }
-        }
+                try
+                {
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root, 1920, 1080);
+                    currentStage.setScene(scene);
+                } catch (IOException ex)
+                {
+                    System.out.println("Something went wrong changing scenes.");
+                }
+        }            
+    }
 }
