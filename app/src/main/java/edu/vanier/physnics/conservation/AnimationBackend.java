@@ -114,14 +114,9 @@ public class AnimationBackend {
     
     
     
-    public void reset(){
-        if(playing){
-            playing = false;
-            mainAnimation.stop();
-            mainAnimation = null;
-        }
-        
-       
+    public void reset(){       
+        playing = false;
+        mainAnimation.stop();
     }
     
     public void pause(){

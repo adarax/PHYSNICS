@@ -4,6 +4,7 @@
  */
 package edu.vanier.physnics.conservation;
 
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -23,6 +24,8 @@ public class Settings {
     public static final String[] FRICTION_COEFFICIENTS = 
     {"Aluminium: 0.61", "Brass: 0.5", "Cast Iron: 0.4", "Copper: 0.53", "Steel: 0.8"};
     
+    public static final Color INITTIAL_BALL_COLOR = Color.RED; 
+    public static final Color INITTIAL_RAMP_COLOR = Color.BLACK;
     
     
     public static final double HEIGHT_ANIMATION_PANE = 790;

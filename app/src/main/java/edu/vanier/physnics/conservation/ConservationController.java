@@ -4,23 +4,17 @@
  */
 package edu.vanier.physnics.conservation;
 
-import edu.vanier.physnics.App;
 import edu.vanier.physnics.UCMSimulation.UCMController;
 import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import edu.vanier.physnics.projectilemotion.ProjectileController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
-import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,13 +22,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -93,6 +88,12 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
     
+    @FXML
+    private MenuItem menuItemChangeBallColor;
+    
+    @FXML
+     private MenuItem menuItemChangeRampColor;
+    
     //color of the ramp and the ball
     private Color rampColor;
     private Color ballColor;
@@ -133,7 +134,7 @@ public class ConservationController {
         btnPlay.setOnMouseClicked((e) -> {
             animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(), 
                     graphController.getPEGraph());
-            updater.start();
+            //updater.start();
         });
         
         btnPause.setOnMouseClicked((e) -> {
@@ -202,6 +203,19 @@ public class ConservationController {
             switchSimulation("ucm-scene-graph");
         });
         
+        menuItemChangeBallColor.setOnAction((eventHandler) -> {
+            ballColor = getNewColor((Color) ball.getFill(), "Change ball color");
+            ball.setFill(ballColor);
+        });
+        
+        menuItemChangeRampColor.setOnAction((eventHandler) -> {
+            rampColor = getNewColor(rampColor, "Change ramp color");
+            ramp = null;
+            paneAnimation.getChildren().remove(ramp);
+            createRamp();
+        });
+        
+        
         
     };
     
@@ -211,8 +225,8 @@ public class ConservationController {
         animBackend = new AnimationBackend();
         
         //setup color of the ramp and the ball
-        rampColor = Color.BLACK;
-        ballColor = Color.RED;
+        rampColor = Settings.INITTIAL_RAMP_COLOR;
+        ballColor = Settings.INITTIAL_BALL_COLOR;
         
         //initialize the ball and ramp
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
@@ -220,14 +234,12 @@ public class ConservationController {
         //no friction on initialize
         friction = false;
         
+        paneAnimation.getChildren().add(ball);
+        
         //draw the ramp
-        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS, 
-                Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
+        createRamp();
         
-        //set the path of the ball
-        ramp.createBallPath(ball);
         
-        paneAnimation.getChildren().addAll(ball, ramp);
         
         //add the options to the choiceboxes
         for(int i = 0; i<Settings.GRAVITATIONAL_CONSTANTS.length; i++){
@@ -256,10 +268,22 @@ public class ConservationController {
         updater = new AnimationTimer() {
         @Override
         public void handle(long l) {
-            updateValues();
+           // updateValues();
         }
         };   
     }
+    
+    public void createRamp(){
+        //draw the ramp
+        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS, 
+                Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
+        
+        //set the path of the ball
+        ramp.createBallPath(ball);
+        
+        paneAnimation.getChildren().add(ramp);
+    }
+    
     public void updateValues(){
         double currentHeight = 
                 (0.5*(-g)*animBackend.getCurrentTime()*animBackend.getCurrentTime())+100;
@@ -314,6 +338,7 @@ public class ConservationController {
         ball = null;
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
         ramp.createBallPath(ball);
+        ball.setMass(mass);
         paneAnimation.getChildren().add(ball);
             
     }
@@ -403,5 +428,40 @@ public class ConservationController {
         rightPoint.setStrokeWidth(width);
         
         paneAnimation.getChildren().addAll(arrowShaft, leftPoint, rightPoint);
+    }
+    
+    public Color getNewColor(Color objectColor, String title) {
+        Stage colorPickerStage = new Stage();
+        VBox v = new VBox();
+        //components
+        ColorPicker cpicker = new ColorPicker();
+        cpicker.setValue(objectColor);
+        Button submit = new Button("Submit");
+        Button cancel = new Button("Cancel");
+        Label label = new Label(title);
+        //adding everything to the scene
+        v.getChildren().addAll(label, cpicker, submit, cancel);
+        Scene cPickerScene = new Scene(v, 150, 100);
+        //adds everything to the stage
+        colorPickerStage.setScene(cPickerScene);
+        colorPickerStage.setTitle(title);
+        colorPickerStage.setResizable(false);
+
+        submit.setOnAction((e) -> {
+            colorPickerStage.close();
+        });
+
+        cancel.setOnAction((e) -> {
+            cpicker.setValue(null);
+            colorPickerStage.close();
+        });
+
+        colorPickerStage.showAndWait();
+
+        if (cpicker.getValue() != null) {
+            return cpicker.getValue();
+        } else {
+            return objectColor;
+        }
     }
 }
