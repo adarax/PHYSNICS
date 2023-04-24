@@ -91,4 +91,26 @@ public class BlockAnimation {
 
         animationPane.getChildren().add(floorDrawing);
     }
+    
+    
+    // TODO: implement animation using guidelines commented below
+    
+    public void play(Vector netForceVectorTopBlock, Vector netForceVectorBottomBlock, Block topBlock, Block bottomBlock)
+    {
+        // Resolve the direction of the blocks
+        // From net force, get acceleration of block since mass is known
+        
+        // If top and bottom block are no longer touching, top block should fall off
+        // at gravitational acceleration minus the opposing vertical forces
+    }
+    
+    public void pause()
+    {
+    }
+    
+    public void stop()
+    {
+        // Go to initial position, clear vectors
+    }
+    
 }
