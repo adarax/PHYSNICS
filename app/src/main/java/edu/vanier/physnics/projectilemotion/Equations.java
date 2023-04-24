@@ -8,7 +8,7 @@ package edu.vanier.physnics.projectilemotion;
  *
  * @author vires
  */
-public class ProjectileEquations {
+public class Equations {
     /**
      * Method representing the formula for max height of projectile motion.
      * H(m) = (initialVelocityMPS^2(sin(launchAngleDeg))^2) / (2 * gravityAccelMPSS)
