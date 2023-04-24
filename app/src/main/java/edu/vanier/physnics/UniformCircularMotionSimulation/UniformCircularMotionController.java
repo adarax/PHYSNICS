@@ -7,7 +7,7 @@ package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 import edu.vanier.physnics.conservation.ConservationController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
-import edu.vanier.physnics.projectilemotion.ProjectileController;
+import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
@@ -793,7 +793,7 @@ public class UniformCircularMotionController extends Stage{
                     }
                     case "projectile" ->
                     {
-                        ProjectileController projectileController = new ProjectileController();
+                        MainAppController projectileController = new MainAppController();
                         loader.setController(projectileController);
                     }
                     case "ucm-scene-graph" ->

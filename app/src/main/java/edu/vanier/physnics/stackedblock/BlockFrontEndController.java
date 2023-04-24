@@ -1,9 +1,9 @@
 package edu.vanier.physnics.stackedblock;
 
-import edu.vanier.physnics.UCMSimulation.UCMController;
+import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
 import edu.vanier.physnics.conservation.ConservationController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
-import edu.vanier.physnics.projectilemotion.ProjectileController;
+import edu.vanier.physnics.projectilemotion.MainAppController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
@@ -286,12 +286,12 @@ public class BlockFrontEndController {
             }
             case "projectile" ->
             {
-                ProjectileController projectileController = new ProjectileController();
+                MainAppController projectileController = new MainAppController();
                 loader.setController(projectileController);
             }
             case "ucm-scene-graph" ->
             {
-                UCMController ucmController = new UCMController();
+                UniformCircularMotionController ucmController = new UniformCircularMotionController();
                 loader.setController(ucmController);
             }
             case "mainmenu" ->

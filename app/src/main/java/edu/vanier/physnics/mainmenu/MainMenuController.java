@@ -3,7 +3,7 @@ package edu.vanier.physnics.mainmenu;
 import edu.vanier.physnics.App;
 import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
 import edu.vanier.physnics.conservation.ConservationController;
-import edu.vanier.physnics.projectilemotion.ProjectileController;
+import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -59,7 +59,7 @@ public class MainMenuController extends App {
         } else if (type.equals("projectile"))
         {
             loader = new FXMLLoader(getClass().getResource("/fxml/projectile.fxml"));
-            ProjectileController controller = new ProjectileController();
+            MainAppController controller = new MainAppController();
             loader.setController(controller);
         }
         else if(type.equals("UCM")){
