@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <GridPane gridLinesVisible="true" prefHeight="720.0" prefWidth="960.0">
         <columnConstraints>
@@ -81,13 +81,37 @@
                   <Font name="Arial" size="24.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="120.0" left="260.0" />
+                  <Insets bottom="140.0" left="260.0" />
                </GridPane.margin>
             </Label>
-            <Text fx:id="mediaButtonText" strokeType="OUTSIDE" strokeWidth="0.0" text="mediaButtonSample" />
-            <Text fx:id="sliderText" strokeType="OUTSIDE" strokeWidth="0.0" text="sliderSample" GridPane.rowIndex="1" />
-            <Text fx:id="graphButtonText" strokeType="OUTSIDE" strokeWidth="0.0" text="graphButtonSample" GridPane.rowIndex="2" />
-            <Text fx:id="clearValuesText" strokeType="OUTSIDE" strokeWidth="0.0" text="ClearValueSample" GridPane.rowIndex="3" />
+            <Text fx:id="mediaButtonText" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mediaButtonSample">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></Text>
+            <Text fx:id="sliderText" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="sliderSample" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></Text>
+            <Text fx:id="graphButtonText" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="graphButtonSample" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></Text>
+            <Text fx:id="clearValuesText" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ClearValueSample" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></Text>
          </children>
       </GridPane>
    </content>
