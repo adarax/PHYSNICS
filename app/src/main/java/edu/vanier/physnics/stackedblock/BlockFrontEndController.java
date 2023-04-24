@@ -318,7 +318,7 @@ public class BlockFrontEndController {
 
     private void handleShowVectors(boolean toggled)
     {
-        // Change boolean value, since the button was toggled
+        // Change boolean value since the button was toggled
         if (toggled)
         {
             isVectorShowing = !isVectorShowing;
@@ -328,6 +328,10 @@ public class BlockFrontEndController {
         {
             topBlock.drawFreeBodyDiagram(paneAnimation);
             bottomBlock.drawFreeBodyDiagram(paneAnimation);
+        }
+        else
+        {
+            updateScene();
         }
     }
 
