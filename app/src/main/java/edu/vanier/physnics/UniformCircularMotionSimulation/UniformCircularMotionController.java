@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -91,7 +92,19 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     MenuButton MenuButtonMenu;
     @FXML
+    MenuItem menuItemConservationEnergy;
+    @FXML
+    MenuItem menuItemStacked;
+    @FXML
+    MenuItem menuItemProjectile;
+    @FXML
+    ImageView buttonHome;
+    
+    @FXML
     BorderPane uniformCircularMotionBorderPane;
+    
+    
+    
     
     @FXML
     Text warningMassText = new Text();
@@ -142,13 +155,13 @@ public class UniformCircularMotionController extends Stage{
                     angle = 180+Math.abs(angle);
                 }            
             }           
-            angleText.setText(String.valueOf(angle));
-            centrAccelText.setText(String.valueOf(Formulas.calculateAccelerationCentripetal(car)));
-            accelXText.setText(String.valueOf(Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText())));
-            accelYText.setText(String.valueOf(Math.sin(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText())));
-            forceText.setText(String.valueOf(Formulas.calculateForce(car)));
-            forceXText.setText(String.valueOf(Math.cos(Math.toRadians(angle))*Double.valueOf(forceText.getText())));
-            forceYText.setText(String.valueOf(Math.sin(Math.toRadians(angle))*Double.valueOf(forceText.getText())));
+            angleText.setText(String.valueOf(round(angle)));
+            centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
+            accelXText.setText(String.valueOf(round(Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
+            accelYText.setText(String.valueOf(round(Math.sin(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
+            forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));
+            forceXText.setText(String.valueOf(round(Math.cos(Math.toRadians(angle))*Double.valueOf(forceText.getText()))));
+            forceYText.setText(String.valueOf(round(Math.sin(Math.toRadians(angle))*Double.valueOf(forceText.getText()))));
         }
     };
     
@@ -159,6 +172,21 @@ public class UniformCircularMotionController extends Stage{
         System.out.println("Booting up simulation...");
         submitSimulation();
         setUp();
+        buttonHome.setOnMouseClicked((e) -> {        
+            switchSimulation("mainmenu");
+        });
+        
+        menuItemProjectile.setOnAction((e) ->{
+            switchSimulation("projectile");
+        });
+        
+        menuItemStacked.setOnAction((e) ->{
+            switchSimulation("stackedblock");
+        });
+         
+        menuItemConservationEnergy.setOnAction((e) ->{
+            switchSimulation("conservation");
+        });
     }
     
     
@@ -237,7 +265,8 @@ public class UniformCircularMotionController extends Stage{
             clearPathElements();
             clearPathTransitions();
             submitButton.setDisable(false);
-       });
+            clearWarningMessages();
+      });
     }    
     
     @FXML
@@ -519,7 +548,7 @@ public class UniformCircularMotionController extends Stage{
             try {
                 slider.setValue(Double.valueOf(textfield.getText()));
                 useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                if (car.getSpeed() <= 10000) {
+                if (car.getSpeed() <= 200) {
                     pathTransitionCircle.setRate(0.1*car.getSpeed());
                     pathTransitionCircle2.setRate(0.1*car.getSpeed());
                     pathTransitionCircle3.setRate(0.1*car.getSpeed());
@@ -527,10 +556,10 @@ public class UniformCircularMotionController extends Stage{
                     warningSpeedText.setText("");
                 }
                 else{
-                    pathTransitionCircle.setRate(1000);
-                    pathTransitionCircle2.setRate(1000);
-                    pathTransitionCircle3.setRate(1000);
-                    pathTransitionCircle4.setRate(1000);   
+                    pathTransitionCircle.setRate(20);
+                    pathTransitionCircle2.setRate(20);
+                    pathTransitionCircle3.setRate(20);
+                    pathTransitionCircle4.setRate(20);   
                     warningSpeedText.setText(Settings.SPEED_LIMIT_MESSAGE);
                     warningSpeedText.setFill(Color.RED);
                 }
@@ -721,6 +750,12 @@ public class UniformCircularMotionController extends Stage{
         pathTransitionCircle4.setNode(null);
         pathTransitionCircle4.setPath(null);
     }
+    
+   public void clearWarningMessages(){
+       warningMassText.setText("");
+       warningSpeedText.setText("");
+       warningRadiusText.setText("");
+   }
     
     /**
      * Makes an alert pop-up

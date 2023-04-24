@@ -21,10 +21,10 @@
             <Insets />
          </HBox.margin>
          <children>
-            <MenuButton fx:id="MenuButtonMenu" layoutX="20.0" layoutY="50.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Menu">
+            <MenuButton fx:id="buttonMenuChoose" layoutX="20.0" layoutY="50.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Menu">
               <items>
                 <MenuItem fx:id="menuItemProjectile" mnemonicParsing="false" text="Projectile motion" />
-                <MenuItem fx:id="menuItemUCM" mnemonicParsing="false" text="UCM" />
+                <MenuItem fx:id="menuItemConservationEnergy" mnemonicParsing="false" text="Conservation of Energy" />
                   <MenuItem fx:id="menuItemStacked" mnemonicParsing="false" text="Stacked blocks" />
                   <MenuItem fx:id="menuItemQuit" mnemonicParsing="false" text="Quit" />
               </items>
