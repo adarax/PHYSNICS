@@ -54,7 +54,7 @@ public class Vector {
         }
     }
 
-    public ArrayList<Double> toComponents()
+    public ArrayList<Double> asComponents()
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
