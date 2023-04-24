@@ -6,9 +6,11 @@ package edu.vanier.physnics.projectilemotion;
 
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.geometry.Point3D;
 import javafx.scene.control.Alert;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.QuadCurveTo;
@@ -83,6 +85,10 @@ public class Animation {
     
     public void pauseAnimation() {
         pathTransition.pause();
+    }
+    
+    public void rotateCannon(Ellipse cannon, double launchAngle) {
+        cannon.setRotate(launchAngle);
     }
     
     
