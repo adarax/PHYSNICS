@@ -1,7 +1,9 @@
 package edu.vanier.physnics.stackedblock;
 
+import edu.vanier.physnics.stackedblock.BlockFrontEndController.POSITION;
 import java.util.ArrayList;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -13,23 +15,23 @@ import javafx.scene.shape.Rectangle;
 public class Block extends StackPane {
 
     private double mass;
-    private int blockNumber;
+    private POSITION blockId;
     private double drawingHeight;
     private double drawingWidth;
     private ArrayList<Vector> forcesExperienced;
     private Color blockColor;
     private Rectangle blockDrawing;
     private String name;
-    private Label nametag;
+    private Label nameTag;
 
-    public Block(int blockNumber)
+    public Block(POSITION blockId)
     {
         this.mass = 1.0;
-        
+
         determineAndSetDrawingHeight();
         determineAndSetDrawingWidth();
-        
-        this.blockNumber = blockNumber;
+
+        this.blockId = blockId;
         this.blockColor = determineColor();
         this.name = determineName();
     }
@@ -44,14 +46,14 @@ public class Block extends StackPane {
         this.mass = mass;
     }
 
-    public int getBlockNumber()
+    public POSITION getBlockId()
     {
-        return blockNumber;
+        return blockId;
     }
 
-    public void setBlockNumber(int blockNumber)
+    public void setBlockId(POSITION blockId)
     {
-        this.blockNumber = blockNumber;
+        this.blockId = blockId;
     }
 
     public ArrayList<Vector> getForcesExperienced()
@@ -84,14 +86,14 @@ public class Block extends StackPane {
         this.blockDrawing = blockDrawing;
     }
 
-    public Label getNametag()
+    public Label getNameTag()
     {
-        return nametag;
+        return nameTag;
     }
 
-    public void setNametag(Label nametag)
+    public void setNameTag(Label nameTag)
     {
-        this.nametag = nametag;
+        this.nameTag = nameTag;
     }
 
     public String getName()
@@ -103,11 +105,11 @@ public class Block extends StackPane {
     {
         this.name = name;
     }
-    
-    public void drawBlock()
+
+    public void draw()
     {
         this.getChildren().clear();
-        this.getChildren().addAll(blockDrawing, nametag);
+        this.getChildren().addAll(blockDrawing, nameTag);
     }
 
     /*
@@ -123,7 +125,7 @@ public class Block extends StackPane {
 
     public final void determineAndSetDrawingHeight()
     {
-        double heightValue = 80 * Math.log(mass) + 80;
+        double heightValue = 100 * Math.log(mass / 2) + 40;
         this.setDrawingHeight(heightValue);
     }
 
@@ -147,16 +149,15 @@ public class Block extends StackPane {
         this.drawingHeight = drawingHeight;
     }
 
-    // The bottom block is blockNumber 0, the top is blockNumber 1
     public final String determineName()
     {
         String label = "";
 
-        switch (this.blockNumber)
+        switch (this.blockId)
         {
-            case 0 ->
+            case BOTTOM ->
                 label = "M1";
-            case 1 ->
+            case TOP ->
                 label = "M2";
             default ->
                 throw new IllegalArgumentException();
@@ -169,11 +170,13 @@ public class Block extends StackPane {
     {
         Color correspondingColor = null;
 
-        switch (this.blockNumber)
+        switch (this.blockId)
         {
-            case 0 ->
+            case BOTTOM ->
+                // Light green
                 correspondingColor = Color.web("46B198");
-            case 1 ->
+            case TOP ->
+                // Light red
                 correspondingColor = Color.web("D45D5D");
             default ->
                 throw new IllegalArgumentException();
@@ -193,17 +196,29 @@ public class Block extends StackPane {
         return (int) (7 * Math.log(this.drawingHeight));
     }
 
-    
-    // TODO: no need for this in release, it's just for testing
-    @Override
-    public String toString()
+    /**
+     * Using arrow shapes, draw the vectors affecting the block.
+     *
+     * @param animationPane
+     */
+    public void drawFreeBodyDiagram(Pane animationPane)
     {
-        return "Block{" + "mass=" + mass + ", blockNumber=" + blockNumber + ", drawingHeight=" + drawingHeight + ", drawingWidth=" + drawingWidth + ", forcesExperienced=" + forcesExperienced + '}';
+        ArrayList<Arrow> vectorDrawings = new ArrayList<>();
+
+        for (Vector forceVector : forcesExperienced)
+        {
+            if (forceVector.getMagnitudeInNewtons() > 0)
+            {
+                Arrow vectorDrawing = new Arrow(forceVector, this);
+                vectorDrawings.add(vectorDrawing);
+            }
+        }
+
+        for (Arrow vectorDrawing : vectorDrawings)
+        {
+            vectorDrawing.sizeAndPositionToBlock();
+            vectorDrawing.draw();
+            animationPane.getChildren().addAll(vectorDrawing);
+        }
     }
-    
-    
-    
-    
-    
-    
 }

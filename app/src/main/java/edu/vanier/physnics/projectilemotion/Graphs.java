@@ -8,6 +8,6 @@ package edu.vanier.physnics.projectilemotion;
  *
  * @author vires
  */
-public class ProjectileGraphs {
+public class Graphs {
     
 }

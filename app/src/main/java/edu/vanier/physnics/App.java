@@ -8,38 +8,31 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 // import edu.vanier.physnics.stackedblock.BlockFrontEndController;   
-import edu.vanier.physnics.conservation.ConservationController;
+// import edu.vanier.physnics.conservation.ConservationController;
 // import edu.vanier.physnics.projectilemotion.ProjectileController;
+// import edu.vanier.physnics.conservation.ConservationController;
+// import edu.vanier.physnics.projectilemotion.MainAppController;
 
 public class App extends Application {
-    public Stage stage;
+    public Stage mainMenu;
 
     @Override
     public void start(Stage stage) throws Exception
     {    
-        this.stage = stage;
-        /*
+        mainMenu = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController(this.stage);
-        loader.setController(mwc);
-        */
-        
-        // ProjectileController PCC = new ProjectileController();
-        // loader.setController(PCC);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation.fxml"));
-        ConservationController mwc = new ConservationController();
+        MainMenuController mwc = new MainMenuController(mainMenu);
         loader.setController(mwc);
         
         Parent root = loader.load();               
         Scene scene = new Scene(root, 1920, 1080);
-       
-        this.stage.setScene(scene);        
-        this.stage.setMaximized(true);
-        this.stage.sizeToScene();
-        this.stage.setFullScreen(true);
-        this.stage.getIcons().add(new Image("/images/app_icon.png"));
-       
-        this.stage.show();
+        
+        mainMenu.setScene(scene);        
+        mainMenu.setMaximized(true);
+        mainMenu.sizeToScene();
+        mainMenu.getIcons().add(new Image("/images/app_icon.png"));
+        mainMenu.setFullScreen(true);
+        mainMenu.show();
     }
     
     public static void main(String[] args) {

@@ -1,15 +1,24 @@
 package edu.vanier.physnics.stackedblock;
 
+import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
+import edu.vanier.physnics.conservation.ConservationController;
+import edu.vanier.physnics.mainmenu.MainMenuController;
+import edu.vanier.physnics.projectilemotion.MainAppController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -82,16 +91,17 @@ public class BlockFrontEndController {
 
     private final BlockAnimation blockAnimationHandler = new BlockAnimation();
     private final BlockFormulas blockFormulasCalculator = new BlockFormulas();
-
-    // Basic initial setup of blocks
-    private final Block topBlock = new Block(1);
-    private final Block bottomBlock = new Block(0);
+    
+    private final Block topBlock = new Block(POSITION.TOP);
+    private final Block bottomBlock = new Block(POSITION.BOTTOM);
 
     private ArrayList<MFXSlider> allSliders;
 
     private boolean isDark = false;
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
+
+    private boolean isVectorShowing = false;
 
     @FXML
     public void initialize()
@@ -109,44 +119,38 @@ public class BlockFrontEndController {
 
         addSliderEventHandlers();
 
-        buttonDarkMode.setOnMouseClicked(e -> handleDarkMode());
+        buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
 
-        buttonClear.setOnAction(e -> handleClear());
+        buttonClear.setOnAction(press -> handleClear());
 
-        menubuttonCentripetal.setOnAction(e -> goToCentripetalForce());
+        menubuttonCentripetal.setOnAction(press -> switchSimulation("ucm-scene-graph"));
 
-        menubuttonConservation.setOnAction(e -> goToConservationOfEnergy());
+        menubuttonConservation.setOnAction(press -> switchSimulation("conservation"));
 
-        menubuttonProjectile.setOnAction(e -> goToProjectileMotion());
+        menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
 
-        menubuttonExit.setOnAction(e -> handleExitOfApplication());
+        menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
 
-        menubuttonMainMenu.setOnAction(e ->
-        {
-            // Return to main menu
-        });
+        menubuttonExit.setOnAction(press -> handleExitOfApplication());
 
-        toggleShowVectors.setOnAction(e ->
-        {
-            handleShowVectors();
-        });
+        toggleShowVectors.setOnAction(toggle -> handleShowVectors(true));
 
-        buttonPlay.setOnMouseClicked(e ->
+        buttonPlay.setOnMouseClicked(press ->
         {
             handlePlay();
         });
 
-        buttonPause.setOnMouseClicked(e ->
+        buttonPause.setOnMouseClicked(press ->
         {
             handlePause();
         });
 
-        buttonReset.setOnMouseClicked(e ->
+        buttonReset.setOnMouseClicked(press ->
         {
             handleReset();
         });
 
-        buttonHelp.setOnMouseClicked(e ->
+        buttonHelp.setOnMouseClicked(press ->
         {
             handleHelp();
         });
@@ -232,6 +236,10 @@ public class BlockFrontEndController {
 
         blockAnimationHandler.drawFloor(paneAnimation);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
+
+        // If the vectors should be drawn, draw the vectors
+        if (isVectorShowing)
+            handleShowVectors(false);
     }
 
     public void updateBlocks()
@@ -239,11 +247,11 @@ public class BlockFrontEndController {
         topBlock.setMass(sliderMassM2.getValue());
         bottomBlock.setMass(sliderMassM1.getValue());
 
-        topBlock.setForcesExperienced(getForcesExperienced(topBlock.getBlockNumber()));
-        bottomBlock.setForcesExperienced(getForcesExperienced(bottomBlock.getBlockNumber()));
+        topBlock.setForcesExperienced(getForcesExperienced(POSITION.TOP));
+        bottomBlock.setForcesExperienced(getForcesExperienced(POSITION.BOTTOM));
     }
 
-    public ArrayList<Vector> getForcesExperienced(int blockNumber)
+    public ArrayList<Vector> getForcesExperienced(POSITION blockId)
     {
         return blockFormulasCalculator.determineForcesExperienced(topBlock,
                 bottomBlock,
@@ -253,40 +261,80 @@ public class BlockFrontEndController {
                 sliderAngleOnM2.getValue(),
                 sliderFrictionFloor.getValue(),
                 sliderFrictionM1.getValue(),
-                blockNumber);
+                blockId);
     }
 
     public void handleExitOfApplication()
     {
-
+        Platform.exit();
     }
 
-    public void goToCentripetalForce()
+    public void switchSimulation(String simulationName)
     {
-        // Go to centripetal force screen
+        Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
+
+        String destination = "/fxml/" + simulationName + ".fxml";
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
+
+        switch (simulationName)
+        {
+            case "conservation" ->
+            {
+                ConservationController conservationController = new ConservationController();
+                loader.setController(conservationController);
+            }
+            case "projectile" ->
+            {
+                MainAppController projectileController = new MainAppController();
+                loader.setController(projectileController);
+            }
+            case "ucm-scene-graph" ->
+            {
+                UniformCircularMotionController ucmController = new UniformCircularMotionController();
+                loader.setController(ucmController);
+            }
+            case "mainmenu" ->
+            {
+                MainMenuController menuController = new MainMenuController(currentStage);
+                loader.setController(menuController);
+            }
+            default ->
+                System.out.println("Invalid simulation name");
+        }
+
+        try
+        {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1920, 1080);
+            currentStage.setScene(scene);
+        } catch (IOException ex)
+        {
+            System.out.println("Something went wrong changing scenes.");
+        }
+        
+        currentStage.setFullScreen(true);
     }
 
-    public void goToConservationOfEnergy()
+    private void handleShowVectors(boolean toggled)
     {
-        // Go to conservation of energy screen
+        // Change boolean value since the button was toggled
+        if (toggled)
+        {
+            isVectorShowing = !isVectorShowing;
+        }
+
+        if (isVectorShowing)
+        {
+            topBlock.drawFreeBodyDiagram(paneAnimation);
+            bottomBlock.drawFreeBodyDiagram(paneAnimation);
+        }
+        else
+        {
+            updateScene();
+        }
     }
 
-    public void goToMainMenu()
-    {
-        // Go to main menu screen
-    }
-
-    public void goToProjectileMotion()
-    {
-        // Go to projectile motion screen
-    }
-
-    private void handleShowVectors()
-    {
-        // Show/hide vectors
-    }
-
-    // Might not be needed
     public enum POSITION {
         TOP,
         BOTTOM

@@ -4,10 +4,10 @@
  */
 package edu.vanier.physnics.conservation;
 
-import edu.vanier.physnics.UCMSimulation.UCMController;
+import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
 import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
-import edu.vanier.physnics.projectilemotion.ProjectileController;
+import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
@@ -360,12 +360,12 @@ public class ConservationController {
             }
             case "projectile" ->
             {
-                ProjectileController projectileController = new ProjectileController();
+                MainAppController projectileController = new MainAppController();
                 loader.setController(projectileController);
             }
             case "ucm-scene-graph" ->
             {
-                UCMController ucmController = new UCMController();
+                UniformCircularMotionController ucmController = new UniformCircularMotionController();
                 loader.setController(ucmController);
             }
             case "conservation" ->

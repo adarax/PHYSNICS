@@ -6,12 +6,7 @@ package edu.vanier.physnics.conservation.graphs;
 
 import edu.vanier.physnics.conservation.Ball;
 import edu.vanier.physnics.conservation.Settings;
-import edu.vanier.physnics.mainmenu.MainMenuController;
-import edu.vanier.physnics.projectilemotion.ProjectileGraphs;
-import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

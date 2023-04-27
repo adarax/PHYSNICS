@@ -1,6 +1,9 @@
 package edu.vanier.physnics.stackedblock;
 
+import edu.vanier.physnics.stackedblock.BlockFrontEndController.POSITION;
+import edu.vanier.physnics.stackedblock.Vector.FORCE_TYPE;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,9 +18,10 @@ public class BlockFormulas {
      * Calculates the total normal force on a block.
      *
      * @param contributingMassInKg
+     * @param opposingForces : other vertical forces that may change the net normal force
      * @return Magnitude of the total normal force on the block.
      */
-    public double calculateNormalForceMagnitude(double... contributingMassInKg)
+    public double calculateNormalForceMagnitude(double opposingForces, double... contributingMassInKg)
     {
         double sumOfMasses = 0;
 
@@ -26,22 +30,46 @@ public class BlockFormulas {
             sumOfMasses += mass;
         }
 
-        double magnitudeOfForce = sumOfMasses * GRAVITATIONAL_ACCELERATION;
+        double magnitudeOfForce = sumOfMasses * GRAVITATIONAL_ACCELERATION - opposingForces;
 
         return magnitudeOfForce;
     }
 
-    public Vector calculateFrictionVector(double coefficientOfFriction, double normalForceVector, Vector correspondingForceVector)
+    
+    /**
+     * Calculates the magnitude and direction of the friction vector.
+     * 
+     * The friction vector is always parallel to the surface. Therefore,
+     * the vector's direction can only be 0 or 180 degrees.
+     * 
+     * The friction vector is always less than the x component of the corresponding
+     * force vector.
+     * 
+     * @param coefficientOfFriction
+     * @param normalForceMagnitude
+     * @param correspondingForceVector
+     * @return The friction vector with the correct magnitude and direction based on
+     *         the coefficient of friction, the normal force and corresponding force vector.
+     */
+    public Vector calculateFrictionVector(double coefficientOfFriction, double normalForceMagnitude, Vector correspondingForceVector)
     {
-        double frictionVectorMagnitude = coefficientOfFriction * normalForceVector;
-        double frictionVectorDirection = correspondingForceVector.getDirectionInDegrees() + 180;
-
-        if (frictionVectorDirection >= 360)
+        double frictionVectorMagnitude = coefficientOfFriction * normalForceMagnitude;
+        double correspondingForceVectorXComponent = correspondingForceVector.asComponents().get(0);
+        
+        if (frictionVectorMagnitude > correspondingForceVectorXComponent)
         {
-            frictionVectorDirection -= 360;
+            frictionVectorMagnitude = correspondingForceVectorXComponent;
         }
-
-        return new Vector(frictionVectorMagnitude, frictionVectorDirection);
+        
+        double frictionVectorDirection = 180;
+        double correspondingVectorDirection = correspondingForceVector.getDirectionInDegrees();
+        
+        if (correspondingVectorDirection > 90 && correspondingVectorDirection < 270)
+        {
+            frictionVectorDirection = 0;
+        }
+        
+        return new Vector(frictionVectorMagnitude, frictionVectorDirection, FORCE_TYPE.FRICTION);
     }
 
     /**
@@ -64,45 +92,52 @@ public class BlockFormulas {
         double magnitudeOfResultant = Math.sqrt(Math.pow(sumXComponents, 2) + Math.pow(sumYComponents, 2));
         double directionOfResultant = Math.atan(sumYComponents / sumXComponents);
 
-        return new Vector(magnitudeOfResultant, directionOfResultant);
+        return new Vector(magnitudeOfResultant, directionOfResultant, FORCE_TYPE.APPLIED);
     }
 
+    
+    // FIXME: Bug with friction values not reducing as angle of force gets more vertical
+    // Might need to refactor this method
     public ArrayList<Vector> determineForcesExperienced(Block topBlock,
             Block bottomBlock,
-            double forceOnM1,
-            double forceOnM2,
-            double angleOfForceOnM1,
-            double angleOfForceOnM2,
+            double forceOnBottomBlock,
+            double forceOnTopBlock,
+            double angleOfForceOnBottomBlock,
+            double angleOfForceOnTopBlock,
             double frictionCoeffFloor,
-            double frictionCoeffM1,
-            int blockNumber)
+            double frictionCoeffBottomBlock,
+            POSITION blockId)
     {
         ArrayList<Vector> allForcesExperienced = new ArrayList<>();
 
-        double normalForceM2 = calculateNormalForceMagnitude(topBlock.getMass());
-        Vector forceVectorOnM2 = new Vector(forceOnM2, angleOfForceOnM2);
-        Vector frictionVectorOnM2 = calculateFrictionVector(frictionCoeffM1, normalForceM2, forceVectorOnM2);
+        Vector forceVectorOnTopBlock = new Vector(forceOnTopBlock, angleOfForceOnTopBlock, FORCE_TYPE.APPLIED);
+        Vector forceVectorOnBottomBlock = new Vector(forceOnBottomBlock, angleOfForceOnBottomBlock, FORCE_TYPE.APPLIED);
+        
+        // Get vertical components of applied forces
+        double forceOnBottomBlockYComponent = forceVectorOnBottomBlock.asComponents().get(1);
+        double forceOnTopBlockYComponent = forceVectorOnTopBlock.asComponents().get(1);
+        
+        double totalAppliedVerticalForce = forceOnBottomBlockYComponent + forceOnTopBlockYComponent;
+        
+        
+        double normalForceTopBlock = calculateNormalForceMagnitude(forceOnTopBlockYComponent, topBlock.getMass());
+        double normalForceOnBottomBlock = calculateNormalForceMagnitude(totalAppliedVerticalForce, topBlock.getMass(), bottomBlock.getMass());
+        
 
-        // For top block (M2)        
-        if (blockNumber == 1)
+        Vector frictionVectorOnTopBlock = calculateFrictionVector(frictionCoeffBottomBlock, normalForceTopBlock, forceVectorOnTopBlock);
+        
+        if (blockId == POSITION.TOP)
+        {   
+            allForcesExperienced.addAll(List.of(forceVectorOnTopBlock, frictionVectorOnTopBlock));
+        }
+        else if (blockId == POSITION.BOTTOM)
         {
-            allForcesExperienced.add(forceVectorOnM2);
-            allForcesExperienced.add(frictionVectorOnM2);
-        } // For bottom block (M1)
-        else if (blockNumber == 0)
-        {
-            double normalForceM1 = calculateNormalForceMagnitude(topBlock.getMass(), bottomBlock.getMass());
-            Vector forceVectorOnM1 = new Vector(forceOnM1, angleOfForceOnM1);
-            Vector frictionVectorDueToFloor = calculateFrictionVector(frictionCoeffFloor, normalForceM1, forceVectorOnM1);
-            frictionVectorOnM2.flipDirection();
+            Vector frictionVectorDueToFloor = calculateFrictionVector(frictionCoeffFloor, normalForceOnBottomBlock, forceVectorOnBottomBlock);
+            frictionVectorOnTopBlock.flipDirection();
 
-            allForcesExperienced.add(frictionVectorDueToFloor);
-            allForcesExperienced.add(forceVectorOnM1);
-            allForcesExperienced.add(frictionVectorOnM2);
+            allForcesExperienced.addAll(List.of(frictionVectorDueToFloor, forceVectorOnBottomBlock, frictionVectorOnTopBlock));
         }
 
-        // TODO: turn into actual tests, ensure values are correct
-//        System.out.println(calculateNetForceVector(allForcesExperienced).getMagnitudeInNewtons());
         return allForcesExperienced;
     }
     

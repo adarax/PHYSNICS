@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.vanier.physnics.UCMSimulation;
+package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 /**
  *
  * @author Admin
  */
 public class Car {
+    
     private double speed;
     private double radius;
     private double mass;
