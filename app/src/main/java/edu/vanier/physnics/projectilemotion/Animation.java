@@ -4,16 +4,20 @@
  */
 package edu.vanier.physnics.projectilemotion;
 
+import java.awt.Point;
 import javafx.animation.PathTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Point3D;
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.QuadCurveTo;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 /**
@@ -70,25 +74,23 @@ public class Animation {
         quadTo.setY(800);
         path.getElements().add(moveTo);
         path.getElements().add(quadTo);
-        
-        if (xDisplacementM < 1652 && maxHeightPX > 20) {
-            pathTransition.setDuration(Duration.seconds(flightTimeS));
-            pathTransition.setPath(path);
-            pathTransition.setNode(ball);
-            pathTransition.play();
-        }
-        else {
-            Alert alertAnimationOutOfRange = new Alert(Alert.AlertType.ERROR);
-                alertAnimationOutOfRange.showAndWait();
-        }
+
+        pathTransition.setDuration(Duration.seconds(flightTimeS));
+        pathTransition.setPath(path);
+        pathTransition.setNode(ball);
+        pathTransition.play();
+
     }
-    
+
     public void pauseAnimation() {
         pathTransition.pause();
     }
     
-    public void rotateCannon(Ellipse cannon, double launchAngle) {
-        cannon.setRotate(launchAngle);
+    public void rotateCannon(ImageView cannonBarrel, double launchAngle) {
+        RotateTransition rotate = new RotateTransition();
+        rotate.setToAngle(-launchAngle);
+        rotate.setNode(cannonBarrel);
+        rotate.play();
     }
     
     
