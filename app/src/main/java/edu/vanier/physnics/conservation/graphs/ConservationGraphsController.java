@@ -28,14 +28,17 @@ public class ConservationGraphsController {
     
     private Rectangle PEGraph;
     private Rectangle KEGraph;
+    private Rectangle FrictionGraph;
     
     
     private Text textPotentialEnergy;
     private Text textKineticEnergy;
     private Text textVelocity;
+    private Text textCurrentHeight;
+    private Text textFrictionEnergy;
     
     private double paneHeight = 400;
-    private double paneWidth = 600;
+    private double paneWidth = 800;
     
     private Ball ball;
     
@@ -59,21 +62,33 @@ public class ConservationGraphsController {
     
     private void setup(){
         textVelocity = new Text("Current velocity: "  
-                + "m/s");
+                + " m/s");
         textVelocity.setFont(Settings.GRAPH_TEXT_FONT);
         textVelocity.setLayoutX(paneWidth/2-75);
         textVelocity.setLayoutY(50);
         
-        textKineticEnergy = new Text("KE: "  
-                + "J");
+        textCurrentHeight = new Text("Current height: "  
+                + " m");
+        textCurrentHeight.setFont(Settings.GRAPH_TEXT_FONT);
+        textCurrentHeight.setLayoutX(50);
+        textCurrentHeight.setLayoutY(50);
+        
+        textFrictionEnergy = new Text("Friction energy: "  
+                + " J");
+        textFrictionEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textFrictionEnergy.setLayoutX(50);
+        textFrictionEnergy.setLayoutY(paneHeight-50);
+        
+        textKineticEnergy = new Text("Kinetic Energy: "  
+                + " J");
         textKineticEnergy.setFont(Settings.GRAPH_TEXT_FONT);
-        textKineticEnergy.setLayoutX(paneWidth/2-100);
+        textKineticEnergy.setLayoutX(paneWidth/2-150);
         textKineticEnergy.setLayoutY(paneHeight-50);
         
-        textPotentialEnergy = new Text("PE: "  
-                + "J");
+        textPotentialEnergy = new Text("Potential Energy: "  
+                + " J");
         textPotentialEnergy.setFont(Settings.GRAPH_TEXT_FONT);
-        textPotentialEnergy.setLayoutX(paneWidth/2+100);
+        textPotentialEnergy.setLayoutX(paneWidth/2+50);
         textPotentialEnergy.setLayoutY(paneHeight-50);
         
         
@@ -83,8 +98,11 @@ public class ConservationGraphsController {
         KEGraph = new Rectangle(paneWidth/2-100, paneHeight-300, 50, 200);
         KEGraph.setFill(Color.RED);
         
+        FrictionGraph = new Rectangle(50, paneHeight-300, 50, 200);
+        FrictionGraph.setFill(Color.TEAL);
+        
         paneAnimation.getChildren().addAll(textVelocity, textKineticEnergy, 
-                textPotentialEnergy, PEGraph, KEGraph);
+                textPotentialEnergy, PEGraph, KEGraph, textCurrentHeight,textFrictionEnergy, FrictionGraph);
     }
     
     public void show(){

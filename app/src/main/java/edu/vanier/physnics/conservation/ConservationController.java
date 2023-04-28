@@ -404,7 +404,7 @@ public class ConservationController {
         
         Scene scene = null;
         try {
-            scene = new Scene(loader.load(),600, 400);
+            scene = new Scene(loader.load(),800, 400);
         } catch (IOException ex) {
             System.out.println("Graaph stage could not be opened");
         }
