@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -77,7 +78,7 @@ public class MainAppController {
     private Circle projectileBall;
     
     @FXML 
-    private Ellipse cannon;
+    private ImageView cannonBarrel;
     
     Animation animation = new Animation();
     
@@ -126,9 +127,9 @@ public class MainAppController {
         }
     }
     
-    public void handleRotateCannon(MouseEvent leftClick, Ellipse cannon) {
+    public void handleRotateCannon(Event leftClick, ImageView cannonBarrel) {
         double launchAngle = sliderLaunchAngle.getValue();
-        animation.rotateCannon(cannon, launchAngle);
+        animation.rotateCannon(cannonBarrel, launchAngle);
     }
 
 
@@ -142,7 +143,7 @@ public class MainAppController {
 
         
         double launchAngle = sliderLaunchAngle.getValue();
-        sliderLaunchAngle.setOnMouseDragged(drag -> animation.rotateCannon(cannon, launchAngle));
+        sliderLaunchAngle.setOnMouseDragged(drag -> animation.rotateCannon(cannonBarrel, launchAngle));
 
         menubuttonCentripetal.setOnAction(e -> {
             // Go to centripetal force screen
@@ -165,7 +166,15 @@ public class MainAppController {
         });
 
         sliderLaunchAngle.setOnMouseDragged(leftClick -> {
-            handleRotateCannon(leftClick, cannon);
+            handleRotateCannon(leftClick, cannonBarrel);
+        });
+        
+        sliderLaunchAngle.setOnMouseClicked(leftClick -> {
+            handleRotateCannon(leftClick, cannonBarrel);
+        });
+        
+        sliderLaunchAngle.setOnKeyPressed(arrowPressed -> {
+            handleRotateCannon(arrowPressed, cannonBarrel);
         });
 
         sliderGravity.setOnMouseDragged(e -> {
