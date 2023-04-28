@@ -134,7 +134,7 @@ public class ConservationController {
         btnPlay.setOnMouseClicked((e) -> {
             animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(), 
                     graphController.getPEGraph());
-            //updater.start();
+            updater.start();
         });
         
         btnPause.setOnMouseClicked((e) -> {
@@ -171,7 +171,6 @@ public class ConservationController {
         choiceBoxg.setOnAction((e) -> {
             g = getNumber(choiceBoxg.getValue());
             textg.setText("Gravitational\n acceleration: " + g + " m/s^2");
-            
         });
         
         choiceBoxu.setOnAction((e) -> {
@@ -268,7 +267,7 @@ public class ConservationController {
         updater = new AnimationTimer() {
         @Override
         public void handle(long l) {
-           // updateValues();
+           updateValues();
         }
         };   
     }
@@ -285,12 +284,15 @@ public class ConservationController {
     }
     
     public void updateValues(){
-        double currentHeight = 
-                (0.5*(-g)*animBackend.getCurrentTime()*animBackend.getCurrentTime())+100;
-        graphController.setVelocityText(ConservationFormulas.getCurrentVelocity(
-                ConservationFormulas.potentialEnergy(mass, g, rampHeight), 
-                ConservationFormulas.potentialEnergy(mass, g, currentHeight), mass));
-        System.out.println(currentHeight);
+        double currentHeight = rampHeight-((ball.getTranslateY())/(ramp.getRadius()+ball.getRadius())*rampHeight);
+        double TME = ConservationFormulas.potentialEnergy(mass, g, rampHeight);
+        double PE = ConservationFormulas.potentialEnergy(mass, g, currentHeight);
+        double currentVelocity = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
+        double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
+        
+        graphController.setKeText(KE);
+        graphController.setVelocityText(currentVelocity);
+        graphController.setPeText(PE);
     }
     
     public void setValueIndicators(){

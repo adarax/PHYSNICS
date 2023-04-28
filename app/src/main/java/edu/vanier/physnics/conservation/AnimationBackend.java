@@ -127,12 +127,13 @@ public class AnimationBackend {
     
     public double getCurrentTime(){
         Duration time = mainAnimation.getCurrentTime();
-        currentTime = time.toSeconds();
         
-        if(currentTime>cycleTime){
+        if(cycleTime< time.toSeconds() - cycleTime*currentCycle){
             currentCycle++;
-            currentTime = currentTime - cycleTime*currentCycle;
         }
+        currentTime = time.toSeconds()-cycleTime*currentCycle;
+        
+       
         System.out.println("Current time: " + currentTime);
         System.out.println("CurrentCycle: " + currentCycle);
         

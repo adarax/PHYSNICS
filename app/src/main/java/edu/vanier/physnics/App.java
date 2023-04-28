@@ -1,5 +1,6 @@
 package edu.vanier.physnics;
 
+import edu.vanier.physnics.conservation.ConservationController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,8 +21,8 @@ public class App extends Application {
     public void start(Stage stage) throws Exception
     {    
         mainMenu = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainmenu.fxml"));
-        MainMenuController mwc = new MainMenuController(mainMenu);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation.fxml"));
+        ConservationController mwc = new ConservationController();
         loader.setController(mwc);
         
         Parent root = loader.load();               

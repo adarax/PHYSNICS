@@ -109,12 +109,17 @@ public class ConservationGraphsController {
     }
     
     public void setKeText(double ke){
-        textKineticEnergy.setText("PE: "  
-                + "J");
+        textKineticEnergy.setText("KE: "  
+                + (int) ke + "J");
+    }
+    
+    public void setPeText(double pe){
+        textPotentialEnergy.setText("PE: "  
+                + (int) pe + "J");
     }
     
     public void setVelocityText(double v){
-        textVelocity.setText("Current velocity: "  + v + " m/s");
+        textVelocity.setText("Current velocity: "  + (int)v + " m/s");
     }
     
     
