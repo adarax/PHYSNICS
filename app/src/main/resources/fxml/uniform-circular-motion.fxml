@@ -37,7 +37,7 @@
             </MenuButton>
             <MenuButton layoutX="152.0" layoutY="50.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="128.0" text="Edit">
               <items>
-                <MenuItem fx:id="menuItemChangeBallColor" mnemonicParsing="false" text="Change car color" />
+                <MenuItem fx:id="menuItemChangePathColor" mnemonicParsing="false" text="Change Path color" />
               </items>
                <font>
                   <Font size="24.0" />

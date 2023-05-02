@@ -18,6 +18,8 @@ import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -25,17 +27,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -44,7 +49,7 @@ import javafx.util.Duration;
  *
  * @author Admin
  */
-public class UniformCircularMotionController extends Stage{      
+public class UniformCircularMotionController extends Stage{ 
     @FXML
     ImageView pauseButton;
     @FXML
@@ -90,6 +95,8 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     MenuItem menuItemQuit;
     @FXML
+    MenuItem menuItemChangePathColor;   
+    @FXML
     ImageView buttonHome; 
     @FXML
     ImageView helpButton; 
@@ -102,7 +109,7 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     Text warningRadiusText = new Text();
     
-
+    Stage mainWindow = new Stage();
     Timeline timeline;
     
     Car car = new Car();
@@ -182,6 +189,15 @@ public class UniformCircularMotionController extends Stage{
         });
     }
     
+    @FXML
+    public void changePathColor(){
+        menuItemChangePathColor.setOnAction((event) -> {
+            ChangeColorWindow changeColorWindow = new ChangeColorWindow(mainWindow);
+            menuItemChangePathColor.setDisable(true);
+            changeColorWindow.changeColor(path1, path2);
+            changeColorWindow.stop(menuItemChangePathColor);
+        });
+    }
     
     @FXML
     public double retrieveRadiusTextField(){
@@ -307,6 +323,7 @@ public class UniformCircularMotionController extends Stage{
         play();
         reset();
         displayHelpPage();
+        changePathColor();
         paneSimulate.getChildren().add(group);
     }
     
