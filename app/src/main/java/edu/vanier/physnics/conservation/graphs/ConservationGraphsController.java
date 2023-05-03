@@ -37,8 +37,7 @@ public class ConservationGraphsController {
     private Text textCurrentHeight;
     private Text textFrictionEnergy;
     
-    private double paneHeight = 400;
-    private double paneWidth = 800;
+   
     
     private Ball ball;
     
@@ -51,7 +50,6 @@ public class ConservationGraphsController {
    
     @FXML
     private void initialize(){
-        
         setup();
         
         buttonClose.setOnAction((eventHandler) -> {
@@ -64,42 +62,47 @@ public class ConservationGraphsController {
         textVelocity = new Text("Current velocity: "  
                 + " m/s");
         textVelocity.setFont(Settings.GRAPH_TEXT_FONT);
-        textVelocity.setLayoutX(paneWidth/2-75);
-        textVelocity.setLayoutY(50);
+        textVelocity.setLayoutX(GraphSettings.VELOCITY_TEXT_POSITION_X);
+        textVelocity.setLayoutY(GraphSettings.VELOCITY_TEXT_POSITION_Y);
         
         textCurrentHeight = new Text("Current height: "  
                 + " m");
         textCurrentHeight.setFont(Settings.GRAPH_TEXT_FONT);
-        textCurrentHeight.setLayoutX(50);
-        textCurrentHeight.setLayoutY(50);
-        
-        textFrictionEnergy = new Text("Friction energy: "  
-                + " J");
-        textFrictionEnergy.setFont(Settings.GRAPH_TEXT_FONT);
-        textFrictionEnergy.setLayoutX(50);
-        textFrictionEnergy.setLayoutY(paneHeight-50);
+        textCurrentHeight.setLayoutX(GraphSettings.CURRENT_HEIGHT_TEXT_POSITION_X);
+        textCurrentHeight.setLayoutY(GraphSettings.CURRENT_HEIGHT_TEXT_POSITION_Y);
         
         textKineticEnergy = new Text("Kinetic Energy: "  
                 + " J");
         textKineticEnergy.setFont(Settings.GRAPH_TEXT_FONT);
-        textKineticEnergy.setLayoutX(paneWidth/2-150);
-        textKineticEnergy.setLayoutY(paneHeight-50);
+        textKineticEnergy.setLayoutX(GraphSettings.KINETIC_ENERGY_TEXT_POSITION_X);
+        textKineticEnergy.setLayoutY(GraphSettings.KINETIC_ENERGY_TEXT_POSITION_Y);
         
         textPotentialEnergy = new Text("Potential Energy: "  
                 + " J");
         textPotentialEnergy.setFont(Settings.GRAPH_TEXT_FONT);
-        textPotentialEnergy.setLayoutX(paneWidth/2+50);
-        textPotentialEnergy.setLayoutY(paneHeight-50);
+        textPotentialEnergy.setLayoutX(GraphSettings.POTENTIAL_ENERGY_TEXT_POSITION_X);
+        textPotentialEnergy.setLayoutY(GraphSettings.POTENTIAL_ENERGY_TEXT_POSITION_Y);
         
+        textFrictionEnergy = new Text("Friction energy: "  
+                + " J");
+        textFrictionEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textFrictionEnergy.setLayoutX(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_X);
+        textFrictionEnergy.setLayoutY(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_Y);
         
-        PEGraph = new Rectangle(paneWidth/2+100, paneHeight-300, 50,200);
-        PEGraph.setFill(Color.BLACK);
+        KEGraph = new Rectangle(GraphSettings.KINETIC_ENERGY_GRAPH_POSITION_X, 
+                GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
+                GraphSettings.MAX_GRAPH_HEIGHT);
+        KEGraph.setFill(GraphSettings.KINETIC_ENERGY_GRAPH_COLOR);
         
-        KEGraph = new Rectangle(paneWidth/2-100, paneHeight-300, 50, 200);
-        KEGraph.setFill(Color.RED);
+        PEGraph = new Rectangle(GraphSettings.POTENTIAL_ENERGY_GRAPH_POSITION_X, 
+            GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
+                GraphSettings.MAX_GRAPH_HEIGHT);
+        PEGraph.setFill(GraphSettings.POTENTIAL_ENERGY_GRAPH_COLOR);
         
-        FrictionGraph = new Rectangle(50, paneHeight-300, 50, 200);
-        FrictionGraph.setFill(Color.TEAL);
+        FrictionGraph = new Rectangle(GraphSettings.FRICTION_ENERGY_GRAPH_POSITION_x, 
+                GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
+                GraphSettings.MAX_GRAPH_HEIGHT);
+        FrictionGraph.setFill(GraphSettings.FRICTION_ENERGY_GRAPH_COLOR);
         
         paneAnimation.getChildren().addAll(textVelocity, textKineticEnergy, 
                 textPotentialEnergy, PEGraph, KEGraph, textCurrentHeight,textFrictionEnergy, FrictionGraph);
@@ -128,17 +131,26 @@ public class ConservationGraphsController {
     
     public void setKeText(double ke){
         textKineticEnergy.setText("KE: "  
-                + (int) ke + "J");
+                + twoDecimalConverter(ke) + "J");
     }
     
     public void setPeText(double pe){
         textPotentialEnergy.setText("PE: "  
-                + (int) pe + "J");
+                + twoDecimalConverter(pe) + "J");
     }
     
     public void setVelocityText(double v){
-        textVelocity.setText("Current velocity: "  + (int)v + " m/s");
+        textVelocity.setText("Current velocity: "  + twoDecimalConverter(v) + " m/s");
     }
     
+    public void setCurrentHeightText(double height){
+        textCurrentHeight.setText("Current height: "  
+                + twoDecimalConverter(height) + " m");
+    }
+    
+    public String twoDecimalConverter(double value){
+        String content = Double.toString(value);
+        return content.substring(0, content.indexOf(".")+2);
+    }
     
 }

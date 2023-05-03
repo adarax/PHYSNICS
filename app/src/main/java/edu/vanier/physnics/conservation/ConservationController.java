@@ -290,6 +290,7 @@ public class ConservationController {
         double currentVelocity = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
         double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
         
+        graphController.setCurrentHeightText(currentHeight);
         graphController.setKeText(KE);
         graphController.setVelocityText(currentVelocity);
         graphController.setPeText(PE);

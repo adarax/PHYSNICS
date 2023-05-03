@@ -72,8 +72,8 @@ public class AnimationBackend {
         
         TranslateTransition kineticEnergyGraphTranslation = 
                 new TranslateTransition(Duration.seconds(cycleTime/2), KE);
-        kineticEnergyGraphTranslation.setFromY(GraphSettings.KEGraphPositionY);
-        kineticEnergyGraphTranslation.setToY(GraphSettings.KEGraphPositionY - 100);
+        kineticEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y);
+        kineticEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
         kineticEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
         kineticEnergyGraphTranslation.setAutoReverse(true);
         kineticEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
@@ -90,8 +90,8 @@ public class AnimationBackend {
         
          TranslateTransition potentialEnergyGraphTranslation = 
                 new TranslateTransition(Duration.seconds(cycleTime/2), PE);
-        potentialEnergyGraphTranslation.setToY(GraphSettings.PEGraphPositionY);
-        potentialEnergyGraphTranslation.setFromY(GraphSettings.PEGraphPositionY - 100);
+        potentialEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y);
+        potentialEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
         potentialEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
         potentialEnergyGraphTranslation.setAutoReverse(true);
         potentialEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
