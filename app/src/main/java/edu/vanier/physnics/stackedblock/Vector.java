@@ -8,24 +8,35 @@ import java.util.ArrayList;
  */
 public class Vector {
 
-    private final double magnitudeInNewtons;
+    private double magnitudeInNewtons;
 
     // Values range from 0 to 360 degrees
     private double directionInDegrees;
+    
+    // Setting the type of force is useful when animating the various Vectors
+    private FORCE_TYPE forceType;
 
-    public Vector(double magnitudeInNewtons, double directionInDegrees)
+    public Vector(double magnitudeInNewtons, double directionInDegrees, FORCE_TYPE forceType)
     {
         this.magnitudeInNewtons = magnitudeInNewtons;
         this.directionInDegrees = directionInDegrees;
+        this.forceType = forceType;
     }
     
-    // This method may be useful for drawing the vectors onto the screen
-    public int findQuadrant(double directionInDegrees)
-    {
-        // Handle any illegal direction values
+    /**
+     * Finds the quadrant of the Vector using the directionInDegrees
+     * variable that gets instantiated in the constructor.
+     * 
+     * Quadrants are based on a 2D Cartesian plane, the angle is with respect
+     * to the positive x-axis.
+     * 
+     * @return The quadrant of the Vector instance.
+     */
+    public int findQuadrant()
+    {        
         if (directionInDegrees < 0 || directionInDegrees > 360)
         {
-            return 0;
+            throw new IllegalArgumentException("Invalid direction value");
         }
 
         if (directionInDegrees <= 90)
@@ -43,7 +54,7 @@ public class Vector {
         }
     }
 
-    public ArrayList<Double> vectorToComponents(double magnitudeInNewtons, double directionInDegrees)
+    public ArrayList<Double> asComponents()
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
@@ -82,5 +93,17 @@ public class Vector {
     public double getDirectionInDegrees()
     {
         return directionInDegrees;
+    }
+    
+    public FORCE_TYPE getForceType()
+    {
+        return forceType;
+    }
+    
+    public enum FORCE_TYPE
+    {
+        APPLIED,
+        FRICTION,
+        NORMAL
     }
 }

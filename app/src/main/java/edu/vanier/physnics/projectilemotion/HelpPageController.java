@@ -41,3 +41,5 @@ public class HelpPageController {
         clearValuesText.setText("The \"Clear values\" button will reset the sliders to their default position. ");
     }
 }
+   
+

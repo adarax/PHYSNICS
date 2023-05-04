@@ -41,6 +41,7 @@ javafx {
 }
 application {    
    // Define the main class for the application.
+   mainClass = 'edu.vanier.physnics.UniformCircularMotionSimulation.MainApp'
    mainClass = 'edu.vanier.physnics.App'
 }
 

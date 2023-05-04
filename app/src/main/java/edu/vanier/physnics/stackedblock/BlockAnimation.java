@@ -61,20 +61,22 @@ public class BlockAnimation {
 
     public void drawBlocks(Block topBlock, Block bottomBlock)
     {
-        for (Block block : new ArrayList<Block>() {
+        ArrayList<Block> blocks = new ArrayList<Block>() {
             {
                 add(topBlock);
                 add(bottomBlock);
             }
-        })
+        };
+
+        for (Block block : blocks)
         {
             block.determineAndSetDrawingHeight();
             block.determineAndSetDrawingWidth();
             block.setBlockDrawing(new Rectangle(block.getDrawingWidth(), block.getDrawingHeight()));
             block.getBlockDrawing().setFill(block.determineColor());
-            block.setNametag(new Label(block.getName()));
-            block.getNametag().setFont(new Font("SansSerif Bold", block.determineLabelFontSize()));
-            block.drawBlock();
+            block.setNameTag(new Label(block.getName()));
+            block.getNameTag().setFont(new Font("SansSerif Bold", block.determineLabelFontSize()));
+            block.draw();
         }
     }
 
@@ -89,9 +91,26 @@ public class BlockAnimation {
 
         animationPane.getChildren().add(floorDrawing);
     }
-
-    public void drawFreeBodyDiagram(ArrayList<Vector> forcesExperienced)
+    
+    
+    // TODO: implement animation using guidelines commented below
+    
+    public void play(Vector netForceVectorTopBlock, Vector netForceVectorBottomBlock, Block topBlock, Block bottomBlock)
     {
-        // Animate vectors (arrows) onto block
+        // Resolve the direction of the blocks
+        // From net force, get acceleration of block since mass is known
+        
+        // If top and bottom block are no longer touching, top block should fall off
+        // at gravitational acceleration minus the opposing vertical forces
     }
+    
+    public void pause()
+    {
+    }
+    
+    public void stop()
+    {
+        // Go to initial position, clear vectors
+    }
+    
 }

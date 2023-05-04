@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.vanier.physnics.UCMSimulation;
+package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  *
  * @author Admin
  */
-public class UCMMainApp extends Application{
+public class MainApp extends Application{
 
     /**
      * @param args the command line arguments
@@ -31,17 +31,17 @@ public class UCMMainApp extends Application{
     @Override
     public void start(Stage stage){
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ucm-scene-graph.fxml"));
-        loader.setController(new UCMController());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/uniform-circular-motion.fxml"));
+        loader.setController(new UniformCircularMotionController());
         Pane root = null;
         try {
             root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(UCMMainApp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
-        stage.setTitle("UCM Controller");
+        stage.setTitle("Uniform Circular Motion Controller");
         stage.setFullScreen(true);
         stage.show();
     }
