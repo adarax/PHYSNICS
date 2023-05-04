@@ -89,12 +89,6 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
 
-    @FXML
-    private MenuItem menuItemChangeBallColor;
-
-    @FXML
-    private MenuItem menuItemChangeRampColor;
-
     //color of the ramp and the ball
     private Color rampColor;
     private Color ballColor;
@@ -135,7 +129,7 @@ public class ConservationController {
                     graphController.getPEGraph());
             graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
-            disable(true);
+            disableSidebar(true);
         });
 
         btnPause.setOnMouseClicked((e) -> {
@@ -144,7 +138,7 @@ public class ConservationController {
 
         btnReset.setOnMouseClicked((e) -> {
             resetBall();
-            disable(false);
+            disableSidebar(false);
         });
 
         btnGraph.setOnMouseClicked((e) -> {
@@ -204,19 +198,25 @@ public class ConservationController {
             switchSimulation("ucm-scene-graph");
         });
 
-        menuItemChangeBallColor.setOnAction((eventHandler) -> {
-            ballColor = getNewColor((Color) ball.getFill(), "Change ball color");
-            ball.setFill(ballColor);
+        ramp.setOnMouseClicked((eventHandler) -> {
+            if (!animBackend.isPlaying()) {
+                rampColor = getNewColor(rampColor, "Change ramp color");
+                ramp = null;
+                paneAnimation.getChildren().remove(ramp);
+                createRamp();
+            }
+        });
+        
+        ball.setOnMouseClicked((eventHandler) -> {
+            if (!animBackend.isPlaying()) {
+                ballColor = getNewColor((Color) ball.getFill(), "Change ball color");
+                ball.setFill(ballColor);
+            }
         });
 
-        menuItemChangeRampColor.setOnAction((eventHandler) -> {
-            rampColor = getNewColor(rampColor, "Change ramp color");
-            ramp = null;
-            paneAnimation.getChildren().remove(ramp);
-            createRamp();
-        });
+    }
 
-    };
+    ;
     
     
     public void setup() {
@@ -457,14 +457,12 @@ public class ConservationController {
             return objectColor;
         }
     }
-    
-    public void disable(boolean b){
-        sliderHeight.setDisable(b);
-        sliderMass.setDisable(b);
-        checkBoxFriction.setDisable(b);
-        choiceBoxg.setDisable(b);
-        choiceBoxu.setDisable(b);
-        menuItemChangeBallColor.setDisable(b);
-        menuItemChangeRampColor.setDisable(b);
+
+    public void disableSidebar(boolean status) {
+        sliderHeight.setDisable(status);
+        sliderMass.setDisable(status);
+        checkBoxFriction.setDisable(status);
+        choiceBoxg.setDisable(status);
+        choiceBoxu.setDisable(status);
     }
 }

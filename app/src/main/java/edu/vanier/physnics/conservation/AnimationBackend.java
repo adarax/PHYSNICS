@@ -141,4 +141,14 @@ public class AnimationBackend {
        return currentTime;
         
     }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
+    }
+    
+    
 }
