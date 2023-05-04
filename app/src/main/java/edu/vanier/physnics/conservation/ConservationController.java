@@ -6,6 +6,7 @@ package edu.vanier.physnics.conservation;
 
 import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
 import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
+import edu.vanier.physnics.conservation.graphs.GraphSettings;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
@@ -32,13 +33,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
  * @author benja
  */
 public class ConservationController {
-    
 
     @FXML
     private ImageView btnGraph;
@@ -63,11 +64,11 @@ public class ConservationController {
 
     @FXML
     private ImageView btnReset;
-    
+
     @FXML
     private ImageView btnHelp;
-    
-    @FXML 
+
+    @FXML
     private ImageView buttonHome;
 
     @FXML
@@ -87,255 +88,252 @@ public class ConservationController {
 
     @FXML
     private MFXSlider sliderMass;
-    
+
     @FXML
     private MenuItem menuItemChangeBallColor;
-    
+
     @FXML
-     private MenuItem menuItemChangeRampColor;
-    
+    private MenuItem menuItemChangeRampColor;
+
     //color of the ramp and the ball
     private Color rampColor;
     private Color ballColor;
-    
+
     //ball object
     private Ball ball;
-    
+
     //physics variables (TODO: add units to variables and rename)
     private double g; //m/s^2
     private double u; //no units
     private double rampHeight; //m
     private double mass; // kg
-    
+
     //object to generate the animation of the ball
     private AnimationBackend animBackend;
-    
+
     //text objects for different values
     private Text textHeight;
     private Text textMass;
     private Text textg;
-    
+
     private boolean friction;
-    
+
     private Ramp ramp;
-    
+
     private ConservationGraphsController graphController;
-    
+
     private AnimationTimer updater;
-    
-   
+
     @FXML
-    public void initialize(){
-        
+    public void initialize() {
+
         //setup the ramp and the ball, and the values
         setup();
-        
-        
+
         btnPlay.setOnMouseClicked((e) -> {
-            animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(), 
+            animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(),
                     graphController.getPEGraph());
+            graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
         });
-        
+
         btnPause.setOnMouseClicked((e) -> {
             animBackend.pause();
         });
-        
+
         btnReset.setOnMouseClicked((e) -> {
             resetBall();
         });
-        
+
         btnGraph.setOnMouseClicked((e) -> {
             graphController.show();
         });
-        
+
         btnHelp.setOnMouseClicked((e) -> {
-        
+
         });
-        
+
         sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 mass = sliderMass.getValue();
                 textMass.setText("Mass of the ball: " + mass + " kg");
-                
-            } 
+
+            }
         });
-        
+
         sliderHeight.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 rampHeight = sliderHeight.getValue();
                 textHeight.setText("Height: " + rampHeight + " m");
-            } 
+            }
         });
-        
+
         choiceBoxg.setOnAction((e) -> {
             g = getNumber(choiceBoxg.getValue());
             textg.setText("Gravitational\n acceleration: " + g + " m/s^2");
         });
-        
+
         choiceBoxu.setOnAction((e) -> {
             u = getNumber(choiceBoxu.getValue());
         });
-        
+
         checkBoxFriction.setOnAction((e) -> {
             friction = !friction;
-            
+
         });
-        
+
         menuItemQuit.setOnAction((e) -> {
             Platform.exit();
         });
-        
-        buttonHome.setOnMouseClicked((e) -> {        
+
+        buttonHome.setOnMouseClicked((e) -> {
             switchSimulation("mainmenu");
         });
-        
-        menuItemProjectile.setOnAction((e) ->{
+
+        menuItemProjectile.setOnAction((e) -> {
             switchSimulation("projectile");
         });
-        
-        menuItemStacked.setOnAction((e) ->{
+
+        menuItemStacked.setOnAction((e) -> {
             switchSimulation("stackedblock");
         });
-         
-        menuItemUCM.setOnAction((e) ->{
+
+        menuItemUCM.setOnAction((e) -> {
             switchSimulation("ucm-scene-graph");
         });
-        
+
         menuItemChangeBallColor.setOnAction((eventHandler) -> {
             ballColor = getNewColor((Color) ball.getFill(), "Change ball color");
             ball.setFill(ballColor);
         });
-        
+
         menuItemChangeRampColor.setOnAction((eventHandler) -> {
             rampColor = getNewColor(rampColor, "Change ramp color");
             ramp = null;
             paneAnimation.getChildren().remove(ramp);
             createRamp();
         });
-        
-        
-        
-    };
+
+    }
+
+    ;
     
-    public void setup(){
+    public void setup() {
         openGraphWindow();
         //initialize the animation backend
         animBackend = new AnimationBackend();
-        
+
         //setup color of the ramp and the ball
         rampColor = Settings.INITTIAL_RAMP_COLOR;
         ballColor = Settings.INITTIAL_BALL_COLOR;
-        
+
         //initialize the ball and ramp
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
-        
+
         //no friction on initialize
         friction = false;
-        
+
         paneAnimation.getChildren().add(ball);
-        
+
         //draw the ramp
         createRamp();
-        
-        
-        
+
         //add the options to the choiceboxes
-        for(int i = 0; i<Settings.GRAVITATIONAL_CONSTANTS.length; i++){
+        for (int i = 0; i < Settings.GRAVITATIONAL_CONSTANTS.length; i++) {
             choiceBoxg.getItems().add(Settings.GRAVITATIONAL_CONSTANTS[i]);
         }
         choiceBoxg.setValue(Settings.GRAVITATIONAL_CONSTANTS[0]);
-        
-         //add the options to the choiceboxes
-        for(int i = 0; i<Settings.FRICTION_COEFFICIENTS.length; i++){
+
+        //add the options to the choiceboxes
+        for (int i = 0; i < Settings.FRICTION_COEFFICIENTS.length; i++) {
             choiceBoxu.getItems().add(Settings.FRICTION_COEFFICIENTS[i]);
         }
         choiceBoxu.setValue(Settings.FRICTION_COEFFICIENTS[0]);
-        
+
         //initializes the variables
         mass = 10;
         rampHeight = 10;
         g = 9.8;
-        
+
         sliderMass.setValue(mass);
         sliderHeight.setValue(rampHeight);
-        
+
         ball.setMass(mass);
-        
+
         setValueIndicators();
-        
+
         updater = new AnimationTimer() {
-        @Override
-        public void handle(long l) {
-           updateValues();
-        }
-        };   
+            @Override
+            public void handle(long l) {
+                updateValues();
+            }
+        };
     }
-    
-    public void createRamp(){
+
+    public void createRamp() {
         //draw the ramp
-        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS, 
+        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS,
                 Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
-        
+
         //set the path of the ball
         ramp.createBallPath(ball);
-        
+
         paneAnimation.getChildren().add(ramp);
     }
-    
-    public void updateValues(){
-        double currentHeight = rampHeight-((ball.getTranslateY())/(ramp.getRadius()+ball.getRadius())*rampHeight);
+
+    public void updateValues() {
+        double currentHeight = rampHeight - ((ball.getTranslateY()) / (ramp.getRadius() + ball.getRadius()) * rampHeight);
         double TME = ConservationFormulas.potentialEnergy(mass, g, rampHeight);
         double PE = ConservationFormulas.potentialEnergy(mass, g, currentHeight);
         double currentVelocity = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
         double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
-        
+
         graphController.setCurrentHeightText(currentHeight);
         graphController.setKeText(KE);
         graphController.setVelocityText(currentVelocity);
         graphController.setPeText(PE);
     }
-    
-    public void setValueIndicators(){
+
+    public void setValueIndicators() {
         //height text placed to the left of the ramp
         textHeight = new Text("Height: " + rampHeight + " m");
         textHeight.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textHeight);
         textHeight.setX(Settings.HEIGHT_TEXT_POSITION_X);
         textHeight.setY(Settings.HEIGHT_TEXT_POSITION_Y);
-        
+
         //mass text placed on top of the ramp
         textMass = new Text("Mass of the ball: " + mass + " kg");
         textMass.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textMass);
         textMass.setX(Settings.MASS_TEXT_POSITION_X);
         textMass.setY(Settings.MASS_TEXT_POSITION_Y);
-        
+
         //acceleration text placed to the right of the ramp
         textg = new Text("Gravitational\n acceleration: \n" + g + " m/s^2");
         textg.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textg);
         textg.setX(Settings.ACCELERATION_TEXT_POSITION_X);
         textg.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
-       
-        drawArrow(Settings.ARROW_POSITION_X, 
-                Settings.ARROW_POSITION_Y, Settings.ARROW_LENGTH, 
+
+        drawArrow(Settings.ARROW_POSITION_X,
+                Settings.ARROW_POSITION_Y, Settings.ARROW_LENGTH,
                 Settings.ARROW_THICKNESS, Settings.ARROW_POINT_WIDTH);
-        
+
     }
-    
-    public double getNumber(String option){
+
+    public double getNumber(String option) {
         String value = "";
-        for(int i = 0; i<option.length(); i++){
-            if(Character.isDigit(option.charAt(i)) || option.charAt(i) == '.' ){
+        for (int i = 0; i < option.length(); i++) {
+            if (Character.isDigit(option.charAt(i)) || option.charAt(i) == '.') {
                 value += option.charAt(i);
             }
         }
-            
+
         return Double.parseDouble(value);
     }
-    
-    private void resetBall(){
+
+    private void resetBall() {
         animBackend.reset();
         paneAnimation.getChildren().remove(ball);
         ball = null;
@@ -343,41 +341,34 @@ public class ConservationController {
         ramp.createBallPath(ball);
         ball.setMass(mass);
         paneAnimation.getChildren().add(ball);
-            
+
     }
-    
-    public void switchSimulation(String simulationName)
-    {
+
+    public void switchSimulation(String simulationName) {
         Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
 
         String destination = "/fxml/" + simulationName + ".fxml";
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
 
-        switch (simulationName)
-        {
-            case "stackedblock" ->
-            {
+        switch (simulationName) {
+            case "stackedblock" -> {
                 BlockFrontEndController blockcontroller = new BlockFrontEndController();
                 loader.setController(blockcontroller);
             }
-            case "projectile" ->
-            {
+            case "projectile" -> {
                 MainAppController projectileController = new MainAppController();
                 loader.setController(projectileController);
             }
-            case "ucm-scene-graph" ->
-            {
+            case "ucm-scene-graph" -> {
                 UniformCircularMotionController ucmController = new UniformCircularMotionController();
                 loader.setController(ucmController);
             }
-            case "conservation" ->
-            {
+            case "conservation" -> {
                 ConservationController controller = new ConservationController();
                 loader.setController(controller);
             }
-            case "mainmenu" ->
-            {
+            case "mainmenu" -> {
                 MainMenuController menuController = new MainMenuController(currentStage);
                 loader.setController(menuController);
             }
@@ -385,54 +376,52 @@ public class ConservationController {
                 System.out.println("Invalid simulation name");
         }
 
-        try
-        {
+        try {
             Parent root = loader.load();
             Scene scene = new Scene(root, 1920, 1080);
             currentStage.setScene(scene);
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("Something went wrong changing scenes.");
         }
     }
-    
-    public void openGraphWindow(){
+
+    public void openGraphWindow() {
         Stage stage = new Stage();
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation_graphs.fxml"));
         graphController = new ConservationGraphsController(ball);
         loader.setController(graphController);
-        
+
         Scene scene = null;
         try {
-            scene = new Scene(loader.load(),800, 400);
+            scene = new Scene(loader.load(), GraphSettings.PANE_WIDTH, GraphSettings.PANE_HEIGHT);
         } catch (IOException ex) {
             System.out.println("Graaph stage could not be opened");
         }
-        
+
         stage.setScene(scene);
         stage.setTitle("Current energy levels");
-        
+
     }
-    
-    public void drawArrow(double posx, double posy, double length, double width, double pointWidth){
-        //draw arrowShaft and the two points for gravitational acceleration
+
+    public void drawArrow(double posx, double posy, double length, double width, double pointWidth) {
         Line arrowShaft = new Line();
         arrowShaft.setStartY(posy);
         arrowShaft.setStartX(posx);
         arrowShaft.setEndX(posx);
-        arrowShaft.setEndY(posy+length);
+        arrowShaft.setEndY(posy + length);
         arrowShaft.setStrokeWidth(width);
-        
-        Line leftPoint = new Line(posx, posy+length, posx+pointWidth , posy+length-pointWidth);
+
+        Line leftPoint = new Line(posx, posy + length, posx + pointWidth, posy + length - pointWidth);
         leftPoint.setStrokeWidth(width);
-        
-        Line rightPoint = new Line(posx, posy+length, posx-pointWidth , posy+length-pointWidth);
+
+        Line rightPoint = new Line(posx, posy + length, posx - pointWidth, posy + length - pointWidth);
         rightPoint.setStrokeWidth(width);
-        
+
         paneAnimation.getChildren().addAll(arrowShaft, leftPoint, rightPoint);
+
     }
-    
+
     public Color getNewColor(Color objectColor, String title) {
         Stage colorPickerStage = new Stage();
         VBox v = new VBox();

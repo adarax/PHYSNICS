@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -30,15 +31,15 @@ public class ConservationGraphsController {
     private Rectangle KEGraph;
     private Rectangle FrictionGraph;
     
-    
     private Text textPotentialEnergy;
     private Text textKineticEnergy;
     private Text textVelocity;
     private Text textCurrentHeight;
     private Text textFrictionEnergy;
+    private Text textTotalEnergy;
     
-   
-    
+    private Line energyAxis;
+ 
     private Ball ball;
     
     private Stage currentStage;
@@ -89,6 +90,12 @@ public class ConservationGraphsController {
         textFrictionEnergy.setLayoutX(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_X);
         textFrictionEnergy.setLayoutY(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_Y);
         
+        textTotalEnergy = new Text("Total energy: "  
+                + " J");
+        textTotalEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textTotalEnergy.setLayoutX(GraphSettings.TOTAL_ENERGY_TEXT_POSITION_X);
+        textTotalEnergy.setLayoutY(GraphSettings.TOTAL_ENERGY_TEXT_POSITION_Y);
+        
         KEGraph = new Rectangle(GraphSettings.KINETIC_ENERGY_GRAPH_POSITION_X, 
                 GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
                 GraphSettings.MAX_GRAPH_HEIGHT);
@@ -99,13 +106,30 @@ public class ConservationGraphsController {
                 GraphSettings.MAX_GRAPH_HEIGHT);
         PEGraph.setFill(GraphSettings.POTENTIAL_ENERGY_GRAPH_COLOR);
         
+        energyAxis = new Line(GraphSettings.ENERGY_AXIS_POSITION_X, GraphSettings.ENERGY_AXIS_START_POSITION_Y, 
+                GraphSettings.ENERGY_AXIS_POSITION_X, GraphSettings.ENERGY_AXIS_END_POSITION_Y);
+        energyAxis.setStrokeWidth(GraphSettings.ENERGY_AXIS_STROKE_WIDTH);
+        
+        Line leftPoint = new Line(GraphSettings.ENERGY_AXIS_POSITION_X, 
+                GraphSettings.ENERGY_AXIS_START_POSITION_Y, 
+                GraphSettings.ENERGY_AXIS_POSITION_X-GraphSettings.ENERGY_AXIS_WIDTH,
+                GraphSettings.ENERGY_AXIS_START_POSITION_Y+GraphSettings.ENERGY_AXIS_WIDTH);
+        leftPoint.setStrokeWidth(GraphSettings.ENERGY_AXIS_STROKE_WIDTH);
+        
+        Line rightPoint = new Line(GraphSettings.ENERGY_AXIS_POSITION_X, 
+                GraphSettings.ENERGY_AXIS_START_POSITION_Y, 
+                GraphSettings.ENERGY_AXIS_POSITION_X+GraphSettings.ENERGY_AXIS_WIDTH,
+                GraphSettings.ENERGY_AXIS_START_POSITION_Y+GraphSettings.ENERGY_AXIS_WIDTH);
+        rightPoint.setStrokeWidth(GraphSettings.ENERGY_AXIS_STROKE_WIDTH);
+        
         FrictionGraph = new Rectangle(GraphSettings.FRICTION_ENERGY_GRAPH_POSITION_x, 
                 GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
                 GraphSettings.MAX_GRAPH_HEIGHT);
         FrictionGraph.setFill(GraphSettings.FRICTION_ENERGY_GRAPH_COLOR);
         
         paneAnimation.getChildren().addAll(textVelocity, textKineticEnergy, 
-                textPotentialEnergy, PEGraph, KEGraph, textCurrentHeight,textFrictionEnergy, FrictionGraph);
+                textPotentialEnergy, PEGraph, KEGraph, textCurrentHeight,textFrictionEnergy, 
+                FrictionGraph, textTotalEnergy, energyAxis, leftPoint, rightPoint);
     }
     
     public void show(){
@@ -130,13 +154,22 @@ public class ConservationGraphsController {
     }
     
     public void setKeText(double ke){
-        textKineticEnergy.setText("KE: "  
+        textKineticEnergy.setText("Kinetic energy: "  
                 + twoDecimalConverter(ke) + "J");
+    }
+     public void setTotalEnergyText(double tme){
+        textTotalEnergy.setText("Total energy: "  
+                + twoDecimalConverter(tme) + "J");
     }
     
     public void setPeText(double pe){
-        textPotentialEnergy.setText("PE: "  
+        textPotentialEnergy.setText("Potential energy: "  
                 + twoDecimalConverter(pe) + "J");
+    }
+    
+     public void setFrictionEnergyText(double fe){
+        textPotentialEnergy.setText("Friction energy: "  
+                + twoDecimalConverter(fe) + "J");
     }
     
     public void setVelocityText(double v){
