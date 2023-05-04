@@ -135,6 +135,7 @@ public class ConservationController {
                     graphController.getPEGraph());
             graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
+            disable(true);
         });
 
         btnPause.setOnMouseClicked((e) -> {
@@ -143,6 +144,7 @@ public class ConservationController {
 
         btnReset.setOnMouseClicked((e) -> {
             resetBall();
+            disable(false);
         });
 
         btnGraph.setOnMouseClicked((e) -> {
@@ -214,9 +216,8 @@ public class ConservationController {
             createRamp();
         });
 
-    }
-
-    ;
+    };
+    
     
     public void setup() {
         openGraphWindow();
@@ -455,5 +456,15 @@ public class ConservationController {
         } else {
             return objectColor;
         }
+    }
+    
+    public void disable(boolean b){
+        sliderHeight.setDisable(b);
+        sliderMass.setDisable(b);
+        checkBoxFriction.setDisable(b);
+        choiceBoxg.setDisable(b);
+        choiceBoxu.setDisable(b);
+        menuItemChangeBallColor.setDisable(b);
+        menuItemChangeRampColor.setDisable(b);
     }
 }
