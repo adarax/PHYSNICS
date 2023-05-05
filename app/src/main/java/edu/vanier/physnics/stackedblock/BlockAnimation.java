@@ -1,6 +1,7 @@
 package edu.vanier.physnics.stackedblock;
 
 import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -60,13 +61,8 @@ public class BlockAnimation {
     }
 
     public void drawBlocks(Block topBlock, Block bottomBlock)
-    {
-        ArrayList<Block> blocks = new ArrayList<Block>() {
-            {
-                add(topBlock);
-                add(bottomBlock);
-            }
-        };
+    {        
+        ArrayList<Block> blocks = new ArrayList<>(List.of(topBlock, bottomBlock));
 
         for (Block block : blocks)
         {
