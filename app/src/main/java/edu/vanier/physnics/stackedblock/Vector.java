@@ -58,8 +58,8 @@ public class Vector {
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
-        double xComponent = Math.cos(toRadians(directionInDegrees)) * magnitudeInNewtons;
-        double yComponent = Math.sin(toRadians(directionInDegrees)) * magnitudeInNewtons;
+        double xComponent = Math.cos(Math.toRadians(directionInDegrees)) * magnitudeInNewtons;
+        double yComponent = Math.sin(Math.toRadians(directionInDegrees)) * magnitudeInNewtons;
 
         asComponents.add(xComponent);
         asComponents.add(yComponent);
@@ -84,11 +84,6 @@ public class Vector {
         
         this.directionInDegrees = currentDirection;
     }
-
-    private double toRadians(double angleDegrees)
-    {
-        return angleDegrees * (Math.PI / 180);
-    }
     
     public double getMagnitudeInNewtons()
     {
@@ -112,12 +107,18 @@ public class Vector {
         NORMAL
     }
 
-    // TODO: delete after testing is done
     @Override
+    /**
+     * Simple toString() method to easily view the properties of a Vector
+     * instance.
+     *
+     * Numerical values are rounded to two decimal places to simplify test
+     * methods.
+     *
+     * @return properties of the Vector in the form of a String.
+     */
     public String toString()
     {
-        return "Vector{" + "magnitudeInNewtons=" + magnitudeInNewtons + ", directionInDegrees=" + directionInDegrees + ", forceType=" + forceType + '}';
+        return "Vector{" + "magnitudeInNewtons=" + String.format("%.2f", magnitudeInNewtons) + ", directionInDegrees=" + String.format("%.2f", directionInDegrees) + ", forceType=" + forceType + '}';
     }
-    
-    
 }

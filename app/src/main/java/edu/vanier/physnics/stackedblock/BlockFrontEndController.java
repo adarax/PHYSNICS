@@ -327,11 +327,11 @@ public class BlockFrontEndController {
     private void drawLines()
     {
         paneGridlines.getChildren().clear();
-        paneGridlines.getChildren().addAll(allLines);
-
+        
         allLines.forEach(line ->
         {
-            System.out.println(line.isVisible());
+            paneGridlines.getChildren().add(line);
+            line.toFront();
         });
     }
 
