@@ -134,7 +134,7 @@ public class ConservationController {
 
         btnPlay.setOnMouseClicked((e) -> {
             animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(),
-                    graphController.getPEGraph());
+                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction);
             graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
             disableSidebar(true);
@@ -148,6 +148,7 @@ public class ConservationController {
             resetBall();
             disableSidebar(false);
             animBackend.setPlaying(false);
+            updater.stop();
         });
 
         btnGraph.setOnMouseClicked((e) -> {
@@ -302,11 +303,17 @@ public class ConservationController {
         double PE = ConservationFormulas.potentialEnergy(mass, g, currentHeight);
         double currentVelocity = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
         double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
+        double FE = 0;
+        
+        if(friction){
+            
+        }
 
         graphController.setCurrentHeightText(currentHeight);
         graphController.setKeText(KE);
         graphController.setVelocityText(currentVelocity);
         graphController.setPeText(PE);
+        graphController.setFrictionEnergyText(FE);
     }
 
     public void setValueIndicators() {

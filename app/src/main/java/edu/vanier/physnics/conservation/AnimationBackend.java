@@ -59,7 +59,7 @@ public class AnimationBackend {
         mainAnimation.getChildren().add(ballCurve);
     }
     
-    public void createGraphAnimation(Rectangle KE, Rectangle PE){
+    public void createGraphAnimation(Rectangle KE, Rectangle PE, Rectangle FE, boolean friction){
         ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime/2), KE);
         stKe.setNode(KE);
         
@@ -88,7 +88,7 @@ public class AnimationBackend {
         stPe.setAutoReverse(true);
         stPe.setInterpolator(Interpolator.EASE_BOTH);
         
-         TranslateTransition potentialEnergyGraphTranslation = 
+        TranslateTransition potentialEnergyGraphTranslation = 
                 new TranslateTransition(Duration.seconds(cycleTime/2), PE);
         potentialEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y);
         potentialEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
@@ -96,16 +96,42 @@ public class AnimationBackend {
         potentialEnergyGraphTranslation.setAutoReverse(true);
         potentialEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
         
-        mainAnimation.getChildren().addAll(stKe, kineticEnergyGraphTranslation, stPe, potentialEnergyGraphTranslation);
+        ScaleTransition stFe = new ScaleTransition(Duration.seconds(cycleTime/2), PE);
+        stFe.setNode(FE);
+        
+       TranslateTransition frictionEnergyGraphTranslation = null;
+        
+        if(friction){
+            
+        }
+        else{
+            stFe.setFromY(0);
+            stFe.setToY(0);
+       
+            stFe.setCycleCount(Timeline.INDEFINITE);
+            stFe.setAutoReverse(true);
+            stFe.setInterpolator(Interpolator.EASE_BOTH);
+        
+            frictionEnergyGraphTranslation = 
+                new TranslateTransition(Duration.seconds(0), PE);
+            frictionEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y);
+            //frictionEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
+            frictionEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
+            frictionEnergyGraphTranslation.setAutoReverse(true);
+            frictionEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
+        }
+        
+        
+        mainAnimation.getChildren().addAll(stKe, kineticEnergyGraphTranslation, stPe, potentialEnergyGraphTranslation, stFe, frictionEnergyGraphTranslation);
     }
     
-    public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, Rectangle PE){
+    public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, Rectangle PE, Rectangle FE, boolean friction){
         if(playing){
             mainAnimation.play();
         }
         else{
             createBallAnimation(ball,height,g);
-            createGraphAnimation(KE, PE);
+            createGraphAnimation(KE, PE, FE, friction);
             mainAnimation.play();
         }
         playing = true;

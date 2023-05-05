@@ -140,10 +140,20 @@ public class ConservationGraphsController {
     public Rectangle getPEGraph() {
         return PEGraph;
     }
-
+    
     public void setPEGraph(Rectangle PEGraph) {
         this.PEGraph = PEGraph;
     }
+
+    public Rectangle getFrictionGraph() {
+        return FrictionGraph;
+    }
+
+    public void setFrictionGraph(Rectangle FrictionGraph) {
+        this.FrictionGraph = FrictionGraph;
+    }
+    
+    
 
     public Rectangle getKEGraph() {
         return KEGraph;
@@ -168,7 +178,7 @@ public class ConservationGraphsController {
     }
     
      public void setFrictionEnergyText(double fe){
-        textPotentialEnergy.setText("Friction energy: "  
+        textFrictionEnergy.setText("Friction energy: "  
                 + twoDecimalConverter(fe) + "J");
     }
     
