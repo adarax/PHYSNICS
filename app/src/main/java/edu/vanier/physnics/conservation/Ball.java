@@ -29,8 +29,16 @@ public class Ball extends Circle{
         this.setCenterX(x);
         this.setCenterY(y);
         
-        this.setRadius(radius);
+        
         this.setFill(color);
+        this.setRadius(radius);
+        
+    }
+    
+    public final void determineAndSetBallRadius(double mass)
+    {
+        this.setRadius(10 * Math.log(this.getRadius()/ 2) + 10);;
+       
     }
 
     public double getCurrentVelocity() {

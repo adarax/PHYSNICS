@@ -156,7 +156,7 @@ public class ConservationController {
         });
 
         btnHelp.setOnMouseClicked((e) -> {
-
+            openHelpMenu();
         });
 
         sliderMass.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
@@ -523,5 +523,23 @@ public class ConservationController {
         checkBoxFriction.setDisable(status);
         choiceBoxg.setDisable(status);
         choiceBoxu.setDisable(status);
+    }
+    
+    public void openHelpMenu(){
+        Stage helpStage = new Stage();
+        Pane helpPane = new Pane();
+       
+        ImageView helpImage = new ImageView();
+        helpImage.setLayoutX(Settings.HELP_MENU_WIDTH);
+        helpImage.setLayoutY(Settings.HELP_MENU_HEIGHT);
+        
+        Scene helpScene = new Scene(helpPane, Settings.HELP_MENU_WIDTH, Settings.HELP_MENU_HEIGHT);
+        helpStage.setScene(helpScene);
+        helpStage.setTitle("Help Menu");
+        helpStage.setResizable(false);
+        helpStage.initModality(Modality.APPLICATION_MODAL);
+        helpStage.show();
+        
+                
     }
 }

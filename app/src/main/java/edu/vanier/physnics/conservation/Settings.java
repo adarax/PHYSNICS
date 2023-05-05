@@ -61,5 +61,8 @@ public class Settings {
     public static final double ARROW_THICKNESS = 5;
     public static final double ARROW_POINT_WIDTH = 50;
     
+    public static final double HELP_MENU_WIDTH = 1600;
+    public static final double HELP_MENU_HEIGHT = 800;
+    
     
 }
