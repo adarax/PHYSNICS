@@ -81,6 +81,7 @@ public class MainMenuController extends App {
         stage.setMaximized(true);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
+        stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
         stage.show();
     }

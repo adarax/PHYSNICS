@@ -12,12 +12,17 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -25,9 +30,6 @@ import javafx.stage.Stage;
  * @author adarax
  */
 public class BlockFrontEndController {
-
-    @FXML
-    private MFXButton buttonClear;
 
     @FXML
     private MenuItem menubuttonCentripetal;
@@ -72,6 +74,9 @@ public class BlockFrontEndController {
     private MFXToggleButton toggleShowVectors;
 
     @FXML
+    private MFXButton buttonClear;
+
+    @FXML
     private ImageView buttonDarkMode;
 
     @FXML
@@ -89,11 +94,14 @@ public class BlockFrontEndController {
     @FXML
     private Pane paneAnimation;
 
-    private final BlockAnimation blockAnimationHandler = new BlockAnimation();
-    private final BlockFormulas blockFormulasCalculator = new BlockFormulas();
-    
-    private final Block topBlock = new Block(POSITION.TOP);
-    private final Block bottomBlock = new Block(POSITION.BOTTOM);
+    @FXML
+    private Pane paneGridlines;
+
+    private BlockAnimation blockAnimationHandler = new BlockAnimation();
+    private BlockFormulas blockFormulasCalculator = new BlockFormulas();
+
+    private Block topBlock = new Block(POSITION.TOP);
+    private Block bottomBlock = new Block(POSITION.BOTTOM);
 
     private ArrayList<MFXSlider> allSliders;
 
@@ -102,6 +110,10 @@ public class BlockFrontEndController {
     private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
 
     private boolean isVectorShowing = false;
+
+    private ArrayList<Text> allTextElements = new ArrayList<>();
+    private ArrayList<Parent> allPanes = new ArrayList<>();
+    private ArrayList<Line> allLines = new ArrayList<>();
 
     @FXML
     public void initialize()
@@ -114,7 +126,7 @@ public class BlockFrontEndController {
         {
             // Put blocks and floor into scene on launch
             blockAnimationHandler.drawFloor(paneAnimation);
-            updateScene();
+            updateBlocks();
         });
 
         addSliderEventHandlers();
@@ -150,13 +162,10 @@ public class BlockFrontEndController {
             handleReset();
         });
 
-        buttonHelp.setOnMouseClicked(press ->
-        {
-            handleHelp();
-        });
+        buttonHelp.setOnMouseClicked(press -> handleHelp());
     }
 
-    public void addSliderEventHandlers()
+    private void addSliderEventHandlers()
     {
         allSliders = new ArrayList<>() {
             {
@@ -177,21 +186,79 @@ public class BlockFrontEndController {
         }
     }
 
+    // TODO: lines just don't display and i don't get it
     public void handleDarkMode()
     {
-        if (isDark)
+        // The elements only need to be found once, and both
+        // allTextElements and allPanes are filled in the same method
+        if (allTextElements.isEmpty())
         {
-            // Go to light mode (on rest of app)
-
-            buttonDarkMode.setImage(DARK_MOON);
-        } else
-        {
-            // Go to dark mode (on rest of app)
-
-            buttonDarkMode.setImage(LIGHT_MOON);
+            collectElementsByType(paneAnimation.getScene().getRoot());
+            getAllLines();
         }
 
         isDark = !isDark;
+
+        if (isDark)
+        {
+            // Go to light mode
+            buttonDarkMode.setImage(LIGHT_MOON);
+
+            allTextElements.forEach(textElement ->
+            {
+                textElement.setFill(Color.WHITE);
+            });
+
+            allPanes.forEach(pane ->
+            {
+                // Set to a color one shade shy of black
+                pane.setStyle("-fx-background-color: #101518;");
+            });
+
+            allLines.forEach(line ->
+            {
+                line.setStroke(Color.BLACK);
+            });
+
+            buttonClear.setTextFill(Color.WHITE);
+            buttonClear.setStyle("-fx-background-color: darkGrey;");
+
+        } else
+        {
+            // Go to dark mode
+            buttonDarkMode.setImage(DARK_MOON);
+
+            allTextElements.forEach(textElement ->
+            {
+                textElement.setFill(Color.BLACK);
+            });
+
+            allPanes.forEach(pane ->
+            {
+                pane.setStyle("-fx-background-color: white;");
+            });
+
+            allLines.forEach(line ->
+            {
+                line.setStroke(Color.RED);
+            });
+
+            buttonClear.setTextFill(Color.BLACK);
+            buttonClear.setStyle("-fx-background-color: white;");
+        }
+
+        drawLines();
+    }
+
+    private void getAllLines()
+    {
+        paneGridlines.getChildren().forEach(child ->
+        {
+            if (child instanceof Line line)
+            {
+                allLines.add(line);
+            }
+        });
     }
 
     public void handlePlay()
@@ -209,9 +276,12 @@ public class BlockFrontEndController {
         // Reset the simulation
     }
 
+    /**
+     * Opens the help page scene.
+     */
     public void handleHelp()
     {
-        // Open the help screen
+        switchSimulation("stackedblock_help");
     }
 
     /**
@@ -239,16 +309,30 @@ public class BlockFrontEndController {
 
         // If the vectors should be drawn, draw the vectors
         if (isVectorShowing)
+        {
             handleShowVectors(false);
+        }
     }
 
-    public void updateBlocks()
+    private void updateBlocks()
     {
         topBlock.setMass(sliderMassM2.getValue());
         bottomBlock.setMass(sliderMassM1.getValue());
 
         topBlock.setForcesExperienced(getForcesExperienced(POSITION.TOP));
         bottomBlock.setForcesExperienced(getForcesExperienced(POSITION.BOTTOM));
+    }
+
+    // TODO: problem is most likely here, i dont understand why lines wont draw
+    private void drawLines()
+    {
+        paneGridlines.getChildren().clear();
+        paneGridlines.getChildren().addAll(allLines);
+
+        allLines.forEach(line ->
+        {
+            System.out.println(line.isVisible());
+        });
     }
 
     public ArrayList<Vector> getForcesExperienced(POSITION blockId)
@@ -299,6 +383,11 @@ public class BlockFrontEndController {
                 MainMenuController menuController = new MainMenuController(currentStage);
                 loader.setController(menuController);
             }
+            case "stackedblock_help" ->
+            {
+                BlockHelpPageController helpPageController = new BlockHelpPageController(currentStage);
+                loader.setController(helpPageController);
+            }
             default ->
                 System.out.println("Invalid simulation name");
         }
@@ -312,7 +401,8 @@ public class BlockFrontEndController {
         {
             System.out.println("Something went wrong changing scenes.");
         }
-        
+
+        currentStage.setFullScreenExitHint("");
         currentStage.setFullScreen(true);
     }
 
@@ -328,13 +418,48 @@ public class BlockFrontEndController {
         {
             topBlock.drawFreeBodyDiagram(paneAnimation);
             bottomBlock.drawFreeBodyDiagram(paneAnimation);
-        }
-        else
+        } else
         {
             updateScene();
         }
     }
 
+    /**
+     * Analyze all Nodes starting at the root of the scene graph and add them to
+     * different ArrayLists depending on their type.
+     *
+     * This is to help with the light/dark mode feature.
+     *
+     * @param currentNode
+     */
+    private void collectElementsByType(Node currentNode)
+    {
+        if (currentNode instanceof Text text)
+        {
+            this.allTextElements.add(text);
+        } else if (currentNode instanceof GridPane gridPane)
+        {
+            this.allPanes.add(gridPane);
+
+            for (Node child : gridPane.getChildren())
+            {
+                collectElementsByType(child);
+            }
+        } else if (currentNode instanceof Pane pane)
+        {
+            this.allPanes.add(pane);
+
+            for (Node child : pane.getChildren())
+            {
+                collectElementsByType(child);
+            }
+        }
+    }
+
+    /**
+     * An enum to standardize the naming of the top and bottom block in the
+     * simulation.
+     */
     public enum POSITION {
         TOP,
         BOTTOM
