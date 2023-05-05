@@ -88,7 +88,7 @@ public class MainAppController {
      * 
      * @param leftClick 
      */
-    public void handlePlay(MouseEvent leftClick) {
+    public void handlePlay() {
         // Play the simulation
         System.out.println("Play");
         double gravityAccelMPSS = sliderGravity.getValue();
@@ -99,7 +99,7 @@ public class MainAppController {
         animation.playAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
-    public void handlePause(MouseEvent leftClick) {
+    public void handlePause() {
         // Pause the simulation
         animation.pauseAnimation();
             
@@ -111,23 +111,27 @@ public class MainAppController {
      * 
      * @param leftClick  
      */
-    public void handleReset(MouseEvent leftClick) {
+    public void handleReset() {
         projectileBall.setCenterX(0);
         projectileBall.setCenterY(0);
     }
 
-    public void handleHelp(MouseEvent leftClick) {
-        HelpPage PHP = new HelpPage();
-        PHP.openHelpWindow();
+    public void handleHelp() {
+        HelpPage helpPage = new HelpPage();
+        helpPage.openHelpWindow();
+    }
+    
+    public void handleGraphs() {
+        GraphsController graphsPage = new GraphsController();
     }
 
-    public void handleClear(MouseEvent leftClick, List<MFXSlider> sliderList) {
+    public void handleClear(List<MFXSlider> sliderList) {
         for (MFXSlider slider : sliderList) {
             slider.setValue(slider.getMin());
         }
     }
     
-    public void handleRotateCannon(Event leftClick, ImageView cannonBarrel) {
+    public void handleRotateCannon(ImageView cannonBarrel) {
         double launchAngle = sliderLaunchAngle.getValue();
         animation.rotateCannon(cannonBarrel, launchAngle);
     }
@@ -166,15 +170,15 @@ public class MainAppController {
         });
 
         sliderLaunchAngle.setOnMouseDragged(leftClick -> {
-            handleRotateCannon(leftClick, cannonBarrel);
+            handleRotateCannon(cannonBarrel);
         });
         
         sliderLaunchAngle.setOnMouseClicked(leftClick -> {
-            handleRotateCannon(leftClick, cannonBarrel);
+            handleRotateCannon(cannonBarrel);
         });
         
         sliderLaunchAngle.setOnKeyPressed(arrowPressed -> {
-            handleRotateCannon(arrowPressed, cannonBarrel);
+            handleRotateCannon(cannonBarrel);
         });
 
         sliderGravity.setOnMouseDragged(e -> {
@@ -182,27 +186,31 @@ public class MainAppController {
         });
 
         buttonPlay.setOnMouseClicked(leftClick -> {
-            handlePlay(leftClick);
+            handlePlay();
             disableSliders(sliderList);
         });
 
         buttonReset.setOnMouseClicked(leftClick -> {
-            handleReset(leftClick);
+            handleReset();
             enableSliders(sliderList);
         });
 
         buttonPause.setOnMouseClicked(leftClick -> {
-            handlePause(leftClick);
+            handlePause();
             disableSliders(sliderList);
         });
         
         buttonHelp.setOnMouseClicked(leftClick -> {
-            handleHelp(leftClick);
+            handleHelp();
         });
         
         buttonClear.setOnMouseClicked(leftClick -> {
             // Resets the animation and brings the sliders to default values
-            handleClear(leftClick, sliderList);
+            handleClear(sliderList);
+        });
+        
+        buttonGraph.setOnMouseClicked(leftClick -> {
+            handleGraphs();
         });
 
     }
