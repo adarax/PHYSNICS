@@ -4,6 +4,7 @@
  */
 package edu.vanier.physnics.conservation;
 
+import com.sun.javafx.scene.shape.RectangleHelper;
 import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
 import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
 import edu.vanier.physnics.conservation.graphs.GraphSettings;
@@ -16,6 +17,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,13 +30,15 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  *
@@ -118,6 +123,9 @@ public class ConservationController {
 
     private AnimationTimer updater;
 
+    private EventHandler changeRampColor;
+    private EventHandler changeBallColor;
+
     @FXML
     public void initialize() {
 
@@ -139,6 +147,7 @@ public class ConservationController {
         btnReset.setOnMouseClicked((e) -> {
             resetBall();
             disableSidebar(false);
+            animBackend.setPlaying(false);
         });
 
         btnGraph.setOnMouseClicked((e) -> {
@@ -149,24 +158,19 @@ public class ConservationController {
 
         });
 
-        sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mass = sliderMass.getValue();
-                textMass.setText("Mass of the ball: " + mass + " kg");
-
-            }
+        sliderMass.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            mass = sliderMass.getValue();
+            textMass.setText("Mass of the ball: " + mass + " kg");
         });
 
-        sliderHeight.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                rampHeight = sliderHeight.getValue();
-                textHeight.setText("Height: " + rampHeight + " m");
-            }
+        sliderHeight.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            rampHeight = sliderHeight.getValue();
+            textHeight.setText("Height: " + rampHeight + " m");
         });
 
         choiceBoxg.setOnAction((e) -> {
             g = getNumber(choiceBoxg.getValue());
-            textg.setText("Gravitational\n acceleration: " + g + " m/s^2");
+            textg.setText("Gravitational\n acceleration:\n" + g + " m/s^2");
         });
 
         choiceBoxu.setOnAction((e) -> {
@@ -198,21 +202,25 @@ public class ConservationController {
             switchSimulation("ucm-scene-graph");
         });
 
-        ramp.setOnMouseClicked((eventHandler) -> {
+        changeRampColor = (EventHandler) (Event event) -> {
             if (!animBackend.isPlaying()) {
-                rampColor = getNewColor(rampColor, "Change ramp color");
+                getNewColor(rampColor, "Change ramp color", "ramp");
                 ramp = null;
                 paneAnimation.getChildren().remove(ramp);
                 createRamp();
             }
-        });
-        
-        ball.setOnMouseClicked((eventHandler) -> {
+        };
+
+        ramp.setOnMouseClicked(changeRampColor);
+
+        changeBallColor = (EventHandler) (Event event) -> {
             if (!animBackend.isPlaying()) {
-                ballColor = getNewColor((Color) ball.getFill(), "Change ball color");
+                getNewColor((Color) ball.getFill(), "Change ball color", "ball");
                 ball.setFill(ballColor);
             }
-        });
+        };
+
+        ball.setOnMouseClicked(changeBallColor);
 
     }
 
@@ -278,6 +286,7 @@ public class ConservationController {
 
         //set the path of the ball
         ramp.createBallPath(ball);
+        ramp.setOnMouseClicked(changeRampColor);
 
         paneAnimation.getChildren().add(ramp);
     }
@@ -341,6 +350,7 @@ public class ConservationController {
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
         ramp.createBallPath(ball);
         ball.setMass(mass);
+        ball.setOnMouseClicked(changeBallColor);
         paneAnimation.getChildren().add(ball);
 
     }
@@ -423,39 +433,76 @@ public class ConservationController {
 
     }
 
-    public Color getNewColor(Color objectColor, String title) {
+    public void getNewColor(Color objectColor, String title, String choice) {
+        Color chosenColor = objectColor;
         Stage colorPickerStage = new Stage();
-        VBox v = new VBox();
+        Pane colorPickerPane = new Pane();
+
+        double colorPickerHeight = 300;
+        double colorPickerWidth = 450;
+        double squareSides = 50;
+
         //components
-        ColorPicker cpicker = new ColorPicker();
-        cpicker.setValue(objectColor);
-        Button submit = new Button("Submit");
-        Button cancel = new Button("Cancel");
-        Label label = new Label(title);
-        //adding everything to the scene
-        v.getChildren().addAll(label, cpicker, submit, cancel);
-        Scene cPickerScene = new Scene(v, 150, 100);
-        //adds everything to the stage
-        colorPickerStage.setScene(cPickerScene);
+        for (int i = 0; i < (Settings.COLOR_LIST.length); i++) {
+            Rectangle colorChoice = new Rectangle();
+            colorChoice.setHeight(squareSides);
+            colorChoice.setWidth(squareSides);
+            if (i < 4) {
+                colorChoice.setX(squareSides + 100 * i);
+                colorChoice.setY(100);
+
+            } else {
+                colorChoice.setX(squareSides + 100 * (i - 4));
+                colorChoice.setY(200);
+            }
+
+            colorChoice.setFill(Settings.COLOR_LIST[i]);
+            colorChoice.setStroke(Color.BLACK);
+
+            if (choice.equals("ramp")) {
+                colorChoice.setOnMouseClicked((eventHandler) -> {
+                    rampColor = (Color) colorChoice.getFill();
+                    colorPickerStage.close();
+                });
+            } else {
+                colorChoice.setOnMouseClicked((eventHandler) -> {
+                    ballColor = (Color) colorChoice.getFill();
+                    colorPickerStage.close();
+                });
+            }
+
+            colorPickerPane.getChildren().add(colorChoice);
+        }
+        ColorPicker extraColorOptions = new ColorPicker();
+        extraColorOptions.setLayoutX(colorPickerWidth/2-50);
+        extraColorOptions.setLayoutY(50);
+        
+        
+        if(choice.equals("ramp")){
+            extraColorOptions.setValue(rampColor);
+            extraColorOptions.setOnAction((eventHandler) ->{
+                rampColor = extraColorOptions.getValue();
+                colorPickerStage.close();
+            });
+        }
+        else{
+            extraColorOptions.setValue(ballColor);
+            extraColorOptions.setOnAction((eventHandler) ->{
+                ballColor = extraColorOptions.getValue();
+                colorPickerStage.close();
+            });
+        }
+        
+        colorPickerPane.getChildren().add(extraColorOptions);
+        
+        Scene colorPickerScene = new Scene(colorPickerPane, colorPickerWidth, colorPickerHeight);
+       
+        colorPickerStage.setScene(colorPickerScene);
         colorPickerStage.setTitle(title);
         colorPickerStage.setResizable(false);
-
-        submit.setOnAction((e) -> {
-            colorPickerStage.close();
-        });
-
-        cancel.setOnAction((e) -> {
-            cpicker.setValue(null);
-            colorPickerStage.close();
-        });
+        colorPickerStage.initModality(Modality.APPLICATION_MODAL);
 
         colorPickerStage.showAndWait();
-
-        if (cpicker.getValue() != null) {
-            return cpicker.getValue();
-        } else {
-            return objectColor;
-        }
     }
 
     public void disableSidebar(boolean status) {

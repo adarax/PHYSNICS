@@ -24,6 +24,9 @@ public class Settings {
     public static final String[] FRICTION_COEFFICIENTS = 
     {"Aluminium: 0.61", "Brass: 0.5", "Cast Iron: 0.4", "Copper: 0.53", "Steel: 0.8"};
     
+    public static final Color[] COLOR_LIST = {Color.RED, Color.YELLOW, Color.BLUE, 
+        Color.GREEN, Color.PURPLE, Color.GREY, Color.PINK, Color.ORANGE};
+    
     public static final Color INITTIAL_BALL_COLOR = Color.RED; 
     public static final Color INITTIAL_RAMP_COLOR = Color.BLACK;
     
@@ -48,8 +51,6 @@ public class Settings {
     public static final double ACCELERATION_TEXT_POSITION_X = WIDTH_ANIMATION_PANE-170;
     public static final double ACCELERATION_TEXT_POSITION_Y = HEIGHT_ANIMATION_PANE/4;
     
-    //public static final double FONT_SIZE = 30;
-    //public static final String TEXT_FONT = "Times new roman";
     public static final Font TEXT_FONT = new Font("Times new roman", 30);
     public static final Font GRAPH_TEXT_FONT = new Font("Times new roman", 20);
     
