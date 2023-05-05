@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="173.0" minHeight="10.0" prefHeight="155.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="841.0" minHeight="10.0" prefHeight="753.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="172.0" minHeight="10.0" prefHeight="172.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <Text layoutX="298.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stacked Block Help Page" AnchorPane.rightAnchor="297.486328125">
+      <TextFlow fx:id="textFlowTextArea" prefHeight="710.0" prefWidth="1230.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stacked Block Help Page" textAlignment="CENTER" wrappingWidth="524.513671875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
-            <Font name="Segoe UI" size="28.0" />
+            <Font name="Segoe UI" size="42.0" />
          </font>
+         <GridPane.margin>
+            <Insets bottom="25.0" />
+         </GridPane.margin>
       </Text>
-      <TextArea editable="false" layoutX="68.0" layoutY="83.0" prefHeight="517.0" prefWidth="765.0" text="Drag the force sliders to adjust the forces applied on M1 and M2.&#10;&#10;Drag the angle sliders to adjust the angle (to the horizontal) that the forces will have.&#10;&#10;Drag the friction sliders to adjust the friction coefficient of that surface.&#10;&#10;Drag the mass sliders to adjust the masses of M1 and M2.&#10;&#10;Check or uncheck the show/hide vectors button to show or hide the free body diagram of the forces in the block system.&#10;&#10;Press the clear values button to reset all sliders to their default values.&#10;&#10;The play button plays the animation of the simulation.&#10;&#10;The pause button pauses the animation of the simulation. The simulation can be started again using the play button.&#10;&#10;The stop button stops the simulation and resets it to the beginning.&#10;&#10;The settings tab has the option to change the colors of various objects in the simulation, such as the background and the color of the blocks / force vectors.&#10;&#10;The file tab has buttons to quit the program or to return to the main menu.&#10;&#10;The “moon shaped” button sets the application theme to dark mode if on light mode and vice versa." wrapText="true">
+      <MFXButton fx:id="buttonReturnToSimulation" alignment="CENTER" prefHeight="90.0" prefWidth="275.0" style="-fx-font-size: 25;" text="Back to simulation" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
-            <Font name="Segoe UI" size="15.0" />
+            <Font name="Segoe UI" size="30.0" />
          </font>
-      </TextArea>
-      <MFXButton fx:id="buttonReturnToSimulation" alignment="CENTER" layoutX="365.0" layoutY="619.0" prefHeight="55.0" prefWidth="170.0" style="-fx-font-size: 17;" text="Back to simulation">
-         <font>
-            <Font name="Segoe UI" size="17.0" />
-         </font>
+         <GridPane.margin>
+            <Insets bottom="25.0" />
+         </GridPane.margin>
       </MFXButton>
    </children>
-</AnchorPane>
+</GridPane>
