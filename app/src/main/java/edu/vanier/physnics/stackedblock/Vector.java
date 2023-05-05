@@ -14,7 +14,7 @@ public class Vector {
     private double directionInDegrees;
     
     // Setting the type of force is useful when animating the various Vectors
-    private FORCE_TYPE forceType;
+    private final FORCE_TYPE forceType;
 
     public Vector(double magnitudeInNewtons, double directionInDegrees, FORCE_TYPE forceType)
     {
@@ -58,8 +58,8 @@ public class Vector {
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
-        double xComponent = Math.cos(directionInDegrees) * magnitudeInNewtons;
-        double yComponent = Math.sin(directionInDegrees) * magnitudeInNewtons;
+        double xComponent = Math.cos(toRadians(directionInDegrees)) * magnitudeInNewtons;
+        double yComponent = Math.sin(toRadians(directionInDegrees)) * magnitudeInNewtons;
 
         asComponents.add(xComponent);
         asComponents.add(yComponent);
@@ -85,6 +85,11 @@ public class Vector {
         this.directionInDegrees = currentDirection;
     }
 
+    private double toRadians(double angleDegrees)
+    {
+        return angleDegrees * (Math.PI / 180);
+    }
+    
     public double getMagnitudeInNewtons()
     {
         return magnitudeInNewtons;
@@ -106,4 +111,13 @@ public class Vector {
         FRICTION,
         NORMAL
     }
+
+    // TODO: delete after testing is done
+    @Override
+    public String toString()
+    {
+        return "Vector{" + "magnitudeInNewtons=" + magnitudeInNewtons + ", directionInDegrees=" + directionInDegrees + ", forceType=" + forceType + '}';
+    }
+    
+    
 }
