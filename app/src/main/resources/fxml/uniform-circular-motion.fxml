@@ -2,7 +2,6 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXSlider?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
@@ -239,17 +238,7 @@
       <Pane fx:id="paneSimulate" prefHeight="549.0" prefWidth="1115.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="40.0" />
-         </BorderPane.margin>
-         <children>
-            <ImageView fitHeight="694.0" fitWidth="1006.0" pickOnBounds="true">
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-               <image>
-                  <Image url="@../images/uniform_circular_motion_roundabout.jpg" />
-               </image>
-            </ImageView>
-         </children></Pane>
+         </BorderPane.margin></Pane>
    </center>
    <opaqueInsets>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

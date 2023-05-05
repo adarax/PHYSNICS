@@ -22,34 +22,34 @@ public class Vector {
     private double forceMagnitude;
 
     public Vector(double xCoordinate, double yCoordinate, double forceMagnitude, String vectorType) {
-        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/arrow_" + determineColor(vectorType) + ".png"));
+        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/uniform_circular_motion_vector_" + determineType(vectorType) + ".png"));
         this.arrowBody = new ImageView(arrowBodyObject);
         this.vectorType = vectorType;
         this.forceMagnitude = forceMagnitude;
         this.nameTag.setText(String.valueOf(forceMagnitude));
-        arrowBody.setRotate(70);
+        this.arrowBody.setRotate(90);
         this.arrowBody.setLayoutX(xCoordinate);
         this.arrowBody.setLayoutY(yCoordinate);
     }
     
-    public Vector(double xCoordinate, double yCoordinate, String vectorType) {
-        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/arrow_" + determineColor(vectorType) + ".png"));
+    public Vector(double xCoordinate, double yCoordinate, double fitWidth, double fitHeight, String vectorType) {
+        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/uniform_circular_motion_vector_" + determineType(vectorType) + ".png"));
         this.arrowBody = new ImageView(arrowBodyObject);
         this.vectorType = vectorType;
         this.nameTag.setText(vectorType);
         this.arrowBody.setLayoutX(xCoordinate);
         this.arrowBody.setLayoutY(yCoordinate);
         arrowBody.setRotate(40);
-        arrowBody.setFitWidth(50);
-        arrowBody.setFitHeight(50);
+        arrowBody.setFitWidth(fitWidth);
+        arrowBody.setFitHeight(fitHeight);
    }   
     
-    private String determineColor(String vectorType){
+    private String determineType(String vectorType){
         if (vectorType.equals("FORCE")) {
-            return "black";
+            return "force_magnitude";
         }
-        else if (vectorType.equals("FORCEXCOMPONENT")) {
-            return "red";
+        else if (vectorType.equals("ACCELERATION")) {
+            return "acceleration_magnitude";
         }
         return "blue";
     }
