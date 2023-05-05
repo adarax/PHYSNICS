@@ -58,7 +58,7 @@ public class BlockFormulas {
         
         if (frictionVectorMagnitude > Math.abs(correspondingForceVectorXComponent))
         {
-            frictionVectorMagnitude = correspondingForceVectorXComponent;
+            frictionVectorMagnitude = Math.abs(correspondingForceVectorXComponent);
         }
         
         double frictionVectorDirection = 180;
@@ -85,14 +85,49 @@ public class BlockFormulas {
 
         for (Vector forceVector : forcesExperienced)
         {
-            sumXComponents += Math.cos(forceVector.getDirectionInDegrees()) * forceVector.getMagnitudeInNewtons();
-            sumYComponents += Math.sin(forceVector.getDirectionInDegrees()) * forceVector.getMagnitudeInNewtons();
+            sumXComponents += Math.cos(Math.toRadians(forceVector.getDirectionInDegrees())) * forceVector.getMagnitudeInNewtons();
+            sumYComponents += Math.sin(Math.toRadians(forceVector.getDirectionInDegrees())) * forceVector.getMagnitudeInNewtons();
         }
 
         double magnitudeOfResultant = Math.sqrt(Math.pow(sumXComponents, 2) + Math.pow(sumYComponents, 2));
-        double directionOfResultant = Math.atan(sumYComponents / sumXComponents);
+        double directionOfResultantDegrees = getProperDirection(sumXComponents, sumYComponents);
 
-        return new Vector(magnitudeOfResultant, directionOfResultant, FORCE_TYPE.APPLIED);
+        return new Vector(magnitudeOfResultant, directionOfResultantDegrees, FORCE_TYPE.APPLIED);
+    }
+    
+    /**
+     * Takes an x and y component of a vector as arguments and returns the 
+     * direction of the vector in degrees with respect to the positive x-axis.
+     * 
+     * The returned value ranges between 0 and 360 degrees.
+     * 
+     * @param xComponent
+     * @param yComponent
+     * @return direction in degrees with respect to the +x axis.
+     */
+    public double getProperDirection(double xComponent, double yComponent)
+    {
+        double properDirection = Math.abs(Math.toDegrees(Math.atan(yComponent / xComponent)));
+        
+        // If the direction is in the first quadrant, nothing needs to be changed.
+        
+        // 2nd quadrant
+        if (xComponent < 0 && yComponent >= 0)
+        {
+            properDirection = 180 - properDirection;
+        }
+        // 3rd quadrant
+        else if (xComponent < 0 && yComponent < 0)
+        {
+            properDirection += 180;
+        }
+        // 4th quadrant
+        else if (xComponent >= 0 && yComponent < 0)
+        {
+            properDirection = 360 - properDirection;
+        }
+        
+        return properDirection;
     }
 
     
