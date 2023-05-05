@@ -41,6 +41,7 @@ public class Ramp extends Path{
      * inner semicircle.
      */
     public void drawRamp(){
+        determineAndSetRampRadius();
         this.setFill(rampColor);
         this.setStroke(rampColor);
         this.setFillRule(FillRule.EVEN_ODD);
@@ -110,6 +111,19 @@ public class Ramp extends Path{
         ballPath.getElements().add(ballArc);
         ball.setBallPath(ballPath);
         
+    }
+    
+    /*
+     * Logarithmic growth is best, since this way the block starts off at a
+     * resonable size and yet doesn't get so big that it goes out of the screen.
+     * This allows the simulation to be able to handle a larger range of mass
+     * values.
+     */
+  
+    public final void determineAndSetRampRadius()
+    {
+        radius = 100 * Math.log( radius/ 2) + 200;
+       
     }
     
 

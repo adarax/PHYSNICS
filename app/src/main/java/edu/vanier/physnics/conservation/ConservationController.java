@@ -164,7 +164,10 @@ public class ConservationController {
         });
 
         sliderHeight.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            paneAnimation.getChildren().remove(ramp);
+            ramp = null;
             rampHeight = sliderHeight.getValue();
+            createRamp();
             textHeight.setText("Height: " + rampHeight + " m");
         });
 
@@ -228,6 +231,11 @@ public class ConservationController {
     
     
     public void setup() {
+         //initializes the variables
+        mass = 10;
+        rampHeight = 10;
+        g = 9.8;
+        
         openGraphWindow();
         //initialize the animation backend
         animBackend = new AnimationBackend();
@@ -259,10 +267,7 @@ public class ConservationController {
         }
         choiceBoxu.setValue(Settings.FRICTION_COEFFICIENTS[0]);
 
-        //initializes the variables
-        mass = 10;
-        rampHeight = 10;
-        g = 9.8;
+       
 
         sliderMass.setValue(mass);
         sliderHeight.setValue(rampHeight);
@@ -281,7 +286,7 @@ public class ConservationController {
 
     public void createRamp() {
         //draw the ramp
-        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS,
+        ramp = new Ramp(rampHeight, Settings.RAMP_THICKNESS,
                 Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
 
         //set the path of the ball

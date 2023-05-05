@@ -36,7 +36,7 @@ public class Settings {
     
     public static final double BALL_RADIUS = 20;
     
-    public static final double RAMP_RADIUS = 500;
+    public static final double INITIAL_RAMP_RADIUS = 500;
     public static final double RAMP_POSITION_X = WIDTH_ANIMATION_PANE/2;
     public static final double RAMP_POISTION_Y = HEIGHT_ANIMATION_PANE/2+300;
     public static final double RAMP_THICKNESS = 40;
