@@ -256,10 +256,22 @@ public class BlockFrontEndController {
         });
     }
 
+    private boolean isAnimationInitialized = false;
+    
     public void handlePlay()
     {
-        handleShowVectors(true);
-        blockAnimationHandler.play(topBlock, bottomBlock, paneAnimation);
+        if (!isAnimationInitialized)
+        {
+            blockAnimationHandler.createBlockAnimation(topBlock, bottomBlock, paneAnimation);
+            isAnimationInitialized = true;
+        }
+        
+        if (isVectorShowing)
+        {
+            handleShowVectors(true);
+        }
+        
+        blockAnimationHandler.play();
     }
 
     public void handlePause()
@@ -269,8 +281,8 @@ public class BlockFrontEndController {
 
     public void handleStop()
     {
-
         blockAnimationHandler.stop();
+        isAnimationInitialized = false;
     }
 
     /**
@@ -403,6 +415,8 @@ public class BlockFrontEndController {
         currentStage.setFullScreen(true);
     }
 
+    
+    // TODO: Make this change switch the toggle on and off as well
     private void handleShowVectors(boolean toggled)
     {
         // Change boolean value since the button was toggled

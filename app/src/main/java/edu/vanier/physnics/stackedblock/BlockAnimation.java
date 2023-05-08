@@ -1,11 +1,11 @@
- package edu.vanier.physnics.stackedblock;
+package edu.vanier.physnics.stackedblock;
 
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
- import javafx.scene.control.Label;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -87,146 +87,155 @@ public class BlockAnimation {
 
         Rectangle floorDrawing = new Rectangle(0, paneHeight - this.floorHeight - 1,
                 paneWidth - 1, this.floorHeight);
-        
+
         // Make floor a light gray in light mode and a dark gray in dark mode
         floorDrawing.setFill(isDarkMode ? Color.web("ccc1c1") : Color.web("807979"));
 
         animationPane.getChildren().add(floorDrawing);
     }
 
-    // TODO: implement animation using guidelines commented below
     
-    private TranslateTransition animationTopBlock;
+    /************************************************************************/
+    /*                        Animation of simulation                       */
+    /************************************************************************/
     
-    public void play(Block topBlock, Block bottomBlock, Pane animationPane)
+    
+    private TranslateTransition animationTopBlock, animationBottomBlock;
+    private AnimationTimer topBlockAnimationTimer, bottomBlockAnimationTimer;
+    
+    protected void createBlockAnimation(Block topBlock, Block bottomBlock, Pane animationPane)
     {
-        // If top and bottom block are no longer touching, top block should fall off
-        // at gravitational acceleration minus the opposing vertical forces
-        // Watch out for NaN when forces are set to 0 in simulation, this could cause errors!
+                                /* Top block */
+        
         BlockFormulas blockFormulas = new BlockFormulas();
-            
+        
         Vector topBlockNetForceVector = blockFormulas.calculateNetForceVector(topBlock.getForcesExperienced());
         double topBlockNetForceX = topBlockNetForceVector.asComponents().get(0);
-        
+
         if (Double.isNaN(topBlockNetForceX))
         {
             topBlockNetForceX = 0;
         }
-        
-        double accelerationTopBlock = topBlockNetForceX / topBlock.getMass();
 
+        double accelerationTopBlock = topBlockNetForceX / topBlock.getMass(),
+                displacementTopBlock = animationPane.getWidth() - topBlock.getLayoutX() - topBlock.getDrawingWidth(),
+                durationOfAnimationTopBlock = calculateDuration(accelerationTopBlock, displacementTopBlock);
+
+        animationTopBlock = new TranslateTransition(Duration.seconds(durationOfAnimationTopBlock), topBlock);
+        animationTopBlock.setToX(displacementTopBlock);
+        animationTopBlock.setInterpolator(new AccelerateInterpolator((accelerationTopBlock)));
+
+        topBlockAnimationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long l)
+            {
+                reactToConditions(topBlock, displacementTopBlock,accelerationTopBlock);
+            }
+        };
+
+        topBlockAnimationTimer.start();
+        animationTopBlock.play();
+        
+        
+                                /* Bottom block */
+        
         Vector bottomBlockNetForceVector = blockFormulas.calculateNetForceVector(bottomBlock.getForcesExperienced());
         double bottomBlockNetForceX = bottomBlockNetForceVector.asComponents().get(0);
-        
+
         if (Double.isNaN(bottomBlockNetForceX))
         {
             bottomBlockNetForceX = 0;
         }
-        
-        double accelerationBottomBlock = bottomBlockNetForceX / (bottomBlock.getMass() + topBlock.getMass());
-        
 
-        // Maximum displacement in either direction is the width of the animation
-        double stoppingPoint = animationPane.getWidth() * (accelerationTopBlock > 0 ? 1 : -1);
-        double durationOfAnimation = calculateDuration(accelerationTopBlock, stoppingPoint);
-        
-        
-        animationTopBlock = new TranslateTransition(Duration.seconds(durationOfAnimation), topBlock);
+        double accelerationBottomBlock = bottomBlockNetForceX / (bottomBlock.getMass() + topBlock.getMass()),
+                displacementBottomBlock = bottomBlock.getLayoutX(),
+                durationOfAnimationBottomBlock = calculateDuration(accelerationBottomBlock, displacementBottomBlock);
 
-        // Move to this position
-        animationTopBlock.setToX(stoppingPoint);
+        animationBottomBlock = new TranslateTransition(Duration.seconds(durationOfAnimationBottomBlock), bottomBlock);
+        animationBottomBlock.setToX(displacementBottomBlock);
+        animationTopBlock.setInterpolator(new AccelerateInterpolator((accelerationBottomBlock)));
         
-        // This needs to be custom, based on my own acc values
-        animationTopBlock.setInterpolator(new AccelerateInterpolator((accelerationTopBlock)));
-
-        AnimationTimer timer = new AnimationTimer() {
+        bottomBlockAnimationTimer = new AnimationTimer() {
             @Override
             public void handle(long l)
             {
-                double maxDisplacementTopBlock = 0;
-                
-                // animationPane.getWidth() - topBlock.getLayoutX() - topBlock.getDrawingWidth();
-                
-                if (accelerationTopBlock > 0)
-                {
-                    maxDisplacementTopBlock = animationPane.getWidth() - topBlock.getLayoutX() - topBlock.getDrawingWidth();
-                }
-                else
-                {
-                    maxDisplacementTopBlock = topBlock.getLayoutX() * -1;
-                }
-                
-                reactToConditions(maxDisplacementTopBlock, topBlock, accelerationTopBlock);
+                reactToConditions(bottomBlock, displacementBottomBlock ,accelerationBottomBlock);
             }
         };
-        
-        timer.start();
-        
-        animationTopBlock.play();
-        
-        animationTopBlock.setOnFinished(e -> System.out.println("done"));
-        // onfinished, buttons need to be reenabled
 
+        bottomBlockAnimationTimer.start();
+        animationBottomBlock.play();
     }
-    
-    // Need bottomBlock param too
-    
-    // TODO: Fix this to stop at both walls
-    
-    private void reactToConditions(double maxDisplacement, Block topBlock, double acceleration) 
-    {
-        double translated = topBlock.getTranslateX() * (acceleration > 0 ? 1 : -1);
 
-        System.out.println(translated);
-        
-        if (acceleration > 0)
+    private void reactToConditions(Block block, double maxDisplacement, double acceleration)
+    {
+        double translated = block.getTranslateX() * Math.signum(acceleration);
+
+        if (translated >= maxDisplacement)
         {
-           if (translated >= maxDisplacement)
+            if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
             {
-                System.out.println("Hit wall");
-                this.stop();
+                topBlockAnimationTimer.stop();
                 animationTopBlock.stop();
-            } 
-        }
-        else {
-            if (translated <= maxDisplacement)
+            } else
             {
-                System.out.println("Also hit wall");
-                this.stop();
-                animationTopBlock.stop();
+                bottomBlockAnimationTimer.stop();
+                animationBottomBlock.stop();
             }
         }
         
+        // Gravity (for top block)
     }
-    
+
     private void animateFall()
     {
         // IMPLEMENT ME
     }
 
+    /**
+     * Finds duration of animation using the Block's acceleration and
+     * displacement.
+     * 
+     * Derivation: x = vo * t + 1/2 * a * t^2
+     *          => x = 1/2 * a * t^2 (since initial velocity is 0)
+     *          => t = sqrt(2x/a)
+     * 
+     * x is displacement (m)
+     * a is acceleration (m/s^2)
+     * t is time (seconds)
+     * 
+     * @param acceleration
+     * @param displacement
+     * @return duration of animation based on the displacement
+     */
     private double calculateDuration(double acceleration, double displacement)
     {
-        // x = displacement, a = acceleration
-        // x = vo*t + 0.5*a*t^2
-        // vo = 0
-        // x = 0.5*a*t^2
-        // => sqrt(2x/a) = t
-        
-        return Math.sqrt(2 * Math.abs(displacement) / Math.abs(acceleration));        
+        return Math.sqrt(2 * Math.abs(displacement) / Math.abs(acceleration));
     }
     
+    public void play()
+    {
+        topBlockAnimationTimer.start();
+        animationTopBlock.play();
+        
+        bottomBlockAnimationTimer.start();
+        animationBottomBlock.play();
+    }
+
     public void pause()
     {
         animationTopBlock.pause();
     }
 
-    
-    // FIXME: see projects from last sem on how to use stop properly, and onFinished()?
+    // FIXME: onFinished()? maybe say something or change color, some type of indication
     public void stop()
     {
-        // Go to initial position, clear vectors
-        animationTopBlock.stop();
         animationTopBlock.jumpTo(Duration.ZERO);
+        animationTopBlock.stop();
+        topBlockAnimationTimer.stop();
+        
+        animationBottomBlock.jumpTo(Duration.ZERO);
+        animationBottomBlock.stop();
+        bottomBlockAnimationTimer.stop();
     }
-
 }
