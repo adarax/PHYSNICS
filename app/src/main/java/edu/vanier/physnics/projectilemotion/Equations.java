@@ -32,6 +32,11 @@ public class Equations {
         return velocityXMetersPerSecond;
     }
     
+    public static double getYVelocityMetersPerSecond(double launchAngleDeg, double initialVelocityMetersPerSecond, double gravity, double currentTimeSeconds) {
+        double velocityYMetersPerSecond = (Math.sin(Math.toRadians(launchAngleDeg)) * initialVelocityMetersPerSecond) - (currentTimeSeconds * gravity);
+        return velocityYMetersPerSecond;
+    }
+    
     /**
      * Method representing the formula for the max displacement in the x direction of the 
      * projectile motion.

@@ -77,18 +77,28 @@ public class GraphsController {
         });
         
         XYChart.Series seriesVelocityXTime = new XYChart.Series();
+        XYChart.Series seriesVelocityYTime = new XYChart.Series();
+        XYChart.Series seriesAccelerationYTime = new XYChart.Series();
         seriesVelocityXTime.setName("Velocity X Vs Time");
+        seriesVelocityYTime.setName("Velocity Y Vs Time");
+        seriesAccelerationYTime.setName("Acceleration Y Vs Time");
         
         int numberOfPoints = 10;
         double timeBetweenPoints = flightTimeSeconds / numberOfPoints;
         
-        for (int i = 0; i < numberOfPoints; i++) {
+        for (int i = 0; i < numberOfPoints + 1; i++) {
             double currentTime = i * timeBetweenPoints;
             double velocityXMetersPerSecond = Equations.getXVelocityMetersPerSecond(launchAngleDegrees, velocityMetersPerSecond);
             seriesVelocityXTime.getData().add(new XYChart.Data(String.valueOf(currentTime), velocityXMetersPerSecond));
+            double velocityYMetersPerSecond = Equations.getYVelocityMetersPerSecond(launchAngleDegrees, velocityMetersPerSecond, gravityMetersPerSecondSquared, currentTime);
+            seriesVelocityYTime.getData().add(new XYChart.Data(String.valueOf(currentTime), velocityYMetersPerSecond));
+            double accelerationYMetersPerSecondSquared = gravityMetersPerSecondSquared;
+            seriesAccelerationYTime.getData().add(new XYChart.Data(String.valueOf(currentTime), accelerationYMetersPerSecondSquared));
+           
         }
-        
         velocityX.getData().add(seriesVelocityXTime);
+        velocityY.getData().add(seriesVelocityYTime);
+        accelerationY.getData().add(seriesAccelerationYTime);
     }
     
 
