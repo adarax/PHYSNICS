@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- *
+ * A class used to represent and display the acceleration and force vectors.
  * @author Admin
  */
 public class Vector {
@@ -36,7 +36,6 @@ public class Vector {
         this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/uniform_circular_motion_vector_" + determineType(vectorType) + ".png"));
         this.arrowBody = new ImageView(arrowBodyObject);
         this.vectorType = vectorType;
-        this.nameTag.setText(vectorType);
         this.arrowBody.setLayoutX(xCoordinate);
         this.arrowBody.setLayoutY(yCoordinate);
         arrowBody.setRotate(40);
@@ -48,10 +47,12 @@ public class Vector {
         if (vectorType.equals("FORCE")) {
             return "force_magnitude";
         }
-        else if (vectorType.equals("ACCELERATION")) {
-            return "acceleration_magnitude";
-        }
-        return "blue";
+        
+        return "acceleration_magnitude";
+    }
+    
+    public void setOpacity(double opacity){
+        arrowBody.setOpacity(opacity);
     }
 
     public Label getNameTag() {

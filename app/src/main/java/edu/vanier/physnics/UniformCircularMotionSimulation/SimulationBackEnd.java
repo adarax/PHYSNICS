@@ -32,10 +32,21 @@ import javafx.util.Duration;
  */
 public class SimulationBackEnd {
 
+    /**
+     * Constructs an instance of SimulationBackEnd to be used.
+     */
     public SimulationBackEnd() {
     }  
     
-    public Path createEllipsePath(double centerX, double centerY, double radiusX, double radiusY, double rotate)
+    /**
+     * Draws an elliptical/circular path.
+     * @param centerX The X coordinate of the center of the circular path
+     * @param centerY The Y coordinate of the center of the circular path
+     * @param radiusX The radius of the circular path, in terms of X coordinates
+     * @param radiusY The radius of the circular path, in terms of X coordinates
+     * @return a path with the set center coordinates and radii.
+     */
+    public Path createEllipsePath(double centerX, double centerY, double radiusX, double radiusY)
     {
         //https://stackoverflow.com/questions/14171856/javafx-2-circle-path-for-animation
         ArcTo arcTo = new ArcTo();
@@ -45,7 +56,6 @@ public class SimulationBackEnd {
         arcTo.setLargeArcFlag(true);
         arcTo.setRadiusX(radiusX);
         arcTo.setRadiusY(radiusY);
-        arcTo.setXAxisRotation(rotate);
         
         Path path = new Path();
         path.getElements().addAll(
@@ -57,6 +67,13 @@ public class SimulationBackEnd {
         return path;
     }    
 
+    /**
+     * Returns a PathTransition with the proper node and car set
+     * @param path The path to set to the PathTransition
+     * @param node The node to set to the PathTransition
+     * @param car The car that is revolving in the simulation
+     * @return a PathTransition that has the path and the node set, making them move at the same speed as the car in the simulation.
+     */
     public PathTransition createPathTransitionCircle(Path path, Node node, Car car){
         PathTransition pathTransitionCircle = new PathTransition();
         pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));

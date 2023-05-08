@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import io.github.palexdev.materialfx.controls.MFXSlider?>
+<?import java.lang.Double?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -13,10 +15,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="uniformCircularMotionBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="851.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="uniformCircularMotionBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="945.0" prefWidth="1501.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Pane BorderPane.alignment="CENTER">
          <HBox.margin>
@@ -180,6 +184,8 @@
                   </Text>
                </children>
             </GridPane>
+            <MFXCheckbox fx:id="accelerationMagnitudeCheckBox" layoutX="11.0" layoutY="553.0" text="Hide acceleration magnitude vectors" />
+            <MFXCheckbox fx:id="forceMagnitudeCheckBox" layoutX="11.0" layoutY="586.0" text="Hide force magnitude vectors" />
          </children>
       </Pane>
    </right>
@@ -238,7 +244,33 @@
       <Pane fx:id="paneSimulate" prefHeight="549.0" prefWidth="1115.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="40.0" />
-         </BorderPane.margin></Pane>
+         </BorderPane.margin>
+         <children>
+            <Line endX="-23.0" layoutX="115.0" layoutY="63.0" startX="-100.0" />
+            <Line endX="-100.0" endY="77.0" layoutX="153.0" layoutY="25.0" startX="-100.0" />
+            <Polygon fill="#141516" layoutX="53.0" layoutY="30.0" scaleX="0.1" scaleY="0.1" scaleZ="0.1" stroke="BLACK" strokeType="INSIDE">
+              <points>
+                <Double fx:value="-50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="0.0" />
+                <Double fx:value="-60.0" />
+              </points>
+            </Polygon>
+            <Polygon fill="#141516" layoutX="90.0" layoutY="73.0" rotate="90.0" scaleX="0.1" scaleY="0.1" scaleZ="0.1" stroke="BLACK" strokeType="INSIDE">
+               <points>
+                  <Double fx:value="-50.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="0.0" />
+                  <Double fx:value="-60.0" />
+               </points>
+            </Polygon>
+            <Text layoutX="58.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="y" />
+            <Text layoutX="87.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x" />
+         </children></Pane>
    </center>
    <opaqueInsets>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

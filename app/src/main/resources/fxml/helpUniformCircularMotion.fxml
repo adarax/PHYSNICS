@@ -4,7 +4,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -24,12 +29,12 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="13.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To start the simulation, press on the submit button. From there, the parameters for the speed, radius, and mass, three variables that will affect the UCM of the object, can be changed either using the sliders or using text fields. If using text fields, make sure to input nonnegative numbers for the parameters. Note that the simulation has certain limits: the simulation will still work and siaply accurate values, but since it would be too big to depict the path or show the speed, a limit has been put on it. For the radius, it is 40 m. For the speed, it is 200 m/s. For the mass, it is 40 kg." wrappingWidth="829.6666259765625">
+      <Text layoutX="13.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To start the simulation, press on the submit button. From there, the parameters for the speed, radius, and mass, three variables that will affect the UCM of the object, can be changed either using the sliders or using text fields. If using text fields, make sure to input nonnegative numbers for the parameters. Note that the simulation has certain limits: the simulation will still work and siaply accurate values, but since it would be too big to depict the path or show the speed, a limit has been put on it. For the radius, it is 40 m. For the speed, it is 200 m/s. For the mass, it is 40 kg. It should be noted that a cap has been placed on the possible values inputted in the textfield: it must be less than the maximum value of a float, which is to say that values must be less than approximately 3.402823466 E+38." wrappingWidth="829.6666259765625">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="13.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The simulation can be paused, restarted or resetted if desired. Values for the acceleration and its vector components, as well as the force and its vector components are displayed in the bottom right." wrappingWidth="829.6666259765625">
+      <Text layoutX="13.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The simulation can be paused, restarted or resetted if desired. Values for the acceleration and its vector components, as well as the force and its vector components are displayed in the bottom right. The tab;es below show each button and arrow and their individual function/representation, respectively." wrappingWidth="829.6666259765625">
          <font>
             <Font size="14.0" />
          </font>
@@ -39,11 +44,64 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="13.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Have fun!" wrappingWidth="829.6666259765625">
+      <Text layoutX="13.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Have fun!" wrappingWidth="829.6666259765625">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
+      <GridPane layoutX="21.0" layoutY="432.0" prefHeight="320.0" prefWidth="360.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="98.00003814697266" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.99996185302734" minWidth="10.0" prefWidth="264.99996185302734" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="74.0" minHeight="0.0" prefHeight="31.333353678385418" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="93.33331298828125" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="156.33328247070312" minHeight="10.0" prefHeight="98.66670735677081" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="152.66668701171875" minHeight="10.0" prefHeight="96.66670735677081" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/play_button.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/pause_button.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="83.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../images/reset_button.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Button" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Function" GridPane.columnIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to start/restart the simulation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to pause the simulation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to reset the simulation back to its default settings." wrappingWidth="233.7708740234375" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="381.0" layoutY="432.0" prefHeight="320.0" prefWidth="360.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="98.00003814697266" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.99996185302734" minWidth="10.0" prefWidth="264.99996185302734" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="74.0" minHeight="0.0" prefHeight="31.333353678385418" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="93.33331298828125" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="156.33328247070312" minHeight="10.0" prefHeight="98.66670735677081" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="152.66668701171875" minHeight="10.0" prefHeight="96.66670735677081" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Arrow" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Representation" GridPane.columnIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to start/restart the simulation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to pause the simulation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to reset the simulation back to its default settings." wrappingWidth="233.7708740234375" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
    </children>
    <opaqueInsets>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
