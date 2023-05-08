@@ -7,18 +7,28 @@ package edu.vanier.physnics.projectilemotion;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.QuadCurve;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * Instantiates the FXML UI controls and shapes to be used in the animation.
@@ -80,6 +90,12 @@ public class MainAppController {
     @FXML 
     private ImageView cannonBarrel;
     
+    @FXML
+    private QuadCurve quadCurve;
+    
+    @FXML
+    private Pane paneAnimation;
+    
     Animation animation = new Animation();
     
     /**
@@ -96,7 +112,7 @@ public class MainAppController {
         double launchAngleDeg = sliderLaunchAngle.getValue();
         
         System.out.println(Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS));
-        animation.playAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
+        animation.playAnimation(projectileBall, cannonBarrel, quadCurve, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
     public void handlePause() {
@@ -112,8 +128,7 @@ public class MainAppController {
      * @param leftClick  
      */
     public void handleReset() {
-        projectileBall.setCenterX(0);
-        projectileBall.setCenterY(0);
+        animation.resetBall(projectileBall);
     }
 
     public void handleHelp() {
@@ -122,8 +137,28 @@ public class MainAppController {
     }
     
     public void handleGraphs() {
-        GraphsController graphsPage = new GraphsController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectileGraphs.fxml"));
+        Pane root = null;
+        GraphsController graphsPageController = new GraphsController(sliderInitialVelocity.getValue(), sliderLaunchAngle.getValue(), sliderGravity.getValue());
+        loader.setController(graphsPageController);
+
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Scene graphsPage = new Scene(root);
+        Stage stage = new Stage();
+        graphsPageController.setStage(stage);
+        stage.setScene(graphsPage);
+        stage.sizeToScene();
+        stage.setTitle("Graphs");
+        stage.setFullScreen(true);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
     }
+
 
     public void handleClear(List<MFXSlider> sliderList) {
         for (MFXSlider slider : sliderList) {
@@ -238,5 +273,18 @@ public class MainAppController {
         }
     }
     
+    
+    public double getGravitySliderValue() {
+        return sliderGravity.getValue();
+    }
+
+    public double getInitialVelocitySliderValue() {
+        return sliderInitialVelocity.getValue();
+    }
+
+    public double getLaunchAngleSliderValue() {
+        return sliderLaunchAngle.getValue();
+    }
+
 
 }
