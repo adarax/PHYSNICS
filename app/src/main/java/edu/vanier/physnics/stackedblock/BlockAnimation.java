@@ -2,6 +2,8 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.AnimationTimer;
+import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
  import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -124,28 +126,82 @@ public class BlockAnimation {
         double accelerationBottomBlock = bottomBlockNetForceX / (bottomBlock.getMass() + topBlock.getMass());
         
 
-        double displacementTopBlock = topBlock.getBoundsInParent().getMaxX() - topBlock.getWidth();
+        // Maximum displacement in either direction is the width of the animation
+        double stoppingPoint = animationPane.getWidth() * (accelerationTopBlock > 0 ? 1 : -1);
+        double durationOfAnimation = calculateDuration(accelerationTopBlock, stoppingPoint);
         
-        System.out.println(displacementTopBlock);
         
-        animationTopBlock = new TranslateTransition(Duration.seconds(calculateDuration(accelerationTopBlock, displacementTopBlock)), topBlock);
-        
-        // Move this much relative to its original position
-        animationTopBlock.setByX(displacementTopBlock * (accelerationTopBlock > 0 ? 1 : -1));
-        
-        double u = animationTopBlock.getByX();
-        System.out.println(u);
+        animationTopBlock = new TranslateTransition(Duration.seconds(durationOfAnimation), topBlock);
+
+        // Move to this position
+        animationTopBlock.setToX(stoppingPoint);
         
         // This needs to be custom, based on my own acc values
         animationTopBlock.setInterpolator(new AccelerateInterpolator((accelerationTopBlock)));
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l)
+            {
+                double maxDisplacementTopBlock = 0;
+                
+                // animationPane.getWidth() - topBlock.getLayoutX() - topBlock.getDrawingWidth();
+                
+                if (accelerationTopBlock > 0)
+                {
+                    maxDisplacementTopBlock = animationPane.getWidth() - topBlock.getLayoutX() - topBlock.getDrawingWidth();
+                }
+                else
+                {
+                    maxDisplacementTopBlock = topBlock.getLayoutX() * -1;
+                }
+                
+                reactToConditions(maxDisplacementTopBlock, topBlock, accelerationTopBlock);
+            }
+        };
         
-        System.out.println(topBlock.getBoundsInParent());
+        timer.start();
         
         animationTopBlock.play();
         
         animationTopBlock.setOnFinished(e -> System.out.println("done"));
         // onfinished, buttons need to be reenabled
 
+    }
+    
+    // Need bottomBlock param too
+    
+    // TODO: Fix this to stop at both walls
+    
+    private void reactToConditions(double maxDisplacement, Block topBlock, double acceleration) 
+    {
+        double translated = topBlock.getTranslateX() * (acceleration > 0 ? 1 : -1);
+
+        System.out.println(translated);
+        
+        if (acceleration > 0)
+        {
+           if (translated >= maxDisplacement)
+            {
+                System.out.println("Hit wall");
+                this.stop();
+                animationTopBlock.stop();
+            } 
+        }
+        else {
+            if (translated <= maxDisplacement)
+            {
+                System.out.println("Also hit wall");
+                this.stop();
+                animationTopBlock.stop();
+            }
+        }
+        
+    }
+    
+    private void animateFall()
+    {
+        // IMPLEMENT ME
     }
 
     private double calculateDuration(double acceleration, double displacement)
@@ -156,7 +212,7 @@ public class BlockAnimation {
         // x = 0.5*a*t^2
         // => sqrt(2x/a) = t
         
-        return Math.sqrt(2 * displacement / Math.abs(acceleration));        
+        return Math.sqrt(2 * Math.abs(displacement) / Math.abs(acceleration));        
     }
     
     public void pause()
