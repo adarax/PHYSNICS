@@ -55,14 +55,12 @@ public class Animation {
         MoveTo moveTo = new MoveTo();
         // Sets initial position of ball
         moveTo.setX(cannonEdgeX);
-        moveTo.setY(cannonEdgeY);
+        moveTo.setY(cannonEdgeY);;
         
         QuadCurveTo quadTo = new QuadCurveTo();
         
         quadTo.setControlX((cannonEdgeX + xDisplacementPX) / 2);
-        //You just got the value of height. Now make sure it works with the y-axis!!!!
         quadTo.setControlY(835 - (scaleHeightToPixels(launchAngleDeg, xDisplacementPX)));
-        
         
         // Final point (final displacement)
         quadTo.setX(70 + xDisplacementPX);
@@ -71,7 +69,10 @@ public class Animation {
         
         path.getElements().add(moveTo);
         path.getElements().add(quadTo);
-
+        
+        path.setVisible(true);
+        path.setStrokeWidth(5);
+        
         pathTransition.setDuration(Duration.seconds(flightTimeS));
         pathTransition.setPath(path);
         pathTransition.setNode(ball);
@@ -84,12 +85,8 @@ public class Animation {
     }
     
     public void resetBall(Circle projectileBall) {
-        projectileBall.getParent().getChildrenUnmodifiable().remove(projectileBall);
-        projectileBall = new Circle(10);
         projectileBall.setCenterX(135);
         projectileBall.setCenterY(790);
-        ((Pane) projectileBall.getParent()).getChildren().add(projectileBall);
-
     }
     
 
