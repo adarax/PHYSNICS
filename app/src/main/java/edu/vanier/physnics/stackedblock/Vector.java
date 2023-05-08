@@ -103,8 +103,7 @@ public class Vector {
     public enum FORCE_TYPE
     {
         APPLIED,
-        FRICTION,
-        NORMAL
+        FRICTION
     }
 
     @Override

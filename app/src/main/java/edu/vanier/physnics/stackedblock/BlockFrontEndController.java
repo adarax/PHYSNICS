@@ -125,7 +125,7 @@ public class BlockFrontEndController {
         Platform.runLater(() ->
         {
             // Put blocks and floor into scene on launch
-            blockAnimationHandler.drawFloor(paneAnimation);
+            blockAnimationHandler.drawFloor(paneAnimation, this.isDark);
             updateBlocks();
         });
 
@@ -159,7 +159,7 @@ public class BlockFrontEndController {
 
         buttonReset.setOnMouseClicked(press ->
         {
-            handleReset();
+            handleStop();
         });
 
         buttonHelp.setOnMouseClicked(press -> handleHelp());
@@ -219,10 +219,6 @@ public class BlockFrontEndController {
             {
                 line.setStroke(Color.BLACK);
             });
-
-            buttonClear.setTextFill(Color.WHITE);
-            buttonClear.setStyle("-fx-background-color: darkGrey;");
-
         } else
         {
             // Go to dark mode
@@ -235,18 +231,17 @@ public class BlockFrontEndController {
 
             allPanes.forEach(pane ->
             {
-                pane.setStyle("-fx-background-color: white;");
+                // Nearly white, default JavaFX background color of a Pane
+                pane.setStyle("-fx-background-color: #f4f4f4;");
             });
 
             allLines.forEach(line ->
             {
                 line.setStroke(Color.RED);
             });
-
-            buttonClear.setTextFill(Color.BLACK);
-            buttonClear.setStyle("-fx-background-color: white;");
         }
 
+        updateScene();
         drawLines();
     }
 
@@ -263,17 +258,19 @@ public class BlockFrontEndController {
 
     public void handlePlay()
     {
-        // Play the simulation
+        handleShowVectors(true);
+        blockAnimationHandler.play(topBlock, bottomBlock, paneAnimation);
     }
 
     public void handlePause()
     {
-        // Pause the simulation
+        blockAnimationHandler.pause();
     }
 
-    public void handleReset()
+    public void handleStop()
     {
-        // Reset the simulation
+
+        blockAnimationHandler.stop();
     }
 
     /**
@@ -294,7 +291,7 @@ public class BlockFrontEndController {
             slider.setValue(slider.getMin());
         });
 
-        handleReset();
+        handleStop();
         updateScene();
     }
 
@@ -304,7 +301,7 @@ public class BlockFrontEndController {
 
         updateBlocks();
 
-        blockAnimationHandler.drawFloor(paneAnimation);
+        blockAnimationHandler.drawFloor(paneAnimation, this.isDark);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
 
         // If the vectors should be drawn, draw the vectors
@@ -327,7 +324,7 @@ public class BlockFrontEndController {
     private void drawLines()
     {
         paneGridlines.getChildren().clear();
-        
+
         allLines.forEach(line ->
         {
             paneGridlines.getChildren().add(line);
@@ -385,7 +382,7 @@ public class BlockFrontEndController {
             }
             case "stackedblock_help" ->
             {
-                BlockHelpPageController helpPageController = new BlockHelpPageController(currentStage);
+                BlockHelpPageController helpPageController = new BlockHelpPageController(currentStage, this.isDark);
                 loader.setController(helpPageController);
             }
             default ->
