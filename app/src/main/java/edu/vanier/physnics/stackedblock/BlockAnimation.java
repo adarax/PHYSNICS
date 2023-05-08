@@ -103,75 +103,69 @@ public class BlockAnimation {
     private TranslateTransition animationTopBlock, animationBottomBlock;
     private AnimationTimer topBlockAnimationTimer, bottomBlockAnimationTimer;
     
-    protected void createBlockAnimation(Block topBlock, Block bottomBlock, Pane animationPane)
+    
+    protected void createBlockAnimations(ArrayList<Block> blocks, Pane animationPane)
     {
-                                /* Top block */
-        
         BlockFormulas blockFormulas = new BlockFormulas();
         
-        Vector topBlockNetForceVector = blockFormulas.calculateNetForceVector(topBlock.getForcesExperienced());
-        double topBlockNetForceX = topBlockNetForceVector.asComponents().get(0);
-
-        if (Double.isNaN(topBlockNetForceX))
+        for (Block block : blocks)
         {
-            topBlockNetForceX = 0;
-        }
+            Vector netForceVector = blockFormulas.calculateNetForceVector(block.getForcesExperienced());
+            double netForceX = netForceVector.asComponents().get(0), acceleration;
 
-        double accelerationTopBlock = topBlockNetForceX / topBlock.getMass(),
-                displacementTopBlock = animationPane.getWidth() - topBlock.getLayoutX() - topBlock.getDrawingWidth(),
-                durationOfAnimationTopBlock = calculateDuration(accelerationTopBlock, displacementTopBlock);
-
-        animationTopBlock = new TranslateTransition(Duration.seconds(durationOfAnimationTopBlock), topBlock);
-        animationTopBlock.setToX(displacementTopBlock);
-        animationTopBlock.setInterpolator(new AccelerateInterpolator((accelerationTopBlock)));
-
-        topBlockAnimationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long l)
+            if (Double.isNaN(netForceX))
             {
-                reactToConditions(topBlock, displacementTopBlock,accelerationTopBlock);
-            }
-        };
-
-        topBlockAnimationTimer.start();
-        animationTopBlock.play();
-        
-        
-                                /* Bottom block */
-        
-        Vector bottomBlockNetForceVector = blockFormulas.calculateNetForceVector(bottomBlock.getForcesExperienced());
-        double bottomBlockNetForceX = bottomBlockNetForceVector.asComponents().get(0);
-
-        if (Double.isNaN(bottomBlockNetForceX))
-        {
-            bottomBlockNetForceX = 0;
-        }
-
-        double accelerationBottomBlock = bottomBlockNetForceX / (bottomBlock.getMass() + topBlock.getMass()),
-                displacementBottomBlock = bottomBlock.getLayoutX(),
-                durationOfAnimationBottomBlock = calculateDuration(accelerationBottomBlock, displacementBottomBlock);
-
-        animationBottomBlock = new TranslateTransition(Duration.seconds(durationOfAnimationBottomBlock), bottomBlock);
-        animationBottomBlock.setToX(displacementBottomBlock);
-        animationTopBlock.setInterpolator(new AccelerateInterpolator((accelerationBottomBlock)));
-        
-        bottomBlockAnimationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long l)
+                acceleration = 0;
+            } else if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
             {
-                reactToConditions(bottomBlock, displacementBottomBlock ,accelerationBottomBlock);
+                acceleration = netForceX / block.getMass();
+            } else
+            {
+                // TODO: this is true only if the block is still on top. 
+                // perhaps the simulation should stop if top block falls off
+                acceleration = netForceX / (blocks.get(0).getMass() + blocks.get(1).getMass());
             }
-        };
 
-        bottomBlockAnimationTimer.start();
-        animationBottomBlock.play();
+            double displacement;
+
+            if (acceleration > 0)
+            {
+                displacement = animationPane.getWidth() - block.getLayoutX() - block.getDrawingWidth();
+            } else
+            {
+                displacement = block.getLayoutX() * -1;
+            }
+
+            AnimationTimer blockAnimationTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l)
+                {
+                    reactToConditions(block, displacement, acceleration);
+                }
+            };
+
+            double durationOfAnimation = calculateDuration(acceleration, displacement);
+            TranslateTransition blockAnimation = new TranslateTransition(Duration.seconds(durationOfAnimation), block);
+            blockAnimation.setByX(displacement);
+            blockAnimation.setInterpolator(new AccelerateInterpolator(acceleration));
+
+            if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
+            {
+                animationTopBlock = blockAnimation;
+                topBlockAnimationTimer = blockAnimationTimer;
+            } else if (block.getBlockId() == BlockFrontEndController.POSITION.BOTTOM)
+            {
+                animationBottomBlock = blockAnimation;
+                bottomBlockAnimationTimer = blockAnimationTimer;
+            }
+        }
     }
 
     private void reactToConditions(Block block, double maxDisplacement, double acceleration)
     {
         double translated = block.getTranslateX() * Math.signum(acceleration);
-
-        if (translated >= maxDisplacement)
+        
+        if (translated >= Math.abs(maxDisplacement))
         {
             if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
             {
@@ -184,7 +178,7 @@ public class BlockAnimation {
             }
         }
         
-        // Gravity (for top block)
+        // TODO: Gravity (for top block)
     }
 
     private void animateFall()

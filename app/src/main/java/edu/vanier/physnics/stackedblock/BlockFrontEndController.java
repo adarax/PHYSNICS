@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -262,7 +263,7 @@ public class BlockFrontEndController {
     {
         if (!isAnimationInitialized)
         {
-            blockAnimationHandler.createBlockAnimation(topBlock, bottomBlock, paneAnimation);
+            blockAnimationHandler.createBlockAnimations(new ArrayList<>(List.of(topBlock, bottomBlock)), paneAnimation);
             isAnimationInitialized = true;
         }
         
