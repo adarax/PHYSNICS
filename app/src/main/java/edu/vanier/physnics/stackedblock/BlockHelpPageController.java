@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -22,14 +23,13 @@ import javafx.stage.Stage;
  */
 public class BlockHelpPageController {
 
-    private Stage helpWindow;
-
     private final String HELP_PARAGRAPH = """
                                           Drag the force sliders to adjust the forces applied on M1 and M2.\n
                                           Drag the angle sliders to adjust the angle (to the horizontal) that the forces will have.\n
                                           Drag the friction sliders to adjust the friction coefficient of that surface.\n
                                           Drag the mass sliders to adjust the masses of M1 and M2.\n
                                           Check or uncheck the show/hide vectors button to show or hide the free body diagram of the forces in the block system.\n
+                                          The red vectors are the applied forces, whereas the blue sliders are friction forces.\n
                                           Press the clear values button to reset all sliders to their default values.\n
                                           The play button plays the animation of the simulation.\n
                                           The pause button pauses the animation of the simulation. The simulation can be started again using the play button.\n
@@ -43,26 +43,45 @@ public class BlockHelpPageController {
 
     @FXML
     private TextFlow textFlowTextArea;
+
+    @FXML
+    private GridPane gridPaneHelpPage;
     
-    public BlockHelpPageController(Stage stage)
+    @FXML
+    private Text textPageTitle;
+
+    private Stage helpWindow;
+    private boolean isDarkMode;
+
+    public BlockHelpPageController(Stage stage, boolean isDarkMode)
     {
         this.helpWindow = stage;
+        this.isDarkMode = isDarkMode;
     }
 
     @FXML
     public void initialize()
     {
+        String nearBlack = "#101518", nearWhite = "#f4f4f4";
+        Color borderColor = isDarkMode ? Color.WHITE : Color.web(nearBlack);
+
+        gridPaneHelpPage.setStyle("-fx-background-color:" + (isDarkMode ? nearBlack : nearWhite));
+        buttonReturnToSimulation.setStyle("-fx-font-size: 22.5px; -fx-text-fill: black; -fx-background-color: white");
+
         Text helpText = new Text(HELP_PARAGRAPH);
-        helpText.setStyle("-fx-font-size: 21; -fx-text-alignment: justify; -fx-line-spacing: 2;");        
+        helpText.setStyle("-fx-font-size: 21; -fx-text-alignment: justify; -fx-line-spacing: 2;");
+        helpText.setFill(isDarkMode ? Color.WHITE : Color.BLACK);
         textFlowTextArea.getChildren().add(helpText);
-        
-        BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+
+        textPageTitle.setFill(isDarkMode ? Color.WHITE : Color.BLACK);
+
+        BorderStroke borderStroke = new BorderStroke(borderColor, BorderStrokeStyle.SOLID,
                 new CornerRadii(5), new BorderWidths(1));
         Border border = new Border(borderStroke);
-        
+
         textFlowTextArea.setStyle("-fx-padding: 10px;");
         textFlowTextArea.setBorder(border);
-        
+
         buttonReturnToSimulation.setOnAction(click -> handleReturnToSimulation());
     }
 

@@ -23,19 +23,19 @@
             <Line endX="1661.9998779296875" endY="105.00000762939453" startX="5.086263172415784E-6" startY="105.00000762939453" />
             <Line endX="105.0" endY="105.0" startX="105.0" startY="2.0" />
             <Line endX="1553.16650390625" endY="105.0" startX="1553.16650390625" startY="0.9999898076057434" />
-            <Line endX="1919.9998779296875" endY="969.8333129882812" startX="1.0000051259994507" startY="971.0" />
+            <Line endX="1920.0" endY="971.0" startX="1.0" startY="971.0" />
             <Line endX="1663.29296875" endY="1.0000203847885132" startX="1663.29296875" startY="1079.626220703125" />
             <Line endX="402.1666564941406" endY="1079.1666259765625" startX="402.1666564941406" startY="971.1666870117188" />
             <Line endX="204.6665496826172" endY="105.5" startX="204.6665496826172" startY="1.0" />
          </children></Pane>
-      <GridPane layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-border-color: black;">
+      <GridPane layoutX="-2.0" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-border-color: black;">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1662.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="258.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1665.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="253.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="982.0" minHeight="10.0" prefHeight="970.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="516.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="516.0" minHeight="10.0" prefHeight="108.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <GridPane prefHeight="946.0" prefWidth="1602.0">
@@ -86,16 +86,16 @@
                            </font>
                         </MenuButton>
                         
-                              <!-- Light / dark mode button -->
+                                    <!-- Light / dark mode button -->
                         <ImageView fx:id="buttonDarkMode" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                             <image>
                                 <Image url="@/images/dark_moon_icon.png" />
                             </image>
                         </ImageView>
                         
-                           </children>
+                                 </children>
                   </GridPane>
-                  <Pane fx:id="paneAnimation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="868.0" prefWidth="1662.0" GridPane.rowIndex="1" />
+                  <Pane fx:id="paneAnimation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="867.0" prefWidth="1672.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M1 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
@@ -117,18 +117,21 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderAngleOnM1" max="360.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="175.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M2 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="230.0" />
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderForceOnM2" max="40.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="265.0" />
@@ -140,7 +143,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderAngleOnM2" max="360.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="355.0" />
@@ -152,7 +156,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderFrictionFloor" decimalPrecision="2" max="1.0" minorTicksCount="1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="445.0" />
@@ -164,7 +169,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderFrictionM1" decimalPrecision="2" max="1.0" minorTicksCount="1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="535.0" />
@@ -176,7 +182,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderMassM1" max="20.0" min="5.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="625.0" />
@@ -188,26 +195,29 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderMassM2" max="20.0" min="5.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="715.0" />
                </GridPane.margin>
             </MFXSlider>
             
-            <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                  <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="25.0" top="768.0" />
-               </GridPane.margin></MFXToggleButton>
+               </GridPane.margin>
+            </MFXToggleButton>
             <MFXButton fx:id="buttonClear" prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="60.0" />
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="22.0" />
-               </font></MFXButton>
+               </font>
+            </MFXButton>
             
-            <!-- Play button -->
+                  <!-- Play button -->
             <ImageView fx:id="buttonPlay" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/play_button.png" />
@@ -217,7 +227,7 @@
                </GridPane.margin>
             </ImageView>
             
-            <!-- Pause button -->
+                  <!-- Pause button -->
             <ImageView fx:id="buttonPause" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/pause_button.png" />
@@ -227,7 +237,7 @@
                </GridPane.margin>
             </ImageView>
             
-            <!-- Reset button -->
+                  <!-- Reset button -->
             <ImageView fx:id="buttonReset" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/reset_button.png" />
@@ -237,7 +247,7 @@
                </GridPane.margin>
             </ImageView>
 
-            <!-- Help button -->
+                  <!-- Help button -->
             <ImageView fx:id="buttonHelp" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                 <image>
                     <Image url="@/images/help_icon.png" />
