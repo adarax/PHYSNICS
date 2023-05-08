@@ -25,5 +25,14 @@ public class ConservationFormulas {
     public static double getArcTime(double height, double g){
         return 2.0*Math.sqrt((2.0*height)/g);
     }
+    
+    public static double getFrictionEnergy(double u, double mass, double g, double d){
+        return u*mass*g*d;
+    }
+    
+     public static double getAngle(double currentHeight, Double radius){
+        double angleRadians = Math.asin(currentHeight/radius);
+        return Math.toDegrees(angleRadians);
+    }
 
 }

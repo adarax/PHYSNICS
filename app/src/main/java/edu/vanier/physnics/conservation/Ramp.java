@@ -24,6 +24,9 @@ public class Ramp extends Path{
     
     private double initialBallPositionX;
     private double initialBallPositionY;
+    
+    private double centerX;
+    private double centerY;
 
     public Ramp(double radius, double thickness, double positionX, double positionY, Color rampColor) {
         this.radius = radius;
@@ -31,6 +34,9 @@ public class Ramp extends Path{
         this.positionX = positionX;
         this.positionY = positionY;
         this.rampColor = rampColor;
+        
+        this.centerX = positionX;
+        this.centerY = positionY-radius-thickness;
         
         drawRamp();
     }
@@ -125,6 +131,23 @@ public class Ramp extends Path{
         radius = 100 * Math.log( radius/ 2) + 200;
        
     }
+
+    public double getCenterX() {
+        return centerX;
+    }
+
+    public void setCenterX(double centerX) {
+        this.centerX = centerX;
+    }
+
+    public double getCenterY() {
+        return centerY;
+    }
+
+    public void setCenterY(double centerY) {
+        this.centerY = centerY;
+    }
+    
     
 
     public double getRadius() {

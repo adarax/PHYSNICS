@@ -281,6 +281,7 @@ public class ConservationController {
             @Override
             public void handle(long l) {
                 updateValues();
+                
             }
         };
     }
@@ -305,7 +306,11 @@ public class ConservationController {
         double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
         double FE = 0;
         
+        
+       
         if(friction){
+            double actualHeight = ramp.getRadius()+ball.getRadius() - ball.getTranslateY();
+            System.out.println(ConservationFormulas.getAngle(actualHeight, rampHeight));
             
         }
 
