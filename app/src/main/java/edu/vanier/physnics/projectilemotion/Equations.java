@@ -27,6 +27,11 @@ public class Equations {
        return maxHeightM;
     }
     
+    public static double getXVelocityMetersPerSecond(double launchAngleDeg, double initialVelocityMetersPerSecond) {
+        double velocityXMetersPerSecond = Math.cos(Math.toRadians(launchAngleDeg)) * initialVelocityMetersPerSecond;
+        return velocityXMetersPerSecond;
+    }
+    
     /**
      * Method representing the formula for the max displacement in the x direction of the 
      * projectile motion.
