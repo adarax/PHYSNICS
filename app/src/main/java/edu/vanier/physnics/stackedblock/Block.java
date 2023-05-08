@@ -112,17 +112,20 @@ public class Block extends StackPane {
         this.getChildren().addAll(blockDrawing, nameTag);
     }
 
-    /*
-     * Logarithmic growth is best, since this way the block starts off at a
-     * resonable size and yet doesn't get so big that it goes out of the screen.
-     * This allows the simulation to be able to handle a larger range of mass
-     * values.
-     */
     public final void determineAndSetDrawingWidth()
     {
         this.setDrawingWidth(drawingHeight * 1.5);
     }
 
+    /**
+     * Sets the width and height of the Block's drawing in the simulation
+     * based on its mass.
+     * 
+     * Logarithmic growth of width/height is best, since this way the block 
+     * starts off at a reasonable size and yet doesn't get so big that it goes 
+     * out of the view. This also allows the simulation to handle a larger 
+     * spectrum of mass values.
+     */
     public final void determineAndSetDrawingHeight()
     {
         double heightValue = 100 * Math.log(mass / 2) + 40;
@@ -189,7 +192,7 @@ public class Block extends StackPane {
      * Using logarithmic scaling to determine the appropriate font size of the
      * block's name tag.
      *
-     * @return The font size of the block's label.
+     * @return The font size of the block's label
      */
     public final int determineLabelFontSize()
     {
@@ -197,14 +200,14 @@ public class Block extends StackPane {
     }
 
     /**
-     * Using arrow shapes, draw the vectors affecting the block.
+     * Using Arrow objects, assemble the vectors affecting the block.
      *
-     * @param animationPane
+     * @param animationPane the Pane that holds the simulation
      */
     public void drawFreeBodyDiagram(Pane animationPane)
     {
         ArrayList<Arrow> vectorDrawings = new ArrayList<>();
-
+        
         for (Vector forceVector : forcesExperienced)
         {
             if (forceVector.getMagnitudeInNewtons() > 0)
@@ -217,8 +220,10 @@ public class Block extends StackPane {
         for (Arrow vectorDrawing : vectorDrawings)
         {
             vectorDrawing.sizeAndPositionToBlock();
-            vectorDrawing.draw();
-            animationPane.getChildren().addAll(vectorDrawing);
+            vectorDrawing.assemble();
+            vectorDrawing.avoidOverlaps(vectorDrawings);
         }
+        
+        animationPane.getChildren().addAll(vectorDrawings);
     }
 }
