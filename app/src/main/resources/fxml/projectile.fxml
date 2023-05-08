@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.QuadCurve?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -84,9 +85,9 @@
                         
                      </children>
                   </GridPane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <Pane fx:id="paneAnimation" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
-                        <Circle fx:id="projectileBall" fill="#da1313" layoutX="240.0" layoutY="3.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" translateX="50.0" translateY="800.0" />
+                        <Circle fx:id="projectileBall" fill="#da1313" layoutX="-6.0" layoutY="6.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" translateX="135.0" translateY="790.0" />
                         <ImageView fx:id="cannonBarrel" fitHeight="127.0" fitWidth="154.0" layoutX="43.0" layoutY="730.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/cannon-barrel.png" />
@@ -97,6 +98,7 @@
                               <Image url="@../images/cannon-base.png" />
                            </image>
                         </ImageView>
+                        <QuadCurve fx:id="quadCurve" controlX="149.5" controlY="-948.0" endX="899.5" endY="238.0" fill="#1f93ff00" layoutX="692.0" layoutY="546.0" startX="-586.5" startY="238.0" stroke="BLACK" strokeType="INSIDE" />
                      </children>
                   </Pane>
                </children>
