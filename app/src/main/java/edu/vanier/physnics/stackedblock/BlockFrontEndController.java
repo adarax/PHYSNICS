@@ -249,7 +249,7 @@ public class BlockFrontEndController {
     {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, action -> target.setImage(pressed)),
-                new KeyFrame(Duration.seconds(0.1), action -> target.setImage(notPressed))
+                new KeyFrame(Duration.seconds(0.2), action -> target.setImage(notPressed))
         );
         timeline.play();
     }
@@ -289,6 +289,8 @@ public class BlockFrontEndController {
                 throw new IllegalArgumentException("Invalid argument!");
             }
         }
+        
+        // Call method defined below here
     }
     
     // TODO: method that gets state of buttons (enabled/disabled) and puts a
@@ -315,7 +317,6 @@ public class BlockFrontEndController {
             slider.setValue(slider.getMin());
         });
 
-        handleReset();
         updateScene();
     }
 
