@@ -3,7 +3,6 @@ package edu.vanier.physnics.stackedblock;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
-import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -102,7 +101,7 @@ public class BlockAnimation {
     
     private TranslateTransition animationTopBlock, animationBottomBlock;
     private AnimationTimer topBlockAnimationTimer, bottomBlockAnimationTimer;
-    
+    private Block topBlock, bottomBlock;
     
     protected void createBlockAnimations(ArrayList<Block> blocks, Pane animationPane)
     {
@@ -121,8 +120,6 @@ public class BlockAnimation {
                 acceleration = netForceX / block.getMass();
             } else
             {
-                // TODO: this is true only if the block is still on top. 
-                // perhaps the simulation should stop if top block falls off
                 acceleration = netForceX / (blocks.get(0).getMass() + blocks.get(1).getMass());
             }
 
@@ -151,10 +148,12 @@ public class BlockAnimation {
 
             if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
             {
+                this.topBlock = block;
                 animationTopBlock = blockAnimation;
                 topBlockAnimationTimer = blockAnimationTimer;
             } else if (block.getBlockId() == BlockFrontEndController.POSITION.BOTTOM)
             {
+                this.bottomBlock = block;
                 animationBottomBlock = blockAnimation;
                 bottomBlockAnimationTimer = blockAnimationTimer;
             }
@@ -178,11 +177,52 @@ public class BlockAnimation {
             }
         }
         
+        if (acceleration > 0)
+        {
+            if (topBlock.getLayoutX() + topBlock.getTranslateX() + (topBlock.getDrawingWidth() / 2) > bottomBlock.getLayoutX() + bottomBlock.getTranslateX() + bottomBlock.getDrawingWidth())
+            {
+                System.out.println("Time to fall");
+            }
+        } else
+        {
+            if (topBlock.getLayoutX() + topBlock.getTranslateX() + (topBlock.getDrawingWidth() / 2) < bottomBlock.getLayoutX() + bottomBlock.getTranslateX())
+            {
+                System.out.println("Time to fall (left)");
+            }
+        }
         // TODO: Gravity (for top block)
+        
+        // if location of middle point of top block 
+        // is greater than rightmost side of bottom block --> fall
+        
+        // OR
+        
+        // if location of middle point of top block is less than leftmost side
+        // of bottom block --> fall
+        
+        // ** Update: conditions for when to trigger fall work!
+        
+        // if top block has fallen, stop simulation
+        
+        //** a few notes **
+        // fall direction has to be the same as movement direction of (top) block
+        // has to also tilt in that direction
+        
+        // should be fun...
+        
     }
 
-    private void animateFall()
+    // Implement slower fall if there are vectors facing upward (partially or entirely)
+    private void animateFall(double acceleration)
     {
+        if (acceleration > 0)
+        {
+            
+        } else
+        {
+            
+        }
+        
         // IMPLEMENT ME
     }
 
@@ -219,6 +259,7 @@ public class BlockAnimation {
     public void pause()
     {
         animationTopBlock.pause();
+        animationBottomBlock.pause();
     }
 
     // FIXME: onFinished()? maybe say something or change color, some type of indication
