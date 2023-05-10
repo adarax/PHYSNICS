@@ -223,23 +223,25 @@ public class BlockFrontEndController {
             isAnimationInitialized = true;
         }
         
-        // set to off and update scene
         toggleShowVectors.setSelected(false);
         updateScene();
         
         blockAnimationHandler.play();
+        toggleFieldState(ANIMATION_STATE.PLAYING);
     }
 
     public void handlePause()
     {
         animateButtonPress(buttonPause, PAUSE_BUTTON, PAUSE_BUTTON_PRESSED);
         blockAnimationHandler.pause();
+        toggleFieldState(ANIMATION_STATE.PAUSED);
     }
 
     public void handleReset()
     {
         animateButtonPress(buttonReset, RESET_BUTTON, RESET_BUTTON_PRESSED);
         blockAnimationHandler.stop();
+        toggleFieldState(ANIMATION_STATE.RESET);
         isAnimationInitialized = false;
     }
     
@@ -252,6 +254,49 @@ public class BlockFrontEndController {
         timeline.play();
     }
 
+    private void toggleFieldState(ANIMATION_STATE currentState)
+    {
+        switch (currentState)
+        {
+            case PLAYING ->
+            {
+                allSliders.forEach(slider -> slider.setDisable(true));
+                buttonClear.setDisable(true);
+                toggleShowVectors.setDisable(true);
+                buttonPlay.setDisable(true);
+                buttonPause.setDisable(false);
+                buttonReset.setDisable(false);
+            }
+            case PAUSED ->
+            {
+                allSliders.forEach(slider -> slider.setDisable(true));
+                buttonClear.setDisable(true);
+                toggleShowVectors.setDisable(true);
+                buttonPlay.setDisable(false);
+                buttonPause.setDisable(true);
+            }
+            case RESET ->
+            {
+                allSliders.forEach(slider -> slider.setDisable(false));
+                buttonClear.setDisable(false);
+                toggleShowVectors.setDisable(false);
+                buttonPlay.setDisable(false);
+                buttonPause.setDisable(true);
+                buttonReset.setDisable(true);
+            }
+            default ->
+            {
+                throw new IllegalArgumentException("Invalid argument!");
+            }
+        }
+    }
+    
+    // TODO: method that gets state of buttons (enabled/disabled) and puts a
+    // version of the image with a red line through it if the button is disabled
+    // and back to normal version if button is enabled.
+    // ** Method should be called at the bottom of toggleFieldState() to update
+    //    what the buttons should look like
+    
     /**
      * Opens the help page scene.
      */
@@ -428,5 +473,11 @@ public class BlockFrontEndController {
     public enum POSITION {
         TOP,
         BOTTOM
+    }
+    
+    private enum ANIMATION_STATE {
+        PLAYING,
+        PAUSED,
+        RESET
     }
 }
