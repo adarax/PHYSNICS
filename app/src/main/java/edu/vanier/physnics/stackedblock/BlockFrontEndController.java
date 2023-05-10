@@ -10,6 +10,8 @@ import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -33,85 +36,57 @@ import javafx.stage.Stage;
 public class BlockFrontEndController {
 
     @FXML
-    private MenuItem menubuttonCentripetal;
+    private MenuItem menubuttonCentripetal,
+            menubuttonConservation,
+            menubuttonExit,
+            menubuttonMainMenu,
+            menubuttonProjectile;
 
     @FXML
-    private MenuItem menubuttonConservation;
-
-    @FXML
-    private MenuItem menubuttonExit;
-
-    @FXML
-    private MenuItem menubuttonMainMenu;
-
-    @FXML
-    private MenuItem menubuttonProjectile;
-
-    @FXML
-    private MFXSlider sliderAngleOnM1;
-
-    @FXML
-    private MFXSlider sliderAngleOnM2;
-
-    @FXML
-    private MFXSlider sliderForceOnM1;
-
-    @FXML
-    private MFXSlider sliderForceOnM2;
-
-    @FXML
-    private MFXSlider sliderFrictionFloor;
-
-    @FXML
-    private MFXSlider sliderFrictionM1;
-
-    @FXML
-    private MFXSlider sliderMassM1;
-
-    @FXML
-    private MFXSlider sliderMassM2;
+    private MFXSlider sliderAngleOnM1,
+            sliderAngleOnM2,
+            sliderForceOnM1,
+            sliderForceOnM2,
+            sliderFrictionFloor,
+            sliderFrictionM1,
+            sliderMassM1,
+            sliderMassM2;
 
     @FXML
     private MFXToggleButton toggleShowVectors;
-
+    
     @FXML
     private MFXButton buttonClear;
 
     @FXML
-    private ImageView buttonDarkMode;
+    private ImageView buttonDarkMode,
+            buttonPlay,
+            buttonPause,
+            buttonReset,
+            buttonHelp;
 
     @FXML
-    private ImageView buttonPlay;
-
-    @FXML
-    private ImageView buttonPause;
-
-    @FXML
-    private ImageView buttonReset;
-
-    @FXML
-    private ImageView buttonHelp;
-
-    @FXML
-    private Pane paneAnimation;
-
-    @FXML
-    private Pane paneGridlines;
+    private Pane paneAnimation, paneGridlines;
 
     private BlockAnimation blockAnimationHandler = new BlockAnimation();
     private BlockFormulas blockFormulasCalculator = new BlockFormulas();
 
-    private Block topBlock = new Block(POSITION.TOP);
-    private Block bottomBlock = new Block(POSITION.BOTTOM);
+    private Block topBlock = new Block(POSITION.TOP),
+            bottomBlock = new Block(POSITION.BOTTOM);
 
     private ArrayList<MFXSlider> allSliders;
 
     private boolean isDark = false;
-    private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png"));
-    private final Image DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png"));
-
-    private boolean isVectorShowing = false;
-
+    private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png")),
+            DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png")),
+            PLAY_BUTTON = new Image(getClass().getResourceAsStream("/images/play_button.png")),
+            PLAY_BUTTON_PRESSED = new Image(getClass().getResourceAsStream("/images/play_button_pressed.png")),
+            PAUSE_BUTTON = new Image(getClass().getResourceAsStream("/images/pause_button.png")),
+            PAUSE_BUTTON_PRESSED = new Image(getClass().getResourceAsStream("/images/pause_button_pressed.png")),
+            RESET_BUTTON = new Image(getClass().getResourceAsStream("/images/reset_button.png")),
+            RESET_BUTTON_PRESSED = new Image(getClass().getResourceAsStream("/images/reset_button_pressed.png"));
+    
+    /* Testing various things to get lines to show */
     private ArrayList<Text> allTextElements = new ArrayList<>();
     private ArrayList<Parent> allPanes = new ArrayList<>();
     private ArrayList<Line> allLines = new ArrayList<>();
@@ -120,49 +95,28 @@ public class BlockFrontEndController {
     public void initialize()
     {
         /*
-         * Calls this after everything is rendered, which is needed because
-         * otherwise the height of the Panes is 0
+         * Calls updateScene() after everything is rendered, which is needed 
+         * because otherwise certain width and height values required for a
+         * proper render are not yet available.
          */
         Platform.runLater(() ->
         {
-            // Put blocks and floor into scene on launch
-            blockAnimationHandler.drawFloor(paneAnimation, this.isDark);
-            updateBlocks();
+            updateScene();
         });
 
         addSliderEventHandlers();
 
         buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
-
         buttonClear.setOnAction(press -> handleClear());
-
         menubuttonCentripetal.setOnAction(press -> switchSimulation("ucm-scene-graph"));
-
         menubuttonConservation.setOnAction(press -> switchSimulation("conservation"));
-
         menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
-
         menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
-
         menubuttonExit.setOnAction(press -> handleExitOfApplication());
-
-        toggleShowVectors.setOnAction(toggle -> handleShowVectors(true));
-
-        buttonPlay.setOnMouseClicked(press ->
-        {
-            handlePlay();
-        });
-
-        buttonPause.setOnMouseClicked(press ->
-        {
-            handlePause();
-        });
-
-        buttonReset.setOnMouseClicked(press ->
-        {
-            handleStop();
-        });
-
+        toggleShowVectors.setOnAction(toggle -> updateScene());
+        buttonPlay.setOnMouseClicked(press -> handlePlay());
+        buttonPause.setOnMouseClicked(press -> handlePause());
+        buttonReset.setOnMouseClicked(press -> handleReset());
         buttonHelp.setOnMouseClicked(press -> handleHelp());
     }
 
@@ -261,29 +215,41 @@ public class BlockFrontEndController {
     
     public void handlePlay()
     {
+        animateButtonPress(buttonPlay, PLAY_BUTTON, PLAY_BUTTON_PRESSED);
+        
         if (!isAnimationInitialized)
         {
             blockAnimationHandler.createBlockAnimations(new ArrayList<>(List.of(topBlock, bottomBlock)), paneAnimation);
             isAnimationInitialized = true;
         }
         
-        if (isVectorShowing)
-        {
-            handleShowVectors(true);
-        }
+        // set to off and update scene
+        toggleShowVectors.setSelected(false);
+        updateScene();
         
         blockAnimationHandler.play();
     }
 
     public void handlePause()
     {
+        animateButtonPress(buttonPause, PAUSE_BUTTON, PAUSE_BUTTON_PRESSED);
         blockAnimationHandler.pause();
     }
 
-    public void handleStop()
+    public void handleReset()
     {
+        animateButtonPress(buttonReset, RESET_BUTTON, RESET_BUTTON_PRESSED);
         blockAnimationHandler.stop();
         isAnimationInitialized = false;
+    }
+    
+    private void animateButtonPress(ImageView target, Image notPressed, Image pressed)
+    {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, action -> target.setImage(pressed)),
+                new KeyFrame(Duration.seconds(0.1), action -> target.setImage(notPressed))
+        );
+        timeline.play();
     }
 
     /**
@@ -304,7 +270,7 @@ public class BlockFrontEndController {
             slider.setValue(slider.getMin());
         });
 
-        handleStop();
+        handleReset();
         updateScene();
     }
 
@@ -316,14 +282,13 @@ public class BlockFrontEndController {
 
         blockAnimationHandler.drawFloor(paneAnimation, this.isDark);
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
-
-        // If the vectors should be drawn, draw the vectors
-        if (isVectorShowing)
+        
+        if (toggleShowVectors.isSelected())
         {
-            handleShowVectors(false);
+            drawVectors();
         }
     }
-
+    
     private void updateBlocks()
     {
         topBlock.setMass(sliderMassM2.getValue());
@@ -333,15 +298,23 @@ public class BlockFrontEndController {
         bottomBlock.setForcesExperienced(getForcesExperienced(POSITION.BOTTOM));
     }
 
+    private void drawVectors()
+    {
+        topBlock.drawFreeBodyDiagram(paneAnimation);
+        bottomBlock.drawFreeBodyDiagram(paneAnimation);
+    }
+    
     // TODO: problem is most likely here, i dont understand why lines wont draw
     private void drawLines()
     {
         paneGridlines.getChildren().clear();
 
+//        System.out.println(allLines);
+        
         allLines.forEach(line ->
         {
-            paneGridlines.getChildren().add(line);
             line.toFront();
+            paneGridlines.getChildren().add(line);
         });
     }
 
@@ -414,26 +387,6 @@ public class BlockFrontEndController {
 
         currentStage.setFullScreenExitHint("");
         currentStage.setFullScreen(true);
-    }
-
-    
-    // TODO: Make this change switch the toggle on and off as well
-    private void handleShowVectors(boolean toggled)
-    {
-        // Change boolean value since the button was toggled
-        if (toggled)
-        {
-            isVectorShowing = !isVectorShowing;
-        }
-
-        if (isVectorShowing)
-        {
-            topBlock.drawFreeBodyDiagram(paneAnimation);
-            bottomBlock.drawFreeBodyDiagram(paneAnimation);
-        } else
-        {
-            updateScene();
-        }
     }
 
     /**
