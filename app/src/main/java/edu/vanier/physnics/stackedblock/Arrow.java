@@ -9,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Rotate;
 
 /**
  *
@@ -67,8 +68,6 @@ public class Arrow extends StackPane {
         nameTag.setTextFill(Color.color(1, 1, 1));
         nameTag.setTextAlignment(TextAlignment.CENTER);
 
-        orientNameTagAndArrow();
-
         int quadrant = 0;
 
         try
@@ -92,9 +91,8 @@ public class Arrow extends StackPane {
     {
         double blockPositionX = correspondingBlock.getLayoutX(),
                 blockPositionY = correspondingBlock.getLayoutY(),
-                blockWidth = correspondingBlock.getDrawingWidth(),
-                blockHeight = correspondingBlock.getDrawingHeight();
-
+                blockWidth = correspondingBlock.getDrawingWidth();
+        
         switch (side)
         {
             case LEFT ->
@@ -106,9 +104,12 @@ public class Arrow extends StackPane {
                 if (forceVector.getForceType() == FORCE_TYPE.FRICTION)
                 {
                     arrowBody.setRotate(180);
+                    this.setLayoutX(blockPositionX - arrowBody.getFitWidth());
                 }
-
-                this.setLayoutX(blockPositionX - arrowBody.getFitWidth());
+                else
+                {
+                    this.setLayoutX(blockPositionX);
+                }
             }
 
             case RIGHT ->
@@ -117,25 +118,13 @@ public class Arrow extends StackPane {
             }
         }
 
-        double yValueOffset = 0;
-
-        switch (forceVector.getForceType())
-        {
-            case APPLIED ->
-            {
-                yValueOffset = blockHeight * (2 / 3);
-            }
-            case FRICTION ->
-            {
-                yValueOffset = blockHeight / 3;
-            }
-        }
-
-        this.setLayoutY(blockPositionY + yValueOffset);
-
+        // This will get modified later in avoidOverlaps()
+        this.setLayoutY(blockPositionY);
     }
 
-    private void orientNameTagAndArrow()
+    
+    // TODO: fix rotation and nametag orientation
+    protected void orientNameTagAndArrow()
     {
         /*
          * The (* -1) is to get the Arrow to rotate CCW as the angle slider
@@ -149,15 +138,14 @@ public class Arrow extends StackPane {
          */
         if (forceVector.getForceType() == FORCE_TYPE.APPLIED)
         {
-            arrowBody.setRotate(rotationInDegrees);
-
-            // Keep text upright for readability
             if (Math.abs(rotationInDegrees) > 90 && Math.abs(rotationInDegrees) < 270)
             {
-                nameTag.setRotate(rotationInDegrees + 180);
+                Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + arrowBody.getFitHeight());
+                this.getTransforms().add(rotate);
             } else
             {
-                nameTag.setRotate(rotationInDegrees);
+                Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + arrowBody.getFitHeight());
+                this.getTransforms().add(rotate);
             }
         }
     }
@@ -201,11 +189,11 @@ public class Arrow extends StackPane {
         };
 
         for (Arrow arrow : arrows)
-        {
+        {            
             if (!arrow.equals(this) && this.correspondingBlock.equals(arrow.getCorrespondingBlock()) && this.intersects(arrow.getBoundsInLocal()))
             {
                 arrow.setLayoutY(yValueBoundsOfBlock[0]);
-                this.setLayoutY(yValueBoundsOfBlock[1] - (this.arrowBody.getFitHeight()));
+                this.setLayoutY(yValueBoundsOfBlock[1] - this.arrowBody.getFitHeight());
             }
         }
     }

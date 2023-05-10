@@ -221,6 +221,7 @@ public class Block extends StackPane {
         {
             vectorDrawing.sizeAndPositionToBlock();
             vectorDrawing.assemble();
+            vectorDrawing.orientNameTagAndArrow();
             vectorDrawing.avoidOverlaps(vectorDrawings);
         }
         
