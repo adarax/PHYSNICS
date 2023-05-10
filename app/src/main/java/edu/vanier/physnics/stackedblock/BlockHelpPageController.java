@@ -87,11 +87,10 @@ public class BlockHelpPageController {
 
     private void handleReturnToSimulation()
     {
-        String destination = "/fxml/stackedblock.fxml";
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stackedblock.fxml"));
 
-        BlockFrontEndController helpPageController = new BlockFrontEndController();
-        loader.setController(helpPageController);
+        BlockFrontEndController blockFrontEndController = new BlockFrontEndController();
+        loader.setController(blockFrontEndController);
 
         try
         {
