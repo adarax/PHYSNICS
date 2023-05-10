@@ -106,18 +106,18 @@ public class BlockFrontEndController {
 
         addSliderEventHandlers();
 
-        buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
-        buttonClear.setOnAction(press -> handleClear());
         menubuttonCentripetal.setOnAction(press -> switchSimulation("ucm-scene-graph"));
         menubuttonConservation.setOnAction(press -> switchSimulation("conservation"));
         menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
         menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
         menubuttonExit.setOnAction(press -> handleExitOfApplication());
         toggleShowVectors.setOnAction(toggle -> updateScene());
-        buttonPlay.setOnMouseClicked(press -> handlePlay());
-        buttonPause.setOnMouseClicked(press -> handlePause());
-        buttonReset.setOnMouseClicked(press -> handleReset());
+        buttonClear.setOnAction(press -> handleClear());
+        buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
         buttonHelp.setOnMouseClicked(press -> handleHelp());
+        buttonPause.setOnMouseClicked(press -> handlePause());
+        buttonPlay.setOnMouseClicked(press -> handlePlay());
+        buttonReset.setOnMouseClicked(press -> handleReset());
     }
 
     private void addSliderEventHandlers()
@@ -153,7 +153,7 @@ public class BlockFrontEndController {
         }
 
         isDark = !isDark;
-
+        
         if (isDark)
         {
             // Go to light mode
@@ -196,7 +196,6 @@ public class BlockFrontEndController {
             });
         }
 
-        updateScene();
         drawLines();
     }
 
