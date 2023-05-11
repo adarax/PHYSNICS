@@ -5,7 +5,6 @@
  */
 package edu.vanier.physnics.UniformCircularMotionSimulation;
 
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -17,7 +16,6 @@ public class Vector {
     
     private final Image arrowBodyObject;
     private ImageView arrowBody;
-    private Label nameTag = new Label();
     private String vectorType;
     private double forceMagnitude;
 
@@ -26,7 +24,6 @@ public class Vector {
         this.arrowBody = new ImageView(arrowBodyObject);
         this.vectorType = vectorType;
         this.forceMagnitude = forceMagnitude;
-        this.nameTag.setText(String.valueOf(forceMagnitude));
         this.arrowBody.setRotate(90);
         this.arrowBody.setLayoutX(xCoordinate);
         this.arrowBody.setLayoutY(yCoordinate);
@@ -53,14 +50,6 @@ public class Vector {
     
     public void setOpacity(double opacity){
         arrowBody.setOpacity(opacity);
-    }
-
-    public Label getNameTag() {
-        return this.nameTag;
-    }
-
-    public void setNameTag(Label nameTag) {
-        this.nameTag = nameTag;
     }
 
     public String getVectorType() {

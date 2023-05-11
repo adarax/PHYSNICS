@@ -129,32 +129,15 @@ public class UniformCircularMotionController extends Stage{
         public void handle(long l) {
             double coordinateX = rectTest.getTranslateX()+rectTest.getWidth()/2;
             double coordinateY = -center.getCenterY()+rectTest.getTranslateY()+rectTest.getHeight()/2;
-            double angle = getAngle()*180/Math.PI;
-            if (coordinateX > 0) {
-                if (coordinateY > 0) {
-                    if (angle > 0) {
-                        angle = 360-Math.abs(angle);
-                    }
-                    else{
-                        angle = 180+Math.abs(angle);
-                    }
-                }
-                else{
-                    if (angle < 0) {
-                        angle = Math.abs(angle);
-                    }
-                    else{
-                        angle = 180-Math.abs(angle);
-                    }
-                }
-            }                     
-            angleText.setText(String.valueOf(round(angle)));
-            centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
-            accelXText.setText(String.valueOf(round(-Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
-            accelYText.setText(String.valueOf(round(-Math.sin(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
-            forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));
-            forceXText.setText(String.valueOf(round(-Math.cos(Math.toRadians(angle))*Double.valueOf(forceText.getText()))));
-            forceYText.setText(String.valueOf(round(-Math.sin(Math.toRadians(angle))*Double.valueOf(forceText.getText()))));
+            double angle = Formulas.getAngle((rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2),(rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2))*180/Math.PI;
+            angle = Formulas.determineQuadrant(angle, coordinateX, coordinateY);
+            angleText.setText(String.valueOf(Formulas.roundTwoDecimals(angle)));
+            centrAccelText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateAccelerationCentripetal(car))));
+            accelXText.setText(String.valueOf(Formulas.roundTwoDecimals(-Formulas.returnMagnitudeXComponent(Double.valueOf(centrAccelText.getText()), angle))));
+            accelYText.setText(String.valueOf(Formulas.roundTwoDecimals(-Formulas.returnMagnitudeYComponent(Double.valueOf(centrAccelText.getText()), angle))));
+            forceText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateForce(car))));
+            forceXText.setText(String.valueOf(Formulas.roundTwoDecimals(-Formulas.returnMagnitudeXComponent(Double.valueOf(forceText.getText()), angle))));
+            forceYText.setText(String.valueOf(Formulas.roundTwoDecimals(-Formulas.returnMagnitudeYComponent(Double.valueOf(forceText.getText()), angle))));
         }
     };
     
@@ -327,19 +310,11 @@ public class UniformCircularMotionController extends Stage{
         removePathAndNodes();
         if (!paneSimulate.getChildren().contains(rectTest)) {
             nullPaths();
-
-            pathTransitionCircle.setNode(null);
-            pathTransitionCircle.setPath(null);
-            pathTransitionCircle2.setNode(null);
-            pathTransitionCircle2.setPath(null);
-            pathTransitionCircle3.setNode(null);
-            pathTransitionCircle3.setPath(null);
-             pathTransitionCircle4.setNode(null);
-            pathTransitionCircle4.setPath(null);
+            clearPathTransitions();
             
             setPathTrajectories();
             
-            group.getChildren().addAll(rectTest, path1, path2, vectorForce.getArrowBody(), vectorAcceleration.getArrowBody());                
+            group.getChildren().addAll(rectTest, path1, vectorForce.getArrowBody(), vectorAcceleration.getArrowBody());                
             pathTransitionCircle = animationBackEnd.createPathTransitionCircle(path1, (Node) rectTest, car);
             pathTransitionCircle2 = animationBackEnd.createPathTransitionCircle(path2,  vectorForce.getArrowBody(), car);      
             pathTransitionCircle3 = animationBackEnd.createPathTransitionCircle(path3,  vectorAcceleration.getArrowBody(), car);      
@@ -363,7 +338,7 @@ public class UniformCircularMotionController extends Stage{
     
     public void linkRadiusSliderToTextField(MFXSlider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(round(slider.getValue())));
+            textfield.setText(String.valueOf(Formulas.roundTwoDecimals(slider.getValue())));
             useEnteredValuesToCalculate(retrieveTextField(massTextField), retrieveTextField(speedTextField), retrieveTextField(radiusTextField));
             stopAllPathTransition();
             group.getChildren().clear();
@@ -398,7 +373,7 @@ public class UniformCircularMotionController extends Stage{
     
     public void linkSpeedSliderToTextField(MFXSlider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(round(slider.getValue())));
+            textfield.setText(String.valueOf(Formulas.roundTwoDecimals(slider.getValue())));
             useEnteredValuesToCalculate(retrieveTextField(massTextField), retrieveTextField(speedTextField), retrieveTextField(radiusTextField));
             pauseAllPathTransition();
             setSimulationNodesAnimationRate();
@@ -410,7 +385,7 @@ public class UniformCircularMotionController extends Stage{
 
     public void linkMassSliderToTextField(MFXSlider slider, TextField textfield){
         slider.setOnMouseDragged((event) -> {
-                textfield.setText(String.valueOf(round(slider.getValue())));
+                textfield.setText(String.valueOf(Formulas.roundTwoDecimals(slider.getValue())));
                 useEnteredValuesToCalculate(retrieveTextField(massTextField), retrieveTextField(speedTextField), retrieveTextField(radiusTextField));
                     if (car.getMass() <= 40 && car.getMass()> 0) {
                         vectorForce.getArrowBody().setVisible(true);               
@@ -552,35 +527,15 @@ public class UniformCircularMotionController extends Stage{
         System.out.println("Printing: " 
                             + "\nRadius: " + radius
                             + "\nSpeed: " + speed
-                            + "\nMass: " +round(mass));
+                            + "\nMass: " +Formulas.roundTwoDecimals(mass));
         car.setMass(mass);
         car.setSpeed(speed);
         car.setRadius(radius);
 
-        System.out.println(round(mass));
+        System.out.println(Formulas.roundTwoDecimals(mass));
         
-        centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
-        forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));    
-    }
-    
-    /**
-     * Rounds a double value to 2 decimal places.
-     * @param value the number to round
-     * @return the value, rounded to 2 decimal places
-     */
-    public double round(double value){
-        //https://stackoverflow.com/questions/5710394/how-do-i-round-a-double-to-two-decimal-places-in-java
-        double valueToRound = Math.round(value*100.00);
-        valueToRound = valueToRound/100.00;
-        return valueToRound;
-    }
-    
-    /**
-     * Returns the angle of the car with respect to the circle
-     * @return the angle made from the car with respect to the center's horizontal axis
-     */
-    public double getAngle(){
-        return Math.atan((rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2)/(rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2));
+        centrAccelText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateAccelerationCentripetal(car))));
+        forceText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateForce(car))));    
     }
     
     /**
