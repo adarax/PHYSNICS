@@ -288,15 +288,7 @@ public class BlockFrontEndController {
                 throw new IllegalArgumentException("Invalid argument!");
             }
         }
-        
-        // Call method defined below here
     }
-    
-    // TODO: method that gets state of buttons (enabled/disabled) and puts a
-    // version of the image with a red line through it if the button is disabled
-    // and back to normal version if button is enabled.
-    // ** Method should be called at the bottom of toggleFieldState() to update
-    //    what the buttons should look like
     
     /**
      * Opens the help page scene.
