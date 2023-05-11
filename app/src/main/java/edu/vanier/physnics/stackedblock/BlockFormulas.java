@@ -12,7 +12,7 @@ import java.util.List;
 public class BlockFormulas {
 
     // Value in m/s^2
-    private final double GRAVITATIONAL_ACCELERATION = 9.81;
+    protected static final double GRAVITATIONAL_ACCELERATION = 9.81;
 
     /**
      * Calculates the total normal force on a block.

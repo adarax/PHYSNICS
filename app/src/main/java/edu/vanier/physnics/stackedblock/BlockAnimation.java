@@ -3,6 +3,8 @@ package edu.vanier.physnics.stackedblock;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -79,12 +81,14 @@ public class BlockAnimation {
         }
     }
 
+    private Rectangle floorDrawing;
+    
     public void drawFloor(Pane animationPane, boolean isDarkMode)
     {
         double paneWidth = animationPane.getWidth();
         double paneHeight = animationPane.getHeight();
 
-        Rectangle floorDrawing = new Rectangle(0, paneHeight - this.floorHeight - 1,
+        floorDrawing = new Rectangle(0, paneHeight - this.floorHeight - 1,
                 paneWidth - 1, this.floorHeight);
 
         // Make floor a light gray in light mode and a dark gray in dark mode
@@ -98,14 +102,15 @@ public class BlockAnimation {
     /*                        Animation of simulation                       */
     /************************************************************************/
     
-    
-    private TranslateTransition animationTopBlock, animationBottomBlock;
+    private ParallelTransition allTransitionsTopBlock;
+    private TranslateTransition userDefinedAnimationTopBlock, userDefinedAnimationBottomBlock;
     private AnimationTimer topBlockAnimationTimer, bottomBlockAnimationTimer;
     private Block topBlock, bottomBlock;
     
     protected void createBlockAnimations(ArrayList<Block> blocks, Pane animationPane)
     {
         BlockFormulas blockFormulas = new BlockFormulas();
+        allTransitionsTopBlock = new ParallelTransition();
         
         for (Block block : blocks)
         {
@@ -149,12 +154,13 @@ public class BlockAnimation {
             if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
             {
                 this.topBlock = block;
-                animationTopBlock = blockAnimation;
+                userDefinedAnimationTopBlock = blockAnimation;
                 topBlockAnimationTimer = blockAnimationTimer;
+                allTransitionsTopBlock.getChildren().add(userDefinedAnimationTopBlock);
             } else if (block.getBlockId() == BlockFrontEndController.POSITION.BOTTOM)
             {
                 this.bottomBlock = block;
-                animationBottomBlock = blockAnimation;
+                userDefinedAnimationBottomBlock = blockAnimation;
                 bottomBlockAnimationTimer = blockAnimationTimer;
             }
         }
@@ -169,11 +175,11 @@ public class BlockAnimation {
             if (block.getBlockId() == BlockFrontEndController.POSITION.TOP)
             {
                 topBlockAnimationTimer.stop();
-                animationTopBlock.stop();
+                allTransitionsTopBlock.stop();
             } else
             {
                 bottomBlockAnimationTimer.stop();
-                animationBottomBlock.stop();
+                userDefinedAnimationBottomBlock.stop();
             }
         }
         
@@ -181,50 +187,81 @@ public class BlockAnimation {
         {
             if (topBlock.getLayoutX() + topBlock.getTranslateX() + (topBlock.getDrawingWidth() / 2) > bottomBlock.getLayoutX() + bottomBlock.getTranslateX() + bottomBlock.getDrawingWidth())
             {
-                System.out.println("Time to fall");
+                allTransitionsTopBlock.stop();
+                allTransitionsTopBlock.getChildren().remove(0);
+                topBlockAnimationTimer.stop();
+                bottomBlockAnimationTimer.stop();
+                userDefinedAnimationBottomBlock.stop();
+                animateFall(acceleration);
             }
         } else
         {
             if (topBlock.getLayoutX() + topBlock.getTranslateX() + (topBlock.getDrawingWidth() / 2) < bottomBlock.getLayoutX() + bottomBlock.getTranslateX())
             {
-                System.out.println("Time to fall (left)");
+                allTransitionsTopBlock.stop();
+                allTransitionsTopBlock.getChildren().remove(0);
+                topBlockAnimationTimer.stop();
+                bottomBlockAnimationTimer.stop();
+                userDefinedAnimationBottomBlock.stop();
+                animateFall(acceleration);
             }
-        }
-        // TODO: Gravity (for top block)
-        
-        // if location of middle point of top block 
-        // is greater than rightmost side of bottom block --> fall
-        
-        // OR
-        
-        // if location of middle point of top block is less than leftmost side
-        // of bottom block --> fall
-        
-        // ** Update: conditions for when to trigger fall work!
-        
-        // if top block has fallen, stop simulation
-        
-        //** a few notes **
-        // fall direction has to be the same as movement direction of (top) block
-        // has to also tilt in that direction
-        
-        // should be fun...
-        
+        }       
     }
 
-    // Implement slower fall if there are vectors facing upward (partially or entirely)
+    private AnimationTimer fallAnimationTimer;
+    
     private void animateFall(double acceleration)
     {
+        double fallTime = calculateDuration(BlockFormulas.GRAVITATIONAL_ACCELERATION, bottomBlock.getDrawingHeight());
+        
         if (acceleration > 0)
         {
+            RotateTransition rotate = new RotateTransition(Duration.seconds(fallTime), topBlock);
+            rotate.setByAngle(90);
             
+            TranslateTransition moveInAcceleratedDirection = new TranslateTransition(Duration.seconds(fallTime), topBlock);
+            moveInAcceleratedDirection.setByX(150);
+            
+            TranslateTransition fallToFloor = new TranslateTransition(Duration.seconds(fallTime), topBlock);
+            fallToFloor.setByY(bottomBlock.getDrawingHeight());
+            fallToFloor.setInterpolator(new AccelerateInterpolator(BlockFormulas.GRAVITATIONAL_ACCELERATION));
+            
+            allTransitionsTopBlock.getChildren().addAll(rotate, moveInAcceleratedDirection, fallToFloor);
+            allTransitionsTopBlock.play();
         } else
         {
+            RotateTransition rotate = new RotateTransition(Duration.seconds(fallTime), topBlock);
+            rotate.setByAngle(-90);
             
+            TranslateTransition moveInAcceleratedDirection = new TranslateTransition(Duration.seconds(fallTime), topBlock);
+            moveInAcceleratedDirection.setByX(-150);
+            
+            TranslateTransition fallToFloor = new TranslateTransition(Duration.seconds(fallTime), topBlock);
+            fallToFloor.setByY(bottomBlock.getDrawingHeight());
+            fallToFloor.setInterpolator(new AccelerateInterpolator(BlockFormulas.GRAVITATIONAL_ACCELERATION));
+            
+            allTransitionsTopBlock.getChildren().addAll(rotate, moveInAcceleratedDirection, fallToFloor);
+            allTransitionsTopBlock.play();
         }
         
-        // IMPLEMENT ME
+        fallAnimationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long l)
+            {
+                double verticalTranslation = topBlock.getTranslateY();
+                
+                // TODO: using an intersects() method would be better
+                if (verticalTranslation > bottomBlock.getDrawingHeight() - (floorDrawing.getHeight() * 0.8))
+                {
+                    allTransitionsTopBlock.stop();
+                    fallAnimationTimer.stop();
+                }
+            }
+        };
+        
+        fallAnimationTimer.start();
     }
+        
 
     /**
      * Finds duration of animation using the Block's acceleration and
@@ -238,6 +275,9 @@ public class BlockAnimation {
      * a is acceleration (m/s^2)
      * t is time (seconds)
      * 
+     * y-values can also work in the place of x for situations such as
+     * free fall.
+     * 
      * @param acceleration
      * @param displacement
      * @return duration of animation based on the displacement
@@ -250,27 +290,37 @@ public class BlockAnimation {
     public void play()
     {
         topBlockAnimationTimer.start();
-        animationTopBlock.play();
+        allTransitionsTopBlock.play();
         
         bottomBlockAnimationTimer.start();
-        animationBottomBlock.play();
+        userDefinedAnimationBottomBlock.play();
+        
+        if (fallAnimationTimer != null)
+        {
+            fallAnimationTimer.start();
+        }
     }
 
     public void pause()
     {
-        animationTopBlock.pause();
-        animationBottomBlock.pause();
+        allTransitionsTopBlock.pause();
+        userDefinedAnimationBottomBlock.pause();
     }
 
-    // FIXME: onFinished()? maybe say something or change color, some type of indication
+    
+    // TODO: make blocks reset
     public void stop()
-    {
-        animationTopBlock.jumpTo(Duration.ZERO);
-        animationTopBlock.stop();
-        topBlockAnimationTimer.stop();
-        
-        animationBottomBlock.jumpTo(Duration.ZERO);
-        animationBottomBlock.stop();
+    {        
+        userDefinedAnimationBottomBlock.jumpTo(Duration.ZERO);
+        userDefinedAnimationBottomBlock.stop();
         bottomBlockAnimationTimer.stop();
+        
+        allTransitionsTopBlock.jumpTo(Duration.ZERO);
+        allTransitionsTopBlock.stop();
+        
+        if (fallAnimationTimer != null)
+        {
+            fallAnimationTimer.stop();
+        }
     }
 }
