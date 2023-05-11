@@ -123,7 +123,12 @@ public class Arrow extends StackPane {
     }
 
     
-    // TODO: fix rotation and nametag orientation
+    /**
+     * Rotates the Arrow and its nameTag to match the direction of the
+     * forceVector.
+     * 
+     * Ensures the text on the nameTag is always readable by keeping it upright.
+     */
     protected void orientNameTagAndArrow()
     {
         /*
