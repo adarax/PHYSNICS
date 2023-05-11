@@ -10,8 +10,10 @@ import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,13 +97,13 @@ public class BlockFrontEndController {
     public void initialize()
     {
         /*
-         * Calls updateScene() after everything is rendered, which is needed 
+         * Calls resetScene() after everything is rendered, which is needed 
          * because otherwise certain width and height values required for a
          * proper render are not yet available.
          */
         Platform.runLater(() ->
         {
-            updateScene();
+            resetScene();
         });
 
         addSliderEventHandlers();
@@ -111,7 +113,7 @@ public class BlockFrontEndController {
         menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
         menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
         menubuttonExit.setOnAction(press -> handleExitOfApplication());
-        toggleShowVectors.setOnAction(toggle -> updateScene());
+        toggleShowVectors.setOnAction(toggle -> resetScene());
         buttonClear.setOnAction(press -> handleClear());
         buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
         buttonHelp.setOnMouseClicked(press -> handleHelp());
@@ -137,7 +139,7 @@ public class BlockFrontEndController {
 
         for (MFXSlider slider : allSliders)
         {
-            slider.setOnMouseDragged(drag -> updateScene());
+            slider.setOnMouseDragged(drag -> resetScene());
         }
     }
 
@@ -223,7 +225,7 @@ public class BlockFrontEndController {
         }
         
         toggleShowVectors.setSelected(false);
-        updateScene();
+        resetScene();
         
         blockAnimationHandler.play();
         toggleFieldState(ANIMATION_STATE.PLAYING);
@@ -239,9 +241,14 @@ public class BlockFrontEndController {
     public void handleReset()
     {
         animateButtonPress(buttonReset, RESET_BUTTON, RESET_BUTTON_PRESSED);
-        blockAnimationHandler.stop();
+        blockAnimationHandler.reset();
         toggleFieldState(ANIMATION_STATE.RESET);
         isAnimationInitialized = false;
+        
+        this.topBlock = new Block(POSITION.TOP);
+        this.bottomBlock = new Block(POSITION.BOTTOM);
+        
+        resetScene();
     }
     
     private void animateButtonPress(ImageView target, Image notPressed, Image pressed)
@@ -308,10 +315,10 @@ public class BlockFrontEndController {
             slider.setValue(slider.getMin());
         });
 
-        updateScene();
+        resetScene();
     }
 
-    public void updateScene()
+    public void resetScene()
     {
         paneAnimation.getChildren().clear();
 
@@ -341,7 +348,7 @@ public class BlockFrontEndController {
         bottomBlock.drawFreeBodyDiagram(paneAnimation);
     }
     
-    // TODO: problem is most likely here, i dont understand why lines wont draw
+    // TODO: problem is most likely here, i dont understand why lines wont assemble
     private void drawLines()
     {
         paneGridlines.getChildren().clear();

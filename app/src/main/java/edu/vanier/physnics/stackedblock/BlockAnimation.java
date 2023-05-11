@@ -46,7 +46,7 @@ public class BlockAnimation {
         double paneWidth = animationPane.getWidth();
         double paneHeight = animationPane.getHeight();
 
-        drawBlocks(topBlock, bottomBlock);
+        assembleBlocks(topBlock, bottomBlock);
 
         double bottomBlockYCoordinate = paneHeight - this.floorHeight
                 - bottomBlock.getDrawingHeight() - 1;
@@ -65,7 +65,7 @@ public class BlockAnimation {
         animationPane.getChildren().addAll(topBlock, bottomBlock);
     }
 
-    public void drawBlocks(Block topBlock, Block bottomBlock)
+    public void assembleBlocks(Block topBlock, Block bottomBlock)
     {
         ArrayList<Block> blocks = new ArrayList<>(List.of(topBlock, bottomBlock));
 
@@ -77,7 +77,7 @@ public class BlockAnimation {
             block.getBlockDrawing().setFill(block.determineColor());
             block.setNameTag(new Label(block.getName()));
             block.getNameTag().setFont(new Font("SansSerif Bold", block.determineLabelFontSize()));
-            block.draw();
+            block.assemble();
         }
     }
 
@@ -307,15 +307,11 @@ public class BlockAnimation {
         userDefinedAnimationBottomBlock.pause();
     }
 
-    
-    // TODO: make blocks reset
-    public void stop()
+    public void reset()
     {        
-        userDefinedAnimationBottomBlock.jumpTo(Duration.ZERO);
         userDefinedAnimationBottomBlock.stop();
         bottomBlockAnimationTimer.stop();
         
-        allTransitionsTopBlock.jumpTo(Duration.ZERO);
         allTransitionsTopBlock.stop();
         
         if (fallAnimationTimer != null)
