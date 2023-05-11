@@ -4,6 +4,10 @@
  */
 package edu.vanier.physnics.projectilemotion;
 
+import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
+import edu.vanier.physnics.conservation.ConservationController;
+import edu.vanier.physnics.mainmenu.MainMenuController;
+import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
@@ -12,21 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.QuadCurve;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -37,19 +41,11 @@ import javafx.stage.Stage;
  */
 public class MainAppController {
     @FXML
-    private MenuItem menubuttonExit;
-
-    @FXML
-    private MenuItem menubuttonMainMenu;
-
-    @FXML
-    private MenuItem menubuttonConservation;
-
-    @FXML
-    private MenuItem menubuttonCentripetal;
-
-    @FXML
-    private MenuItem menubuttonProjectile;
+    private MenuItem menuItemMainMenu,
+            menuItemConservationOfEnergy,
+            menuItemStackedBlock,
+            menuItemUniformCircularMotion,
+            menuItemExit;
 
     @FXML
     private ImageView buttonDarkMode;
@@ -64,7 +60,7 @@ public class MainAppController {
     private MFXSlider sliderGravity;
 
     @FXML
-    private MFXButton buttonClear;
+    private MFXButton buttonClear, buttonSettings;
 
     @FXML
     private ImageView buttonPlay;
@@ -91,12 +87,16 @@ public class MainAppController {
     private ImageView cannonBarrel;
     
     @FXML
-    private QuadCurve quadCurve;
+    private MFXToggleButton showTrailToggleButton;
     
     @FXML
     private Pane paneAnimation;
     
     Animation animation = new Animation();
+    
+    private double gravityAccelMPSS;
+    private double initialVelocityMPS;
+    private double launchAngleDeg;
     
     /**
      * Plays the animation. Gets the values from sliders, and uses them as
@@ -105,14 +105,11 @@ public class MainAppController {
      * @param leftClick 
      */
     public void handlePlay() {
-        // Play the simulation
-        System.out.println("Play");
-        double gravityAccelMPSS = sliderGravity.getValue();
-        double initialVelocityMPS = sliderInitialVelocity.getValue();
-        double launchAngleDeg = sliderLaunchAngle.getValue();
-        
-        System.out.println(Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS));
-        animation.playAnimation(projectileBall, cannonBarrel, quadCurve, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
+        gravityAccelMPSS = sliderGravity.getValue();
+        initialVelocityMPS = sliderInitialVelocity.getValue();
+        launchAngleDeg = sliderLaunchAngle.getValue();
+        animation.playAnimation(projectileBall, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
+        animation.drawTrail(paneAnimation, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
     }
 
     public void handlePause() {
@@ -121,7 +118,6 @@ public class MainAppController {
             
     }
     
-    
     /**
      * Resets the the ball back to the default position on leftClick.
      * 
@@ -129,6 +125,28 @@ public class MainAppController {
      */
     public void handleReset() {
         animation.resetBall(projectileBall);
+    }
+    
+    public void handleSettings() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectileSettings.fxml"));
+        Pane root = null;
+        SettingsController settingsController = new SettingsController(paneAnimation, projectileBall);
+        loader.setController(settingsController);
+
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Scene settingsWindow = new Scene(root);
+        Stage stage = new Stage();
+        settingsController.setStage(stage);
+        stage.setScene(settingsWindow);
+        stage.sizeToScene();
+        stage.setTitle("Settings");
+        stage.show();
+
     }
 
     public void handleHelp() {
@@ -154,7 +172,6 @@ public class MainAppController {
         stage.setScene(graphsPage);
         stage.sizeToScene();
         stage.setTitle("Graphs");
-        stage.setFullScreen(true);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
@@ -179,30 +196,22 @@ public class MainAppController {
         sliderList.add(sliderGravity);
         sliderList.add(sliderInitialVelocity);
         sliderList.add(sliderLaunchAngle);
-
         
+        Image defaultImage = new Image(getClass().getResourceAsStream("/images/settings/cartoon_field.png"));
+        BackgroundImage backgroundImage = new BackgroundImage(defaultImage,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        paneAnimation.setBackground(new Background(backgroundImage));
+
         double launchAngle = sliderLaunchAngle.getValue();
+        
         sliderLaunchAngle.setOnMouseDragged(drag -> animation.rotateCannon(cannonBarrel, launchAngle));
-
-        menubuttonCentripetal.setOnAction(e -> {
-            // Go to centripetal force screen
-        });
-
-        menubuttonConservation.setOnAction(e -> {
-            // Go to conservation of energy screen
-        });
-
-        menubuttonExit.setOnAction(e -> {
-            // Exit the app
-        });
-
-        menubuttonProjectile.setOnAction(e -> {
-            // Go to projectile motion screen
-        });
+        
 
         sliderInitialVelocity.setOnMouseDragged(e -> {
             // Change the initial velocity
         });
+        
 
         sliderLaunchAngle.setOnMouseDragged(leftClick -> {
             handleRotateCannon(cannonBarrel);
@@ -218,6 +227,7 @@ public class MainAppController {
 
         sliderGravity.setOnMouseDragged(e -> {
             // Change the force of gravity
+            animation.drawTrail(paneAnimation, launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
         });
 
         buttonPlay.setOnMouseClicked(leftClick -> {
@@ -239,6 +249,10 @@ public class MainAppController {
             handleHelp();
         });
         
+        buttonSettings.setOnAction(leftClick -> {
+            handleSettings();
+        });
+        
         buttonClear.setOnMouseClicked(leftClick -> {
             // Resets the animation and brings the sliders to default values
             handleClear(sliderList);
@@ -246,6 +260,26 @@ public class MainAppController {
         
         buttonGraph.setOnMouseClicked(leftClick -> {
             handleGraphs();
+        });
+        
+        menuItemConservationOfEnergy.setOnAction(leftClick -> {
+            switchSimulation("conservation");
+        });
+        
+        menuItemMainMenu.setOnAction(leftClick -> {
+            switchSimulation("mainmenu");
+        });
+        
+        menuItemStackedBlock.setOnAction(leftClick -> {
+            switchSimulation("stackedblock");
+        });
+        
+        menuItemUniformCircularMotion.setOnAction(leftClick -> {
+            switchSimulation("uniform-circular-motion");
+        });
+        
+        menuItemExit.setOnAction(leftClick -> {
+            System.exit(0);
         });
 
     }
@@ -284,6 +318,44 @@ public class MainAppController {
 
     public double getLaunchAngleSliderValue() {
         return sliderLaunchAngle.getValue();
+    }
+    
+    public void switchSimulation(String simulationName)
+    {
+        Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
+        String destination = "/fxml/" + simulationName + ".fxml";
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
+
+        switch (simulationName) {
+            case "stackedblock" -> {
+                BlockFrontEndController blockcontroller = new BlockFrontEndController();
+                loader.setController(blockcontroller);
+            }
+            case "uniform-circular-motion" -> {
+                UniformCircularMotionController controllerUCM = new UniformCircularMotionController();
+                loader.setController(controllerUCM);
+            }
+            case "conservation" -> {
+                ConservationController conservationController = new ConservationController();
+                loader.setController(conservationController);
+            }
+            case "mainmenu" -> {
+                MainMenuController menuController = new MainMenuController(currentStage);
+                loader.setController(menuController);
+            }
+            default ->
+                System.out.println("Invalid simulation name");
+        }
+        
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1920, 1080);
+            currentStage.setScene(scene);
+            currentStage.setFullScreen(true);
+            currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        } catch (IOException ex) {
+            System.out.println("Something went wrong changing scenes.");
+        }
     }
 
 
