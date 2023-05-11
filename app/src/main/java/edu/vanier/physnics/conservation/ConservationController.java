@@ -535,14 +535,21 @@ public class ConservationController {
 
     public void openHelpMenu() {
         Stage helpStage = new Stage();
-        Pane helpPane = new Pane();
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation_help.fxml"));
+        ConservationHelpPageController controller = new ConservationHelpPageController();
+        loader.setController(controller);
 
-        ImageView helpImage = new ImageView();
-        helpImage.setLayoutX(Settings.HELP_MENU_WIDTH);
-        helpImage.setLayoutY(Settings.HELP_MENU_HEIGHT);
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load(), 1920 , 1080);
+        } catch (IOException ex) {
+            System.out.println("Graaph stage could not be opened");
+        }
 
-        Scene helpScene = new Scene(helpPane, Settings.HELP_MENU_WIDTH, Settings.HELP_MENU_HEIGHT);
-        helpStage.setScene(helpScene);
+        helpStage.setScene(scene);
+        helpStage.setTitle("Current energy levels");
+       
         helpStage.setTitle("Help Menu");
         helpStage.setResizable(false);
         helpStage.initModality(Modality.APPLICATION_MODAL);

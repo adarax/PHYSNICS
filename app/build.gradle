@@ -37,7 +37,7 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
     
     // Support for rule switch statements
-    sourceCompatibility = '14';
+    sourceCompatibility = '16';
 }
 application {    
    // Define the main class for the application.
