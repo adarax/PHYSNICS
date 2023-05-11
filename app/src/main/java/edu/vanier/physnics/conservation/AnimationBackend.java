@@ -24,114 +24,116 @@ import javafx.util.Duration;
  * @author benja
  */
 public class AnimationBackend {
+
     private Path ballPath;
     private ParallelTransition mainAnimation;
     private double cycleTime;
-    
-    private double currentCycle;
-    private double currentTime;
-    
+
     private boolean playing;
-    
-    public AnimationBackend(){
+
+    public AnimationBackend() {
         ballPath = new Path();
         playing = false;
         mainAnimation = new ParallelTransition();
-        currentTime = 0;
-        currentCycle = 0;
     }
-    
-    public void createBallAnimation(Ball ball, double height, double g){
-        
+
+    public void createBallAnimation(Ball ball, double height, double g) {
+
         cycleTime = ConservationFormulas.getArcTime(height, g);
         PathTransition ballCurve = new PathTransition();
         ballPath = ball.getBallPath();
-                
+
         ballCurve.setDuration(Duration.seconds(cycleTime));
         ballCurve.setNode(ball);
         ballCurve.setPath(ballPath);
         ballCurve.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-        
+
         ballCurve.setCycleCount(Timeline.INDEFINITE);
         ballCurve.setAutoReverse(true);
         ballCurve.setInterpolator(Interpolator.EASE_BOTH);
-        
+
         mainAnimation.getChildren().add(ballCurve);
     }
-    
-    public void createGraphAnimation(Rectangle KE, Rectangle PE, Rectangle FE, boolean friction){
-        ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime/2), KE);
+
+    public void createGraphAnimation(Rectangle KE, Rectangle PE) {
+        ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime / 2), KE);
         stKe.setNode(KE);
-        
+
         stKe.setFromY(0);
         stKe.setToY(1);
-        
+
         stKe.setCycleCount(Timeline.INDEFINITE);
         stKe.setAutoReverse(true);
         stKe.setInterpolator(Interpolator.EASE_BOTH);
-        
-        TranslateTransition kineticEnergyGraphTranslation = 
-                new TranslateTransition(Duration.seconds(cycleTime/2), KE);
+
+        TranslateTransition kineticEnergyGraphTranslation
+                = new TranslateTransition(Duration.seconds(cycleTime / 2), KE);
         kineticEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y);
-        kineticEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
+        kineticEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT / 2));
         kineticEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
         kineticEnergyGraphTranslation.setAutoReverse(true);
         kineticEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
-        
-        ScaleTransition stPe = new ScaleTransition(Duration.seconds(cycleTime/2), PE);
+
+        ScaleTransition stPe = new ScaleTransition(Duration.seconds(cycleTime / 2), PE);
         stPe.setNode(PE);
-        
+
         stPe.setFromY(1);
         stPe.setToY(0);
-       
+
         stPe.setCycleCount(Timeline.INDEFINITE);
         stPe.setAutoReverse(true);
         stPe.setInterpolator(Interpolator.EASE_BOTH);
-        
-        TranslateTransition potentialEnergyGraphTranslation = 
-                new TranslateTransition(Duration.seconds(cycleTime/2), PE);
+
+        TranslateTransition potentialEnergyGraphTranslation
+                = new TranslateTransition(Duration.seconds(cycleTime / 2), PE);
         potentialEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y);
-        potentialEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
+        potentialEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT / 2));
         potentialEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
         potentialEnergyGraphTranslation.setAutoReverse(true);
         potentialEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
-        
-        ScaleTransition stFe = new ScaleTransition(Duration.seconds(cycleTime/2), PE);
-        stFe.setNode(FE);
-        
-       TranslateTransition frictionEnergyGraphTranslation = null;
-        
-        if(friction){
-            
-        }
-        else{
-            stFe.setFromY(0);
-            stFe.setToY(0);
-       
-            stFe.setCycleCount(Timeline.INDEFINITE);
-            stFe.setAutoReverse(true);
-            stFe.setInterpolator(Interpolator.EASE_BOTH);
-        
-            frictionEnergyGraphTranslation = 
-                new TranslateTransition(Duration.seconds(0), PE);
-            frictionEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y);
-            //frictionEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
-            frictionEnergyGraphTranslation.setCycleCount(Timeline.INDEFINITE);
-            frictionEnergyGraphTranslation.setAutoReverse(true);
-            frictionEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
-        }
-        
-        
-        mainAnimation.getChildren().addAll(stKe, kineticEnergyGraphTranslation, stPe, potentialEnergyGraphTranslation, stFe, frictionEnergyGraphTranslation);
+
+        mainAnimation.getChildren().addAll(stKe, kineticEnergyGraphTranslation, stPe, potentialEnergyGraphTranslation);
     }
-    
-    public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, Rectangle PE, Rectangle FE, boolean friction){
+
+    public void createFrictionAnimation(double frictionOverOneCyle, double TME, Rectangle FE) {
+        double timeToOvertakeTME = (cycleTime)*(TME/frictionOverOneCyle);
+        System.out.println(timeToOvertakeTME);
+        ScaleTransition stFe = new ScaleTransition(Duration.seconds(timeToOvertakeTME));
+        stFe.setNode(FE);
+
+        stFe.setToY(1);
+        stFe.setFromY(0);
+
+        stFe.setCycleCount(1);
+        stFe.setAutoReverse(false);
+        stFe.setInterpolator(Interpolator.EASE_BOTH);
+
+       TranslateTransition frictionEnergyGraphTranslation
+                = new TranslateTransition(Duration.seconds(timeToOvertakeTME), FE);
+        frictionEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y);
+        frictionEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT/2));
+        frictionEnergyGraphTranslation.setCycleCount(1);
+        frictionEnergyGraphTranslation.setAutoReverse(false);
+        frictionEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
+        
+        stFe.setOnFinished((eventHandler) -> {
+            mainAnimation.stop();
+        });
+        
+        mainAnimation.getChildren().addAll(stFe, frictionEnergyGraphTranslation);
+    }
+
+
+public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, Rectangle PE, Rectangle FE, boolean friction, double TME, double frictionOverOneCycle){
         if(playing){
             mainAnimation.play();
         }
         else{
             createBallAnimation(ball,height,g);
-            createGraphAnimation(KE, PE, FE, friction);
+            createGraphAnimation(KE, PE);
+            if(friction){
+                createFrictionAnimation(frictionOverOneCycle, TME, FE);
+            }
             mainAnimation.play();
         }
         playing = true;
@@ -152,20 +154,8 @@ public class AnimationBackend {
     }
     
     public double getCurrentTime(){
-        Duration time = mainAnimation.getCurrentTime();
-        
-        if(cycleTime< time.toSeconds() - cycleTime*currentCycle){
-            currentCycle++;
-        }
-        currentTime = time.toSeconds()-cycleTime*currentCycle;
-        
-       
-        System.out.println("Current time: " + currentTime);
-        System.out.println("CurrentCycle: " + currentCycle);
-        
-       
-       return currentTime;
-        
+        Duration time = mainAnimation.getCurrentTime(); 
+        return time.toSeconds();  
     }
 
     public boolean isPlaying() {
@@ -175,6 +165,31 @@ public class AnimationBackend {
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
+
+    public Path getBallPath() {
+        return ballPath;
+    }
+
+    public void setBallPath(Path ballPath) {
+        this.ballPath = ballPath;
+    }
+
+    public ParallelTransition getMainAnimation() {
+        return mainAnimation;
+    }
+
+    public void setMainAnimation(ParallelTransition mainAnimation) {
+        this.mainAnimation = mainAnimation;
+    }
+
+    public double getCycleTime() {
+        return cycleTime;
+    }
+
+    public void setCycleTime(double cycleTime) {
+        this.cycleTime = cycleTime;
+    }
+    
     
     
 }

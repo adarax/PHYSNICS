@@ -134,7 +134,10 @@ public class ConservationController {
 
         btnPlay.setOnMouseClicked((e) -> {
             animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(),
-                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction);
+                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction, 
+                    ConservationFormulas.potentialEnergy(mass, g, rampHeight),
+                    ConservationFormulas.getFrictionEnergyOverCircleSection(rampHeight, mass, g, u, 0, 180)
+            );
             graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
             disableSidebar(true);
@@ -232,11 +235,12 @@ public class ConservationController {
     
     
     public void setup() {
-         //initializes the variables
+        //initializes the variables
         mass = 10;
         rampHeight = 10;
         g = 9.8;
-        
+        u = 0.61;
+
         openGraphWindow();
         //initialize the animation backend
         animBackend = new AnimationBackend();
@@ -268,8 +272,6 @@ public class ConservationController {
         }
         choiceBoxu.setValue(Settings.FRICTION_COEFFICIENTS[0]);
 
-       
-
         sliderMass.setValue(mass);
         sliderHeight.setValue(rampHeight);
 
@@ -281,7 +283,7 @@ public class ConservationController {
             @Override
             public void handle(long l) {
                 updateValues();
-                
+
             }
         };
     }
@@ -305,13 +307,10 @@ public class ConservationController {
         double currentVelocity = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
         double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
         double FE = 0;
-        
-        
-       
-        if(friction){
-            double actualHeight = ramp.getRadius()+ball.getRadius() - ball.getTranslateY();
-            System.out.println(ConservationFormulas.getAngle(actualHeight, rampHeight));
-            
+
+        if (friction) {
+            FE = getFrictionEnergy();
+
         }
 
         graphController.setCurrentHeightText(currentHeight);
@@ -319,6 +318,12 @@ public class ConservationController {
         graphController.setVelocityText(currentVelocity);
         graphController.setPeText(PE);
         graphController.setFrictionEnergyText(FE);
+    }
+
+    public double getFrictionEnergy() {
+        double friction = ConservationFormulas.getFrictionEnergyOverCircleSection(rampHeight, mass, g, u, 0, 180)
+                * (animBackend.getCurrentTime() / animBackend.getCycleTime());
+        return friction;
     }
 
     public void setValueIndicators() {
@@ -491,29 +496,27 @@ public class ConservationController {
             colorPickerPane.getChildren().add(colorChoice);
         }
         ColorPicker extraColorOptions = new ColorPicker();
-        extraColorOptions.setLayoutX(colorPickerWidth/2-50);
+        extraColorOptions.setLayoutX(colorPickerWidth / 2 - 50);
         extraColorOptions.setLayoutY(50);
-        
-        
-        if(choice.equals("ramp")){
+
+        if (choice.equals("ramp")) {
             extraColorOptions.setValue(rampColor);
-            extraColorOptions.setOnAction((eventHandler) ->{
+            extraColorOptions.setOnAction((eventHandler) -> {
                 rampColor = extraColorOptions.getValue();
                 colorPickerStage.close();
             });
-        }
-        else{
+        } else {
             extraColorOptions.setValue(ballColor);
-            extraColorOptions.setOnAction((eventHandler) ->{
+            extraColorOptions.setOnAction((eventHandler) -> {
                 ballColor = extraColorOptions.getValue();
                 colorPickerStage.close();
             });
         }
-        
+
         colorPickerPane.getChildren().add(extraColorOptions);
-        
+
         Scene colorPickerScene = new Scene(colorPickerPane, colorPickerWidth, colorPickerHeight);
-       
+
         colorPickerStage.setScene(colorPickerScene);
         colorPickerStage.setTitle(title);
         colorPickerStage.setResizable(false);
@@ -529,22 +532,21 @@ public class ConservationController {
         choiceBoxg.setDisable(status);
         choiceBoxu.setDisable(status);
     }
-    
-    public void openHelpMenu(){
+
+    public void openHelpMenu() {
         Stage helpStage = new Stage();
         Pane helpPane = new Pane();
-       
+
         ImageView helpImage = new ImageView();
         helpImage.setLayoutX(Settings.HELP_MENU_WIDTH);
         helpImage.setLayoutY(Settings.HELP_MENU_HEIGHT);
-        
+
         Scene helpScene = new Scene(helpPane, Settings.HELP_MENU_WIDTH, Settings.HELP_MENU_HEIGHT);
         helpStage.setScene(helpScene);
         helpStage.setTitle("Help Menu");
         helpStage.setResizable(false);
         helpStage.initModality(Modality.APPLICATION_MODAL);
         helpStage.show();
-        
-                
+
     }
 }

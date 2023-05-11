@@ -34,5 +34,13 @@ public class ConservationFormulas {
         double angleRadians = Math.asin(currentHeight/radius);
         return Math.toDegrees(angleRadians);
     }
+     
+    public static double getHalfCircleCircumference(double radius){
+        return Math.PI*radius;
+    }
+     
+    public static double getFrictionEnergyOverCircleSection(double radius, double m, double g, double u, double initialAngle, double finalAngle){
+        return Math.abs(radius*m*g*u*(Math.sin(0) - Math.sin(finalAngle)));
+    }
 
 }
