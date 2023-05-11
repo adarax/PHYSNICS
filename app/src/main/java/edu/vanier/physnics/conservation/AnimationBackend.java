@@ -5,6 +5,7 @@
 package edu.vanier.physnics.conservation;
 
 import edu.vanier.physnics.conservation.graphs.GraphSettings;
+import java.util.ArrayList;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
@@ -54,6 +55,26 @@ public class AnimationBackend {
 
         mainAnimation.getChildren().add(ballCurve);
     }
+    
+    public void createFrictionBallAnimation(Ball ball, double height, double g, double TME, double FE){
+        FE = FE/2;
+        cycleTime = ConservationFormulas.getArcTime(height, g);
+        ArrayList<Double> stopHeights = new ArrayList<Double>();
+        stopHeights.add(0, height);
+        for(double i = TME; i >= 0; i=-FE){
+            TME = TME - FE;
+            double newHeight = ConservationFormulas.getHeightFromPotentialEnergy(g, ball.getMass(), TME);
+            stopHeights.add(newHeight);
+            
+        }
+        
+        for(double d : stopHeights){
+            System.out.println(d);
+        }
+        
+        
+    }
+        
 
     public void createGraphAnimation(Rectangle KE, Rectangle PE) {
         ScaleTransition stKe = new ScaleTransition(Duration.seconds(cycleTime / 2), KE);
@@ -95,7 +116,7 @@ public class AnimationBackend {
         mainAnimation.getChildren().addAll(stKe, kineticEnergyGraphTranslation, stPe, potentialEnergyGraphTranslation);
     }
 
-    public void createFrictionAnimation(double frictionOverOneCyle, double TME, Rectangle FE) {
+    public void createFrictionGraphAnimation(double frictionOverOneCyle, double TME, Rectangle FE) {
         double timeToOvertakeTME = (cycleTime)*(TME/frictionOverOneCyle);
         System.out.println(timeToOvertakeTME);
         ScaleTransition stFe = new ScaleTransition(Duration.seconds(timeToOvertakeTME));
@@ -129,10 +150,14 @@ public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, 
             mainAnimation.play();
         }
         else{
-            createBallAnimation(ball,height,g);
-            createGraphAnimation(KE, PE);
+            
             if(friction){
-                createFrictionAnimation(frictionOverOneCycle, TME, FE);
+                createFrictionGraphAnimation(frictionOverOneCycle, TME, FE);
+                createFrictionBallAnimation(ball, height, g, TME, frictionOverOneCycle);
+            }
+            else{
+                createBallAnimation(ball,height,g);
+                createGraphAnimation(KE, PE);
             }
             mainAnimation.play();
         }

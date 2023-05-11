@@ -42,5 +42,9 @@ public class ConservationFormulas {
     public static double getFrictionEnergyOverCircleSection(double radius, double m, double g, double u, double initialAngle, double finalAngle){
         return Math.abs(radius*m*g*u*(Math.sin(0) - Math.sin(finalAngle)));
     }
+    
+    public static double getHeightFromPotentialEnergy(double g, double mass, double PE){
+        return PE/(mass*g);
+    }
 
 }
