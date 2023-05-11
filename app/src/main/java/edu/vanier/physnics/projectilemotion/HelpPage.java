@@ -35,7 +35,6 @@ public class HelpPage {
         stage.setScene(helpWindow);
         stage.sizeToScene();
         stage.setTitle("Help Page");
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
         
     }

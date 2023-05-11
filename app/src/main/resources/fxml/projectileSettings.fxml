@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="807.0" layoutY="2.0" prefHeight="141.0" prefWidth="279.0" text="Settings" textAlignment="CENTER">
+         <font>
+            <Font size="72.0" />
+         </font>
+      </Label>
+      <ColorPicker fx:id="ballColour" layoutX="1017.0" layoutY="182.0" prefHeight="105.0" prefWidth="304.0" promptText="Ball Colour">
+         <value>
+            <Color green="0.06666667014360428" blue="1.0" />
+         </value>
+      </ColorPicker>
+      <Text layoutX="620.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ball Colour">
+         <font>
+            <Font size="52.0" />
+         </font>
+      </Text>
+      <ColorPicker fx:id="trailColour" layoutX="1020.0" layoutY="397.0" prefHeight="105.0" prefWidth="304.0" promptText="Ball Colour">
+         <value>
+            <Color green="0.06666667014360428" blue="1.0" />
+         </value>
+      </ColorPicker>
+      <Text layoutX="615.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trail Colour">
+         <font>
+            <Font size="52.0" />
+         </font>
+      </Text>
+      <Line endX="1120.5" layoutX="807.0" layoutY="140.0" startX="-807.0" />
+      <Text layoutX="760.0" layoutY="698.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Background" wrappingWidth="438.5726041666667">
+         <font>
+            <Font size="58.0" />
+         </font>
+      </Text>
+      <MFXButton fx:id="buttonExitSettings" layoutX="43.0" layoutY="934.0" prefHeight="105.0" prefWidth="219.0" text="Exit Settings">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </MFXButton>
+      <ImageView fx:id="buttonField" fitHeight="236.0" fitWidth="400.0" layoutX="321.0" layoutY="760.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/settings/cartoon_field.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="buttonWinter" fitHeight="236.0" fitWidth="400.0" layoutX="763.0" layoutY="763.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/settings/cartoon_winter.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="buttonDesert" fitHeight="236.0" fitWidth="400.0" layoutX="1205.0" layoutY="760.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/settings/desert.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
