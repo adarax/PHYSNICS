@@ -212,8 +212,8 @@ public class ConservationController {
         changeRampColor = (EventHandler) (Event event) -> {
             if (!animBackend.isPlaying()) {
                 getNewColor(rampColor, "Change ramp color", "ramp");
-                ramp = null;
                 paneAnimation.getChildren().remove(ramp);
+                ramp = null;
                 createRamp();
             }
         };
