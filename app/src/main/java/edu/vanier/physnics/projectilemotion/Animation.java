@@ -4,25 +4,15 @@
  */
 package edu.vanier.physnics.projectilemotion;
 
-import edu.vanier.physnics.conservation.Ball;
-import edu.vanier.physnics.conservation.Settings;
-import java.awt.Point;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
-import javafx.animation.Timeline;
-import javafx.geometry.Point3D;
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.QuadCurveTo;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 /**
@@ -32,16 +22,11 @@ import javafx.util.Duration;
 public class Animation {
     
     PathTransition pathTransition = new PathTransition();
-    
-    double maxHeightM;
     double xDisplacementM;
     double flightTimeS;
-    
-    public void playAnimation(Circle ball, ImageView cannon, QuadCurve quadCurve, double launchAngleDeg, double gravityAccelMPSS, double initialVelocityMPS) {
-        
+
+    public Path setPath(double launchAngleDeg, double gravityAccelMPSS, double initialVelocityMPS) {
         Path path = new Path();
-        
-        maxHeightM = Equations.getMaxHeight(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
         xDisplacementM = Equations.getXdisplacement(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
         flightTimeS = Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
         
@@ -52,13 +37,12 @@ public class Animation {
         double cannonEdgeX = 135 + ((Math.cos(Math.toRadians(launchAngleDeg))) * 67.27);
         double cannonEdgeY = 790 - ((Math.sin(Math.toRadians(launchAngleDeg))) * 67.27);
         
-        MoveTo moveTo = new MoveTo();
         // Sets initial position of ball
+        MoveTo moveTo = new MoveTo();
         moveTo.setX(cannonEdgeX);
-        moveTo.setY(cannonEdgeY);;
-        
+        moveTo.setY(cannonEdgeY);
+          
         QuadCurveTo quadTo = new QuadCurveTo();
-        
         quadTo.setControlX((cannonEdgeX + xDisplacementPX) / 2);
         quadTo.setControlY(835 - (scaleHeightToPixels(launchAngleDeg, xDisplacementPX)));
         
@@ -66,27 +50,30 @@ public class Animation {
         quadTo.setX(70 + xDisplacementPX);
         quadTo.setY(835);
         
-        
         path.getElements().add(moveTo);
         path.getElements().add(quadTo);
         
-        path.setVisible(true);
-        path.setStrokeWidth(5);
-        
+        return path;
+    }
+    
+    public void playAnimation(Circle ball, double launchAngleDeg, double gravityAccelMPSS, double initialVelocityMPS) {
+        Path animationPath = setPath(launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
         pathTransition.setDuration(Duration.seconds(flightTimeS));
-        pathTransition.setPath(path);
+        pathTransition.setPath(animationPath);
         pathTransition.setNode(ball);
         pathTransition.play();
-       
+        
     }
+    //Creates method that dynamically scales the path based on slider
 
     public void pauseAnimation() {
         pathTransition.pause();
     }
     
     public void resetBall(Circle projectileBall) {
-        projectileBall.setCenterX(135);
-        projectileBall.setCenterY(790);
+        pathTransition.stop();
+        projectileBall.setTranslateX(135);
+        projectileBall.setTranslateY(790);
     }
     
 
@@ -97,12 +84,20 @@ public class Animation {
         rotate.play();
     }
     
+    public void drawTrail(Pane paneAnimation, double launchAngleDeg, double gravityAccelMPSS, double initialVelocityMPS) {
+        Path trailPath = setPath(launchAngleDeg, gravityAccelMPSS, initialVelocityMPS);
+        trailPath.setStroke(Color.RED);
+        trailPath.setStrokeWidth(2);
+        paneAnimation.getChildren().add(trailPath);
+    }
+    
     
     /**
      * Method that takes parameters for calculations in meters and converts them 
      * to pixels to be used in the animation.
      * @param launchAngleDeg
-     * @param xDisplacementMeters 
+     * @param xDisplacementPixels
+     * @return controlY
      */
     public double scaleHeightToPixels(double launchAngleDeg, double xDisplacementPixels) {
         double controlY = Math.tan(Math.toRadians(launchAngleDeg)) * ((70 + xDisplacementPixels) / 2);
