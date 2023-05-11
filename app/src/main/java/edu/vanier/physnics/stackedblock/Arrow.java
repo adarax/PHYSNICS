@@ -142,6 +142,7 @@ public class Arrow extends StackPane {
             {
                 Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + arrowBody.getFitHeight());
                 this.getTransforms().add(rotate);
+                nameTag.setRotate(180);
             } else
             {
                 Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + arrowBody.getFitHeight());
