@@ -106,7 +106,7 @@ public class Block extends StackPane {
         this.name = name;
     }
 
-    public void draw()
+    public void assemble()
     {
         this.getChildren().clear();
         this.getChildren().addAll(blockDrawing, nameTag);
