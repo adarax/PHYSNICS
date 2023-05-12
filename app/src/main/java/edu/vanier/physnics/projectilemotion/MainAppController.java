@@ -54,9 +54,6 @@ public class MainAppController {
             menuItemStackedBlock,
             menuItemUniformCircularMotion,
             menuItemExit;
-
-    @FXML
-    private ImageView buttonHome;
     
     @FXML
     private Label maxHeightLabel,
@@ -65,37 +62,24 @@ public class MainAppController {
             animationOffScreenLabel;
 
     @FXML
-    private MFXSlider sliderInitialVelocity;
-
-    @FXML
-    private MFXSlider sliderLaunchAngle;
-
-    @FXML
-    private MFXSlider sliderGravity;
+    private MFXSlider sliderInitialVelocity,
+            sliderLaunchAngle,
+            sliderGravity;
 
     @FXML
     private MFXButton buttonClear, buttonSettings;
 
     @FXML
-    private ImageView buttonPlay;
-
-    @FXML
-    private ImageView buttonPause;
-
-    @FXML
-    private ImageView buttonReset;
-
-    @FXML
-    private ImageView buttonHelp;
-
-    @FXML
-    private ImageView buttonGraph;
+    private ImageView buttonPlay,
+            buttonPause,
+            buttonReset,
+            buttonHelp,
+            buttonGraph,
+            buttonHome,
+            cannonBarrel;
 
     @FXML
     private Circle projectileBall;
-    
-    @FXML 
-    private ImageView cannonBarrel;
     
     @FXML
     private MFXToggleButton showTrailToggleButton;
@@ -158,7 +142,9 @@ public class MainAppController {
      */
     public void handleReset() {
         animation.resetBall(projectileBall);
-
+        // Sets out of bounds label to blank
+        animationOffScreenLabel.setText("");
+        
     }
     
     
