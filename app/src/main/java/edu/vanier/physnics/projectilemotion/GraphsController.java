@@ -5,6 +5,7 @@
 package edu.vanier.physnics.projectilemotion;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.text.DecimalFormat;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -21,13 +22,13 @@ public class GraphsController {
     
     // List of elements present in the scene
     @FXML
-    private LineChart<?, ?> velocityX;
+    private LineChart<?, ?> velocityXvsTime;
     
     @FXML
-    private LineChart<?, ?> velocityY;
+    private LineChart<?, ?> velocityYvsTime;
     
     @FXML 
-    private LineChart<?, ?> accelerationY;
+    private LineChart<?, ?> accelerationYvsTime;
     
     @FXML
     private MFXButton exitGraphsButton;
@@ -51,7 +52,7 @@ public class GraphsController {
         this.velocityMetersPerSecond = velocityMetersPerSecond;
         this.launchAngleDegrees = launchAngleDegrees;
         this.gravityMetersPerSecondSquared = gravityMetersPerSecondSquared;
-        this.flightTimeSeconds = Equations.getFlightTime(launchAngleDegrees, velocityMetersPerSecond,gravityMetersPerSecondSquared);
+        this.flightTimeSeconds = Equations.getFlightTimeSeconds(launchAngleDegrees, velocityMetersPerSecond,gravityMetersPerSecondSquared);
     }
 
     /**
@@ -76,7 +77,7 @@ public class GraphsController {
             stage.close();
         });
         
-        // Creates series of data points
+        // Creates series of data points for each chart
         XYChart.Series seriesVelocityXTime = new XYChart.Series();
         XYChart.Series seriesVelocityYTime = new XYChart.Series();
         XYChart.Series seriesAccelerationYTime = new XYChart.Series();
@@ -94,21 +95,24 @@ public class GraphsController {
         // Iterates through each data point and gets the value for that respective point
         for (int i = 0; i < NUMBER_OF_POINTS + 1; i++) {
             double currentTimeSeconds = i * timeBetweenPoints;
+            // Rounds data to 2 decimal places 
+            DecimalFormat round = new DecimalFormat("#.00");
+
             double velocityXMetersPerSecond = Equations.getXVelocityMetersPerSecond(launchAngleDegrees, velocityMetersPerSecond);
-            // Adds the data point to the series.
-            seriesVelocityXTime.getData().add(new XYChart.Data(String.valueOf(currentTimeSeconds), velocityXMetersPerSecond));
+            // Adds the rounded data point to the series.
+            seriesVelocityXTime.getData().add(new XYChart.Data(String.valueOf(round.format(currentTimeSeconds)), velocityXMetersPerSecond));
             double velocityYMetersPerSecond = Equations.getYVelocityMetersPerSecond(launchAngleDegrees, velocityMetersPerSecond, gravityMetersPerSecondSquared, currentTimeSeconds);
-            // Adds the data point to the series.
-            seriesVelocityYTime.getData().add(new XYChart.Data(String.valueOf(currentTimeSeconds), velocityYMetersPerSecond));
+            // Adds the rounded data point to the series.
+            seriesVelocityYTime.getData().add(new XYChart.Data(String.valueOf(round.format(currentTimeSeconds)), velocityYMetersPerSecond));
             double accelerationYMetersPerSecondSquared = gravityMetersPerSecondSquared;
-            // Adds the data point to the series.
-            seriesAccelerationYTime.getData().add(new XYChart.Data(String.valueOf(currentTimeSeconds), accelerationYMetersPerSecondSquared));
+            // Adds the rounded data point to the series.
+            seriesAccelerationYTime.getData().add(new XYChart.Data(String.valueOf(round.format(currentTimeSeconds)), accelerationYMetersPerSecondSquared));
            
         }
         // Adds data to the FXML line charts
-        velocityX.getData().add(seriesVelocityXTime);
-        velocityY.getData().add(seriesVelocityYTime);
-        accelerationY.getData().add(seriesAccelerationYTime);
+        velocityXvsTime.getData().add(seriesVelocityXTime);
+        velocityYvsTime.getData().add(seriesVelocityYTime);
+        accelerationYvsTime.getData().add(seriesAccelerationYTime);
     }
     
 

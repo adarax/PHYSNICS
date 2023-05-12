@@ -7,7 +7,7 @@ package edu.vanier.physnics.projectilemotion;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -30,7 +30,7 @@ public class Animation {
     private double flightTimeSeconds;
     // The quadratic curve representing the projectile motion
     private QuadCurveTo projectileMotion;
-    // Constant value that scales distance from meters to pixels for the animation
+    // Constant value used to scale distance from meters to pixels for the animation
     private final double SCALE_METERS_TO_PIXELS = 50;
     // Initial x position of the ball in the scene
     private final double INITIAL_BALL_POSITION_X_PIXELS = 135;
@@ -42,7 +42,7 @@ public class Animation {
      * Calls the Equations class to get the flight time, and X-displacement based
      * on the parameters provided. Also calls scaleHeightToPixels() which is used to 
      * find the height of the parabola based on the launch Angle. The parabola and
-     * initial position are passed into a Path object.
+     * initial position are passed into a Path object which is later returned.
      * 
      * @param launchAngleDegrees Launch angle of ball
      * @param gravityMetersPerSecondSquared The gravitational acceleration
@@ -53,14 +53,14 @@ public class Animation {
         // Holds different paths such as a quadratic curve or a movement. 
         Path path = new Path();
         // Calles Equations class to calculate values
-        xDisplacementMeters = Equations.getXdisplacement(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
-        flightTimeSeconds = Equations.getFlightTime(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
+        xDisplacementMeters = Equations.getXdisplacementMeters(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
+        flightTimeSeconds = Equations.getFlightTimeSeconds(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
         // Scales values from meters into pixels
         double xDisplacementPixels = xDisplacementMeters * SCALE_METERS_TO_PIXELS;
         // Position of the floor in pixels
         final double POSITION_FLOOR_PIXELS = 835;
         
-        // length of cannon used to mvoe ball from inital position to edge of cannon.
+        // length of cannon used to move ball from inital position to edge of cannon.
         final double CANNON_LENGTH = 68;
         // Using the cannon length and launch angle, calculates the position of the cannon Edge using trigonometry.
         double cannonEdgeXPixels = INITIAL_BALL_POSITION_X_PIXELS + ((Math.cos(Math.toRadians(launchAngleDegrees))) * CANNON_LENGTH);
@@ -71,7 +71,7 @@ public class Animation {
         initialPositionPixels.setX(cannonEdgeXPixels);
         initialPositionPixels.setY(cannonEdgeYPixels);
           
-        // Sets the maximum of the quadratic curve using the xDisplacment and the height obtained from getHeightPixels()
+        // Sets the maximum height of the quadratic curve using the xDisplacment and the height obtained from getHeightPixels()
         projectileMotion = new QuadCurveTo();
         projectileMotion.setControlX((cannonEdgeXPixels + xDisplacementPixels) / 2);
         projectileMotion.setControlY(cannonEdgeYPixels - (getHeightPixels(launchAngleDegrees, xDisplacementPixels)));
@@ -103,12 +103,13 @@ public class Animation {
         pathTransition.setDuration(Duration.seconds(flightTimeSeconds));
         pathTransition.setPath(animationPath);
         pathTransition.setNode(ball);
+        // Sets a custom interpolator
         pathTransition.setInterpolator(quadraticInterpolator);
         pathTransition.play();
     }
     
     /**
-     * Custom interpolator provided by easings.net.
+     * Custom interpolator provided by easings.net
      */
     Interpolator quadraticInterpolator = new Interpolator() {
         @Override
@@ -159,14 +160,17 @@ public class Animation {
      */
     public void drawTrail(Pane paneAnimation, double launchAngleDegrees, double gravityMetersPerSecondSquared, double initialVelocityMetersPerSecond) {
         Path trailPath = setPath(launchAngleDegrees, gravityMetersPerSecondSquared, initialVelocityMetersPerSecond);
-        // removes any existing trails
+        // removes any existing trails in Pane
         paneAnimation.getChildren().removeIf(trail -> trail instanceof Path);
         trailPath.setStroke(Color.BLACK);
+        // Width of dash in pixels
         final double DASH_WIDTH = 10;
+        // Gap between dashes in pixels
         final double GAP_WIDTH = 15;
         // Creates a dashed line
         trailPath.getStrokeDashArray().addAll(DASH_WIDTH, GAP_WIDTH);
         trailPath.setStrokeWidth(2);
+        // Adds trail to Pane 
         paneAnimation.getChildren().add(trailPath);
     }
     
@@ -175,32 +179,26 @@ public class Animation {
      * Method that takes the x-displacement and calculates the respective height
      * based on the launch angle. Uses trigonometry to calculate height. Height 
      * is essential to determine the maximum height of the parabola for the path. 
-     * @param launchAngleDeg launch angle to calculate height
+     * @param launchAngleDegrees launch angle to calculate height
      * @param xDisplacementPixels x-displacement to calculate height
      * @return controlY the max height of parabola
      */
-    public double getHeightPixels(double launchAngleDeg, double xDisplacementPixels) {
-        double controlY = Math.tan(Math.toRadians(launchAngleDeg)) * ((70 + xDisplacementPixels) / 2);
+    public double getHeightPixels(double launchAngleDegrees, double xDisplacementPixels) {
+        double controlY = Math.tan(Math.toRadians(launchAngleDegrees)) * ((70 + xDisplacementPixels) / 2);
         return controlY;
     }
     
     /**
-     * Prevents the ball from leaving the animation pane. Throws an alert to user
-     * telling them to change the values. 
-     * @param projectileBall resets the ball after alert is thrown. 
+     * Shows a label telling user that the ball is out of bounds. Animation can be
+     * reset or replayed by user.
+     *
+     * @param animationOffScreenLabel label passed in as parameter to set text
      */
-    public void handleBallOutOfBounds(Circle projectileBall) {
-        final double MAXIMUM_WIDTH = 1611;
-        final double MAXIMUM_HEIGHT = -700;
-        
-        if (projectileMotion.getX() > MAXIMUM_WIDTH || projectileMotion.getControlY() < MAXIMUM_HEIGHT) {
-            pathTransition.stop();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Invalid Values");
-            alert.setHeaderText("Animation exceeds boundaries.");
-            alert.setContentText("Close this alert and select new values.");
-            alert.showAndWait();
-            resetBall(projectileBall);
+    public void handleBallOutOfBounds(Label animationOffScreenLabel) {
+        // Maximum width of pane 
+        final double MAXIMUM_WIDTH = 1650;
+        if (projectileMotion.getX() > MAXIMUM_WIDTH) {
+            animationOffScreenLabel.setText("Ball is off Screen ->");
         }
     }
 }

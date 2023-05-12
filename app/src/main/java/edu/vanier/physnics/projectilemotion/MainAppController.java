@@ -61,7 +61,8 @@ public class MainAppController {
     @FXML
     private Label maxHeightLabel,
             flightTimeLabel,
-            distanceLabel;
+            distanceLabel,
+            animationOffScreenLabel;
 
     @FXML
     private MFXSlider sliderInitialVelocity;
@@ -111,7 +112,11 @@ public class MainAppController {
     private double launchAngleDegrees;
     // List of all sliders in scene. 
     private List<MFXSlider> sliderList;
-    
+
+    // Establishes Pane boundaries.
+    private final double MAX_PANE_WIDTH = 1662;
+    private final double MAX_PANE_HEIGHT = 867;
+
     /**
      * Plays the animation. Gets the values from sliders, and uses them as
      * parameters for the animation. Sets the text of on-screen data on play.
@@ -122,14 +127,19 @@ public class MainAppController {
         initialVelocityMetersPerSecond = sliderInitialVelocity.getValue();
         launchAngleDegrees = sliderLaunchAngle.getValue();
         animation.playAnimation(projectileBall, launchAngleDegrees, gravityMetersPerSecondSquared, initialVelocityMetersPerSecond);
+        // Removes text from out of bounds label at beginning of every play
+        animationOffScreenLabel.setText("");
         // handles exception if animation is out of bounds
-        animation.handleBallOutOfBounds(projectileBall);
+        animation.handleBallOutOfBounds(animationOffScreenLabel);
         // Rounds data to 2 decimal places 
         DecimalFormat round = new DecimalFormat("#.00");
         // Sets the data on-screen for the user to see
-        flightTimeLabel.setText("Flight Time (seconds): " + round.format(Equations.getFlightTime(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared)) + "s");
-        maxHeightLabel.setText("Max Height (meters): " + round.format(Equations.getMaxHeight(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared)) + "m");
-        distanceLabel.setText("Distance (meters): " + round.format(Equations.getXdisplacement(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared)) + "m");
+        // Sets flight time on screen
+        flightTimeLabel.setText("Flight Time (seconds): " + round.format(Equations.getFlightTimeSeconds(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared)) + "s");
+        // Sets max height on screen
+        maxHeightLabel.setText("Max Height (meters): " + round.format(Equations.getMaxHeightMeters(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared)) + "m");
+        // Sets distance on screen
+        distanceLabel.setText("Distance (meters): " + round.format(Equations.getXdisplacementMeters(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared)) + "m");
         
     }
 
@@ -227,7 +237,7 @@ public class MainAppController {
 
 
     /**
-     * Resets slider values to minimum
+     * Resets all slider values to minimum
      * @param sliderList list of all sliders
      */
     public void handleClear(List<MFXSlider> sliderList) {
@@ -262,6 +272,13 @@ public class MainAppController {
         // Initial angle for cannon
         cannonBarrel.rotateProperty().set(-20);
         
+        // Initializes offScreenLabel as blank
+        animationOffScreenLabel.setText("");
+        
+        // Sets boundaries for paneAnimation so that animation does not spill over to other sections.
+        Rectangle clipRectangle = new Rectangle(MAX_PANE_WIDTH, MAX_PANE_HEIGHT);
+        paneAnimation.setClip(clipRectangle);
+
         // Sets initial background for animation
         Image defaultImage = new Image(getClass().getResourceAsStream("/images/settings/cartoon_field.png"));
         BackgroundImage backgroundImage = new BackgroundImage(defaultImage,
@@ -318,7 +335,7 @@ public class MainAppController {
         // Action event for play
         buttonPlay.setOnMouseClicked(leftClick -> {
             handlePlay();
-            enableSliders(sliderList);
+            disableSliders(sliderList);
         });
 
         // Action event for reset
@@ -411,15 +428,14 @@ public class MainAppController {
      * adapts dynamically.
      */
     private void updateTrail() {
+        // Draws trail only if toggle button is selected
         if (showTrailToggleButton.isSelected()) {
             gravityMetersPerSecondSquared = sliderGravity.getValue();
             initialVelocityMetersPerSecond = sliderInitialVelocity.getValue();
             launchAngleDegrees = sliderLaunchAngle.getValue();
             // Ensures that Path never leaves the animation Pane
-            final double MAX_PANE_WIDTH = 1662;
-            final double MAX_PANE_HEIGHT = 867;
-            Rectangle clipRectangle = new Rectangle(MAX_PANE_WIDTH, MAX_PANE_HEIGHT);
-            paneAnimation.setClip(clipRectangle);
+
+
             // Draws the trail based on slider values
             animation.drawTrail(paneAnimation, launchAngleDegrees, gravityMetersPerSecondSquared, initialVelocityMetersPerSecond);
         // Removes all Paths when toggle is not selected. 
@@ -492,7 +508,7 @@ public class MainAppController {
         }
         
         try {
-            // Loads stage based no scene
+            // Loads stage based on scene
             Parent root = loader.load();
             Scene scene = new Scene(root, 1920, 1080);
             currentStage.setScene(scene);

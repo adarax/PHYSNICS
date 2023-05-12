@@ -9,8 +9,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author vires
+ * Unit testing for animation class
+ * 
+ * @author vireshpatel43
  */
 public class AnimationTest {
     /**
@@ -19,11 +20,11 @@ public class AnimationTest {
     @Test
     public void testScaleHeightToPixels() {
         System.out.println("scaleHeightToPixels");
-        double launchAngleDeg = 30;
+        double launchAngleDegrees = 30;
         double xDisplacementPixels = 100;
         Animation instance = new Animation();
         double expResult = 49.07;
-        double result = instance.getHeightPixels(launchAngleDeg, xDisplacementPixels);
+        double result = instance.getHeightPixels(launchAngleDegrees, xDisplacementPixels);
         // Compares calculated result with result from the method.
 
         assertEquals(expResult, result, 0.1);

@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  * @author vireshpatel43
  */
 public class SettingsController {
-    // Instantiates the FXML UI Controls present. 
+    // Instantiates the FXML UI Controls present in the scene. 
     @FXML
     private ImageView buttonField, buttonWinter, buttonDesert;
     
@@ -44,7 +44,7 @@ public class SettingsController {
     // Ball used in the animation
     public Circle projectileBall;
     
-    // Sets the FXML for all background options
+    // Sets the image object for all background options
     private final Image FIELD_BACKGROUND = new Image(getClass().getResourceAsStream("/images/settings/cartoon_field.png"));
     private final Image WINTER_BACKGROUND = new Image(getClass().getResourceAsStream("/images/settings/cartoon_winter.png"));
     private final Image DESERT_BACKGROUND = new Image(getClass().getResourceAsStream("/images/settings/desert.png"));
@@ -110,7 +110,7 @@ public class SettingsController {
      * Method that takes an image as a parameter and converts it into a usable 
      * background for the paneAnimation(parent layout container). 
      * 
-     * @param image image object that gets passed as a background 
+     * @param image image object that gets set as background.
      */
     public void setBackground(Image image) {
         BackgroundImage backgroundImage = new BackgroundImage(image,

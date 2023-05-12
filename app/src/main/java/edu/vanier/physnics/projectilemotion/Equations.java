@@ -14,81 +14,89 @@ package edu.vanier.physnics.projectilemotion;
 public class Equations {
     /**
      * Method representing the formula for max height of projectile motion.
-     * H(m) = (initialVelocityMPS^2(sin(launchAngleDeg))^2) / (2 * gravityAccelMPSS)
+     * {@code maxHeightMeters = (initialVelocityMetersPerSecond^2(sin(launchAngleDegrees))^2) / (2 * gravityMetersPerSecondSquared)}
      *
-     * @param gravityMetersPerSecondSquared - Gravitational Acceleration entered by user
-     * @param launchAngleDegrees - Launch Angle entered by user
-     * @param initialVelocityMetersPerSecond - Initial Velocity entered by user
-     * @return maxHeightM (The maximum height reached by projectile motion (m))
+     * @param gravityMetersPerSecondSquared Gravitational Acceleration entered by user
+     * @param launchAngleDegrees Launch Angle entered by user
+     * @param initialVelocityMetersPerSecond  Initial Velocity entered by user
+     * @return The maximum height reached by projectile motion
      */
-    public static double getMaxHeight(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared) {
-       double sinSquaredThetaDeg = Math.pow(Math.sin(Math.toRadians(launchAngleDegrees)), 2);
-       double velocitySquaredMPS = Math.pow(initialVelocityMetersPerSecond, 2);
-       double maxHeightM = (velocitySquaredMPS * sinSquaredThetaDeg) / (2 * gravityMetersPerSecondSquared);   
+    public static double getMaxHeightMeters(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared) {
+       double sinSquaredTheta = Math.pow(Math.sin(Math.toRadians(launchAngleDegrees)), 2);
+       double velocitySquaredMetersPerSecond = Math.pow(initialVelocityMetersPerSecond, 2);
+       double maxHeightMeters = (velocitySquaredMetersPerSecond * sinSquaredTheta) / (2 * gravityMetersPerSecondSquared);   
        
-       return maxHeightM;
+       return maxHeightMeters;
     }
     
     /**
-     * Method that gets the x-component of velocity.
+     * Method that gets the x-component of velocity. Cos of launch angle multiplied
+     * by initial velocity gives the x-component directly. There is no acceleration.
      * 
-     * @param launchAngleDeg Launch angle entered by user
+     * {@code velocityXMetersPerSecond = cos(launchAngleDegrees) * initialVelocityMetersPerSecond}
+     * 
+     * @param launchAngleDegrees Launch angle entered by user
      * @param initialVelocityMetersPerSecond Initial velocity entered by user
      * @return x-component of velocity
      */
-    public static double getXVelocityMetersPerSecond(double launchAngleDeg, double initialVelocityMetersPerSecond) {
-        double velocityXMetersPerSecond = Math.cos(Math.toRadians(launchAngleDeg)) * initialVelocityMetersPerSecond;
+    public static double getXVelocityMetersPerSecond(double launchAngleDegrees, double initialVelocityMetersPerSecond) {
+        double velocityXMetersPerSecond = Math.cos(Math.toRadians(launchAngleDegrees)) * initialVelocityMetersPerSecond;
         return velocityXMetersPerSecond;
     }
     
     /**
      * Method that gets the y-component of velocity as a function of time. Uses 
-     * time to incorporate acceleration.
+     * time to incorporate acceleration. Sin of launch angle multiplied by initial
+     * velocity gets the y-component. Since there is acceleration, this number needs
+     * to be subtracted every second.
      * 
-     * @param launchAngleDeg Launch angle entered by user
+     * {@code veloctiyYMetersPerSecond = (sin(launchAngleDegrees) * initialVelocityMetersPerSecond) - gravityMetersPerSecondSquared * currentTimeSeconds}
+     * 
+     * @param launchAngleDegrees Launch angle entered by user
      * @param initialVelocityMetersPerSecond InitialVelocity entered by user
      * @param gravityMetersPerSecondSquared Gravitational acceleration entered by user
      * @param currentTimeSeconds current time entered as a parameter
      * @return y-component of velocity
      */
-    public static double getYVelocityMetersPerSecond(double launchAngleDeg, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared, double currentTimeSeconds) {
-        double velocityYMetersPerSecond = (Math.sin(Math.toRadians(launchAngleDeg)) * initialVelocityMetersPerSecond) - (currentTimeSeconds * gravityMetersPerSecondSquared);
+    public static double getYVelocityMetersPerSecond(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared, double currentTimeSeconds) {
+        double velocityYMetersPerSecond = (Math.sin(Math.toRadians(launchAngleDegrees)) * initialVelocityMetersPerSecond) - (currentTimeSeconds * gravityMetersPerSecondSquared);
         return velocityYMetersPerSecond;
     }
 
     /**
      * Method representing the formula for the max displacement in the x direction of the 
      * projectile motion.
-     * D(m) = (initialVelocityMPS^2 * sin(2 * launchAngleDeg)) / gravityAccelMPSS
      * 
-     * @param gravityAccelMetersPerSecondSquared - Gravitational Acceleration entered by user
-     * @param launchAngleDegrees - Launch Angle entered by user
-     * @param initialVelocityMetersPerSecond - Initial Velocity entered by user
-     * @return xDisplacementM (Max displacement in the X direction (m))
+     * {@code Distance = (initialVelocityMPS^2 * sin(2 * launchAngleDeg)) / gravityAccelMPSS}
+     * 
+     * @param gravityMetersPerSecondSquared Gravitational Acceleration entered by user
+     * @param launchAngleDegrees Launch Angle entered by user
+     * @param initialVelocityMetersPerSecond Initial Velocity entered by user
+     * @return Max displacement in the X direction (meters)
      */
-    public static double getXdisplacement(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityAccelMetersPerSecondSquared) {
-        double velocitySquaredMPS = Math.pow(initialVelocityMetersPerSecond, 2);
-        double sin2LaunchAngleDeg = Math.sin(2 * Math.toRadians(launchAngleDegrees));
-        double xDisplacementM = (velocitySquaredMPS * sin2LaunchAngleDeg) / gravityAccelMetersPerSecondSquared;
+    public static double getXdisplacementMeters(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared) {
+        double velocitySquaredMetersPerSecond = Math.pow(initialVelocityMetersPerSecond, 2);
+        double sin2TimesLaunchAngleDegrees = Math.sin(2 * Math.toRadians(launchAngleDegrees));
+        double xDisplacementMeters = (velocitySquaredMetersPerSecond * sin2TimesLaunchAngleDegrees) / gravityMetersPerSecondSquared;
         
-        return xDisplacementM;
+        return xDisplacementMeters;
     }
     
     /**
      * Method representing the formula for the total time the projectile is in air. 
-     * t(s) = (2 * initialVelocityMPS * sin(launchAngleDeg)) / gravityAccelMPSS
+     * {@code flightTimeSeconds = (2 * initialVelocityMetersPerSecond * sin(launchAngleDegrees)) / gravityMetersPerSecondSquared}
      * 
-     * @param gravityMetersPerSecondSquared - Gravitational Acceleration entered by user
-     * @param launchAngleDegrees - Launch Angle entered by user
-     * @param initialVelocityMetersPerSecond - Initial Velocity entered by user
-     * @return flightTimeS (Time that projectile in in the air (s))
+     * @param gravityMetersPerSecondSquared Gravitational Acceleration entered by user
+     * @param launchAngleDegrees Launch Angle entered by user
+     * @param initialVelocityMetersPerSecond Initial Velocity entered by user
+     * @return Time that projectile in in the air (seconds)
      */
-    public static double getFlightTime(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared) {
+    public static double getFlightTimeSeconds(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared) {
         
-        double sinLaunchAngleDeg = Math.sin(Math.toRadians(launchAngleDegrees));
-        double flightTimeS = (2 * initialVelocityMetersPerSecond * sinLaunchAngleDeg) / gravityMetersPerSecondSquared;
+        double sinLaunchAngleDegrees = Math.sin(Math.toRadians(launchAngleDegrees));
+        double flightTimeSeconds = (2 * initialVelocityMetersPerSecond * sinLaunchAngleDegrees) / gravityMetersPerSecondSquared;
         
-        return flightTimeS;
+        return flightTimeSeconds;
     }
     
     

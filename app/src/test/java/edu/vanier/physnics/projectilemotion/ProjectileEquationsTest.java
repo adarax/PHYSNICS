@@ -8,54 +8,84 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author vires
+ * Unit testing for Equations class
+ * 
+ * @author vireshpatel43
  */
 public class ProjectileEquationsTest {
     
     /**
-     * Test of getMaxHeight method, of class ProjectileEquations.
+     * Test of getMaxHeightMeters method, of class ProjectileEquations.
      */
     @Test
-    public void testGetMaxHeight() {
+    public void testGetMaxHeightMeters() {
         System.out.println("getMaxHeight");
-        double launchAngleDeg = 30;
-        double initialVelocityMPS = 20;
-        double gravityAccelMPSS = 15;
+        double launchAngleDegrees = 30;
+        double initialVelocityMetersPerSecond = 20;
+        double gravityMetersPerSecondSquared = 15;
         double expResult = 3.33;
-        double result = Equations.getMaxHeight(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        double result = Equations.getMaxHeightMeters(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
         // Compares calculated result with result from the method.
         assertEquals(expResult, result, 0.1);
     }
 
     /**
-     * Test of getXdisplacement method, of class ProjectileEquations.
+     * Test of getXdisplacementMeters method, of class ProjectileEquations.
      */
     @Test
-    public void testGetXdisplacement() {
+    public void testGetXdisplacementMeters() {
         System.out.println("getXdisplacement");
-        double launchAngleDeg = 30;
-        double initialVelocityMPS = 20;
-        double gravityAccelMPSS = 15;
+        double launchAngleDegrees = 30;
+        double initialVelocityMetersPerSecond = 20;
+        double gravityMetersPerSecondSquared = 15;
         double expResult = 23.09;
-        double result = Equations.getXdisplacement(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        double result = Equations.getXdisplacementMeters(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
         // Compares calculated result with result from the method.
         assertEquals(expResult, result, 0.1);
     }
 
     /**
-     * Test of getFlightTime method, of class ProjectileEquations.
+     * Test of getFlightTimeSeconds method, of class ProjectileEquations.
      */
     @Test
-    public void testGetFlightTime() {
+    public void testGetFlightTimeSeconds() {
         System.out.println("getFlightTime");
-        double launchAngleDeg = 30;
-        double initialVelocityMPS = 20;
-        double gravityAccelMPSS = 15;
+        double launchAngleDegrees = 30;
+        double initialVelocityMetersPerSecond = 20;
+        double gravityMetersPerSecondSquared = 15;
         double expResult = 1.33;
-        double result = Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        double result = Equations.getFlightTimeSeconds(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared);
         // Compares calculated result with result from the method.
         assertEquals(expResult, result, 0.1);
     }
     
+    /**
+     * Test of getXVelocityMetersPerSecond method, of class ProjectileEquations.
+     */
+    @Test
+    public void testGetXVelocityMetersPerSecond() {
+        System.out.println("getXVelocityMetersPerSecond");
+        double launchAngleDegrees = 30;
+        double initialVelocityMetersPerSecond = 20;
+        double expResult = 17.32;
+        double result = Equations.getXVelocityMetersPerSecond(launchAngleDegrees, initialVelocityMetersPerSecond);
+        // Compares the calculated result with the result from the method
+        assertEquals(expResult, result, 0.1);
+    }
+    
+        /**
+     * Test of getYVelocityMetersPerSecond method, of class ProjectileEquations.
+     */
+    @Test
+    public void testGetYVelocityMetersPerSecond() {
+        System.out.println("getYVelocityMetersPerSecond");
+        double launchAngleDegrees = 30;
+        double initialVelocityMetersPerSecond = 20;
+        double gravityMetersPerSecondSquared = 15;
+        double currentTimeSeconds = 0.5;
+        double expResult = 2.5;
+        double result = Equations.getYVelocityMetersPerSecond(launchAngleDegrees, initialVelocityMetersPerSecond, gravityMetersPerSecondSquared, currentTimeSeconds);
+        // Compares the calculated result with the result from the method
+        assertEquals(expResult, result, 0.1);
+    }
 }
