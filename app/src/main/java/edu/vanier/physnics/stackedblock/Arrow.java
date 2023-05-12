@@ -23,6 +23,12 @@ public class Arrow extends StackPane {
     private ImageView arrowBody;
     private Label nameTag;
 
+    /**
+     * Constructor for the Arrow class.
+     * 
+     * @param forceVector the force vector to be represented by the Arrow
+     * @param correspondingBlock the Block the Arrow is attached to
+     */
     public Arrow(Vector forceVector, Block correspondingBlock)
     {
         this.correspondingBlock = correspondingBlock;
@@ -46,7 +52,18 @@ public class Arrow extends StackPane {
         this.getChildren().addAll(arrowBody, nameTag);
     }
 
-    
+    /**
+     * Sizes and positions the Arrow to match the size and position of its
+     * corresponding Block. This method is called whenever the corresponding Block is resized or
+     * repositioned.
+     * 
+     * The size of the Arrow is proportional to the size of the Block it is
+     * attached to. The position of the Arrow is determined by the position of
+     * the Block it is attached to.
+     * 
+     * The Arrow is positioned on the left or right side of the Block depending
+     * on the quadrant of the vector it represents.
+     */
     protected final void sizeAndPositionToBlock()
     {
         double blockWidth = correspondingBlock.getDrawingWidth();
@@ -159,7 +176,7 @@ public class Arrow extends StackPane {
     /**
      * Determines the color of the Arrow based on its FORCE_TYPE.
      *
-     * @return the color of the arrow.
+     * @return the color of the arrow as a String
      */
     private String determineColor()
     {
@@ -204,16 +221,34 @@ public class Arrow extends StackPane {
         }
     }
 
+    /**
+     * Returns the Vector object that this Arrow represents.
+     * 
+     * @return the Vector object represented by this Arrow
+     */
     public Vector getForceVector()
     {
         return forceVector;
     }
 
+    /**
+     * Returns the manipulable ImageView object that represents the Arrow's
+     * body. This is the object that is rotated to match the direction of the
+     * forceVector.
+     * 
+     * @return the ImageView object that represents the Arrow's body
+     */
     public ImageView getArrowBody()
     {
         return arrowBody;
     }
 
+    /**
+     * Returns the Block object that this Arrow is attached to. This is the
+     * Block that the Arrow's forceVector is acting on.
+     * 
+     * @return the Block object that this Arrow is attached to
+     */
     public Block getCorrespondingBlock()
     {
         return correspondingBlock;

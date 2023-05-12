@@ -14,16 +14,19 @@ import javafx.scene.shape.Rectangle;
  */
 public class Block extends StackPane {
 
-    private double mass;
+    private double mass, drawingHeight, drawingWidth;
     private POSITION blockId;
-    private double drawingHeight;
-    private double drawingWidth;
     private ArrayList<Vector> forcesExperienced;
     private Color blockColor;
     private Rectangle blockDrawing;
     private String name;
     private Label nameTag;
 
+    /**
+     * Constructor for the Block class.
+     *
+     * @param blockId The enum of the Block's position in the simulation
+     */
     public Block(POSITION blockId)
     {
         this.mass = 1.0;
@@ -36,82 +39,170 @@ public class Block extends StackPane {
         this.name = determineName();
     }
 
+    /**
+     * Returns the mass of the Block.
+     * 
+     * @return the mass of the Block in kg
+     */
     public double getMass()
     {
         return mass;
     }
 
+    /**
+     * Sets the mass of the Block.
+     * 
+     * @param mass the mass of the Block in kg
+     */
     public void setMass(double mass)
     {
         this.mass = mass;
     }
 
+    /**
+     * Returns the enum of the Block's position in the simulation,
+     * which is either TOP or BOTTOM.
+     * 
+     * @return enum of the Block's position in the simulation
+     */
     public POSITION getBlockId()
     {
         return blockId;
     }
 
+    /**
+     * Sets the enum of the Block's position in the simulation,
+     * which is either TOP or BOTTOM.
+     * 
+     * @param blockId enum of the Block's position in the simulation
+     */
     public void setBlockId(POSITION blockId)
     {
         this.blockId = blockId;
     }
 
+    /**
+     * Returns a list of all the forces experienced by the Block. The list
+     * is made up of Vector objects.
+     * 
+     * @return an ArrayList of Vector objects acting on the Block
+     */
     public ArrayList<Vector> getForcesExperienced()
     {
         return forcesExperienced;
     }
 
+    /**
+     * Sets the list of all the forces experienced by the Block. The list
+     * is made up of Vector objects.
+     * 
+     * @param forcesExperienced an ArrayList of Vector objects acting on the Block
+     */
     public void setForcesExperienced(ArrayList<Vector> forcesExperienced)
     {
         this.forcesExperienced = forcesExperienced;
     }
 
+    /**
+     * Returns the color of the Block as a Color object.
+     * 
+     * @return the color of the Block
+     */
     public Color getBlockColor()
     {
         return blockColor;
     }
 
+    /**
+     * Sets the color of the Block as a Color object.
+     * 
+     * @param blockColor the color of the Block
+     */
     public void setBlockColor(Color blockColor)
     {
         this.blockColor = blockColor;
     }
 
+    /**
+     * Returns the Rectangle object that represents the Block in the simulation.
+     * 
+     * @return the Rectangle object of the Block
+     */
     public Rectangle getBlockDrawing()
     {
         return blockDrawing;
     }
 
+    /**
+     * Sets the Rectangle object that represents the Block in the simulation.
+     * 
+     * @param blockDrawing the Rectangle object of the Block
+     */
     public void setBlockDrawing(Rectangle blockDrawing)
     {
         this.blockDrawing = blockDrawing;
     }
 
+    /**
+     * Returns the Label object that represents the Block's name tag in the
+     * simulation.
+     * 
+     * @return the Label object of the Block's name tag
+     */
     public Label getNameTag()
     {
         return nameTag;
     }
 
+    /**
+     * Sets the Label object that represents the Block's name tag in the
+     * simulation. The name tag's text is set to the Block's name.
+     * 
+     * @param nameTag the Label object of the Block's name tag
+     */
     public void setNameTag(Label nameTag)
     {
         this.nameTag = nameTag;
     }
 
+    /**
+     * Returns the name of the Block, which is either M1 or M2.
+     * 
+     * @return the name of the Block
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets the name of the Block, which is either M1 or M2.
+     * 
+     * @param name the name of the Block as a String
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * Assembles the Block's drawing and name tag into a StackPane for ease
+     * of manipulation.
+     */
     public void assemble()
     {
         this.getChildren().clear();
         this.getChildren().addAll(blockDrawing, nameTag);
     }
 
+    /**
+     * Determines the width of the Block's drawing in the simulation based on
+     * its height. For aesthetic purposes, the width is 1.5 times the height.
+     * 
+     * Then, it sets the width of the Rectangle object using setDrawingWidth().
+     * 
+     * @see setDrawingWidth()
+     */
     public final void determineAndSetDrawingWidth()
     {
         this.setDrawingWidth(drawingHeight * 1.5);
@@ -132,26 +223,56 @@ public class Block extends StackPane {
         this.setDrawingHeight(heightValue);
     }
 
+    /**
+     * Returns the width of the Rectangle object that represents the Block in
+     * the simulation.
+     * 
+     * @return the width of the Block's drawing in pixels
+     */
     public double getDrawingWidth()
     {
         return drawingWidth;
     }
 
+    /**
+     * Sets the width of the Rectangle object that represents the Block in the
+     * simulation.
+     * 
+     * @param drawingWidth the width of the Block's drawing in pixels
+     */
     public void setDrawingWidth(double drawingWidth)
     {
         this.drawingWidth = drawingWidth;
     }
 
+    /**
+     * Returns the height of the Rectangle object that represents the Block in
+     * the simulation.
+     * 
+     * @return the height of the Block's drawing in pixels
+     */
     public double getDrawingHeight()
     {
         return drawingHeight;
     }
 
+    /**
+     * Sets the height of the Rectangle object that represents the Block in the
+     * simulation.
+     * 
+     * @param drawingHeight the height of the Block's drawing in pixels
+     */
     public void setDrawingHeight(double drawingHeight)
     {
         this.drawingHeight = drawingHeight;
     }
 
+    /**
+     * Determines the name of the Block based on its position in the simulation.
+     * Name is either M1 or M2.
+     * 
+     * @return the name of the Block as a String
+     */
     public final String determineName()
     {
         String label = "";
@@ -169,6 +290,11 @@ public class Block extends StackPane {
         return label;
     }
 
+    /**
+     * Determines the color of the Block based on its position in the simulation.
+     * 
+     * @return the color of the Block as a Color object
+     */
     public final Color determineColor()
     {
         Color correspondingColor = null;
@@ -200,7 +326,8 @@ public class Block extends StackPane {
     }
 
     /**
-     * Using Arrow objects, assemble the vectors affecting the block.
+     * Using Arrow objects, assemble the vectors affecting the block 
+     * and draw them in the simulation.
      *
      * @param animationPane the Pane that holds the simulation
      */

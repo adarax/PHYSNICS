@@ -10,12 +10,16 @@ public class AccelerateInterpolator extends Interpolator {
     
     private final double factor;
     
+    /**
+     * Constructor for the AccelerateInterpolator class.
+     * 
+     * @param factor the acceleration in m/s^2
+     */
     public AccelerateInterpolator(double factor)
     {
         this.factor = factor;
     }
     
-    @Override
     /**
      * Calculates what the x position of the animated object should be as time
      * progresses using the kinematic motion equation x = 1/2 * a * t^2.
@@ -26,6 +30,7 @@ public class AccelerateInterpolator extends Interpolator {
      * 
      * @param time the time elapsed
      */
+    @Override
     protected double curve(double time)
     {
         return 0.5 * Math.abs(factor) * Math.pow(time, 2);
