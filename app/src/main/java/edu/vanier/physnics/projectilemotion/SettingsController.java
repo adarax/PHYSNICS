@@ -34,7 +34,7 @@ public class SettingsController {
     private MFXButton buttonExitSettings;
     
     @FXML
-    public ColorPicker ballColourPicker;
+    private ColorPicker ballColourPicker;
     
     private Stage stage;
     
