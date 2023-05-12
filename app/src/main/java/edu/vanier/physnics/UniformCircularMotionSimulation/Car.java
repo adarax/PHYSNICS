@@ -7,7 +7,7 @@ package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 /**
  * The car that is going to be revolving in the simulation.
- * @author Admin
+ * @author Victor-Pen
  */
 public class Car {
     
@@ -39,48 +39,94 @@ public class Car {
     public Car(){
     }
     
+    /**
+     * Constructor for the car class, given specific parameters. 
+     * @param speed The initial speed of the car
+     * @param radius the initial radius of the car
+     * @param mass the initial mass of the car
+     */
     public Car(double speed, double radius, double mass) {
         this.speed = speed;
         this.radius = radius;
         this.mass = mass;
     }
     
+    /**
+     * Getter for the car's speed
+     * @return the speed of the car
+     */
     public double getSpeed() {
         return this.speed;
     }
 
+    /**
+     * Sets the car's speed
+     * @param speed speed of the car to set
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
     }
 
+    /**
+     * Getter for the car's radius
+     * @return the radius of the car
+     */
     public double getRadius() {
         return this.radius;
     }
 
+    /**
+     * Sets the car's radius
+     * @param radius radius of the car to set
+     */
     public void setRadius(double radius) {
         this.radius = radius;
     }
 
+    /**
+     * Getter for the car's mass
+     * @return the mass of the car
+     */
     public double getMass() {
         return this.mass;
     }
 
+    /**
+     * Sets the car's mass
+     * @param mass the mass of the car to set
+     */
     public void setMass(double mass) {
         this.mass = mass;
     }
 
+    /**
+     * Getter for the car's centripetal acceleration
+     * @return the centripetal acceleration of the car
+     */
     public double getAccelerationCentripetal() {
         return accelerationCentripetal;
     }
 
+    /**
+     * Sets the car's centripetal acceleration
+     * @param accelerationCentripetal the centripetal acceleration of the car to set
+     */
     public void setAccelerationCentripetal(double accelerationCentripetal) {
         this.accelerationCentripetal = accelerationCentripetal;
     }
 
+    /**
+     * Getter for the car's force
+     * @return the force of the car
+     */
     public double getForce() {
         return force;
     }
 
+    /**
+     * Sets the car's force
+     * @param force the force of the car to set
+     */
     public void setForce(double force) {
         this.force = force;
     }

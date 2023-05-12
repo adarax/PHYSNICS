@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  * This class is used to display the help page when the user clicks on the help button.
- * @author Admin
+ * @author Victor-Pen
  */
 public class UniformCircularMotionHelpController extends Stage{
     /**

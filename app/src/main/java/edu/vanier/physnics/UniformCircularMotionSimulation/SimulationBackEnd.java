@@ -5,7 +5,6 @@
  */
 package edu.vanier.physnics.UniformCircularMotionSimulation;
 
-import edu.vanier.physnics.conservation.ConservationController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
@@ -31,8 +30,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- *
- * @author Admin
+ * Class that houses methods related to the controller, but that aren't necessary to be in that class for them to work.
+ * @author Victor-Pen
  */
 public class SimulationBackEnd {
 
@@ -61,6 +60,7 @@ public class SimulationBackEnd {
         arcTo.setRadiusX(radiusX);
         arcTo.setRadiusY(radiusY);
         
+        //making the pth
         Path path = new Path();
         path.getElements().addAll(
                 new MoveTo(centerX - radiusX, centerY - radiusY),
@@ -99,6 +99,7 @@ public class SimulationBackEnd {
     public void setSliderRange(MFXSlider slider, double min, double max){
         slider.setMin(min);
         slider.setMax(max);
+        //make the slider show ticks and display the min/max values
         slider.setShowMajorTicks(true);
         slider.setShowTicksAtEdges(true);
     }
@@ -114,6 +115,7 @@ public class SimulationBackEnd {
         try {
             valueInTextField = Double.valueOf(textfield.getText());
         } catch (Exception e) {
+            //in case the textfield detects a non-number, it will push an error and return 0.
             System.out.println("Error");
         }
         return valueInTextField;
@@ -121,8 +123,10 @@ public class SimulationBackEnd {
  
     public void showErrorAlertAndReset(TextField textField, MFXSlider slider, double valueToSet, String string){
         System.out.println("Error");
+        //setting the slider and textfield back to default value
         textField.setText(String.valueOf(valueToSet));
         slider.setValue(valueToSet);
+        //showing the alert
         popAlert(string);
     }
     
@@ -139,6 +143,7 @@ public class SimulationBackEnd {
     /**
      * A method used to switch the present simulation to another simulation
      * @param simulationName the name of the simulation that is being switched to
+     * @param borderPane
      */
     public void switchSimulation(String simulationName, BorderPane borderPane){
         
@@ -154,34 +159,35 @@ public class SimulationBackEnd {
             else{
                 switch (simulationName)
                 {
+                    //switch to the stacked block simulation
                     case "stackedblock" ->
                     {
                         BlockFrontEndController blockcontroller = new BlockFrontEndController();
                         loader.setController(blockcontroller);
                     }
+                    //switch to the projectile simulation
                     case "projectile" ->
                     {
                         MainAppController projectileController = new MainAppController();
                         loader.setController(projectileController);
                     }
-                    case "ucm-scene-graph" ->
+                    //switch to the stacked block simulation
+                    case "uniform-circular-motion" ->
                     {
                         UniformCircularMotionController ucmController = new UniformCircularMotionController();
                         loader.setController(ucmController);
                     }
-                    case "conservation" ->
-                    {
-                        ConservationController controller = new ConservationController();
-                        loader.setController(controller);
-                    }
+                    //switch ot the main menu
                     case "mainmenu" ->
                     {
                         MainMenuController menuController = new MainMenuController(currentStage);
                         loader.setController(menuController);
                     }
+                    //in case of an error
                     default ->
                         System.out.println("Invalid simulation name");
                 }
+                //loads the scene graph that is being switched into
                 try
                 {
                     Parent root = loader.load();

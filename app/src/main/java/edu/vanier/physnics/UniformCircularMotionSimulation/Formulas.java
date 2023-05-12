@@ -7,7 +7,7 @@ package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 /**
  * A class used to store formulas and any mathematical equations
- * @author Admin
+ * @author Victor-Pen
  */
 class Formulas {
     /**
@@ -18,9 +18,9 @@ class Formulas {
      * @return the magnitude of centripetal acceleration, in m/s^2
      */
     public static double calculateAccelerationCentripetal(Car car){
-        double accel = car.getSpeed()*car.getSpeed()/car.getRadius();
-        car.setAccelerationCentripetal(accel);
-        return accel;
+        double acceleration = car.getSpeed()*car.getSpeed()/car.getRadius();
+        car.setAccelerationCentripetal(acceleration);
+        return acceleration;
     }    
 
     /**
@@ -31,7 +31,9 @@ class Formulas {
      * @return the magnitude of centripetal force, in N
      */
     public static double calculateForce(Car car){
-        return car.getAccelerationCentripetal()*car.getMass();
+        double force = car.getAccelerationCentripetal()*car.getMass();
+        car.setForce(force);
+        return force;
     }    
     
     /**
@@ -46,13 +48,23 @@ class Formulas {
     
     /**
      * Returns the angle in its correct quadrant, given its x and y coordinate.
+     * Given an angle theta between 0 and 90,
+     * if it is in the 1st quadrant, then the angle equals theta
+     * if it is in the 2nd quadrant, then the angle has to be 180-theta
+     * if it is in the 3rd quadrant, then the angle has to be theta+180
+     * if it is in the 4th quadrant, then the angle has to be 360-theta
      * @param angle
      * @param coordinateX
      * @param coordinateY
      * @return 
      */
-    public static double determineQuadrant(double angle, double coordinateX, double coordinateY){
+    public static double determineQuadrantDegrees(double angle, double coordinateX, double coordinateY){
+            /*checks the y coordinate. due to how javaFX works, a positive y coordinate 
+            indicates that it is in the 3rd or 4th quadrant, whilst a negative indicates
+            it is in the 1st or 2nd quadrant.*/
             if (coordinateY > 0) {
+                /*if the angle is positive, then due to the coordinate system of JavaFX,
+                it is in the 2nd or 3rd quadrant. Else, it is in the 1st or 4th quadrant.*/
                 if (angle > 0) {
                     //4th quadrant
                     angle = 360-Math.abs(angle);
@@ -77,6 +89,7 @@ class Formulas {
     
     /**
      * Returns the x component of a vector that is in polar coordinates.
+     * Represented by magnitude*cos(angle), where angle is in radians
      * @param magnitude the magnitude of the vector's length
      * @param angle the angle that the vector makes, in degrees, with respect to a positive x-axis.
      * @return 
@@ -87,6 +100,7 @@ class Formulas {
     
     /**
      * Returns the y component of a vector that is in polar coordinates.
+     * Represented by magnitude*sin(angle), where angle is in radians
      * @param magnitude the magnitude of the vector's length
      * @param angle the angle that the vector makes, in degrees, with respect to a positive x-axis.
      * @return 

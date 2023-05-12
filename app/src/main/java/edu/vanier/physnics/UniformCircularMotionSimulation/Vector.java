@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 
 /**
  * A class used to represent and display the acceleration and force vectors.
- * @author Admin
+ * @author Victor-Pen
  */
 public class Vector {
     /**

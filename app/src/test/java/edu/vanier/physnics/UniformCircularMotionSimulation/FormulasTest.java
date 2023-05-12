@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -62,12 +63,12 @@ public class FormulasTest {
     } 
     
     /**
-     * Test of determineQuadrant method, of class Formulas.
+     * Test of determineQuadrantDegrees method, of class Formulas.
      */
     @org.junit.jupiter.api.Test 
     public void testDetermineQuadrant(){
         System.out.println("determineQuadrant");
-        double result = Formulas.determineQuadrant(-45, 10, 10);
+        double result = Formulas.determineQuadrantDegrees(-45, 10, 10);
         double expResult = 225;
         System.out.println(expResult);
         System.out.println(result);

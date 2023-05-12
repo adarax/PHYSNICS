@@ -15,8 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- *
- * @author Admin
+ * Class that was used to display the simulation, before all simulations were merged together and the main menu was made.
+ * @author Victor-Pen
  */
 public class MainApp extends Application{
 

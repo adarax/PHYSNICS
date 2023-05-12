@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 /**
  * A class used to display the window where the user can change the color of the paths.
- * @author Admin
+ * @author Victor-Pen
  */
 public class ChangeColorWindow extends Stage{
     /**
