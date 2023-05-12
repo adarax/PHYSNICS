@@ -1,11 +1,7 @@
 package edu.vanier.physnics.conservation;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
-import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -18,11 +14,14 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
- *
- * @author adarax
+ * Controller for the help menu window.
+ * Initializes FXML elements and sets the text in the text box.
+ * @author Benjamin Pratt
  */
 public class ConservationHelpPageController {
-
+    /**
+     * Text block that will be displayed in the help window
+     */
     private final String HELP_PARAGRAPH = """
                                           Select the value of the gravitational acceleration from a list of different planets.\n
                                           Drag the mass sliders to choose the mass of the ball.\n
@@ -49,14 +48,15 @@ public class ConservationHelpPageController {
     @FXML
     private Text textPageTitle;
 
-    private Stage helpWindow;
     
-
-
+    /**
+     * Initializes the text in text box, the borders and the background color.
+     * Adds a eventHandler to the return home button
+     */
     @FXML
     public void initialize()
     {
-        String nearBlack = "#101518", nearWhite = "#f4f4f4";
+        String nearWhite = "#f4f4f4";
         Color borderColor =  Color.BLACK;
 
         gridPaneHelpPage.setStyle("-fx-background-color:" + (nearWhite));

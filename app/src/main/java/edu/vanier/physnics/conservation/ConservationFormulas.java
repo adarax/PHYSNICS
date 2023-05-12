@@ -5,42 +5,87 @@
 package edu.vanier.physnics.conservation;
 
 /**
- *
- * @author benja
+ * Physics formulas used in the program
+ * @author Benjamin Pratt
  */
 public class ConservationFormulas {
     
-    public static double potentialEnergy(double mass,double g, double height){
-        return mass*g*height;
+    /**
+     * Calculates the potential energy of the object at a certain height
+     * @param mass
+     * @param gravitationalAcceleration
+     * @param height
+     * @return
+     */
+    public static double potentialEnergy(double mass,double gravitationalAcceleration, double height){
+        return mass*gravitationalAcceleration*height;
     }
     
+    /**
+     * Calculates the kinetic energy of the object at a certain speed
+     * @param mass
+     * @param velocity
+     * @return
+     */
     public static double kineticEnergy(double mass, double velocity){
         return 0.5*mass*velocity*velocity;
     }
     
-    public static double getCurrentVelocity(double TME, double PE, double mass){
-        return Math.sqrt(((TME-PE)*2)/mass);
+    /**
+     * Calculates the current velocity of an object based on the total mechanical energy, potential energy and mass of the ball
+     * @param totalMechanicalEnergy
+     * @param potentialEnergy
+     * @param mass
+     * @return
+     */
+    public static double getCurrentVelocity(double totalMechanicalEnergy, double potentialEnergy, double mass){
+        return Math.sqrt(((totalMechanicalEnergy-potentialEnergy)*2)/mass);
     }
     
-    public static double getArcTime(double height, double g){
-        return 2.0*Math.sqrt((2.0*height)/g);
+    /**
+     * Time it takes for the object to from one side of the ramp to the other
+     * @param height
+     * @param gravitationalAcceleration
+     * @return
+     */
+    public static double getArcTime(double height, double gravitationalAcceleration){
+        return 2.0*Math.sqrt((2.0*height)/gravitationalAcceleration);
     }
     
-     public static double getAngle(double currentHeight, Double radius){
-        double angleRadians = Math.asin(currentHeight/radius);
-        return Math.toDegrees(angleRadians);
-    }
-     
+    
+    /**
+     * gets the circumference of a semicircle
+     * @param radius
+     * @return
+     */
     public static double getHalfCircleCircumference(double radius){
         return Math.PI*radius;
     }
      
-    public static double getFrictionEnergyOverCircleSection(double radius, double m, double g, double u, double initialAngle, double finalAngle){
-        return Math.abs(radius*m*g*u*(Math.sin(initialAngle) - Math.sin(finalAngle)));
+    /**
+     * Finds the energy lost to friction on a section of a circle, defined between two angles.
+     * @param radius
+     * @param mass
+     * @param gravitationalAcceleration
+     * @param frictionCoefficent
+     * @param initialAngle
+     * @param finalAngle
+     * @return
+     */
+    public static double getFrictionEnergyOverCircleSection(double radius, double mass, double gravitationalAcceleration, 
+            double frictionCoefficent, double initialAngle, double finalAngle){
+        return Math.abs(radius*mass*gravitationalAcceleration*frictionCoefficent*(Math.sin(initialAngle) - Math.sin(finalAngle)));
     }
     
-    public static double getHeightFromPotentialEnergy(double g, double mass, double PE){
-        return PE/(mass*g);
+    /**
+     * Returns the height of an object from a potential energy
+     * @param gravitationalAcceleration
+     * @param mass
+     * @param potentialEnergy
+     * @return
+     */
+    public static double getHeightFromPotentialEnergy(double gravitationalAcceleration, double mass, double potentialEnergy){
+        return potentialEnergy/(mass*gravitationalAcceleration);
     }
 
 }

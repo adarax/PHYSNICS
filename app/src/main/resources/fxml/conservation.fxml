@@ -19,7 +19,7 @@
    <top>
       <HBox prefHeight="117.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuButton fx:id="MenuButtonMenu" mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Menu">
+            <MenuButton mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Menu">
               <items>
                 <MenuItem fx:id="menuItemProjectile" mnemonicParsing="false" text="Projectile motion" />
                 <MenuItem fx:id="menuItemUCM" mnemonicParsing="false" text="UCM" />
@@ -76,7 +76,7 @@
                   <Insets left="50.0" />
                </VBox.margin>
             </Text>
-            <ChoiceBox fx:id="choiceBoxg" prefHeight="50.0" prefWidth="218.0">
+            <ChoiceBox fx:id="choiceBoxGravitationalAcceleration" prefHeight="50.0" prefWidth="218.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -105,7 +105,7 @@
                   <Insets left="50.0" top="40.0" />
                </VBox.margin>
             </Text>
-            <ChoiceBox fx:id="choiceBoxu" prefHeight="50.0" prefWidth="218.0">
+            <ChoiceBox fx:id="choiceBoxFrictionCoefficient" prefHeight="50.0" prefWidth="218.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -126,7 +126,7 @@
                   <Insets left="50.0" top="40.0" />
                </VBox.margin>
             </MFXSlider>
-            <ImageView fx:id="btnGraph" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="buttonGraph" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
                   <Insets left="50.0" top="75.0" />
                </VBox.margin>
@@ -151,7 +151,7 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="btnPlay" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="buttonPlay" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets left="20.0" top="20.0" />
                </HBox.margin>
@@ -159,7 +159,7 @@
                   <Image url="@../images/play_button.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="btnPause" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="buttonPause" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets left="20.0" top="20.0" />
                </HBox.margin>
@@ -167,7 +167,7 @@
                   <Image url="@../images/pause_button.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="btnReset" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="buttonReset" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" top="20.0" />
                </HBox.margin>
@@ -183,7 +183,7 @@
                   <Insets left="1237.0" />
                </HBox.margin>
                <children>
-                  <ImageView fx:id="btnHelp" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="buttonHelp" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets left="100.0" top="20.0" />
                      </HBox.margin>

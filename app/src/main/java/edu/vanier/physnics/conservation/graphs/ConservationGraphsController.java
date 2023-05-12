@@ -4,12 +4,9 @@
  */
 package edu.vanier.physnics.conservation.graphs;
 
-import edu.vanier.physnics.conservation.Ball;
-import edu.vanier.physnics.conservation.Settings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -17,8 +14,9 @@ import javafx.stage.Stage;
 
 
 /**
- *
- * @author 2132170
+ * Controller for the graph window.
+ * Instantiates all FXML elements and provides their functionalities.
+ * @author Benjamin Pratt
  */
 public class ConservationGraphsController {
     @FXML
@@ -27,8 +25,8 @@ public class ConservationGraphsController {
     @FXML
     private Pane paneAnimation;
     
-    private Rectangle PEGraph;
-    private Rectangle KEGraph;
+    private Rectangle potentialEnergyGraph;
+    private Rectangle kineticEnergyGraph;
     private Rectangle FrictionGraph;
     
     private Text textPotentialEnergy;
@@ -40,71 +38,70 @@ public class ConservationGraphsController {
     
     private Line energyAxis;
  
-    private Ball ball;
-    
     private Stage currentStage;
     
-    public ConservationGraphsController(Ball ball){
-        this.ball = ball;
-        
-    }
-   
+    /**
+    * Sets up the UI elements in the graph window and gives functionality to the close button
+    */
     @FXML
     private void initialize(){
         setup();
         
-        buttonClose.setOnAction((eventHandler) -> {
+        buttonClose.setOnAction((clicked) -> {
             currentStage.hide();
         });
         
     }
     
+    /**
+     * Initializes all UI elements and places them in the pane
+     */
     private void setup(){
         textVelocity = new Text("Current velocity: "  
                 + " m/s");
-        textVelocity.setFont(Settings.GRAPH_TEXT_FONT);
+        textVelocity.setFont(GraphSettings.GRAPH_TEXT_FONT);
         textVelocity.setLayoutX(GraphSettings.VELOCITY_TEXT_POSITION_X);
         textVelocity.setLayoutY(GraphSettings.VELOCITY_TEXT_POSITION_Y);
         
         textCurrentHeight = new Text("Current height: "  
                 + " m");
-        textCurrentHeight.setFont(Settings.GRAPH_TEXT_FONT);
+        textCurrentHeight.setFont(GraphSettings.GRAPH_TEXT_FONT);
         textCurrentHeight.setLayoutX(GraphSettings.CURRENT_HEIGHT_TEXT_POSITION_X);
         textCurrentHeight.setLayoutY(GraphSettings.CURRENT_HEIGHT_TEXT_POSITION_Y);
         
         textKineticEnergy = new Text("Kinetic Energy: "  
                 + " J");
-        textKineticEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textKineticEnergy.setFont(GraphSettings.GRAPH_TEXT_FONT);
         textKineticEnergy.setLayoutX(GraphSettings.KINETIC_ENERGY_TEXT_POSITION_X);
         textKineticEnergy.setLayoutY(GraphSettings.KINETIC_ENERGY_TEXT_POSITION_Y);
         
         textPotentialEnergy = new Text("Potential Energy: "  
                 + " J");
-        textPotentialEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textPotentialEnergy.setFont(GraphSettings.GRAPH_TEXT_FONT);
         textPotentialEnergy.setLayoutX(GraphSettings.POTENTIAL_ENERGY_TEXT_POSITION_X);
         textPotentialEnergy.setLayoutY(GraphSettings.POTENTIAL_ENERGY_TEXT_POSITION_Y);
         
         textFrictionEnergy = new Text("Friction energy: "  
                 + " J");
-        textFrictionEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textFrictionEnergy.setFont(GraphSettings.GRAPH_TEXT_FONT);
         textFrictionEnergy.setLayoutX(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_X);
         textFrictionEnergy.setLayoutY(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_Y);
         
         textTotalEnergy = new Text("Total energy: "  
                 + " J");
-        textTotalEnergy.setFont(Settings.GRAPH_TEXT_FONT);
+        textTotalEnergy.setFont(GraphSettings.GRAPH_TEXT_FONT);
         textTotalEnergy.setLayoutX(GraphSettings.TOTAL_ENERGY_TEXT_POSITION_X);
         textTotalEnergy.setLayoutY(GraphSettings.TOTAL_ENERGY_TEXT_POSITION_Y);
         
-        KEGraph = new Rectangle(GraphSettings.KINETIC_ENERGY_GRAPH_POSITION_X, 
+        kineticEnergyGraph = new Rectangle(GraphSettings.KINETIC_ENERGY_GRAPH_POSITION_X, 
                 GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
                 GraphSettings.MAX_GRAPH_HEIGHT);
-        KEGraph.setFill(GraphSettings.KINETIC_ENERGY_GRAPH_COLOR);
+        kineticEnergyGraph.setFill(GraphSettings.KINETIC_ENERGY_GRAPH_COLOR);
         
-        PEGraph = new Rectangle(GraphSettings.POTENTIAL_ENERGY_GRAPH_POSITION_X, 
+        potentialEnergyGraph = new Rectangle(GraphSettings.POTENTIAL_ENERGY_GRAPH_POSITION_X, 
             GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
                 GraphSettings.MAX_GRAPH_HEIGHT);
-        PEGraph.setFill(GraphSettings.POTENTIAL_ENERGY_GRAPH_COLOR);
+        potentialEnergyGraph.setFill(GraphSettings.POTENTIAL_ENERGY_GRAPH_COLOR);
         
         energyAxis = new Line(GraphSettings.ENERGY_AXIS_POSITION_X, GraphSettings.ENERGY_AXIS_START_POSITION_Y, 
                 GraphSettings.ENERGY_AXIS_POSITION_X, GraphSettings.ENERGY_AXIS_END_POSITION_Y);
@@ -122,78 +119,135 @@ public class ConservationGraphsController {
                 GraphSettings.ENERGY_AXIS_START_POSITION_Y+GraphSettings.ENERGY_AXIS_WIDTH);
         rightPoint.setStrokeWidth(GraphSettings.ENERGY_AXIS_STROKE_WIDTH);
         
-        FrictionGraph = new Rectangle(GraphSettings.FRICTION_ENERGY_GRAPH_POSITION_x, 
+        FrictionGraph = new Rectangle(GraphSettings.FRICTION_ENERGY_GRAPH_POSITION_X, 
                 GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
                 GraphSettings.MAX_GRAPH_HEIGHT);
         FrictionGraph.setFill(GraphSettings.FRICTION_ENERGY_GRAPH_COLOR);
         
         paneAnimation.getChildren().addAll(textVelocity, textKineticEnergy, 
-                textPotentialEnergy, PEGraph, KEGraph, textCurrentHeight,textFrictionEnergy, 
+                textPotentialEnergy, potentialEnergyGraph, kineticEnergyGraph, textCurrentHeight,textFrictionEnergy, 
                 FrictionGraph, textTotalEnergy, energyAxis, leftPoint, rightPoint);
     }
     
+    /**
+     * Shows the window when the graph button is clicked
+     */
     public void show(){
         currentStage = (Stage) paneAnimation.getScene().getWindow();
         currentStage.show();
     }
+    
+    /**
+     * Sets a new values of kinetic energy in the graph window
+     * @param kineticEnergy
+     */
+    public void setKineticEnergyText(double kineticEnergy){
+        textKineticEnergy.setText("Kinetic energy: "  
+                + oneDecimalConverter(kineticEnergy) + "J");
+    }
 
-    public Rectangle getPEGraph() {
-        return PEGraph;
+    /**
+     * Sets a new values of total mechanical energy in the graph window
+     * @param totalMechanicalEnergy
+     */
+    public void setTotalEnergyText(double totalMechanicalEnergy){
+        textTotalEnergy.setText("Total energy: "  
+                + oneDecimalConverter(totalMechanicalEnergy) + "J");
     }
     
-    public void setPEGraph(Rectangle PEGraph) {
-        this.PEGraph = PEGraph;
+    /**
+     * Sets a new values of potential energy in the graph window
+     * @param potentialEnergy
+     */
+    public void setPotentialEnergy(double potentialEnergy){
+        textPotentialEnergy.setText("Potential energy: "  
+                + oneDecimalConverter(potentialEnergy) + "J");
+    }
+    
+    /**
+     * Sets a new values of friction energy in the graph window
+     * @param frictionEnergy
+     */
+    public void setFrictionEnergyText(double frictionEnergy){
+        textFrictionEnergy.setText("Friction energy: "  
+                + oneDecimalConverter(frictionEnergy) + "J");
+    }
+    
+    /**
+     * Sets a new values of current velocity in the graph window
+     * @param velocity
+     */
+    public void setVelocityText(double velocity){
+        textVelocity.setText("Current velocity: "  + oneDecimalConverter(velocity) + " m/s");
+    }
+    
+    /**
+     * Sets a new values of current height in the graph window
+     * @param height
+     */
+    public void setCurrentHeightText(double height){
+        textCurrentHeight.setText("Current height: "  
+                + oneDecimalConverter(height) + " m");
+    }
+    
+    /**
+     * Converts a double with many decimal points to only a single decimal point
+     * @param value
+     * @return
+     */
+    public String oneDecimalConverter(double value){
+        String content = Double.toString(value);
+        return content.substring(0, content.indexOf(".")+2);
+    }
+    
+
+    /**
+     * getter for potentialEnergyGraph
+     * @return
+     */
+    public Rectangle getPotentialEnergyGraph() {
+        return potentialEnergyGraph;
+    }
+    
+    /**
+     * setter for potentialEnergyGraph
+     * @param potentialEnergyGraph
+     */
+    public void setPotentialEnergyGraph(Rectangle potentialEnergyGraph) {
+        this.potentialEnergyGraph = potentialEnergyGraph;
     }
 
+    /**
+     * getter for frictionGraph
+     * @return
+     */
     public Rectangle getFrictionGraph() {
         return FrictionGraph;
     }
 
+    /**
+     * setter for frictionGraph
+     * @param FrictionGraph
+     */
     public void setFrictionGraph(Rectangle FrictionGraph) {
         this.FrictionGraph = FrictionGraph;
     }
     
-    
-
-    public Rectangle getKEGraph() {
-        return KEGraph;
+    /**
+     * getter for kineticEnergyGraph
+     * @return
+     */
+    public Rectangle getKineticEnergyGraph() {
+        return kineticEnergyGraph;
     }
 
-    public void setKEGraph(Rectangle KEGraph) {
-        this.KEGraph = KEGraph;
+    /**
+     * setter for kineticEnergyGraph
+     * @param kineticEnergyGraph
+     */
+    public void setKineticEnergyGraph(Rectangle kineticEnergyGraph) {
+        this.kineticEnergyGraph = kineticEnergyGraph;
     }
     
-    public void setKeText(double ke){
-        textKineticEnergy.setText("Kinetic energy: "  
-                + twoDecimalConverter(ke) + "J");
-    }
-     public void setTotalEnergyText(double tme){
-        textTotalEnergy.setText("Total energy: "  
-                + twoDecimalConverter(tme) + "J");
-    }
-    
-    public void setPeText(double pe){
-        textPotentialEnergy.setText("Potential energy: "  
-                + twoDecimalConverter(pe) + "J");
-    }
-    
-     public void setFrictionEnergyText(double fe){
-        textFrictionEnergy.setText("Friction energy: "  
-                + twoDecimalConverter(fe) + "J");
-    }
-    
-    public void setVelocityText(double v){
-        textVelocity.setText("Current velocity: "  + twoDecimalConverter(v) + " m/s");
-    }
-    
-    public void setCurrentHeightText(double height){
-        textCurrentHeight.setText("Current height: "  
-                + twoDecimalConverter(height) + " m");
-    }
-    
-    public String twoDecimalConverter(double value){
-        String content = Double.toString(value);
-        return content.substring(0, content.indexOf(".")+2);
-    }
     
 }
