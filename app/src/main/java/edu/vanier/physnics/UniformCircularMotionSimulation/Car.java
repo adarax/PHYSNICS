@@ -6,18 +6,36 @@
 package edu.vanier.physnics.UniformCircularMotionSimulation;
 
 /**
- *
+ * The car that is going to be revolving in the simulation.
  * @author Admin
  */
 public class Car {
     
+    /**
+     * The speed of the car.
+     */
     private double speed;
+    /**
+     * The radius that the car makes when revolving.
+     */
     private double radius;
+    /**
+     * The mass of the car.
+     */
     private double mass;
     
+    /**
+     * The centripetal acceleration of the car.
+     */
     private double accelerationCentripetal;
-    private double accelerationtang;
+    /**
+     * The centripetal force experienced by the car.
+     */
+    private double force;
     
+    /**
+     * Constructor for the Car class, containing no parameters.
+     */
     public Car(){
     }
     
@@ -51,24 +69,28 @@ public class Car {
         this.mass = mass;
     }
 
-    public double getAccelerationcentr() {
-        return this.accelerationCentripetal;
+    public double getAccelerationCentripetal() {
+        return accelerationCentripetal;
     }
 
-    public void setAccelerationcentr(double accelerationcentr) {
-        this.accelerationCentripetal = accelerationcentr;
+    public void setAccelerationCentripetal(double accelerationCentripetal) {
+        this.accelerationCentripetal = accelerationCentripetal;
     }
 
-    public double getAccelerationtang() {
-        return this.accelerationtang;
+    public double getForce() {
+        return force;
     }
 
-    public void setAccelerationtang(double accelerationtang) {
-        this.accelerationtang = accelerationtang;
+    public void setForce(double force) {
+        this.force = force;
     }
-
+    
+    /**
+     * Returns a string listing all variables of the Car and their values.
+     * @return the string listing all variables of the Car and their values
+     */
     @Override
     public String toString() {
-        return "Object{" + "speed=" + speed + ", radius=" + radius + ", mass=" + mass +  ", accelerationcentr=" + accelerationCentripetal + ", accelerationtang=" + accelerationtang + '}';
+        return "Object{" + "speed=" + speed + ", radius=" + radius + ", mass=" + mass +  ", accelerationcentr=" + accelerationCentripetal +'}';
     }  
 }

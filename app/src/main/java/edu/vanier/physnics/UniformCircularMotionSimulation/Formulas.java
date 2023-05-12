@@ -19,7 +19,7 @@ class Formulas {
      */
     public static double calculateAccelerationCentripetal(Car car){
         double accel = car.getSpeed()*car.getSpeed()/car.getRadius();
-        car.setAccelerationcentr(accel);
+        car.setAccelerationCentripetal(accel);
         return accel;
     }    
 
@@ -31,7 +31,7 @@ class Formulas {
      * @return the magnitude of centripetal force, in N
      */
     public static double calculateForce(Car car){
-        return car.getAccelerationcentr()*car.getMass();
+        return car.getAccelerationCentripetal()*car.getMass();
     }    
     
     /**

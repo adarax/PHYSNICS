@@ -127,7 +127,7 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="centrAccelText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="158.29100036621094" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Text fx:id="centripetalAccelerationText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="158.29100036621094" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -142,12 +142,12 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="accelXText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="159.62425231933594" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Text fx:id="accelerationXText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="159.62425231933594" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="accelYText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.95762634277344" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Text fx:id="accelerationYText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="160.95762634277344" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -28,6 +28,26 @@ public class Settings {
     static final double CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS = 180;
 
     /**
+     * The maximum radius of the simulation for the rectangle car.
+     */
+    static final double MAX_RADIUS_RECTANGLE = 200+8*(41-25);
+    
+    /**
+     * The maximum radius of the simulation for the vectors.
+     */
+    static final double MAX_RADIUS_VECTORS = 180+180/25*(41-25);
+    
+    /**
+     * The width of the rectangle.
+     */
+    static final double RECTANGLE_WIDTH = 30;
+    
+    /**
+     * The width of the rectangle.
+     */
+    static final double RECTANGLE_HEIGHT = 50;
+    
+    /**
      * Contains the two vector types that are present in the simulation.
      */
     static final String[] VECTOR_TYPE = {"FORCE","ACCELERATION"};

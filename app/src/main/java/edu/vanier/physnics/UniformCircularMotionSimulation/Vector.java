@@ -46,6 +46,9 @@ public class Vector {
         this.arrowBody.setLayoutY(yCoordinate);
         arrowBody.setFitWidth(fitWidth);
         arrowBody.setFitHeight(fitHeight);
+        if (vectorType.equals("FORCE")) {
+            arrowBody.setOpacity(0.5);
+        }
    }   
     
     /**

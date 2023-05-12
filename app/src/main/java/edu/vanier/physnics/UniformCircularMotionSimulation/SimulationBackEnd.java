@@ -9,14 +9,17 @@ import edu.vanier.physnics.conservation.ConservationController;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
+import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
@@ -86,6 +89,34 @@ public class SimulationBackEnd {
         return pathTransitionCircle;
     }
 
+
+    /**
+     * Sets the minimum and maximum of the sliders.
+     * 
+     */
+    public void setSliderRange(MFXSlider slider, double min, double max){
+        slider.setMin(min);
+        slider.setMax(max);
+        slider.setShowMajorTicks(true);
+        slider.setShowTicksAtEdges(true);
+    }
+
+    /**
+     * Retrieves the numerical value of a TextField
+     * @param textfield the TextField to retrieve a value from
+     * @return the numerical value in the TextField
+     */
+    @FXML
+    public double retrieveTextField(TextField textfield){
+        double valueInTextField = 0;
+        try {
+            valueInTextField = Double.valueOf(textfield.getText());
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+        return valueInTextField;
+    }    
+    
     /**
      * A method used to switch the present simulation to another simulation
      * @param simulationName the name of the simulation that is being switched to
