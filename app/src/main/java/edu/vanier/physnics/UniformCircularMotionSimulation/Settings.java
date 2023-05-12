@@ -13,11 +13,11 @@ public class Settings {
     /**
      * The x coordinate of the center where everything which revolve about.
      */
-    static final double CENTER_MARKER_X_COORDINATE = 507;
+    static final double CENTER_MARKER_X_COORDINATE = 800;
     /**
      * The x coordinate of the center where everything which revolve about.
      */
-    static final double CENTER_MARKER_Y_COORDINATE = 346.5;
+    static final double CENTER_MARKER_Y_COORDINATE = 400;
     /**
      * The initial radius set for the revolving car.
      */
