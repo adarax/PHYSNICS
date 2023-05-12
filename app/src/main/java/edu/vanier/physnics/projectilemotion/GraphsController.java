@@ -66,8 +66,8 @@ public class GraphsController {
     
     
     /**
-     * Initializes the action events for UI controls and populates the graphs that 
-     * are already instantiated. 
+     * Initializes the action events for UI controls and populates the Charts in the
+     * scene.
      */
     @FXML
     public void initialize() {

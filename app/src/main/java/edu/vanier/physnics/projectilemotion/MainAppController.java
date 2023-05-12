@@ -87,7 +87,7 @@ public class MainAppController {
     @FXML
     private Pane paneAnimation;
     
-    // Instance of animation class for the handlePlay() method.
+    // Instance of animation class to be used in the controller
     Animation animation = new Animation();
     
     // Variables to hold slider values
