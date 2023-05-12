@@ -38,7 +38,7 @@ public class Vector {
      * 
      * @return The quadrant of the Vector instance.
      */
-    public int findQuadrant()
+    protected int findQuadrant()
     {        
         if (directionInDegrees < 0 || directionInDegrees > 360)
         {
@@ -67,7 +67,7 @@ public class Vector {
      * 
      * @return the x and y components of the Vector in an ArrayList
      */
-    public ArrayList<Double> asComponents()
+    protected ArrayList<Double> asComponents()
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class Vector {
      * Changes the direction of the vector by 180 degrees, and ensures that
      * the vectors direction has not exceeded 360 degrees.
      */
-    public void flipDirection()
+    protected void flipDirection()
     {
         double currentDirection = this.directionInDegrees;
         
@@ -127,7 +127,7 @@ public class Vector {
     /**
      * The type of force that the Vector is.
      */
-    public enum FORCE_TYPE
+    protected enum FORCE_TYPE
     {
         APPLIED,
         FRICTION

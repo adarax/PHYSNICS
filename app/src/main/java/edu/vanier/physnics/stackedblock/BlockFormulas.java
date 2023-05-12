@@ -21,7 +21,7 @@ public class BlockFormulas {
      * @param opposingForces other vertical forces that may change the net normal force
      * @return magnitude of the total normal force on the block in Newtons
      */
-    public double calculateNormalForceMagnitude(double opposingForces, double... contributingMassInKg)
+    protected double calculateNormalForceMagnitude(double opposingForces, double... contributingMassInKg)
     {
         double sumOfMasses = 0;
 
@@ -51,7 +51,7 @@ public class BlockFormulas {
      * @return the friction vector with the correct magnitude and direction based on
      *         the coefficient of friction, the normal force and corresponding force vector
      */
-    public Vector calculateFrictionVector(double coefficientOfFriction, double normalForceMagnitude, Vector correspondingForceVector)
+    protected Vector calculateFrictionVector(double coefficientOfFriction, double normalForceMagnitude, Vector correspondingForceVector)
     {
         double frictionVectorMagnitude = coefficientOfFriction * normalForceMagnitude;
         double correspondingForceVectorXComponent = correspondingForceVector.asComponents().get(0);
@@ -79,7 +79,7 @@ public class BlockFormulas {
      * @param forcesExperienced Vector objects representing all forces experienced by the Block
      * @return the resultant vector of all forces from forcesExperienced
      */
-    public Vector calculateNetForceVector(ArrayList<Vector> forcesExperienced)
+    protected Vector calculateNetForceVector(ArrayList<Vector> forcesExperienced)
     {
         double sumXComponents = 0, sumYComponents = 0;
 
@@ -105,7 +105,7 @@ public class BlockFormulas {
      * @param yComponent the vertical component of the vector
      * @return direction in degrees with respect to the +x axis
      */
-    public double getProperDirection(double xComponent, double yComponent)
+    protected double getProperDirection(double xComponent, double yComponent)
     {
         double properDirection = Math.abs(Math.toDegrees(Math.atan(yComponent / xComponent)));
         
@@ -142,7 +142,7 @@ public class BlockFormulas {
      * @return an ArrayList consisting of all vectors doing work on the system
      *         other than the normal force vectors.
      */
-    public ArrayList<Vector> determineForcesExperienced(Block topBlock,
+    protected ArrayList<Vector> determineForcesExperienced(Block topBlock,
             Block bottomBlock,
             double forceOnBottomBlock,
             double forceOnTopBlock,

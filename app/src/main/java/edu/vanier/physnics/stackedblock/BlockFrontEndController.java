@@ -10,10 +10,8 @@ import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -101,13 +99,13 @@ public class BlockFrontEndController {
     public void initialize()
     {
         /*
-         * Calls resetScene() after everything is rendered, which is needed 
+         * Calls updateScene() after everything is rendered, which is needed 
          * because otherwise certain width and height values required for a
          * proper render are not yet available.
          */
         Platform.runLater(() ->
         {
-            resetScene();
+            updateScene();
         });
 
         addSliderEventHandlers();
@@ -117,7 +115,7 @@ public class BlockFrontEndController {
         menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
         menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
         menubuttonExit.setOnAction(press -> handleExitOfApplication());
-        toggleShowVectors.setOnAction(toggle -> resetScene());
+        toggleShowVectors.setOnAction(toggle -> updateScene());
         buttonClear.setOnAction(press -> handleClear());
         buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
         buttonHelp.setOnMouseClicked(press -> handleHelp());
@@ -143,7 +141,7 @@ public class BlockFrontEndController {
 
         for (MFXSlider slider : allSliders)
         {
-            slider.setOnMouseDragged(drag -> resetScene());
+            slider.setOnMouseDragged(drag -> updateScene());
         }
     }
 
@@ -155,7 +153,7 @@ public class BlockFrontEndController {
      * sets those elements to light/dark mode depending on the current state 
      * of the application.
      */
-    public void handleDarkMode()
+    private void handleDarkMode()
     {
         // The elements only need to be found once, and both
         // allTextElements and allPanes are filled in the same method
@@ -225,17 +223,7 @@ public class BlockFrontEndController {
 
     private boolean isAnimationInitialized = false;
     
-    /**
-     * Method that is called when the play button is pressed. It creates the
-     * block animations if they have not been created yet, and then plays them.
-     * It also sets the animation state to playing.
-     * 
-     * @see blockAnimationHandler
-     * @see ANIMATION_STATE
-     * @see toggleFieldState
-     * @see resetScene
-     */
-    public void handlePlay()
+    private void handlePlay()
     {
         animateButtonPress(buttonPlay, PLAY_BUTTON, PLAY_BUTTON_PRESSED);
         
@@ -246,37 +234,20 @@ public class BlockFrontEndController {
         }
         
         toggleShowVectors.setSelected(false);
-        resetScene();
+        updateScene();
         
         blockAnimationHandler.play();
         toggleFieldState(ANIMATION_STATE.PLAYING);
     }
 
-    /**
-     * Method that is called when the pause button is pressed. It pauses the
-     * block animations and sets the animation state to paused.
-     * 
-     * @see blockAnimationHandler
-     * @see ANIMATION_STATE
-     * @see toggleFieldState
-     */
-    public void handlePause()
+    private void handlePause()
     {
         animateButtonPress(buttonPause, PAUSE_BUTTON, PAUSE_BUTTON_PRESSED);
         blockAnimationHandler.pause();
         toggleFieldState(ANIMATION_STATE.PAUSED);
     }
 
-    /**
-     * Method that is called when the reset button is pressed. It resets the
-     * block animations and sets the animation state to reset.
-     * 
-     * @see blockAnimationHandler
-     * @see ANIMATION_STATE
-     * @see toggleFieldState
-     * @see resetScene
-     */
-    public void handleReset()
+    private void handleReset()
     {
         animateButtonPress(buttonReset, RESET_BUTTON, RESET_BUTTON_PRESSED);
         blockAnimationHandler.reset();
@@ -286,9 +257,18 @@ public class BlockFrontEndController {
         this.topBlock = new Block(POSITION.TOP);
         this.bottomBlock = new Block(POSITION.BOTTOM);
         
-        resetScene();
+        updateScene();
     }
     
+    /**
+     * Uses a simple Timeline to show a pressed version of the button and then
+     * quickly reverts to the normal look of the button. This provides feedback
+     * to the user that the button has been pressed.
+     * 
+     * @param target the button being pressed
+     * @param notPressed what the button looks like unpressed
+     * @param pressed what the button looks like while being pressed
+     */
     private void animateButtonPress(ImageView target, Image notPressed, Image pressed)
     {
         Timeline timeline = new Timeline(
@@ -298,6 +278,16 @@ public class BlockFrontEndController {
         timeline.play();
     }
 
+    /**
+     * Enables / disables the buttons and sliders depending on the state of
+     * the animation. While the animation is playing or paused, properties of
+     * the Blocks or forces cannot be changed. These features are re-enabled
+     * when the animation is reset. Furthermore, this protects again the 'play'
+     * or 'pause' button being pressed while in that state already, which can
+     * cause errors.
+     * 
+     * @param currentState the current state of the animation (PLAYING, PAUSED, RESET)
+     */
     private void toggleFieldState(ANIMATION_STATE currentState)
     {
         switch (currentState)
@@ -335,29 +325,19 @@ public class BlockFrontEndController {
         }
     }
     
-    /**
-     * Opens the help page scene.
-     * 
-     * @see switchSimulation
-     */
-    public void handleHelp()
+    private void handleHelp()
     {
         switchSimulation("stackedblock_help");
     }
 
-    /**
-     * Set all sliders back to their minimum values and resets the animation.
-     * 
-     * @see resetScene
-     */
-    public void handleClear()
+    private void handleClear()
     {
         allSliders.forEach(slider ->
         {
             slider.setValue(slider.getMin());
         });
 
-        resetScene();
+        updateScene();
     }
 
     /**
@@ -366,7 +346,7 @@ public class BlockFrontEndController {
      * 
      * @see drawVectors
      */
-    public void resetScene()
+    private void updateScene()
     {
         paneAnimation.getChildren().clear();
 
@@ -416,7 +396,7 @@ public class BlockFrontEndController {
      * @param blockId the block for which the forces are to be determined (TOP or BOTTOM)
      * @return an ArrayList of the forces experienced by the Block
      */
-    public ArrayList<Vector> getForcesExperienced(POSITION blockId)
+    protected ArrayList<Vector> getForcesExperienced(POSITION blockId)
     {
         return blockFormulasCalculator.determineForcesExperienced(topBlock,
                 bottomBlock,
@@ -429,20 +409,18 @@ public class BlockFrontEndController {
                 blockId);
     }
 
-    /**
-     * This method handles the exit of the application.
-     */
-    public void handleExitOfApplication()
+    private void handleExitOfApplication()
     {
         Platform.exit();
     }
 
     /**
-     * This method switches the scene to the specified simulation.
+     * Switch to the specified simulation based on the parameter. The stage is
+     * preserved but the scene is changed.
      * 
-     * @param simulationName the name of the simulation to switch to
+     * @param simulationName the name of the simulation to be switched to as a String
      */
-    public void switchSimulation(String simulationName)
+    private void switchSimulation(String simulationName)
     {
         Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
 
@@ -531,7 +509,7 @@ public class BlockFrontEndController {
      * An enum to standardize the naming of the top and bottom block in the
      * simulation.
      */
-    public enum POSITION {
+    protected enum POSITION {
         TOP,
         BOTTOM
     }

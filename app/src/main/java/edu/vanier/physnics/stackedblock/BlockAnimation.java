@@ -72,7 +72,7 @@ public class BlockAnimation {
      * @param topBlock the top block in the simulation
      * @param bottomBlock the bottom block in the simulation
      */
-    public void assembleBlocks(Block topBlock, Block bottomBlock)
+    protected void assembleBlocks(Block topBlock, Block bottomBlock)
     {
         ArrayList<Block> blocks = new ArrayList<>(List.of(topBlock, bottomBlock));
 
@@ -97,7 +97,7 @@ public class BlockAnimation {
      * @param animationPane the Pane in which the animation takes place
      * @param isDarkMode whether the simulation is in dark mode or not
      */
-    public void drawFloor(Pane animationPane, boolean isDarkMode)
+    protected void drawFloor(Pane animationPane, boolean isDarkMode)
     {
         double paneWidth = animationPane.getWidth();
         double paneHeight = animationPane.getHeight();
@@ -189,6 +189,14 @@ public class BlockAnimation {
         }
     }
 
+    /**
+     * Checks if the Block has hit a wall or the top Block should fall off
+     * the bottom Block and reacts accordingly.
+     * 
+     * @param block the Block being analyzed
+     * @param maxDisplacement the maximum displacement of the Block (m)
+     * @param acceleration the acceleration of the Block (m/s^2)
+     */
     private void reactToConditions(Block block, double maxDisplacement, double acceleration)
     {
         double translated = block.getTranslateX() * Math.signum(acceleration);
@@ -233,6 +241,16 @@ public class BlockAnimation {
 
     private AnimationTimer fallAnimationTimer;
     
+    /**
+     * Animates the fall of the vector using TranslationTransitions on the
+     * x and y axes as well as a RotateTransition to simulate tilting.
+     * 
+     * This animation only applies to the top block and only occurs under
+     * special circumstances as defined in reactToConditions().
+     * 
+     * @see reactToConditions
+     * @param acceleration the acceleration of the top block (m/s^2)
+     */
     private void animateFall(double acceleration)
     {
         double fallTime = calculateDuration(BlockFormulas.GRAVITATIONAL_ACCELERATION, bottomBlock.getDrawingHeight());

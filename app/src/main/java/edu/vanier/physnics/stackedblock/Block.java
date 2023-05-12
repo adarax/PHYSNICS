@@ -189,7 +189,7 @@ public class Block extends StackPane {
      * Assembles the Block's drawing and name tag into a StackPane for ease
      * of manipulation.
      */
-    public void assemble()
+    protected void assemble()
     {
         this.getChildren().clear();
         this.getChildren().addAll(blockDrawing, nameTag);
@@ -203,7 +203,7 @@ public class Block extends StackPane {
      * 
      * @see setDrawingWidth()
      */
-    public final void determineAndSetDrawingWidth()
+    protected final void determineAndSetDrawingWidth()
     {
         this.setDrawingWidth(drawingHeight * 1.5);
     }
@@ -217,7 +217,7 @@ public class Block extends StackPane {
      * out of the view. This also allows the simulation to handle a larger 
      * spectrum of mass values.
      */
-    public final void determineAndSetDrawingHeight()
+    protected final void determineAndSetDrawingHeight()
     {
         double heightValue = 100 * Math.log(mass / 2) + 40;
         this.setDrawingHeight(heightValue);
@@ -273,7 +273,7 @@ public class Block extends StackPane {
      * 
      * @return the name of the Block as a String
      */
-    public final String determineName()
+    private String determineName()
     {
         String label = "";
 
@@ -295,7 +295,7 @@ public class Block extends StackPane {
      * 
      * @return the color of the Block as a Color object
      */
-    public final Color determineColor()
+    protected final Color determineColor()
     {
         Color correspondingColor = null;
 
@@ -320,7 +320,7 @@ public class Block extends StackPane {
      *
      * @return The font size of the block's label
      */
-    public final int determineLabelFontSize()
+    protected final int determineLabelFontSize()
     {
         return (int) (7 * Math.log(this.drawingHeight));
     }
@@ -331,7 +331,7 @@ public class Block extends StackPane {
      *
      * @param animationPane the Pane that holds the simulation
      */
-    public void drawFreeBodyDiagram(Pane animationPane)
+    protected void drawFreeBodyDiagram(Pane animationPane)
     {
         ArrayList<Arrow> vectorDrawings = new ArrayList<>();
         
