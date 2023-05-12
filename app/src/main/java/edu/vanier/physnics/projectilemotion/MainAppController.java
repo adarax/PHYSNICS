@@ -347,6 +347,7 @@ public class MainAppController {
         buttonClear.setOnMouseClicked(leftClick -> {
             // Resets the animation and brings the sliders to default values
             handleClear(sliderList);
+            handleRotateCannon(cannonBarrel);
             updateTrail();
         });
         
