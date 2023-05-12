@@ -13,6 +13,7 @@ import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
+import java.sql.Time;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -125,6 +126,8 @@ public class ConservationController {
 
     private EventHandler changeRampColor;
     private EventHandler changeBallColor;
+    
+    private double TME;
 
     @FXML
     public void initialize() {
@@ -134,7 +137,7 @@ public class ConservationController {
 
         btnPlay.setOnMouseClicked((e) -> {
             animBackend.playBallAnimation(ball, ramp, rampHeight, g, graphController.getKEGraph(),
-                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction    
+                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction, ConservationFormulas.getFrictionEnergyOverCircleSection(rampHeight, mass, g, u, 0, 180)
             );
             graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
@@ -239,6 +242,8 @@ public class ConservationController {
         rampHeight = 10;
         g = 9.8;
         u = 0.61;
+        
+        TME = ConservationFormulas.potentialEnergy(mass, g, rampHeight);
 
         openGraphWindow();
         //initialize the animation backend
@@ -301,15 +306,14 @@ public class ConservationController {
 
     public void updateValues() {
         double currentHeight = rampHeight - ((ball.getTranslateY()) / (ramp.getRadius() + ball.getRadius()) * rampHeight);
-        double TME = ConservationFormulas.potentialEnergy(mass, g, rampHeight);
         double PE = ConservationFormulas.potentialEnergy(mass, g, currentHeight);
         double currentVelocity = ConservationFormulas.getCurrentVelocity(TME, PE, mass);
         double KE = ConservationFormulas.kineticEnergy(mass, currentVelocity);
         double FE = 0;
+        double distanceTravelled = ConservationFormulas.getHalfCircleCircumference(rampHeight)*(animBackend.getCurrentTime() / animBackend.getCycleTime());
 
         if (friction) {
-            FE = getFrictionEnergy();
-
+            
         }
 
         graphController.setCurrentHeightText(currentHeight);

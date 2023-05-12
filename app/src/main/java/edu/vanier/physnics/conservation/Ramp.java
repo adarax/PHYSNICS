@@ -24,19 +24,16 @@ public class Ramp extends Path{
     
     private double initialBallPositionX;
     private double initialBallPositionY;
+    private double finalBallPositionX;
+    private double finalBallPositionY;
     
-    private double centerX;
-    private double centerY;
-
+    
     public Ramp(double radius, double thickness, double positionX, double positionY, Color rampColor) {
         this.radius = radius;
         this.thickness = thickness;
         this.positionX = positionX;
         this.positionY = positionY;
         this.rampColor = rampColor;
-        
-        this.centerX = positionX;
-        this.centerY = positionY-radius-thickness;
         
         drawRamp();
     }
@@ -105,6 +102,9 @@ public class Ramp extends Path{
         initialBallPos.setX(positionX-radius+ball.getRadius());
         initialBallPos.setY(positionY-radius-thickness);
         
+        finalBallPositionX = positionX+radius-ball.getRadius();
+        finalBallPositionY = positionY-radius-thickness;
+        
         ArcTo ballArc = new ArcTo();
         ballArc.setX(positionX+radius-ball.getRadius());
         ballArc.setY(positionY-radius-thickness);
@@ -131,23 +131,21 @@ public class Ramp extends Path{
        
     }
 
-    public double getCenterX() {
-        return centerX;
+    public double getFinalBallPositionX() {
+        return finalBallPositionX;
     }
 
-    public void setCenterX(double centerX) {
-        this.centerX = centerX;
+    public void setFinalBallPositionX(double finalBallPositionX) {
+        this.finalBallPositionX = finalBallPositionX;
     }
 
-    public double getCenterY() {
-        return centerY;
+    public double getFinalBallPositionY() {
+        return finalBallPositionY;
     }
 
-    public void setCenterY(double centerY) {
-        this.centerY = centerY;
+    public void setFinalBallPositionY(double finalBallPositionY) {
+        this.finalBallPositionY = finalBallPositionY;
     }
-    
-    
 
     public double getRadius() {
         return radius;
