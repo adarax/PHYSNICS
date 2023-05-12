@@ -13,9 +13,15 @@ public class Vector {
     // Values range from 0 to 360 degrees
     private double directionInDegrees;
     
-    // Setting the type of force is useful when animating the various Vectors
     private final FORCE_TYPE forceType;
 
+    /**
+     * Constructor for the Vector class.
+     * 
+     * @param magnitudeInNewtons the magnitude of force of the Vector in Newtons
+     * @param directionInDegrees the direction of the Vector in degrees
+     * @param forceType the type of force that the Vector is (APPLIED or FRICTION)
+     */
     public Vector(double magnitudeInNewtons, double directionInDegrees, FORCE_TYPE forceType)
     {
         this.magnitudeInNewtons = magnitudeInNewtons;
@@ -54,6 +60,13 @@ public class Vector {
         }
     }
 
+    /**
+     * Returns the x and y components of the Vector by using the magnitudeInNewtons
+     * and directionInDegrees variables that get instantiated in the constructor and
+     * simple trigonometric principles.
+     * 
+     * @return the x and y components of the Vector in an ArrayList
+     */
     public ArrayList<Double> asComponents()
     {
         ArrayList<Double> asComponents = new ArrayList<>();
@@ -76,46 +89,60 @@ public class Vector {
         double currentDirection = this.directionInDegrees;
         
         currentDirection += 180;
-        
-        if (currentDirection >= 360)
-        {
-            currentDirection -= 360;
-        }
+        currentDirection = currentDirection % 360;
         
         this.directionInDegrees = currentDirection;
     }
     
+    /**
+     * Returns the magnitude of force of the Vector in Newtons.
+     * 
+     * @return the magnitude of force of the Vector
+     */
     public double getMagnitudeInNewtons()
     {
         return magnitudeInNewtons;
     }
 
+    /**
+     * Returns the direction of the Vector in degrees.
+     * 
+     * @return the direction of the Vector
+     */
     public double getDirectionInDegrees()
     {
         return directionInDegrees;
     }
     
+    /**
+     * Returns the type of force that the Vector is.
+     * 
+     * @return the type of force that the Vector is (APPLIED or FRICTION)
+     */
     public FORCE_TYPE getForceType()
     {
         return forceType;
     }
     
+    /**
+     * The type of force that the Vector is.
+     */
     public enum FORCE_TYPE
     {
         APPLIED,
         FRICTION
     }
 
-    @Override
     /**
      * Simple toString() method to easily view the properties of a Vector
-     * instance.
+     * instance. This method is used for the tests in the BlockFormulasTest class.
      *
      * Numerical values are rounded to two decimal places to simplify test
      * methods.
      *
-     * @return properties of the Vector in the form of a String.
+     * @return properties of the Vector in the form of a String
      */
+    @Override
     public String toString()
     {
         return "Vector{" + "magnitudeInNewtons=" + String.format("%.2f", magnitudeInNewtons) + ", directionInDegrees=" + String.format("%.2f", directionInDegrees) + ", forceType=" + forceType + '}';

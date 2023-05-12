@@ -37,9 +37,9 @@ public class BlockAnimation {
      * When calculating the Y coordinates, the -1 is to prevent overlap with the
      * border of the Gridpane.
      *
-     * @param topBlock
-     * @param bottomBlock
-     * @param animationPane
+     * @param topBlock the top block in the simulation
+     * @param bottomBlock the bottom block in the simulation
+     * @param animationPane the Pane in which the animation takes place
      */
     public void situateBlocks(Block topBlock, Block bottomBlock, Pane animationPane)
     {
@@ -65,6 +65,13 @@ public class BlockAnimation {
         animationPane.getChildren().addAll(topBlock, bottomBlock);
     }
 
+    /**
+     * Assembles the blocks by determining their drawing height and width,
+     * label, creating the Rectangle object, and setting the color of the block.
+     * 
+     * @param topBlock the top block in the simulation
+     * @param bottomBlock the bottom block in the simulation
+     */
     public void assembleBlocks(Block topBlock, Block bottomBlock)
     {
         ArrayList<Block> blocks = new ArrayList<>(List.of(topBlock, bottomBlock));
@@ -83,6 +90,13 @@ public class BlockAnimation {
 
     private Rectangle floorDrawing;
     
+    /**
+     * Draws the floor of the simulation. The floor is a Rectangle object that
+     * is drawn at the bottom of the Pane.
+     * 
+     * @param animationPane the Pane in which the animation takes place
+     * @param isDarkMode whether the simulation is in dark mode or not
+     */
     public void drawFloor(Pane animationPane, boolean isDarkMode)
     {
         double paneWidth = animationPane.getWidth();
@@ -91,7 +105,7 @@ public class BlockAnimation {
         floorDrawing = new Rectangle(0, paneHeight - this.floorHeight - 1,
                 paneWidth - 1, this.floorHeight);
 
-        // Make floor a light gray in light mode and a dark gray in dark mode
+        // #ccc1c1 is light gray, #807979 is gray
         floorDrawing.setFill(isDarkMode ? Color.web("ccc1c1") : Color.web("807979"));
 
         animationPane.getChildren().add(floorDrawing);
@@ -107,6 +121,14 @@ public class BlockAnimation {
     private AnimationTimer topBlockAnimationTimer, bottomBlockAnimationTimer;
     private Block topBlock, bottomBlock;
     
+    /**
+     * Creates the animations for the blocks based on the forces experienced by
+     * the blocks. The blocks are animated by translating them horizontally
+     * across the screen. The blocks are animated in parallel.
+     * 
+     * @param blocks the blocks in the simulation
+     * @param animationPane the Pane in which the animation takes place
+     */
     protected void createBlockAnimations(ArrayList<Block> blocks, Pane animationPane)
     {
         BlockFormulas blockFormulas = new BlockFormulas();
@@ -138,7 +160,8 @@ public class BlockAnimation {
                 displacement = block.getLayoutX() * -1;
             }
 
-            AnimationTimer blockAnimationTimer = new AnimationTimer() {
+            AnimationTimer blockAnimationTimer = new AnimationTimer()
+            {
                 @Override
                 public void handle(long l)
                 {
@@ -244,7 +267,8 @@ public class BlockAnimation {
             allTransitionsTopBlock.play();
         }
         
-        fallAnimationTimer = new AnimationTimer() {
+        fallAnimationTimer = new AnimationTimer()
+        {
             @Override
             public void handle(long l)
             {
@@ -278,8 +302,8 @@ public class BlockAnimation {
      * y-values can also work in the place of x for situations such as
      * free fall.
      * 
-     * @param acceleration
-     * @param displacement
+     * @param acceleration (m/s^2)
+     * @param displacement (m)
      * @return duration of animation based on the displacement
      */
     private double calculateDuration(double acceleration, double displacement)
@@ -287,6 +311,10 @@ public class BlockAnimation {
         return Math.sqrt(2 * Math.abs(displacement) / Math.abs(acceleration));
     }
     
+    /**
+     * Plays the animation by starting the animation timers and the
+     * transitions.
+     */
     public void play()
     {
         topBlockAnimationTimer.start();
@@ -301,12 +329,19 @@ public class BlockAnimation {
         }
     }
 
+    /**
+     * Pauses the animation by pausing the transitions.
+     */
     public void pause()
     {
         allTransitionsTopBlock.pause();
         userDefinedAnimationBottomBlock.pause();
     }
 
+    /**
+     * Resets the animation by stopping the animation timers and the
+     * transitions.
+     */
     public void reset()
     {        
         userDefinedAnimationBottomBlock.stop();

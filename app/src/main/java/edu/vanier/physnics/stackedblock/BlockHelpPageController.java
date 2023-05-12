@@ -53,12 +53,23 @@ public class BlockHelpPageController {
     private Stage helpWindow;
     private boolean isDarkMode;
 
+    /**
+     * Constructor for the BlockHelpPageController class.
+     * 
+     * @param stage the stage to be used for the help window
+     * @param isDarkMode the boolean value to determine if the application is in dark mode or not
+     */
     public BlockHelpPageController(Stage stage, boolean isDarkMode)
     {
         this.helpWindow = stage;
         this.isDarkMode = isDarkMode;
     }
 
+    /**
+     * Initializes the help page. Sets the text of the help page, the style of the help page,
+     * and the action of the return to simulation button. This method is automatically called
+     * when the help page is loaded.
+     */
     @FXML
     public void initialize()
     {

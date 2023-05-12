@@ -5,13 +5,24 @@ package edu.vanier.physnics.stackedblock;
  * @author adam8
  */
 public class Settings {
-    public static boolean isDark = true;
+    private static boolean isDark = true;
 
+    /**
+     * Returns the boolean value of isDark. If true, the application
+     * is in dark mode. If false, the application is in light mode.
+     * 
+     * @return whether the application is in dark mode or not
+     */
     public static boolean isDark()
     {
         return isDark;
     }
 
+    /**
+     * Sets the boolean value of isDark.
+     * 
+     * @param isDark the boolean value to set isDark to
+     */
     public static void setIsDark(boolean isDark)
     {
         Settings.isDark = isDark;

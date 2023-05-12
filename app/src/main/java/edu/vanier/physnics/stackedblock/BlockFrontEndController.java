@@ -93,6 +93,10 @@ public class BlockFrontEndController {
     private ArrayList<Parent> allPanes = new ArrayList<>();
     private ArrayList<Line> allLines = new ArrayList<>();
 
+    /**
+     * Method that it called first when the scene is loaded. It sets up the
+     * scene and adds event handlers to the buttons and sliders.
+     */
     @FXML
     public void initialize()
     {
@@ -144,6 +148,13 @@ public class BlockFrontEndController {
     }
 
     // TODO: lines just don't display and i don't get it
+
+    /**
+     * Method that collects all elements that need to be changed to dark mode
+     * and adds them to the allTextElements and allPanes ArrayLists. Then, it
+     * sets those elements to light/dark mode depending on the current state 
+     * of the application.
+     */
     public void handleDarkMode()
     {
         // The elements only need to be found once, and both
@@ -214,6 +225,16 @@ public class BlockFrontEndController {
 
     private boolean isAnimationInitialized = false;
     
+    /**
+     * Method that is called when the play button is pressed. It creates the
+     * block animations if they have not been created yet, and then plays them.
+     * It also sets the animation state to playing.
+     * 
+     * @see blockAnimationHandler
+     * @see ANIMATION_STATE
+     * @see toggleFieldState
+     * @see resetScene
+     */
     public void handlePlay()
     {
         animateButtonPress(buttonPlay, PLAY_BUTTON, PLAY_BUTTON_PRESSED);
@@ -231,6 +252,14 @@ public class BlockFrontEndController {
         toggleFieldState(ANIMATION_STATE.PLAYING);
     }
 
+    /**
+     * Method that is called when the pause button is pressed. It pauses the
+     * block animations and sets the animation state to paused.
+     * 
+     * @see blockAnimationHandler
+     * @see ANIMATION_STATE
+     * @see toggleFieldState
+     */
     public void handlePause()
     {
         animateButtonPress(buttonPause, PAUSE_BUTTON, PAUSE_BUTTON_PRESSED);
@@ -238,6 +267,15 @@ public class BlockFrontEndController {
         toggleFieldState(ANIMATION_STATE.PAUSED);
     }
 
+    /**
+     * Method that is called when the reset button is pressed. It resets the
+     * block animations and sets the animation state to reset.
+     * 
+     * @see blockAnimationHandler
+     * @see ANIMATION_STATE
+     * @see toggleFieldState
+     * @see resetScene
+     */
     public void handleReset()
     {
         animateButtonPress(buttonReset, RESET_BUTTON, RESET_BUTTON_PRESSED);
@@ -299,6 +337,8 @@ public class BlockFrontEndController {
     
     /**
      * Opens the help page scene.
+     * 
+     * @see switchSimulation
      */
     public void handleHelp()
     {
@@ -307,6 +347,8 @@ public class BlockFrontEndController {
 
     /**
      * Set all sliders back to their minimum values and resets the animation.
+     * 
+     * @see resetScene
      */
     public void handleClear()
     {
@@ -318,6 +360,12 @@ public class BlockFrontEndController {
         resetScene();
     }
 
+    /**
+     * This method redraws the scene. It is called when the user makes a change
+     * that affects the scene, such as changing the value of a slider.
+     * 
+     * @see drawVectors
+     */
     public void resetScene()
     {
         paneAnimation.getChildren().clear();
@@ -362,6 +410,12 @@ public class BlockFrontEndController {
         });
     }
 
+    /**
+     * This method returns a list of the forces experienced by the Block.
+     * 
+     * @param blockId the block for which the forces are to be determined (TOP or BOTTOM)
+     * @return an ArrayList of the forces experienced by the Block
+     */
     public ArrayList<Vector> getForcesExperienced(POSITION blockId)
     {
         return blockFormulasCalculator.determineForcesExperienced(topBlock,
@@ -375,11 +429,19 @@ public class BlockFrontEndController {
                 blockId);
     }
 
+    /**
+     * This method handles the exit of the application.
+     */
     public void handleExitOfApplication()
     {
         Platform.exit();
     }
 
+    /**
+     * This method switches the scene to the specified simulation.
+     * 
+     * @param simulationName the name of the simulation to switch to
+     */
     public void switchSimulation(String simulationName)
     {
         Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
@@ -439,7 +501,7 @@ public class BlockFrontEndController {
      *
      * This is to help with the light/dark mode feature.
      *
-     * @param currentNode
+     * @param currentNode the current Node being analyzed
      */
     private void collectElementsByType(Node currentNode)
     {
