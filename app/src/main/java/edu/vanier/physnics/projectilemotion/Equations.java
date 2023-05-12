@@ -67,7 +67,7 @@ public class Equations {
      * Method representing the formula for the max displacement in the x direction of the 
      * projectile motion.
      * 
-     * {@code Distance = (initialVelocityMPS^2 * sin(2 * launchAngleDeg)) / gravityAccelMPSS}
+     * {@code DistanceMeters = (initialVelocityMetersPerSecond^2 * sin(2 * launchAngleDegrees)) / gravityMetersPerSecondSquared}
      * 
      * @param gravityMetersPerSecondSquared Gravitational Acceleration entered by user
      * @param launchAngleDegrees Launch Angle entered by user
