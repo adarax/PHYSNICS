@@ -160,15 +160,13 @@ public class Arrow extends StackPane {
          */
         if (forceVector.getForceType() == FORCE_TYPE.APPLIED)
         {
+            // Set pivot point of the tail of the vector and centered vertically
+            Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + (arrowBody.getFitHeight() / 2));
+            this.getTransforms().add(rotate);
+
             if (Math.abs(rotationInDegrees) > 90 && Math.abs(rotationInDegrees) < 270)
             {
-                Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + arrowBody.getFitHeight());
-                this.getTransforms().add(rotate);
                 nameTag.setRotate(180);
-            } else
-            {
-                Rotate rotate = new Rotate(rotationInDegrees, arrowBody.getLayoutX(), arrowBody.getLayoutY() + arrowBody.getFitHeight());
-                this.getTransforms().add(rotate);
             }
         }
     }
@@ -198,7 +196,9 @@ public class Arrow extends StackPane {
     /**
      * Adjusts the layout of this Arrow object and any other Arrow objects in
      * the given ArrayList that overlap with it and have the same corresponding
-     * block, to avoid visual overlap.
+     * block, to avoid visual overlap. For aesthetic purposes, applied forces
+     * are put on the upper part of the block and friction forces on the lower
+     * part.
      *
      * @param arrows an ArrayList of Arrow objects that may overlap
      */
@@ -212,11 +212,19 @@ public class Arrow extends StackPane {
         };
 
         for (Arrow arrow : arrows)
-        {            
-            if (!arrow.equals(this) && this.correspondingBlock.equals(arrow.getCorrespondingBlock()) && this.intersects(arrow.getBoundsInLocal()))
+        {
+            if (arrow.equals(this) || !this.correspondingBlock.equals(arrow.getCorrespondingBlock()) || !this.intersects(arrow.getBoundsInLocal()))
+            {
+                continue;
+            }
+            if (this.getForceVector().getForceType() == FORCE_TYPE.FRICTION)
             {
                 arrow.setLayoutY(yValueBoundsOfBlock[0]);
                 this.setLayoutY(yValueBoundsOfBlock[1] - this.arrowBody.getFitHeight());
+            } else
+            {
+                this.setLayoutY(yValueBoundsOfBlock[0]);
+                arrow.setLayoutY(yValueBoundsOfBlock[1] - this.arrowBody.getFitHeight());
             }
         }
     }
