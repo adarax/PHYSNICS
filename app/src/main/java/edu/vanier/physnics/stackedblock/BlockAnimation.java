@@ -293,7 +293,8 @@ public class BlockAnimation {
             {
                 double verticalTranslation = topBlock.getTranslateY();
                 
-                // TODO: using an intersects() method would be better
+                // Scalar helps to make the block stop as soon as any part of it
+                // touches the floor. Intersects() does not work in this context.
                 if (verticalTranslation > bottomBlock.getDrawingHeight() - (floorDrawing.getHeight() * 0.8))
                 {
                     allTransitionsTopBlock.stop();
