@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AnimationTest {
     /**
-     * Test of scaleHeightToPixels method, of class Animation.
+     * Test of getHeightPixels method, of class Animation.
      */
     @Test
     public void testScaleHeightToPixels() {
@@ -23,7 +23,7 @@ public class AnimationTest {
         double xDisplacementPixels = 100;
         Animation instance = new Animation();
         double expResult = 49.07;
-        double result = instance.scaleHeightToPixels(launchAngleDeg, xDisplacementPixels);
+        double result = instance.getHeightPixels(launchAngleDeg, xDisplacementPixels);
         assertEquals(expResult, result, 0.1);
         // TODO review the generated test code and remove the default call to fail.
         System.out.println(result);

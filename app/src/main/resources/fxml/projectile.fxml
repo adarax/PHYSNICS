@@ -4,6 +4,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXSlider?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
@@ -70,9 +71,9 @@
                            </GridPane.margin></Text>
                         
                         <!-- Light / dark mode button -->
-                        <ImageView fx:id="buttonDarkMode" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <ImageView fx:id="buttonHome" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                             <image>
-                                <Image url="@/images/dark_moon_icon.png" />
+                                <Image url="@../images/HomeButton.png" />
                             </image>
                         </ImageView>
                         <MFXButton fx:id="buttonSettings" prefHeight="43.0" prefWidth="120.0" text="Settings" GridPane.columnIndex="1">
@@ -99,6 +100,21 @@
                               <Image url="@../images/cannon-base.png" />
                            </image>
                         </ImageView>
+                        <Label fx:id="maxHeightLabel" layoutX="1289.0" layoutY="35.0" text="Max Height (meters):" textFill="#0004ff">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="flightTimeLabel" layoutX="1289.0" layoutY="71.0" text="Flight Time (seconds):" textFill="#0004ff">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="distanceLabel" layoutX="1289.0" layoutY="106.0" text="Distance (meters):" textFill="#0004ff">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                </children>
@@ -198,17 +214,17 @@
                   <Insets left="50.0" top="50.0" />
                </GridPane.margin>
             </MFXSlider>
-            <MFXSlider fx:id="sliderLaunchAngle" max="90.0" prefWidth="180.0" showMajorTicks="true" showMinorTicks="true" tickUnit="30.0" unitIncrement="1.0" GridPane.columnIndex="1">
+            <MFXSlider fx:id="sliderLaunchAngle" max="80.0" min="20.0" prefWidth="180.0" showMajorTicks="true" showMinorTicks="true" tickUnit="30.0" unitIncrement="1.0" value="20.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="50.0" top="-150.0" />
                </GridPane.margin>
             </MFXSlider>
-            <MFXSlider fx:id="sliderInitialVelocity" max="30.0" prefHeight="0.0" prefWidth="180.0" showMajorTicks="true" showMinorTicks="true" tickUnit="10.0" unitIncrement="5.0" GridPane.columnIndex="1">
+            <MFXSlider fx:id="sliderInitialVelocity" max="40.0" min="10.0" prefHeight="0.0" prefWidth="180.0" showMajorTicks="true" showMinorTicks="true" tickUnit="10.0" unitIncrement="5.0" value="10.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="50.0" top="-350.0" />
                </GridPane.margin>
             </MFXSlider>
-            <MFXToggleButton GridPane.columnIndex="1">
+            <MFXToggleButton fx:id="showTrailToggleButton" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="30.0" top="250.0" />
                </GridPane.margin>

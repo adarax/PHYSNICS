@@ -20,35 +20,45 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 /**
- *
- * @author vires
+ * Controller class for the Settings Page. Method to change background and 
+ * ball color. 
+ * 
+ * @author vireshpatel43
  */
 public class SettingsController {
+    // Instantiates the FXML UI Controls present. 
     @FXML
-    ImageView buttonField, buttonWinter, buttonDesert;
+    private ImageView buttonField, buttonWinter, buttonDesert;
     
     @FXML
-    MFXButton buttonExitSettings;
+    private MFXButton buttonExitSettings;
     
     @FXML
-    ColorPicker ballColour, trailColour;
+    public ColorPicker ballColourPicker;
     
     private Stage stage;
     
+    // Main animation pane to change backgrounds
     private Pane paneAnimation;
     
-    private Circle projectileBall;
+    // Ball used in the animation
+    public Circle projectileBall;
     
+    // Sets the FXML for all background options
     private final Image FIELD_BACKGROUND = new Image(getClass().getResourceAsStream("/images/settings/cartoon_field.png"));
     private final Image WINTER_BACKGROUND = new Image(getClass().getResourceAsStream("/images/settings/cartoon_winter.png"));
     private final Image DESERT_BACKGROUND = new Image(getClass().getResourceAsStream("/images/settings/desert.png"));
 
+    /**
+     * Constructor for the settings controller to gain access to the animation
+     * pane and the ball.
+     * @param paneAnimation main Pane
+     * @param projectileBall ball present in scene
+     */
     public SettingsController(Pane paneAnimation, Circle projectileBall) {
         this.paneAnimation = paneAnimation;
         this.projectileBall = projectileBall;
     }
-    
-    
     
     /**
      * Used by the Settings Class to set the stage of the SettingsController.
@@ -61,13 +71,18 @@ public class SettingsController {
         this.stage = stage;
     }
 
+    /**
+     * Sets action events for the color picker, exit button and background buttons. 
+     */
     @FXML
-    public void initialize() {
+    public void initialize() {     
         
+        // Closes Stage
         buttonExitSettings.setOnAction(leftClick -> {
             handleExit();
         });
         
+        // Sets the background when image is clicked
         buttonField.setOnMouseClicked(leftClick -> {
             setBackground(FIELD_BACKGROUND);
         });
@@ -80,13 +95,14 @@ public class SettingsController {
             setBackground(DESERT_BACKGROUND);
         });
         
-        ballColour.setValue((Color)projectileBall.getFill());
+        // Sets the color on the colorPicker to the color of the ball
+        ballColourPicker.setValue((Color)projectileBall.getFill());
         
-        ballColour.setOnAction(leftClick -> {
-            Color colour = ballColour.getValue();
+        // Changes the color of the ball
+        ballColourPicker.setOnAction(leftClick -> {
+            Color colour = ballColourPicker.getValue();
             projectileBall.setFill(colour);
-        });
-
+        });     
     }
         
     
@@ -103,8 +119,11 @@ public class SettingsController {
         paneAnimation.setBackground(new Background(backgroundImage));
     }
 
+    /**
+     * Closes the stage upon button pressed
+     */
     public void handleExit() {
         stage.close();
     }
-    
+
 }

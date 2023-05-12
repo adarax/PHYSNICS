@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="807.0" layoutY="2.0" prefHeight="141.0" prefWidth="279.0" text="Settings" textAlignment="CENTER">
@@ -19,22 +18,12 @@
             <Font size="72.0" />
          </font>
       </Label>
-      <ColorPicker fx:id="ballColour" layoutX="1017.0" layoutY="182.0" prefHeight="105.0" prefWidth="304.0" promptText="Ball Colour">
+      <ColorPicker fx:id="ballColourPicker" layoutX="1012.0" layoutY="256.0" prefHeight="105.0" prefWidth="304.0" promptText="Ball Colour">
          <value>
             <Color green="0.06666667014360428" blue="1.0" />
          </value>
       </ColorPicker>
-      <Text layoutX="620.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ball Colour">
-         <font>
-            <Font size="52.0" />
-         </font>
-      </Text>
-      <ColorPicker fx:id="trailColour" layoutX="1020.0" layoutY="397.0" prefHeight="105.0" prefWidth="304.0" promptText="Ball Colour">
-         <value>
-            <Color green="0.06666667014360428" blue="1.0" />
-         </value>
-      </ColorPicker>
-      <Text layoutX="615.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trail Colour">
+      <Text layoutX="626.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ball Colour">
          <font>
             <Font size="52.0" />
          </font>
