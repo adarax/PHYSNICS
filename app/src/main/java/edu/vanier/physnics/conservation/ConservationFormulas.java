@@ -26,10 +26,6 @@ public class ConservationFormulas {
         return 2.0*Math.sqrt((2.0*height)/g);
     }
     
-    public static double getFrictionEnergy(double u, double mass, double g, double d){
-        return u*mass*g*d;
-    }
-    
      public static double getAngle(double currentHeight, Double radius){
         double angleRadians = Math.asin(currentHeight/radius);
         return Math.toDegrees(angleRadians);
@@ -40,7 +36,7 @@ public class ConservationFormulas {
     }
      
     public static double getFrictionEnergyOverCircleSection(double radius, double m, double g, double u, double initialAngle, double finalAngle){
-        return Math.abs(radius*m*g*u*(Math.sin(0) - Math.sin(finalAngle)));
+        return Math.abs(radius*m*g*u*(Math.sin(initialAngle) - Math.sin(finalAngle)));
     }
     
     public static double getHeightFromPotentialEnergy(double g, double mass, double PE){

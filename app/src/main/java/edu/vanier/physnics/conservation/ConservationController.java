@@ -133,10 +133,8 @@ public class ConservationController {
         setup();
 
         btnPlay.setOnMouseClicked((e) -> {
-            animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(),
-                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction, 
-                    ConservationFormulas.potentialEnergy(mass, g, rampHeight),
-                    ConservationFormulas.getFrictionEnergyOverCircleSection(rampHeight, mass, g, u, 0, 180)
+            animBackend.playBallAnimation(ball, ramp, rampHeight, g, graphController.getKEGraph(),
+                    graphController.getPEGraph(), graphController.getFrictionGraph(), friction    
             );
             graphController.setTotalEnergyText(ConservationFormulas.potentialEnergy(mass, g, rampHeight));
             updater.start();
@@ -164,6 +162,7 @@ public class ConservationController {
 
         sliderMass.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             mass = sliderMass.getValue();
+            ball.setMass(mass);
             textMass.setText("Mass of the ball: " + mass + " kg");
         });
 

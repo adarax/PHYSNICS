@@ -110,8 +110,7 @@ public class Ramp extends Path{
         ballArc.setY(positionY-radius-thickness);
         ballArc.setRadiusX(radius-ball.getRadius());
         ballArc.setRadiusY(radius-ball.getRadius());
-        
-        
+       
         Path ballPath = new Path();
         ballPath.getElements().add(initialBallPos);
         ballPath.getElements().add(ballArc);

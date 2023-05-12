@@ -11,6 +11,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
@@ -56,21 +57,92 @@ public class AnimationBackend {
         mainAnimation.getChildren().add(ballCurve);
     }
     
-    public void createFrictionBallAnimation(Ball ball, double height, double g, double TME, double FE){
-        FE = FE/2;
-        cycleTime = ConservationFormulas.getArcTime(height, g);
-        ArrayList<Double> stopHeights = new ArrayList<Double>();
-        stopHeights.add(0, height);
-        for(double i = TME; i >= 0; i=-FE){
-            TME = TME - FE;
-            double newHeight = ConservationFormulas.getHeightFromPotentialEnergy(g, ball.getMass(), TME);
-            stopHeights.add(newHeight);
-            
-        }
+    public void createFrictionBallAnimation(Ball ball, Ramp ramp, double height, double g, double u){
+       SequentialTransition ballTransition = new SequentialTransition();
+       double x = ramp.getInitialBallPositionX();
+       double y = ramp.getInitialBallPositionY();
+       double arcRadius = ramp.getRadius()-ball.getRadius();
+       double initialTME = ConservationFormulas.potentialEnergy(ball.getMass(), g, height);
+       double time;
+       double TME = initialTME;
+       
+       while(TME > 0){
+        //drop
+        Path dropPath = new Path();
+        MoveTo initialBallPos = new MoveTo();
+        initialBallPos.setX(x);
+        initialBallPos.setY(y);
+        dropPath.getElements().add(initialBallPos);
         
-        for(double d : stopHeights){
-            System.out.println(d);
-        }
+        //x = ;
+        //y = y+ramp.getRadius()+ball.getRadius()-ramp.getThickness();
+        
+        ArcTo ballArc = new ArcTo();
+        ballArc.setX((x+ramp.getRadius()-ball.getRadius()));
+        ballArc.setY(y+ramp.getRadius()+ball.getRadius()-ramp.getThickness());
+        ballArc.setRadiusX(arcRadius);
+        ballArc.setRadiusY(arcRadius);
+        
+        dropPath.getElements().add(ballArc);
+        ball.setBallPath(dropPath);
+        
+        PathTransition firstDrop = new PathTransition();
+        
+        time = ConservationFormulas.getArcTime(height, g)/2;
+        
+        firstDrop.setDuration(Duration.seconds(time));
+        firstDrop.setNode(ball);
+        firstDrop.setPath(dropPath);
+        firstDrop.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
+
+        firstDrop.setCycleCount(1);
+        firstDrop.setAutoReverse(false);
+        firstDrop.setInterpolator(Interpolator.EASE_BOTH);
+
+        mainAnimation.getChildren().add(firstDrop);
+        TME -= ConservationFormulas.getFrictionEnergyOverCircleSection(height, ball.getMass(), g, u, 0, 90);
+        
+        System.out.println(TME);
+        //climb
+        
+        Path climbPath = new Path();
+        MoveTo start = new MoveTo();
+        start.setX(x+ramp.getRadius()-ball.getRadius());
+        start.setY(y+ramp.getRadius()+ball.getRadius()-ramp.getThickness());
+        climbPath.getElements().add(start);
+        
+        //x = ;
+        //y = y+ramp.getRadius()+ball.getRadius()-ramp.getThickness();
+        
+        ArcTo climbArc = new ArcTo();
+        climbArc.setX((x+ramp.getRadius()-ball.getRadius()));
+        climbArc.setY(y);
+        climbArc.setRadiusX(arcRadius);
+        climbArc.setRadiusY(arcRadius);
+        
+        climbPath.getElements().add(climbArc);
+        ball.setBallPath(climbPath);
+        
+        PathTransition climb = new PathTransition();
+        
+        time = ConservationFormulas.getArcTime(height, g)/2;
+        
+        climb.setDuration(Duration.seconds(time));
+        climb.setNode(ball);
+        climb.setPath(climbPath);
+        climb.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
+
+        climb.setCycleCount(1);
+        climb.setAutoReverse(false);
+        climb.setInterpolator(Interpolator.EASE_BOTH);
+
+        mainAnimation.getChildren().add(climb);
+        TME -= ConservationFormulas.getFrictionEnergyOverCircleSection(height, ball.getMass(), g, u, 0, 90);
+        
+        System.out.println(TME);
+        
+       }
+           
         
         
     }
@@ -145,15 +217,15 @@ public class AnimationBackend {
     }
 
 
-public void playBallAnimation(Ball ball, double height, double g, Rectangle KE, Rectangle PE, Rectangle FE, boolean friction, double TME, double frictionOverOneCycle){
+public void playBallAnimation(Ball ball, Ramp ramp, double height, double g, Rectangle KE, Rectangle PE, Rectangle FE, boolean friction){
         if(playing){
             mainAnimation.play();
         }
         else{
             
             if(friction){
-                createFrictionGraphAnimation(frictionOverOneCycle, TME, FE);
-                createFrictionBallAnimation(ball, height, g, TME, frictionOverOneCycle);
+                //createFrictionGraphAnimation(frictionOverOneCycle, TME, FE);
+                createFrictionBallAnimation(ball, ramp, height, g, 0.6);
             }
             else{
                 createBallAnimation(ball,height,g);
