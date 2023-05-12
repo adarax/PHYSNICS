@@ -274,7 +274,7 @@ public class MainAppController {
             updateTrail();
         });
         
-        // Action events for sliders 
+        // Action events for sliders. Updates the trail when slider is updates or updates the cannon angle when angle is changed. 
         sliderInitialVelocity.setOnMouseDragged(leftClick -> {
             updateTrail();
         });
@@ -467,18 +467,22 @@ public class MainAppController {
 
         // Loads controller for each simulation
         switch (simulationName) {
+            // Switches to stacked block simulation
             case "stackedblock" -> {
                 BlockFrontEndController blockcontroller = new BlockFrontEndController();
                 loader.setController(blockcontroller);
             }
+            // Switches to uniform circular motion simulation
             case "uniform-circular-motion" -> {
                 UniformCircularMotionController controllerUCM = new UniformCircularMotionController();
                 loader.setController(controllerUCM);
             }
+            // Switches to conservation of energy simulation
             case "conservation" -> {
                 ConservationController conservationController = new ConservationController();
                 loader.setController(conservationController);
             }
+            // Switches to main menu
             case "mainmenu" -> {
                 MainMenuController menuController = new MainMenuController(currentStage);
                 loader.setController(menuController);

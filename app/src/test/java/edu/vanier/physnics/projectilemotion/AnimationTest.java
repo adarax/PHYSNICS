@@ -24,9 +24,9 @@ public class AnimationTest {
         Animation instance = new Animation();
         double expResult = 49.07;
         double result = instance.getHeightPixels(launchAngleDeg, xDisplacementPixels);
+        // Compares calculated result with result from the method.
+
         assertEquals(expResult, result, 0.1);
-        // TODO review the generated test code and remove the default call to fail.
-        System.out.println(result);
     }
-    
+
 }

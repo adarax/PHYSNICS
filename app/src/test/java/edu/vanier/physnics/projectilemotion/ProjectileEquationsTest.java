@@ -24,8 +24,8 @@ public class ProjectileEquationsTest {
         double gravityAccelMPSS = 15;
         double expResult = 3.33;
         double result = Equations.getMaxHeight(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        // Compares calculated result with result from the method.
         assertEquals(expResult, result, 0.1);
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -39,8 +39,8 @@ public class ProjectileEquationsTest {
         double gravityAccelMPSS = 15;
         double expResult = 23.09;
         double result = Equations.getXdisplacement(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        // Compares calculated result with result from the method.
         assertEquals(expResult, result, 0.1);
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -54,8 +54,8 @@ public class ProjectileEquationsTest {
         double gravityAccelMPSS = 15;
         double expResult = 1.33;
         double result = Equations.getFlightTime(launchAngleDeg, initialVelocityMPS, gravityAccelMPSS);
+        // Compares calculated result with result from the method.
         assertEquals(expResult, result, 0.1);
-        // TODO review the generated test code and remove the default call to fail.
     }
     
 }
