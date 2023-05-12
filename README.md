@@ -31,7 +31,7 @@ When first booting up the simulation, there are three parameters: radius, speed,
 This simulation relies on the concept of **uniform circular motion**, which is when an object is revolving in constant motion without any external forces acting upon it. The
 centripetal acceleration and the centripetal force that this object will experience in uniform circular motion will be pointed inwards, towards the middle of the path that it is revolving about. There are three factors that influence the acceleration and force of the object in an uniform circular motion: the **speed**, the **radius of the revolving path**, and the **mass**. They are related to the acceleration and force by two formulas: a=v^2/r, and Newton's second Law, F=ma. In this simulation, the parameters that can be affected are the speed, mass and radius, which will affect the paths size, the centripetal acceleration, and the centripetal force.
 
-
+![Uniform Circular Motion Vectors](public/readme-images/UCMVectors.png)
 
 
 ---
