@@ -15,11 +15,10 @@ public class Car {
     private double radius;
     private double mass;
     
-    private double[] velocity = new double[2];
-    private double accelerationcentr;
+    private double accelerationCentripetal;
     private double accelerationtang;
-
-    public Car() {
+    
+    public Car(){
     }
     
     public Car(double speed, double radius, double mass) {
@@ -52,20 +51,12 @@ public class Car {
         this.mass = mass;
     }
 
-    public double[] getVelocity() {
-        return this.velocity;
-    }
-
-    public void setVelocity(double[] velocity) {
-        this.velocity = velocity;
-    }
-
     public double getAccelerationcentr() {
-        return this.accelerationcentr;
+        return this.accelerationCentripetal;
     }
 
     public void setAccelerationcentr(double accelerationcentr) {
-        this.accelerationcentr = accelerationcentr;
+        this.accelerationCentripetal = accelerationcentr;
     }
 
     public double getAccelerationtang() {
@@ -78,6 +69,6 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Object{" + "speed=" + speed + ", radius=" + radius + ", mass=" + mass + ", velocity=" + velocity + ", accelerationcentr=" + accelerationcentr + ", accelerationtang=" + accelerationtang + '}';
+        return "Object{" + "speed=" + speed + ", radius=" + radius + ", mass=" + mass +  ", accelerationcentr=" + accelerationCentripetal + ", accelerationtang=" + accelerationtang + '}';
     }  
 }

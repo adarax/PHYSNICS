@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -34,7 +35,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="13.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The simulation can be paused, restarted or resetted if desired. Values for the acceleration and its vector components, as well as the force and its vector components are displayed in the bottom right. The tab;es below show each button and arrow and their individual function/representation, respectively." wrappingWidth="829.6666259765625">
+      <Text layoutX="13.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The simulation can be paused, restarted or resetted if desired. Values for the acceleration and its vector components, as well as the force and its vector components are displayed in the bottom right. The tables below show each button and arrow/shape and their individual function/representation, respectively." wrappingWidth="829.6666259765625">
          <font>
             <Font size="14.0" />
          </font>
@@ -95,11 +96,22 @@
             <RowConstraints maxHeight="152.66668701171875" minHeight="10.0" prefHeight="96.66670735677081" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Arrow" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Arrow/Shape" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Representation" GridPane.columnIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to start/restart the simulation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to pause the simulation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is used to reset the simulation back to its default settings." wrappingWidth="233.7708740234375" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This arrow represents the centripetal acceleration experienced by the car in the uniform circular motion simulation." wrappingWidth="261.65234375" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This arrow represents the vector of the centripetal force experienced by the car in the uniform circular motion." wrappingWidth="264.0090637207031" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This is the &quot;car&quot; that will be revolving in the simulation." wrappingWidth="233.7708740234375" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fitHeight="91.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../images/uniform_circular_motion_vector_acceleration_magnitude.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="98.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../images/uniform_circular_motion_vector_force_magnitude.png" />
+               </image>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebad4a" height="50.0" stroke="BLACK" strokeType="INSIDE" width="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
