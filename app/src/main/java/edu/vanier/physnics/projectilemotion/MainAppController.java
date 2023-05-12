@@ -288,6 +288,7 @@ public class MainAppController {
         });
 
         sliderLaunchAngle.setOnMouseDragged(leftClick -> {
+            handleRotateCannon(cannonBarrel);
             updateTrail();
         });
         
