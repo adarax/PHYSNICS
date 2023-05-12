@@ -92,9 +92,9 @@ public class SimulationBackEnd {
 
     /**
      * Sets the minimum and maximum of the sliders.
-     * @param slider
-     * @param min
-     * @param max
+     * @param slider the slider to set
+     * @param min the minimum value
+     * @param max the maximum value
      */
     public void setSliderRange(MFXSlider slider, double min, double max){
         slider.setMin(min);
@@ -121,6 +121,13 @@ public class SimulationBackEnd {
         return valueInTextField;
     }    
  
+    /**
+     * Shows an alert error pop-up, and resets the value of the TextField and the Slider to the default value.
+     * @param textField the TextField to reset
+     * @param slider the Slider to reset
+     * @param valueToSet the value to set for both the slider and the TextField
+     * @param string The message that will appear in the pop-up
+     */
     public void showErrorAlertAndReset(TextField textField, MFXSlider slider, double valueToSet, String string){
         System.out.println("Error");
         //setting the slider and textfield back to default value

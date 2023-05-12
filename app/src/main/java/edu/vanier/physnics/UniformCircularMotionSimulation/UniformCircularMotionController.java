@@ -226,14 +226,16 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     void play(){
         playButton.setOnMouseClicked((event) -> {
-            setImageViewsDisabling(false, false, true);
-            timerAngle.start();
-            if (!playing) {
-                revolveCar();
-                playing = true;
+            if (car.getSpeedMetersPerSeconds() != 0) {
+                setImageViewsDisabling(false, false, true);
+                timerAngle.start();
+                if (!playing) {
+                    revolveCar();
+                    playing = true;
+                }
+                pauseAllPathTransition();
+                playAllPathTransition();                
             }
-            pauseAllPathTransition();
-            playAllPathTransition();
         });
     }
 
@@ -313,11 +315,11 @@ public class UniformCircularMotionController extends Stage{
             if (forceMagnitudeCheckBox.isSelected()) {
                 //hides the force vector if the Force magnitude CheckBox is checked
                 System.out.println("Hiding force magnitude");
-                vectorForce.getArrowBody().setOpacity(0);
+                vectorForce.getArrowBody().setVisible(false);
             }
             else{
                 //shows the force vector if the Force magnitude CheckBox is unchecked
-                vectorForce.getArrowBody().setOpacity(1);
+                vectorForce.getArrowBody().setVisible(true);
             }
         });
         accelerationMagnitudeCheckBox.setOnAction((event) -> {
@@ -353,6 +355,7 @@ public class UniformCircularMotionController extends Stage{
      */
     public void revolveCar(){       
         stopAllPathTransition();
+        vectorForce.setOpacity(0.5);
         if (!paneSimulate.getChildren().contains(rectTest)) {
             nullPaths();
             clearPathTransitions();           
@@ -434,7 +437,9 @@ public class UniformCircularMotionController extends Stage{
         massSlider.setOnMouseDragged((event) -> {
                 massTextField.setText(String.valueOf(Formulas.roundTwoDecimals(massSlider.getValue())));
                 useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
-                adjustForceVectorOpacity();
+                if (!forceMagnitudeCheckBox.isSelected()) {
+                    adjustForceVectorOpacity();                
+                }
         });        
     }
 
@@ -498,9 +503,10 @@ public class UniformCircularMotionController extends Stage{
             try {
                 massSlider.setValue(Double.valueOf(massTextField.getText()));
                 useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
-                adjustForceVectorOpacity();
-            } 
-            catch (NumberFormatException e) {
+                if (!forceMagnitudeCheckBox.isSelected()) {
+                    adjustForceVectorOpacity();                
+                }
+            } catch (NumberFormatException e) {
                 //error in case there is any erroneous value put in the textfield
                 if (!massTextField.getText().isBlank()) {
                     simulationBackEnd.showErrorAlertAndReset(massTextField, massSlider, 20, "Invalid Mass Input. Please Try Again");
@@ -526,14 +532,14 @@ public class UniformCircularMotionController extends Stage{
         //determining the angle
         double coordinateX = rectTest.getTranslateX()+rectTest.getWidth()/2;
         double coordinateY = -center.getCenterY()+rectTest.getTranslateY()+rectTest.getHeight()/2;
-        double angle = Formulas.getAngle((rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2),(rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2))*180/Math.PI;
+        double angle = Formulas.getAngleDegrees((rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2),(rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2))*180/Math.PI;
         angle = Formulas.determineQuadrantDegrees(angle, coordinateX, coordinateY);
         //setting the values for the texts of the force, acceleration and their components
         angleText.setText(String.valueOf(Formulas.roundTwoDecimals(angle)));
-        centripetalAccelerationText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateAccelerationCentripetal(car))));
+        centripetalAccelerationText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateAccelerationCentripetalMetersPerSecondsSquared(car))));
         accelerationXText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeXComponent(Double.valueOf(centripetalAccelerationText.getText()), angle))));
         accelerationYText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeYComponent(Double.valueOf(centripetalAccelerationText.getText()), angle))));
-        forceText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateForce(car))));
+        forceText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateForceNewtons(car))));
         forceXText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeXComponent(Double.valueOf(forceText.getText()), angle))));
         forceYText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeYComponent(Double.valueOf(forceText.getText()), angle))));        
     }

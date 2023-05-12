@@ -18,30 +18,30 @@ public class FormulasTest {
     }
     
     /**
-     * Test of calculateAccelerationCentripetal method, of class Formulas.
+     * Test of calculateAccelerationCentripetalMetersPerSecondsSquared method, of class Formulas.
      */
     @org.junit.jupiter.api.Test
-    public void testCalculateAccelerationCentripetal() {
+    public void testCalculateAccelerationCentripetalMetersPerSecondsSquared() {
         System.out.println("calculateAccelerationCentripetal");
         Car car = new Car(25, 10, 10);
         double expResult = 62.5;
-        double result = Formulas.calculateAccelerationCentripetal(car);
+        double result = Formulas.calculateAccelerationCentripetalMetersPerSecondsSquared(car);
         assertEquals(expResult, result, 0.1);
         System.out.println(expResult);
         System.out.println(result);
     }
 
     /**
-     * Test of calculateForce method, of class Formulas.
+     * Test of calculateForceNewtons method, of class Formulas.
      */
     @org.junit.jupiter.api.Test
-    public void testCalculateForce() {
+    public void testCalculateForceNewtons() {
         System.out.println("calculateForce");
         Car car = new Car(25, 10, 10);
         double expResult = 625;
-        car.setAccelerationCentripetalMetersPerSecondsSquared(Formulas.calculateAccelerationCentripetal(car));
+        car.setAccelerationCentripetalMetersPerSecondsSquared(Formulas.calculateAccelerationCentripetalMetersPerSecondsSquared(car));
         System.out.println(car.getAccelerationCentripetalMetersPerSecondsSquared());
-        double result = Formulas.calculateForce(car);
+        double result = Formulas.calculateForceNewtons(car);
         System.out.println(expResult);
         System.out.println(result);
         assertEquals(expResult, result, 0.1);
@@ -49,12 +49,12 @@ public class FormulasTest {
     } 
     
     /**
-     * Test of getAngle method, of class Formulas.
+     * Test of getAngleDegrees method, of class Formulas.
      */
     @org.junit.jupiter.api.Test    
-    public void testGetAngle(){
+    public void testGetAngleDegrees(){
         System.out.println("getAngle");
-        double result = Formulas.getAngle(10, 10);
+        double result = Formulas.getAngleDegrees(10, 10);
         double expResult = Math.PI/4;
         System.out.println(expResult);
         System.out.println(result);
