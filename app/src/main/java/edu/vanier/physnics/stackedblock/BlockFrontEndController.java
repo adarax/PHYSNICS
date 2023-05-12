@@ -21,10 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -68,7 +66,7 @@ public class BlockFrontEndController {
             buttonHelp;
 
     @FXML
-    private Pane paneAnimation, paneGridlines;
+    private Pane paneAnimation;
 
     private BlockAnimation blockAnimationHandler = new BlockAnimation();
     private BlockFormulas blockFormulasCalculator = new BlockFormulas();
@@ -78,7 +76,6 @@ public class BlockFrontEndController {
 
     private ArrayList<MFXSlider> allSliders;
 
-    private boolean isDark = false;
     private final Image LIGHT_MOON = new Image(getClass().getResourceAsStream("/images/light_moon_icon.png")),
             DARK_MOON = new Image(getClass().getResourceAsStream("/images/dark_moon_icon.png")),
             PLAY_BUTTON = new Image(getClass().getResourceAsStream("/images/play_button.png")),
@@ -88,10 +85,8 @@ public class BlockFrontEndController {
             RESET_BUTTON = new Image(getClass().getResourceAsStream("/images/reset_button.png")),
             RESET_BUTTON_PRESSED = new Image(getClass().getResourceAsStream("/images/reset_button_pressed.png"));
     
-    /* Testing various things to get lines to show */
     private ArrayList<Text> allTextElements = new ArrayList<>();
     private ArrayList<Parent> allPanes = new ArrayList<>();
-    private ArrayList<Line> allLines = new ArrayList<>();
 
     /**
      * Method that it called first when the scene is loaded. It sets up the
@@ -119,7 +114,7 @@ public class BlockFrontEndController {
         menubuttonExit.setOnAction(press -> handleExitOfApplication());
         toggleShowVectors.setOnAction(toggle -> updateScene());
         buttonClear.setOnAction(press -> handleClear());
-        buttonDarkMode.setOnMouseClicked(press -> handleDarkMode());
+        buttonDarkMode.setOnMouseClicked(press -> handleDarkMode(true));
         buttonHelp.setOnMouseClicked(press -> handleHelp());
         buttonPause.setOnMouseClicked(press -> handlePause());
         buttonPlay.setOnMouseClicked(press -> handlePlay());
@@ -146,30 +141,34 @@ public class BlockFrontEndController {
             slider.setOnMouseDragged(drag -> updateScene());
         }
     }
-
-    // TODO: lines just don't display and i don't get it
-
+    
     /**
      * Method that collects all elements that need to be changed to dark mode
      * and adds them to the allTextElements and allPanes ArrayLists. Then, it
      * sets those elements to light/dark mode depending on the current state 
      * of the application.
+     * 
+     * If buttonToggled is true, this means that the user toggled the mode 
+     * manually. Otherwise, the method is being used to render settings when
+     * returning from another scene.
+     * 
+     * @param buttonToggled a boolean to determine whether the "moon" button
+     *                      was pressed
      */
-    private void handleDarkMode()
+    private void handleDarkMode(boolean buttonToggled)
     {
-        // The elements only need to be found once, and both
-        // allTextElements and allPanes are filled in the same method
-        if (allTextElements.isEmpty())
+        if (allTextElements.isEmpty() || allPanes.isEmpty())
         {
             collectElementsByType(paneAnimation.getScene().getRoot());
-            getAllLines();
+        }
+        
+        if (buttonToggled)
+        {
+            Settings.setIsDark(!Settings.isDark());
         }
 
-        isDark = !isDark;
-        
-        if (isDark)
+        if (Settings.isDark())
         {
-            // Go to light mode
             buttonDarkMode.setImage(LIGHT_MOON);
 
             allTextElements.forEach(textElement ->
@@ -182,14 +181,8 @@ public class BlockFrontEndController {
                 // Set to a color one shade shy of black
                 pane.setStyle("-fx-background-color: #101518;");
             });
-
-            allLines.forEach(line ->
-            {
-                line.setStroke(Color.BLACK);
-            });
         } else
         {
-            // Go to dark mode
             buttonDarkMode.setImage(DARK_MOON);
 
             allTextElements.forEach(textElement ->
@@ -202,25 +195,7 @@ public class BlockFrontEndController {
                 // Nearly white, default JavaFX background color of a Pane
                 pane.setStyle("-fx-background-color: #f4f4f4;");
             });
-
-            allLines.forEach(line ->
-            {
-                line.setStroke(Color.RED);
-            });
         }
-
-        drawLines();
-    }
-
-    private void getAllLines()
-    {
-        paneGridlines.getChildren().forEach(child ->
-        {
-            if (child instanceof Line line)
-            {
-                allLines.add(line);
-            }
-        });
     }
 
     private boolean isAnimationInitialized = false;
@@ -354,13 +329,15 @@ public class BlockFrontEndController {
 
         updateBlocks();
 
-        blockAnimationHandler.drawFloor(paneAnimation, this.isDark);
+        blockAnimationHandler.drawFloor(paneAnimation, Settings.isDark());
         blockAnimationHandler.situateBlocks(topBlock, bottomBlock, paneAnimation);
         
         if (toggleShowVectors.isSelected())
         {
             drawVectors();
         }
+        
+        handleDarkMode(false);
     }
     
     private void updateBlocks()
@@ -376,20 +353,6 @@ public class BlockFrontEndController {
     {
         topBlock.drawFreeBodyDiagram(paneAnimation);
         bottomBlock.drawFreeBodyDiagram(paneAnimation);
-    }
-    
-    // TODO: problem is most likely here, i dont understand why lines wont assemble
-    private void drawLines()
-    {
-        paneGridlines.getChildren().clear();
-
-//        System.out.println(allLines);
-        
-        allLines.forEach(line ->
-        {
-            line.toFront();
-            paneGridlines.getChildren().add(line);
-        });
     }
 
     /**
@@ -454,7 +417,7 @@ public class BlockFrontEndController {
             }
             case "stackedblock_help" ->
             {
-                BlockHelpPageController helpPageController = new BlockHelpPageController(currentStage, this.isDark);
+                BlockHelpPageController helpPageController = new BlockHelpPageController(currentStage, Settings.isDark());
                 loader.setController(helpPageController);
             }
             default ->
@@ -488,14 +451,6 @@ public class BlockFrontEndController {
         if (currentNode instanceof Text text)
         {
             this.allTextElements.add(text);
-        } else if (currentNode instanceof GridPane gridPane)
-        {
-            this.allPanes.add(gridPane);
-
-            for (Node child : gridPane.getChildren())
-            {
-                collectElementsByType(child);
-            }
         } else if (currentNode instanceof Pane pane)
         {
             this.allPanes.add(pane);

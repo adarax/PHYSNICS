@@ -7,7 +7,7 @@ package edu.vanier.physnics.stackedblock;
  * @author adam8
  */
 public class Settings {
-    private static boolean isDark = true;
+    private static boolean isDark = false;
 
     /**
      * Returns the boolean value of isDark. If true, the application
