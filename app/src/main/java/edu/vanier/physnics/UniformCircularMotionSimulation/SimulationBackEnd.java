@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -89,10 +90,11 @@ public class SimulationBackEnd {
         return pathTransitionCircle;
     }
 
-
     /**
      * Sets the minimum and maximum of the sliders.
-     * 
+     * @param slider
+     * @param min
+     * @param max
      */
     public void setSliderRange(MFXSlider slider, double min, double max){
         slider.setMin(min);
@@ -116,7 +118,24 @@ public class SimulationBackEnd {
         }
         return valueInTextField;
     }    
+ 
+    public void showErrorAlertAndReset(TextField textField, MFXSlider slider, double valueToSet, String string){
+        System.out.println("Error");
+        textField.setText(String.valueOf(valueToSet));
+        slider.setValue(valueToSet);
+        popAlert(string);
+    }
     
+    /**
+     * Makes an alert pop-up
+     * @param string the String to display in the pop-up message
+     */
+    public void popAlert(String string){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText(string);
+        a.show();
+    }    
+
     /**
      * A method used to switch the present simulation to another simulation
      * @param simulationName the name of the simulation that is being switched to
