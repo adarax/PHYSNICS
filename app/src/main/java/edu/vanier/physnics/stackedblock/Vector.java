@@ -3,7 +3,9 @@ package edu.vanier.physnics.stackedblock;
 import java.util.ArrayList;
 
 /**
- *
+ * A custom class for Vector objects in the simulation. This class stores the
+ * attributes of a Vector and offers many Vector calculation methods.
+ * 
  * @author adarax
  */
 public class Vector {

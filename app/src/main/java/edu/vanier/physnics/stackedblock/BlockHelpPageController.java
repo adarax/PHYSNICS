@@ -18,7 +18,9 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
- *
+ * A class that handles the display and the content of the stacked
+ * block help page.
+ * 
  * @author adarax
  */
 public class BlockHelpPageController {

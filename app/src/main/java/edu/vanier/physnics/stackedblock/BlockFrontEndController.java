@@ -30,7 +30,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- *
+ * A class to communicate the user's interactions on the front end with the back
+ * end of the program.
+ * 
  * @author adarax
  */
 public class BlockFrontEndController {

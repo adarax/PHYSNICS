@@ -3,7 +3,9 @@ package edu.vanier.physnics.stackedblock;
 import javafx.animation.Interpolator;
 
 /**
- *
+ * A custom Interpolator to accelerate at the acceleration
+ * passed into the constructor when instantiated.
+ * 
  * @author adarax
  */
 public class AccelerateInterpolator extends Interpolator {

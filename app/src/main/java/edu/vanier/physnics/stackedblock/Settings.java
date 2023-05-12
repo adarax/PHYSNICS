@@ -1,7 +1,9 @@
 package edu.vanier.physnics.stackedblock;
 
 /**
- *
+ * A class to ensure the user's settings are kept, even when switching between
+ * scenes.
+ * 
  * @author adam8
  */
 public class Settings {

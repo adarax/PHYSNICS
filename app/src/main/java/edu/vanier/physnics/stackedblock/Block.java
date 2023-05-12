@@ -9,7 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- *
+ * A custom object built on top of StackPane that handles both the
+ * front and back end of the Block in the simulation.
+ * 
  * @author adarax
  */
 public class Block extends StackPane {
@@ -200,8 +202,6 @@ public class Block extends StackPane {
      * its height. For aesthetic purposes, the width is 1.5 times the height.
      * 
      * Then, it sets the width of the Rectangle object using setDrawingWidth().
-     * 
-     * @see setDrawingWidth()
      */
     protected final void determineAndSetDrawingWidth()
     {

@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * A class that offers helper functions to calculate various Vectors, forces,
+ * and angles required for the stacked block simulation.
+ * 
  * @author adarax
  */
 public class BlockFormulas {

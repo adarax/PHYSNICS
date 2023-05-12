@@ -14,7 +14,8 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
- *
+ * A class to handle all animations of the Blocks.
+ * 
  * @author adarax
  */
 public class BlockAnimation {
@@ -41,7 +42,7 @@ public class BlockAnimation {
      * @param bottomBlock the bottom block in the simulation
      * @param animationPane the Pane in which the animation takes place
      */
-    public void situateBlocks(Block topBlock, Block bottomBlock, Pane animationPane)
+    protected void situateBlocks(Block topBlock, Block bottomBlock, Pane animationPane)
     {
         double paneWidth = animationPane.getWidth();
         double paneHeight = animationPane.getHeight();

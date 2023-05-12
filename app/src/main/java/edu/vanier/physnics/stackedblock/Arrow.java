@@ -12,7 +12,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 
 /**
- *
+ * A custom class to draw Vector objects onto a Block.
+ * 
  * @author adarax
  */
 public class Arrow extends StackPane {
