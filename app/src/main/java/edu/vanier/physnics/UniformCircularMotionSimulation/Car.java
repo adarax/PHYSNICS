@@ -12,26 +12,26 @@ package edu.vanier.physnics.UniformCircularMotionSimulation;
 public class Car {
     
     /**
-     * The speed of the car.
+     * The speedMetersPerSeconds of the car.
      */
-    private double speed;
+    private double speedMetersPerSeconds;
     /**
-     * The radius that the car makes when revolving.
+     * The radiusMeters that the car makes when revolving.
      */
-    private double radius;
+    private double radiusMeters;
     /**
-     * The mass of the car.
+     * The massKilograms of the car.
      */
-    private double mass;
+    private double massKilograms;
     
     /**
      * The centripetal acceleration of the car.
      */
-    private double accelerationCentripetal;
+    private double accelerationCentripetalMetersPerSecondsSquared;
     /**
-     * The centripetal force experienced by the car.
+     * The centripetal forceNewtons experienced by the car.
      */
-    private double force;
+    private double forceNewtons;
     
     /**
      * Constructor for the Car class, containing no parameters.
@@ -41,94 +41,94 @@ public class Car {
     
     /**
      * Constructor for the car class, given specific parameters. 
-     * @param speed The initial speed of the car
-     * @param radius the initial radius of the car
-     * @param mass the initial mass of the car
+     * @param speed The initial speedMetersPerSeconds of the car
+     * @param radius the initial radiusMeters of the car
+     * @param mass the initial massKilograms of the car
      */
     public Car(double speed, double radius, double mass) {
-        this.speed = speed;
-        this.radius = radius;
-        this.mass = mass;
+        this.speedMetersPerSeconds = speed;
+        this.radiusMeters = radius;
+        this.massKilograms = mass;
     }
     
     /**
-     * Getter for the car's speed
-     * @return the speed of the car
+     * Getter for the car's speedMetersPerSeconds
+     * @return the speedMetersPerSeconds of the car
      */
-    public double getSpeed() {
-        return this.speed;
+    public double getSpeedMetersPerSeconds() {
+        return this.speedMetersPerSeconds;
     }
 
     /**
-     * Sets the car's speed
-     * @param speed speed of the car to set
+     * Sets the car's speedMetersPerSeconds
+     * @param speed speedMetersPerSeconds of the car to set
      */
-    public void setSpeed(double speed) {
-        this.speed = speed;
+    public void setSpeedMetersPerSeconds(double speed) {
+        this.speedMetersPerSeconds = speed;
     }
 
     /**
-     * Getter for the car's radius
-     * @return the radius of the car
+     * Getter for the car's radiusMeters
+     * @return the radiusMeters of the car
      */
-    public double getRadius() {
-        return this.radius;
+    public double getRadiusMeters() {
+        return this.radiusMeters;
     }
 
     /**
-     * Sets the car's radius
-     * @param radius radius of the car to set
+     * Sets the car's radiusMeters
+     * @param radiusMeters radiusMeters of the car to set
      */
-    public void setRadius(double radius) {
-        this.radius = radius;
+    public void setRadiusMeters(double radiusMeters) {
+        this.radiusMeters = radiusMeters;
     }
 
     /**
-     * Getter for the car's mass
-     * @return the mass of the car
+     * Getter for the car's massKilograms
+     * @return the massKilograms of the car
      */
-    public double getMass() {
-        return this.mass;
+    public double getMassKilograms() {
+        return this.massKilograms;
     }
 
     /**
-     * Sets the car's mass
-     * @param mass the mass of the car to set
+     * Sets the car's massKilograms
+     * @param massKilograms the massKilograms of the car to set
      */
-    public void setMass(double mass) {
-        this.mass = mass;
+    public void setMassKilograms(double massKilograms) {
+        this.massKilograms = massKilograms;
     }
 
     /**
      * Getter for the car's centripetal acceleration
      * @return the centripetal acceleration of the car
      */
-    public double getAccelerationCentripetal() {
-        return accelerationCentripetal;
+    public double getAccelerationCentripetalMetersPerSecondsSquared() {
+        return accelerationCentripetalMetersPerSecondsSquared;
     }
 
     /**
      * Sets the car's centripetal acceleration
-     * @param accelerationCentripetal the centripetal acceleration of the car to set
+     * @param accelerationCentripetalMetersPerSecondsSquared the centripetal acceleration of the car to set
      */
-    public void setAccelerationCentripetal(double accelerationCentripetal) {
-        this.accelerationCentripetal = accelerationCentripetal;
+    public void setAccelerationCentripetalMetersPerSecondsSquared(double accelerationCentripetalMetersPerSecondsSquared) {
+        this.accelerationCentripetalMetersPerSecondsSquared = accelerationCentripetalMetersPerSecondsSquared;
     }
 
     /**
-     * Getter for the car's force
-     * @return the force of the car
+     * Getter for the car's forceNewtons
+     * @return the forceNewtons of the car
      */
-    public double getForce() {
-        return force;
+    public double getForceNewtons() {
+        return forceNewtons;
     }
 
     /**
-     * Sets the car's force
-     * @param force the force of the car to set
+     * Sets the car's forceNewtons
+     * @param forceNewtons the forceNewtons of the car to set
      */
-    public void setForce(double force) {
-        this.force = force;
+    public void setForceNewtons(double forceNewtons) {
+        this.forceNewtons = forceNewtons;
     }
     
     /**
@@ -137,6 +137,6 @@ public class Car {
      */
     @Override
     public String toString() {
-        return "Object{" + "speed=" + speed + ", radius=" + radius + ", mass=" + mass +  ", accelerationcentr=" + accelerationCentripetal +'}';
+        return "Object{" + "speed=" + speedMetersPerSeconds + ", radius=" + radiusMeters + ", mass=" + massKilograms +  ", accelerationcentr=" + accelerationCentripetalMetersPerSecondsSquared +'}';
     }  
 }

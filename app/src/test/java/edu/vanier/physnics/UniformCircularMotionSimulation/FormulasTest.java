@@ -39,8 +39,8 @@ public class FormulasTest {
         System.out.println("calculateForce");
         Car car = new Car(25, 10, 10);
         double expResult = 625;
-        car.setAccelerationCentripetal(Formulas.calculateAccelerationCentripetal(car));
-        System.out.println(car.getAccelerationCentripetal());
+        car.setAccelerationCentripetalMetersPerSecondsSquared(Formulas.calculateAccelerationCentripetal(car));
+        System.out.println(car.getAccelerationCentripetalMetersPerSecondsSquared());
         double result = Formulas.calculateForce(car);
         System.out.println(expResult);
         System.out.println(result);

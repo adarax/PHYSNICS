@@ -98,10 +98,10 @@ public class Vector {
 
     /**
      * Setter for the force magnitude.
-     * @param forceMagnitude the magnitude of the force to be set
+     * @param magnitude the magnitude of the force to be set
      */
-    public void setMagnitude(double forceMagnitude) {
-        this.magnitude = forceMagnitude;
+    public void setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
     }  
 
     /**

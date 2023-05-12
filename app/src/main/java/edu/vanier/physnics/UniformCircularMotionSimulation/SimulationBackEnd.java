@@ -80,7 +80,7 @@ public class SimulationBackEnd {
      */
     public PathTransition createPathTransitionCircle(Path path, Node node, Car car){
         PathTransition pathTransitionCircle = new PathTransition();
-        pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));
+        pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeedMetersPerSeconds()));
         pathTransitionCircle.setPath(path);
         pathTransitionCircle.setNode(node);
         pathTransitionCircle.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);

@@ -519,9 +519,9 @@ public class UniformCircularMotionController extends Stage{
      */
     public void useEnteredValuesToCalculate(Double mass, Double speed, Double radius){
         //setting the variables of the car
-        car.setMass(mass);
-        car.setSpeed(speed);
-        car.setRadius(radius);
+        car.setMassKilograms(mass);
+        car.setSpeedMetersPerSeconds(speed);
+        car.setRadiusMeters(radius);
         
         //determining the angle
         double coordinateX = rectTest.getTranslateX()+rectTest.getWidth()/2;
@@ -617,17 +617,17 @@ public class UniformCircularMotionController extends Stage{
      */
     public void setPathTrajectories(){
         //setting the path for the car
-        pathCar = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS),
-                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS),
-                Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS));
+        pathCar = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS));
         //setting the path for the force vector
-        pathForceVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS),
-                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS),
-                Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS));     
+        pathForceVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS));     
         //setting the path for the acceleration vector
-        pathAccelerationVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS),
-                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS),
-                180+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadius()-Settings.CAR_INITIAL_RADIUS_METERS)); 
+        pathAccelerationVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                180+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS)); 
         
     }
     
@@ -651,11 +651,11 @@ public class UniformCircularMotionController extends Stage{
      * Adjusts the rate that the nodes are traveling at.
      */
     public void adjustSimulationNodesAnimationRate(){
-        if (car.getSpeed() <= Settings.SIMULATION_MAXIMUM_SPEED_METERS_PER_SECONDS) {
+        if (car.getSpeedMetersPerSeconds() <= Settings.SIMULATION_MAXIMUM_SPEED_METERS_PER_SECONDS) {
             //if the speed is within the range that is supported by the simulation
-            pathTransitionCircleCar.setRate(0.1*car.getSpeed());
-            pathTransitionCircleForceVector.setRate(0.1*car.getSpeed());
-            pathTransitionCircleAccelerationVector.setRate(0.1*car.getSpeed());
+            pathTransitionCircleCar.setRate(0.1*car.getSpeedMetersPerSeconds());
+            pathTransitionCircleForceVector.setRate(0.1*car.getSpeedMetersPerSeconds());
+            pathTransitionCircleAccelerationVector.setRate(0.1*car.getSpeedMetersPerSeconds());
             warningSpeedText.setText("");
         }
         else{
@@ -672,19 +672,19 @@ public class UniformCircularMotionController extends Stage{
      * Adjusts the opacity of the force vector.
      */
     public void adjustForceVectorOpacity(){
-        if (car.getMass() <= Settings.SIMULATION_MAXIMUM_MASS_KILOGRAMS && car.getMass()> 0) {
+        if (car.getMassKilograms() <= Settings.SIMULATION_MAXIMUM_MASS_KILOGRAMS && car.getMassKilograms()> 0) {
             //if the mass is within the range that is supported by the simulation
             vectorForce.getArrowBody().setVisible(true);               
-            vectorForce.setOpacity(0.025*car.getMass());
+            vectorForce.setOpacity(0.025*car.getMassKilograms());
             warningMassText.setText("");
         }
-        else if (car.getMass() == 0) {
+        else if (car.getMassKilograms() == 0) {
             //for when the mass is 0 kg (no mass)
             vectorForce.getArrowBody().setVisible(false);               
-            vectorForce.setOpacity(0.025*car.getMass());
+            vectorForce.setOpacity(0.025*car.getMassKilograms());
             warningMassText.setText("");
         }
-        else if (car.getMass() > Settings.SIMULATION_INPUT_MAXIMUM) {
+        else if (car.getMassKilograms() > Settings.SIMULATION_INPUT_MAXIMUM) {
             //if the mass exceeds the maximum limit supported by the possible calculations in the simulation
             vectorForce.setOpacity(1);
             throw new NumberFormatException();
@@ -705,7 +705,7 @@ public class UniformCircularMotionController extends Stage{
         group.getChildren().clear();
         clearPathElements();
         clearPathTransitions();           
-        if (car.getRadius() <= Settings.SIMULATION_MAXIMUM_RADIUS_METERS) {
+        if (car.getRadiusMeters() <= Settings.SIMULATION_MAXIMUM_RADIUS_METERS) {
             //if the radius is within the range that is supported by the simulation
             setPathTrajectories();
             warningRadiusText.setText("");
