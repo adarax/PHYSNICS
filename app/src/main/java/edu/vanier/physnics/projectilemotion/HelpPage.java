@@ -10,32 +10,41 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- *
- * @author vires
+ * Class used to open the Help Page
+ * 
+ * @author vireshpatel43
  */
 public class HelpPage {
+    /**
+     * Loads the scene graph into a ScrollPane. Sets the graph to a scene. 
+     * Adds scene to stage.
+     */
     public void openHelpWindow() {
+        // Loads the fxml
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/projectileHelpPage.fxml"));
         ScrollPane root = null;
+        // Sets controller for scene 
         HelpPageController helpPageController = new HelpPageController();
         loader.setController(helpPageController);
         
+        // Loads scene graph to ScrollPane
         try {
             root = loader.load();
         } catch (IOException ex) {
             Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        // Creates scene based on scene graph
         Scene helpWindow = new Scene(root);
+        
+        // Sets scene to Stage
         Stage stage = new Stage();
         stage.setScene(helpWindow);
         stage.sizeToScene();
         stage.setTitle("Help Page");
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
         
     }

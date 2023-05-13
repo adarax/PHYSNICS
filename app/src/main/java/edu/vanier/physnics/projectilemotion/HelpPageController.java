@@ -8,23 +8,27 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 /**
- *
- * @author vires
+ * Class that sets the text for the Help Page
+ * 
+ * @author vireshpatel43
  */
 public class HelpPageController {
+    
+    //Text fields that are populated in the initialize() method.
     @FXML
-    private Text mediaButtonText;
-    
-    @FXML
-    private Text sliderText;
-    
-    @FXML
-    private Text graphButtonText;
-    
-    @FXML
-    private Text clearValuesText;
+    private Text mediaButtonText,
+            settingsText,
+            menuText,
+            homeText,
+            trailToggleText,
+            sliderText,
+            graphButtonText,
+            clearValuesText;
     
     
+    /**
+     * Sets the text for each text field in the Help Page
+     */
     @FXML
     public void initialize() {
         mediaButtonText.setText("The green \"Play\" button will start the animation.\n"
@@ -39,6 +43,19 @@ public class HelpPageController {
         graphButtonText.setText("The \"Graph\" button will open a new page with graphs that represent the simulation. ");
         
         clearValuesText.setText("The \"Clear values\" button will reset the sliders to their default position. ");
+        
+        settingsText.setText("The settings button will open a new page where you can modify cosmetic features\n"
+                + "like trail colour, ball colour, and even the background.");
+        
+        trailToggleText.setText("The trail toggle will toggle a trail representing the path of the ball");
+        
+        homeText.setText("The home button will bring you back to the main menu.");
+        
+        menuText.setText("The menu tab will allow you to navigate between all of the simulations,\n"
+                + "exit the application, or even go to the main menu.");
+        
+        
     }
-   
 }
+   
+
