@@ -162,8 +162,8 @@ public class MainAppController {
         // Loads the scene graph into Pane
         try {
             root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException exceptionLoadingFXML) {
+            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, exceptionLoadingFXML);
         }
 
         // Creates scene based on scene graph
@@ -203,8 +203,8 @@ public class MainAppController {
         // Loads the scene graph into Pane
         try {
             root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException exceptionLoadingFXML) {
+            Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, exceptionLoadingFXML);
         }
 
         // Creates scene based on scene graph
@@ -500,7 +500,7 @@ public class MainAppController {
             currentStage.setScene(scene);
             currentStage.setFullScreen(true);
             currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        } catch (IOException ex) {
+        } catch (IOException problemChangingScenes) {
             System.out.println("Something went wrong changing scenes.");
         }
     }
