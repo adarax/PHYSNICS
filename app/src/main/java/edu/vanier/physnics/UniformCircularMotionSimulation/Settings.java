@@ -30,12 +30,20 @@ public class Settings {
     /**
      * The maximum radius of the simulation for the rectangle car.
      */
+<<<<<<< Updated upstream
     static final double MAX_RADIUS_RECTANGLE = 280;
+=======
+    static final double MAX_RADIUS_RECTANGLE = 200+8*(41-25);
+>>>>>>> Stashed changes
     
     /**
      * The maximum radius of the simulation for the vectors.
      */
+<<<<<<< Updated upstream
     static final double MAX_RADIUS_VECTORS = 252;
+=======
+    static final double MAX_RADIUS_VECTORS = 180+180/25*(41-25);
+>>>>>>> Stashed changes
     
     /**
      * The width of the rectangle.
