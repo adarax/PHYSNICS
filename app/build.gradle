@@ -35,17 +35,26 @@ dependencies {
 javafx {    
     version = "18.0.2"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
-    
-    // Support for rule switch statements
-    sourceCompatibility = '14';
+    sourceCompatibility = '16';
 }
 application {    
-   // Define the main class for the application.
-   mainClass = 'edu.vanier.physnics.UniformCircularMotionSimulation.MainApp'
+   // Define the main class for the application
    mainClass = 'edu.vanier.physnics.App'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'edu.vanier.physnics.App'
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

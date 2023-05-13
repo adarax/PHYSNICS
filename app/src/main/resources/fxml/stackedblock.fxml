@@ -12,20 +12,19 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane gridLinesVisible="true" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0">
+      <GridPane gridLinesVisible="true" layoutX="-2.0" layoutY="1.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-border-color: black;">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1662.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="258.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1682.0" minWidth="10.0" prefWidth="1665.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="948.0" minWidth="10.0" prefWidth="253.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="982.0" minHeight="10.0" prefHeight="970.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="516.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="516.0" minHeight="10.0" prefHeight="108.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <GridPane gridLinesVisible="true" prefHeight="946.0" prefWidth="1602.0">
@@ -50,7 +49,7 @@
                      <children>
                         <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="File" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <items>
-                            <MenuItem fx:id="menubuttonExit" mnemonicParsing="false" text="Exit program" />
+                            <MenuItem fx:id="menubuttonExit" mnemonicParsing="false" style="-fx-font-size: 15;" text="Exit program" />
                           </items>
                            <font>
                               <Font name="Segoe UI" size="17.0" />
@@ -62,29 +61,30 @@
                            </font>
                            <GridPane.margin>
                               <Insets />
-                           </GridPane.margin></Text>
+                           </GridPane.margin>
+                        </Text>
                         <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="Menu" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <items>
-                              <MenuItem fx:id="menubuttonMainMenu" mnemonicParsing="false" text="Main menu" />
-                              <MenuItem fx:id="menubuttonConservation" mnemonicParsing="false" text="Conservation of energy simulator" />
-                              <MenuItem fx:id="menubuttonCentripetal" mnemonicParsing="false" text="Centripetal force simulator" />
-                              <MenuItem fx:id="menubuttonProjectile" mnemonicParsing="false" text="Projectile motion simulator" />
+                              <MenuItem fx:id="menubuttonMainMenu" mnemonicParsing="false" style="-fx-font-size: 15;" text="Main menu" />
+                              <MenuItem fx:id="menubuttonConservation" mnemonicParsing="false" style="-fx-font-size: 15;" text="Conservation of energy simulator" />
+                              <MenuItem fx:id="menubuttonCentripetal" mnemonicParsing="false" style="-fx-font-size: 15;" text="Centripetal force simulator" />
+                              <MenuItem fx:id="menubuttonProjectile" mnemonicParsing="false" style="-fx-font-size: 15;" text="Projectile motion simulator" />
                            </items>
                            <font>
                               <Font name="Segoe UI" size="17.0" />
                            </font>
                         </MenuButton>
                         
-                        <!-- Light / dark mode button -->
+                                    <!-- Light / dark mode button -->
                         <ImageView fx:id="buttonDarkMode" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                             <image>
                                 <Image url="@/images/dark_moon_icon.png" />
                             </image>
                         </ImageView>
                         
-                     </children>
+                                 </children>
                   </GridPane>
-                  <Pane fx:id="paneAnimation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="868.0" prefWidth="1662.0" GridPane.rowIndex="1" />
+                  <Pane fx:id="paneAnimation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="867.0" prefWidth="1672.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M1 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
@@ -106,18 +106,21 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderAngleOnM1" max="360.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="175.0" />
-               </GridPane.margin></MFXSlider>
+               </GridPane.margin>
+            </MFXSlider>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Force on M2 (N)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="230.0" />
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderForceOnM2" max="40.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="265.0" />
@@ -129,7 +132,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderAngleOnM2" max="360.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="355.0" />
@@ -141,7 +145,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderFrictionFloor" decimalPrecision="2" max="1.0" minorTicksCount="1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="445.0" />
@@ -153,7 +158,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderFrictionM1" decimalPrecision="2" max="1.0" minorTicksCount="1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="535.0" />
@@ -165,7 +171,8 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderMassM1" max="20.0" min="5.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="625.0" />
@@ -177,26 +184,29 @@
                </GridPane.margin>
                <font>
                   <Font name="Segoe UI" size="18.0" />
-               </font></Text>
+               </font>
+            </Text>
             <MFXSlider fx:id="sliderMassM2" max="20.0" min="5.0" prefWidth="150.0" value="1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="715.0" />
                </GridPane.margin>
             </MFXSlider>
             
-            <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                  <MFXToggleButton fx:id="toggleShowVectors" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="25.0" top="768.0" />
-               </GridPane.margin></MFXToggleButton>
+               </GridPane.margin>
+            </MFXToggleButton>
             <MFXButton fx:id="buttonClear" prefHeight="55.0" prefWidth="180.0" text="Clear values" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="60.0" />
                </GridPane.margin>
                <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font></MFXButton>
+                  <Font name="Segoe UI" size="22.0" />
+               </font>
+            </MFXButton>
             
-            <!-- Play button -->
+                  <!-- Play button -->
             <ImageView fx:id="buttonPlay" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/play_button.png" />
@@ -206,7 +216,7 @@
                </GridPane.margin>
             </ImageView>
             
-            <!-- Pause button -->
+                  <!-- Pause button -->
             <ImageView fx:id="buttonPause" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/pause_button.png" />
@@ -216,7 +226,7 @@
                </GridPane.margin>
             </ImageView>
             
-            <!-- Reset button -->
+                  <!-- Reset button -->
             <ImageView fx:id="buttonReset" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                 <image>
                     <Image url="@/images/reset_button.png" />
@@ -226,7 +236,7 @@
                </GridPane.margin>
             </ImageView>
 
-            <!-- Help button -->
+                  <!-- Help button -->
             <ImageView fx:id="buttonHelp" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                 <image>
                     <Image url="@/images/help_icon.png" />
@@ -235,11 +245,6 @@
                   <Insets right="30.0" />
                </GridPane.margin>
             </ImageView>
-            <Line endX="300.0" endY="130.0" startX="300.0" startY="20.0" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="400.0" />
-               </GridPane.margin>
-            </Line>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Show vectors" textAlignment="CENTER" wrappingWidth="136.8033447265625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="20.0" top="775.0" />

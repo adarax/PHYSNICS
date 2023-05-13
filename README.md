@@ -1,8 +1,6 @@
 # **PHYSNICS**
-
 ## Program for Handling Your Scientific Needs In a Concise Simulation
-
-#### An application containing 4 simulations for the user to explore. PHYSNICS includes a **stacked block simulation**, a **uniform circular motion simulation**, a **conservation of energy simulation**, and a **projectile motion simulation**. Interact with the simulations to learn how these physical concepts work. Learn physics with **PHYSNICS**!!
+#### An application containing 4 simulations for the user to explore. PHYSNICS includes a **stacked block simulation**, a **uniform circular motion simulation**, a **conservation of energy simulation**, and a **projectile motion simulation**. Interact with the simulations to learn how these physical concepts work. Learn physics with **PHYSNICS**!
 ---
 ## **Stacked block Simulation**
 ## Description
@@ -33,7 +31,7 @@ When first booting up the simulation, there are three parameters: radius, speed,
 This simulation relies on the concept of **uniform circular motion**, which is when an object is revolving in constant motion without any external forces acting upon it. The
 centripetal acceleration and the centripetal force that this object will experience in uniform circular motion will be pointed inwards, towards the middle of the path that it is revolving about. There are three factors that influence the acceleration and force of the object in an uniform circular motion: the **speed**, the **radius of the revolving path**, and the **mass**. They are related to the acceleration and force by two formulas: a=v^2/r, and Newton's second Law, F=ma. In this simulation, the parameters that can be affected are the speed, mass and radius, which will affect the paths size, the centripetal acceleration, and the centripetal force.
 
-
+![Uniform Circular Motion Vectors](public/readme-images/UCMVectors.png)
 
 
 ---
@@ -59,7 +57,7 @@ When friction is introduced, the system will lose energy as the ball travels dis
 ## Description
 The projectile motion simulation simulates a physics problem involving a projectile being shot from a cannon. 
 
-![Projectile demo](public/readme-images/projectilemotion.gif)) 
+![Projectile demo](public/readme-images/projectilemotion.gif)
 
 ## Technical Desription
 Enter desired values of initial velocity, gravitational acceleration, and launch angle through the sliders and the ball will animate based on these values. You can also toggle a trail that predicts the path of the ball in realtime. The max height, distance, and flight time are displayed on the top-right. Click on the **graphs** button and you'll see a graphical representation of the velocity components throughout the entire motion. Don't like the background or ball colour? Click on **settings** and change them. You can also view another simulation or head to the main menu through the **Menu** tab.

@@ -154,6 +154,7 @@
                   <Insets right="100.0" top="60.0" />
                </GridPane.margin>
             </ImageView>
+            <ImageView fx:id="buttonExit" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP" />
          </children>
       </GridPane>
    </children>

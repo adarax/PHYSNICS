@@ -3,7 +3,9 @@ package edu.vanier.physnics.stackedblock;
 import java.util.ArrayList;
 
 /**
- *
+ * A custom class for Vector objects in the simulation. This class stores the
+ * attributes of a Vector and offers many Vector calculation methods.
+ * 
  * @author adarax
  */
 public class Vector {
@@ -13,9 +15,15 @@ public class Vector {
     // Values range from 0 to 360 degrees
     private double directionInDegrees;
     
-    // Setting the type of force is useful when animating the various Vectors
-    private FORCE_TYPE forceType;
+    private final FORCE_TYPE forceType;
 
+    /**
+     * Constructor for the Vector class.
+     * 
+     * @param magnitudeInNewtons the magnitude of force of the Vector in Newtons
+     * @param directionInDegrees the direction of the Vector in degrees
+     * @param forceType the type of force that the Vector is (APPLIED or FRICTION)
+     */
     public Vector(double magnitudeInNewtons, double directionInDegrees, FORCE_TYPE forceType)
     {
         this.magnitudeInNewtons = magnitudeInNewtons;
@@ -32,7 +40,7 @@ public class Vector {
      * 
      * @return The quadrant of the Vector instance.
      */
-    public int findQuadrant()
+    protected int findQuadrant()
     {        
         if (directionInDegrees < 0 || directionInDegrees > 360)
         {
@@ -54,12 +62,19 @@ public class Vector {
         }
     }
 
-    public ArrayList<Double> asComponents()
+    /**
+     * Returns the x and y components of the Vector by using the magnitudeInNewtons
+     * and directionInDegrees variables that get instantiated in the constructor and
+     * simple trigonometric principles.
+     * 
+     * @return the x and y components of the Vector in an ArrayList
+     */
+    protected ArrayList<Double> asComponents()
     {
         ArrayList<Double> asComponents = new ArrayList<>();
 
-        double xComponent = Math.cos(directionInDegrees) * magnitudeInNewtons;
-        double yComponent = Math.sin(directionInDegrees) * magnitudeInNewtons;
+        double xComponent = Math.cos(Math.toRadians(directionInDegrees)) * magnitudeInNewtons;
+        double yComponent = Math.sin(Math.toRadians(directionInDegrees)) * magnitudeInNewtons;
 
         asComponents.add(xComponent);
         asComponents.add(yComponent);
@@ -71,39 +86,67 @@ public class Vector {
      * Changes the direction of the vector by 180 degrees, and ensures that
      * the vectors direction has not exceeded 360 degrees.
      */
-    public void flipDirection()
+    protected void flipDirection()
     {
         double currentDirection = this.directionInDegrees;
         
         currentDirection += 180;
-        
-        if (currentDirection >= 360)
-        {
-            currentDirection -= 360;
-        }
+        currentDirection = currentDirection % 360;
         
         this.directionInDegrees = currentDirection;
     }
-
+    
+    /**
+     * Returns the magnitude of force of the Vector in Newtons.
+     * 
+     * @return the magnitude of force of the Vector
+     */
     public double getMagnitudeInNewtons()
     {
         return magnitudeInNewtons;
     }
 
+    /**
+     * Returns the direction of the Vector in degrees.
+     * 
+     * @return the direction of the Vector
+     */
     public double getDirectionInDegrees()
     {
         return directionInDegrees;
     }
     
+    /**
+     * Returns the type of force that the Vector is.
+     * 
+     * @return the type of force that the Vector is (APPLIED or FRICTION)
+     */
     public FORCE_TYPE getForceType()
     {
         return forceType;
     }
     
-    public enum FORCE_TYPE
+    /**
+     * The type of force that the Vector is.
+     */
+    protected enum FORCE_TYPE
     {
         APPLIED,
-        FRICTION,
-        NORMAL
+        FRICTION
+    }
+
+    /**
+     * Simple toString() method to easily view the properties of a Vector
+     * instance. This method is used for the tests in the BlockFormulasTest class.
+     *
+     * Numerical values are rounded to two decimal places to simplify test
+     * methods.
+     *
+     * @return properties of the Vector in the form of a String
+     */
+    @Override
+    public String toString()
+    {
+        return "Vector{" + "magnitudeInNewtons=" + String.format("%.2f", magnitudeInNewtons) + ", directionInDegrees=" + String.format("%.2f", directionInDegrees) + ", forceType=" + forceType + '}';
     }
 }

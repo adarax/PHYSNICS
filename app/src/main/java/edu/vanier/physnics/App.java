@@ -31,6 +31,7 @@ public class App extends Application {
         mainMenu.setMaximized(true);
         mainMenu.sizeToScene();
         mainMenu.getIcons().add(new Image("/images/app_icon.png"));
+        mainMenu.setFullScreenExitHint("");
         mainMenu.setFullScreen(true);
         mainMenu.show();
     }
