@@ -31,11 +31,11 @@ public class Ramp extends Path {
      * positionY and ramp color variables. Draws the ramp using the inputted
      * values.
      *
-     * @param radius
-     * @param thickness
-     * @param positionX
-     * @param positionY
-     * @param rampColor
+     * @param radius radius of the ramp
+     * @param thickness thickness of the ramp
+     * @param positionX x position of the ramp
+     * @param positionY y position of the ramp
+     * @param rampColor color of the ramp
      */
     public Ramp(double radius, double thickness, double positionX, double positionY, Color rampColor) {
         this.radius = radius;
@@ -101,7 +101,7 @@ public class Ramp extends Path {
      * Sets the ballPath of an inputted ball based on the drawn ramp's position
      * and radius
      *
-     * @param ball
+     * @param ball ball object that will have its path set
      */
     public void createBallPath(Ball ball) {
         ball.setCenterX(positionX - radius + ball.getRadius());
@@ -138,90 +138,72 @@ public class Ramp extends Path {
     }
 
     /**
-     * getter for radius
+     * 
+     * @return getter for radius
      *
-     * @return
      */
     public double getRadius() {
         return radius;
     }
 
     /**
-     * setter for radius
-     *
-     * @param radius
+     * @param radius setter for radius
      */
     public void setRadius(double radius) {
         this.radius = radius;
     }
 
     /**
-     * getter for thickness
-     *
-     * @return
+     * @return getter for thickness
      */
     public double getThickness() {
         return thickness;
     }
 
     /**
-     * setter for thickness
-     *
-     * @param thickness
+     * @param thickness setter for thickness
      */
     public void setThickness(double thickness) {
         this.thickness = thickness;
     }
 
     /**
-     * getter for postionX
-     *
-     * @return
+     * @return getter for postionX
      */
     public double getPositionX() {
         return positionX;
     }
 
     /**
-     * setter for positonX
-     *
-     * @param positionX
+     * @param positionX setter for positonX
      */
     public void setPositionX(double positionX) {
         this.positionX = positionX;
     }
 
     /**
-     * getter for positionY
-     *
-     * @return
+     * @return getter for positionY
      */
     public double getPositionY() {
         return positionY;
     }
 
     /**
-     * setter for positionY
-     *
-     * @param positionY
+     * @param positionY  setter for positionY
      */
     public void setPositionY(double positionY) {
         this.positionY = positionY;
     }
 
     /**
-     * getter for rampColor
-     *
-     * @return
+     * @return getter for rampColor
      */
     public Color getRampColor() {
         return rampColor;
     }
 
     /**
-     * setter for rampColor
-     *
-     * @param rampColor
+     * @param rampColor setter for rampColor
      */
     public void setRampColor(Color rampColor) {
         this.rampColor = rampColor;

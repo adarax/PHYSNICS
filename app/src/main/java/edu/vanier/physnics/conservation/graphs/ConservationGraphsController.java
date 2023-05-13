@@ -129,7 +129,7 @@ public class ConservationGraphsController {
     
     /**
      * Sets a new values of kinetic energy in the graph window
-     * @param kineticEnergy
+     * @param kineticEnergy current kinetic energy
      */
     public void setKineticEnergyText(double kineticEnergy){
         textKineticEnergy.setText("Kinetic energy: "  
@@ -138,7 +138,7 @@ public class ConservationGraphsController {
 
     /**
      * Sets a new values of total mechanical energy in the graph window
-     * @param totalMechanicalEnergy
+     * @param totalMechanicalEnergy total mechanical energy
      */
     public void setTotalEnergyText(double totalMechanicalEnergy){
         textTotalEnergy.setText("Total energy: "  
@@ -147,7 +147,7 @@ public class ConservationGraphsController {
     
     /**
      * Sets a new values of potential energy in the graph window
-     * @param potentialEnergy
+     * @param potentialEnergy current potential energy
      */
     public void setPotentialEnergy(double potentialEnergy){
         textPotentialEnergy.setText("Potential energy: "  
@@ -156,7 +156,7 @@ public class ConservationGraphsController {
     
     /**
      * Sets a new values of current velocity in the graph window
-     * @param velocity
+     * @param velocity current velocity
      */
     public void setVelocityText(double velocity){
         textVelocity.setText("Current velocity: "  + oneDecimalConverter(velocity) + " m/s");
@@ -164,7 +164,7 @@ public class ConservationGraphsController {
     
     /**
      * Sets a new values of current height in the graph window
-     * @param height
+     * @param height current height 
      */
     public void setCurrentHeightText(double height){
         textCurrentHeight.setText("Current height: "  
@@ -172,9 +172,8 @@ public class ConservationGraphsController {
     }
     
     /**
-     * Converts a double with many decimal points to only a single decimal point
-     * @param value
-     * @return
+     * @param value double value to reduce to 1 decimal points
+     * @return Converts a double with many decimal points to only a single decimal point
      */
     public String oneDecimalConverter(double value){
         String content = Double.toString(value);
@@ -183,32 +182,32 @@ public class ConservationGraphsController {
     
 
     /**
-     * getter for potentialEnergyGraph
-     * @return
+     * 
+     * @return getter for potentialEnergyGraph
      */
     public Rectangle getPotentialEnergyGraph() {
         return potentialEnergyGraph;
     }
     
     /**
-     * setter for potentialEnergyGraph
-     * @param potentialEnergyGraph
+     * 
+     * @param potentialEnergyGraph setter for potentialEnergyGraph
      */
     public void setPotentialEnergyGraph(Rectangle potentialEnergyGraph) {
         this.potentialEnergyGraph = potentialEnergyGraph;
     }
 
     /**
-     * getter for kineticEnergyGraph
-     * @return
+     * 
+     * @return getter for kineticEnergyGraph
      */
     public Rectangle getKineticEnergyGraph() {
         return kineticEnergyGraph;
     }
 
     /**
-     * setter for kineticEnergyGraph
-     * @param kineticEnergyGraph
+     * s
+     * @param kineticEnergyGraph getter for kineticEnergyGraph
      */
     public void setKineticEnergyGraph(Rectangle kineticEnergyGraph) {
         this.kineticEnergyGraph = kineticEnergyGraph;

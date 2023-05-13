@@ -10,7 +10,6 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.shape.Rectangle;
@@ -47,13 +46,13 @@ public class AnimationBackend {
      * involved. Calculates the time to complete one cycle from the starting
      * height and the gravitational acceleration.
      *
-     * @param ball
-     * @param height
-     * @param g
+     * @param ball ball to animate
+     * @param height initial height of the ball
+     * @param gravitationalAcceleration gravitational acceleration
      */
-    public void createBallAnimation(Ball ball, double height, double g) {
+    public void createBallAnimation(Ball ball, double height, double gravitationalAcceleration) {
 
-        timeToCompleteOneCycleSeconds = ConservationFormulas.getArcTime(height, g);
+        timeToCompleteOneCycleSeconds = ConservationFormulas.getArcTime(height, gravitationalAcceleration);
         PathTransition ballCurve = new PathTransition();
 
         ballCurve.setDuration(Duration.seconds(timeToCompleteOneCycleSeconds));
@@ -73,8 +72,8 @@ public class AnimationBackend {
      * Divides the total time to complete one cycle by 2, as the graphs will
      * reverse during the second half of a cycle.
      *
-     * @param kineticEnergyRectangle
-     * @param potentialEnergyRectangle
+     * @param kineticEnergyRectangle kinetic energy rectangle graph 
+     * @param potentialEnergyRectangle potential energy rectangle graph
      */
     public void createGraphAnimation(Rectangle kineticEnergyRectangle, Rectangle potentialEnergyRectangle) {
         Duration graphAnimationDuration = Duration.seconds(timeToCompleteOneCycleSeconds / 2);
@@ -121,12 +120,12 @@ public class AnimationBackend {
      * Creates and then plays the animation of the ball without friction
      * involved.If the simulation is paused, it will resume it.
      *
-     * @param ball
-     * @param ramp
-     * @param height
-     * @param gravitationalAcceleration
-     * @param kineticEnergyRectangle
-     * @param potentialEnergyRectangle
+     * @param ball animated ball
+     * @param ramp ramp where the ball will roll on
+     * @param height initial height of the ball
+     * @param gravitationalAcceleration applied gravitational acceleration
+     * @param kineticEnergyRectangle rectangle of the kinetic energy graph
+     * @param potentialEnergyRectangle rectangle of the potential energy graph
      */
     public void playBallAnimation(Ball ball, Ramp ramp, double height,
             double gravitationalAcceleration, Rectangle kineticEnergyRectangle, Rectangle potentialEnergyRectangle) {
@@ -142,24 +141,9 @@ public class AnimationBackend {
         }
 
     }
-    
-    /**
-     * Creates and then plays the animation of the ball without friction
-     * involved.If the simulation is paused, it will resume it.
-     *
-     * @param ball
-     * @param ramp
-     * @param height
-     * @param gravitationalAcceleration
-     * @param kineticEnergyRectangle
-     * @param potentialEnergyRectangle
-     */
    
-
     /**
-     * Returns the time that the animation has been running for in seconds
-     *
-     * @return
+     * @return Returns the time that the animation has been running for in seconds
      */
     public double getCurrentTime() {
         return (mainAnimation.getCurrentTime().toSeconds());
@@ -183,54 +167,46 @@ public class AnimationBackend {
     }
 
     /**
-     * Getter for playing
-     *
-     * @return
+     * @return Getter for playing
      */
     public boolean isPlaying() {
         return playing;
     }
 
     /**
-     * Setter for playing
-     *
-     * @param playing
+     * @param playing Setter for playing
      */
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
 
     /**
-     * Getter for mainAnimation
-     *
-     * @return
+     * @return Getter for mainAnimation
      */
     public ParallelTransition getMainAnimation() {
         return mainAnimation;
     }
 
     /**
-     * setter for mainAnimation
-     *
-     * @param mainAnimation
+     * @param mainAnimation setter for mainAnimation
      */
     public void setMainAnimation(ParallelTransition mainAnimation) {
         this.mainAnimation = mainAnimation;
     }
 
     /**
-     * Getter for timeToCompleteOneCycleSeconds
+     * 
      *
-     * @return
+     * @return Getter for timeToCompleteOneCycleSeconds
      */
     public double getTimeToCompleteOneCycleSeconds() {
         return timeToCompleteOneCycleSeconds;
     }
 
     /**
-     * setter for timeToCompleteOneCycleSeconds
+     * 
      *
-     * @param timeToCompleteOneCycleSeconds
+     * @param timeToCompleteOneCycleSeconds setter for timeToCompleteOneCycleSeconds
      */
     public void setTimeToCompleteOneCycleSeconds(double timeToCompleteOneCycleSeconds) {
         this.timeToCompleteOneCycleSeconds = timeToCompleteOneCycleSeconds;
