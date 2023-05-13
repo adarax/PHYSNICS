@@ -147,11 +147,11 @@ public class SimulationBackEnd {
     public void showErrorAlertAndReset(TextField textField, MFXSlider slider, double valueToSet, String string)
     {
         System.out.println("Error");
+        //showing the alert
+        popAlert(string);
         //setting the slider and textfield back to default value
         textField.setText(String.valueOf(valueToSet));
         slider.setValue(valueToSet);
-        //showing the alert
-        popAlert(string);
     }
 
     /**
