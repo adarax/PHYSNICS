@@ -26,9 +26,6 @@ public class MainMenuController extends App {
     private Stage stage;
 
     @FXML
-    private ImageView buttonHelp;
-
-    @FXML
     private ImageView buttonConservation;
 
     @FXML
@@ -98,10 +95,6 @@ public class MainMenuController extends App {
         stage.show();
     }
 
-    private void handleHelpPressed() {
-        System.out.println("Help was requested");
-    }
-
     /**
      * Initializes the home screen and sets event handlers to the various
      * buttons.
@@ -115,7 +108,6 @@ public class MainMenuController extends App {
         buttonStackedBlock.setOnMouseClicked(press -> openNewScene("stackedblock"));
         buttonProjectile.setOnMouseClicked(press -> openNewScene("projectile"));
         buttonCentripetal.setOnMouseClicked(press -> openNewScene("UCM"));
-        buttonHelp.setOnMouseClicked(press -> handleHelpPressed());
     }
 
     private void handleExit() {
