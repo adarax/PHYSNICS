@@ -21,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
@@ -485,9 +484,6 @@ public class ConservationController {
 
         stage.setScene(scene);
         stage.setTitle("Current energy levels");
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
     }
 
     /**
@@ -621,12 +617,10 @@ public class ConservationController {
         try {
             scene = new Scene(loader.load(), Settings.HELP_MENU_WIDTH, Settings.HELP_MENU_HEIGHT);
         } catch (IOException ex) {
-            System.out.println("Graaph stage could not be opened");
+            System.out.println("Help page could not be opened");
         }
 
         helpStage.setScene(scene);
-        helpStage.setTitle("Current energy levels");
-
         helpStage.setTitle("Help Menu");
         helpStage.setResizable(false);
         helpStage.initModality(Modality.APPLICATION_MODAL);
