@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="infoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="855.0">
+        <menus>
+          <Menu fx:id="helpMenuCloseButton" mnemonicParsing="false" text="Close">
+            <items>
+              <MenuItem fx:id="menuItemCloseHelp" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Text layoutX="13.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Uniform Circular Motion (UCM) motion! This simulation is to show a semi-realistic demonstration of the effects of UCM. UCM is a type of motion where an object is revolving around, traveling in a circular and at constant speed." wrappingWidth="829.6666259765625">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="13.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To start the simulation, press on the submit button. From there, the parameters for the speed, radius, and mass, three variables that will affect the UCM of the object, can be changed either using the sliders or using text fields. If using text fields, make sure to input nonnegative numbers for the parameters. Note that the simulation has certain limits: the simulation will still work and siaply accurate values, but since it would be too big to depict the path or show the speed, a limit has been put on it. For the radius, it is 40 m. For the speed, it is 200 m/s. For the mass, it is 40 kg." wrappingWidth="829.6666259765625">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="13.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The simulation can be paused, restarted or resetted if desired. Values for the acceleration and its vector components, as well as the force and its vector components are displayed in the bottom right." wrappingWidth="829.6666259765625">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="243.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="About the Uniform Circular Motion Simulator...">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="13.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Have fun!" wrappingWidth="829.6666259765625">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+   </children>
+   <opaqueInsets>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </opaqueInsets>
+</Pane>

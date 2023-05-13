@@ -5,114 +5,84 @@
  */
 package edu.vanier.physnics.UniformCircularMotionSimulation;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.transform.Rotate;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author Admin
  */
 public class Vector {
-    private double startX;
-    private double startY;
-    private double angle;
-    private Line vectorBody = new Line();
-    private Line vectorHeadLeft = new Line();
-    private Line vectorHeadRight = new Line();
+    
+    private final Image arrowBodyObject;
+    private ImageView arrowBody;
+    private Label nameTag = new Label();
+    private String vectorType;
+    private double forceMagnitude;
 
-    public Vector(double startX, double startY, double angle) {
-        this.startX = startX;
-        this.startY = startY;
-        this.angle = angle;
-        
-        vectorBody = setLine(vectorBody, startX, startY, angle, 40);
-        vectorHeadLeft = setLine(vectorHeadLeft, vectorBody.getEndX(), vectorBody.getEndY(),
-        (angle+157), 7);
-        vectorHeadRight = setLine(vectorHeadRight, vectorBody.getEndX(), vectorBody.getEndY(),
-        (angle+203), 7);
-        
-        //root.getChildren().add(line1);
-    }
-  
-    public void addVector(Pane root){
-        root.getChildren().addAll(vectorBody, vectorHeadLeft, vectorHeadRight);
+    public Vector(double xCoordinate, double yCoordinate, double forceMagnitude, String vectorType) {
+        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/arrow_" + determineColor(vectorType) + ".png"));
+        this.arrowBody = new ImageView(arrowBodyObject);
+        this.vectorType = vectorType;
+        this.forceMagnitude = forceMagnitude;
+        this.nameTag.setText(String.valueOf(forceMagnitude));
+        arrowBody.setRotate(70);
+        this.arrowBody.setLayoutX(xCoordinate);
+        this.arrowBody.setLayoutY(yCoordinate);
     }
     
-    private Line setLine(Line line, double startX, double startY, double angle, double length){
-        line.setStartX(startX);
-        line.setStartY(startY);    
-        rotateVectorPart(line, startX, startY, angle, length);
-        line.setStrokeWidth(3);
-        line.setOpacity(0.25);
-        return line;
-    }
+    public Vector(double xCoordinate, double yCoordinate, String vectorType) {
+        this.arrowBodyObject = new Image(getClass().getResourceAsStream("/images/arrow_" + determineColor(vectorType) + ".png"));
+        this.arrowBody = new ImageView(arrowBodyObject);
+        this.vectorType = vectorType;
+        this.nameTag.setText(vectorType);
+        this.arrowBody.setLayoutX(xCoordinate);
+        this.arrowBody.setLayoutY(yCoordinate);
+        arrowBody.setRotate(40);
+        arrowBody.setFitWidth(50);
+        arrowBody.setFitHeight(50);
+   }   
     
-    public void setOpacity(double mass){
-        vectorBody.setOpacity(0.025*mass);
-        vectorHeadLeft.setOpacity(0.025*mass);
-        vectorHeadRight.setOpacity(0.025*mass);
-    }
-    
-    public void rotateVector(double angle){
-        rotateVectorPart(vectorBody, startX, startY, angle, 20);
-        vectorHeadLeft = setLine(vectorHeadLeft, vectorBody.getEndX(), vectorBody.getEndY(),
-        (angle+157), 15);
-        vectorHeadRight = setLine(vectorHeadRight, vectorBody.getEndX(), vectorBody.getEndY(),
-        (angle+203), 15);
-    }
-    
-    public void rotateVectorPart(Line line, double startX, double startY, double angle, double length){
-        line.setEndX(startX+length*Math.cos(Math.toRadians(angle)));
-        line.setEndY(startY-length*Math.sin(Math.toRadians(angle)));        
+    private String determineColor(String vectorType){
+        if (vectorType.equals("FORCE")) {
+            return "black";
+        }
+        else if (vectorType.equals("FORCEXCOMPONENT")) {
+            return "red";
+        }
+        return "blue";
     }
 
-    public double getStartX() {
-        return this.startX;
+    public Label getNameTag() {
+        return this.nameTag;
     }
 
-    public void setStartX(double startX) {
-        this.startX = startX;
+    public void setNameTag(Label nameTag) {
+        this.nameTag = nameTag;
     }
 
-    public double getStartY() {
-        return this.startY;
+    public String getVectorType() {
+        return this.vectorType;
     }
 
-    public void setStartY(double startY) {
-        this.startY = startY;
+    public void setVectorType(String vectorType) {
+        this.vectorType = vectorType;
     }
 
-    public double getAngle() {
-        return this.angle;
+    public double getForceMagnitude() {
+        return this.forceMagnitude;
     }
 
-    public void setAngle(double angle) {
-        this.angle = angle;
+    public void setForceMagnitude(double forceMagnitude) {
+        this.forceMagnitude = forceMagnitude;
     }  
 
-    public Line getVectorBody() {
-        return this.vectorBody;
+    public ImageView getArrowBody() {
+        return this.arrowBody;
     }
 
-    public void setVectorBody(Line vectorBody) {
-        this.vectorBody = vectorBody;
-    }
-
-    public Line getVectorHeadLeft() {
-        return this.vectorHeadLeft;
-    }
-
-    public void setVectorHeadLeft(Line vectorHeadLeft) {
-        this.vectorHeadLeft = vectorHeadLeft;
-    }
-
-    public Line getVectorHeadRight() {
-        return this.vectorHeadRight;
-    }
-
-    public void setVectorHeadRight(Line vectorHeadRight) {
-        this.vectorHeadRight = vectorHeadRight;
-    }
+    public void setArrowBody(ImageView arrowBody) {
+        this.arrowBody = arrowBody;
+    }   
 }

@@ -11,11 +11,15 @@ import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -23,21 +27,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.ClosePath;
-import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -46,8 +49,7 @@ import javafx.util.Duration;
  *
  * @author Admin
  */
-public class UniformCircularMotionController extends Stage{
-       
+public class UniformCircularMotionController extends Stage{ 
     @FXML
     ImageView pauseButton;
     @FXML
@@ -66,8 +68,6 @@ public class UniformCircularMotionController extends Stage{
     TextField massTextField;
     @FXML
     MFXSlider massSlider;
-    @FXML
-    Button submitButton;
     @FXML
     Text centrAccelText;
     @FXML
@@ -95,14 +95,13 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     MenuItem menuItemQuit;
     @FXML
-    ImageView buttonHome;
-    
+    MenuItem menuItemChangePathColor;   
+    @FXML
+    ImageView buttonHome; 
+    @FXML
+    ImageView helpButton; 
     @FXML
     BorderPane uniformCircularMotionBorderPane;
-    
-    
-    
-    
     @FXML
     Text warningMassText = new Text();
     @FXML
@@ -110,48 +109,49 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     Text warningRadiusText = new Text();
     
-
+    Stage mainWindow = new Stage();
     Timeline timeline;
     
     Car car = new Car();
     Path path1 = new Path();
     Path path2 = new Path();
-    Path path3 = new Path();
-    Path path4 = new Path();
     
     Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
     Circle center = new Circle(Settings.CENTER_MARKER_X_COORDINATE, Settings.CENTER_MARKER_Y_COORDINATE, 2, Color.RED);
     Group group = new Group();    
-    Vector v;
+    Vector vectorForce = new Vector(0,0, Settings.VECTOR_TYPE[0]);
     PathTransition pathTransitionCircle = new PathTransition();
     PathTransition pathTransitionCircle2 = new PathTransition();
     PathTransition pathTransitionCircle3 = new PathTransition();
     PathTransition pathTransitionCircle4 = new PathTransition();
-
+    private boolean playing = false;
+    SimulationBackEnd animationBackEnd = new SimulationBackEnd();
     
     AnimationTimer timerAngle = new AnimationTimer() {
         
         @Override
         public void handle(long l) {
-            double coordinateX = rectTest.getTranslateX()-center.getCenterX();
-            double coordinateY = center.getCenterY()-rectTest.getTranslateY();
-            double angle = Math.atan(getAngle())*180/Math.PI;
+            double coordinateX = rectTest.getTranslateX()+rectTest.getWidth()/2;
+            double coordinateY = -center.getCenterY()+rectTest.getTranslateY()+rectTest.getHeight()/2;
+            double angle = getAngle()*180/Math.PI;
             if (coordinateX > 0) {
                 if (coordinateY > 0) {
-                    angle = Math.abs(angle);
+                    if (angle > 0) {
+                        angle = 360-Math.abs(angle);
+                    }
+                    else{
+                        angle = 180+Math.abs(angle);
+                    }
                 }
                 else{
-                    angle = 360-Math.abs(angle);
+                    if (angle < 0) {
+                        angle = Math.abs(angle);
+                    }
+                    else{
+                        angle = 180-Math.abs(angle);
+                    }
                 }
-            }
-            else{
-                if (coordinateY > 0) {
-                    angle = 180-Math.abs(angle);
-                }
-                else{
-                    angle = 180+Math.abs(angle);
-                }            
-            }           
+            }         
             angleText.setText(String.valueOf(round(angle)));
             centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
             accelXText.setText(String.valueOf(round(Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
@@ -167,29 +167,37 @@ public class UniformCircularMotionController extends Stage{
     @FXML
     void initialize(){
         System.out.println("Booting up simulation...");
-        submitSimulation();
         setUp();
         buttonHome.setOnMouseClicked((e) -> {        
-            switchSimulation("mainmenu");
+            animationBackEnd.switchSimulation("mainmenu", uniformCircularMotionBorderPane);
         });
         
         menuItemProjectile.setOnAction((e) ->{
-            switchSimulation("projectile");
+            animationBackEnd.switchSimulation("projectile", uniformCircularMotionBorderPane);
         });
         
         menuItemStacked.setOnAction((e) ->{
-            switchSimulation("stackedblock");
+            animationBackEnd.switchSimulation("stackedblock", uniformCircularMotionBorderPane);
         });
          
         menuItemConservationEnergy.setOnAction((e) ->{
-            switchSimulation("conservation");
+            animationBackEnd.switchSimulation("conservation", uniformCircularMotionBorderPane);
         });
         
         menuItemQuit.setOnAction((e) ->{
-            switchSimulation("quit");
+            animationBackEnd.switchSimulation("quit", uniformCircularMotionBorderPane);
         });
     }
     
+    @FXML
+    public void changePathColor(){
+        menuItemChangePathColor.setOnAction((event) -> {
+            ChangeColorWindow changeColorWindow = new ChangeColorWindow(mainWindow);
+            menuItemChangePathColor.setDisable(true);
+            changeColorWindow.changeColor(path1, path2);
+            changeColorWindow.stop(menuItemChangePathColor);
+        });
+    }
     
     @FXML
     public double retrieveRadiusTextField(){
@@ -243,12 +251,38 @@ public class UniformCircularMotionController extends Stage{
             playButton.setDisable(true);
             pauseButton.setDisable(false);
             resetButton.setDisable(false);
+            timerAngle.start();
+            enableSlidersImageViewsAndTextFields();        
+            if (!playing) {
+                revolveCar();
+                playing = true;
+            }
             pauseAllPathTransition();
             playAllPathTransition();
-            timerAngle.start();
         });
     }
 
+    @FXML
+    void displayHelpPage(){
+        helpButton.setOnMouseClicked((event) -> {
+        Stage stage = new Stage();
+                FXMLLoader uniformCircularMotionHelpLoader = new FXMLLoader(getClass().getResource("/fxml/helpUniformCircularMotion.fxml"));
+                Pane root = null;
+                
+            try {
+                UniformCircularMotionHelpController uniformCircularMotionHelpController = new UniformCircularMotionHelpController(stage);
+                uniformCircularMotionHelpLoader.setController(uniformCircularMotionHelpController);
+                root = uniformCircularMotionHelpLoader.load();               
+            } catch (IOException ex) {
+                Logger.getLogger(UniformCircularMotionHelpController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("About Uniform Circular Motion simulation...");
+                stage.show();            
+        });
+    }
+    
     @FXML
     void reset(){
         resetButton.setOnMouseClicked((event) -> {
@@ -265,27 +299,16 @@ public class UniformCircularMotionController extends Stage{
             timerAngle.stop();
             clearPathElements();
             clearPathTransitions();
-            submitButton.setDisable(false);
             clearWarningMessages();
+            playing = false;
       });
     }    
-    
-    @FXML
-    void submitSimulation(){
-        submitButton.setOnAction((event) -> {
-            useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-            enableSlidersImageViewsAndTextFields();
-            revolveCar();
-            timerAngle.start();
-            submitButton.setDisable(true);
-        });
-    }
     
     @FXML
     public void setUp(){
         pauseButton.setPickOnBounds(false);
         resetButton.setPickOnBounds(false);
-        playButton.setPickOnBounds(false);
+        playButton.setPickOnBounds(true);
         radiusTextField.setText("20");
         massTextField.setText("10");
         speedTextField.setText("10");
@@ -299,79 +322,33 @@ public class UniformCircularMotionController extends Stage{
         pause();
         play();
         reset();
-        v = new Vector(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS, center.getCenterY()-Settings.CENTER_MARKER_INITIAL_RADIUS, 270);
+        displayHelpPage();
+        changePathColor();
         paneSimulate.getChildren().add(group);
     }
     
-    public void revolveCar(){      
-        v.getVectorHeadLeft().setLayoutX(-2);
-        //v.getVectorHeadLeft().setLayoutY(0);
-        v.getVectorHeadRight().setLayoutX(2);
-        //v.getVectorHeadRight().setLayoutY(0);   
+    public void revolveCar(){       
         stopAllPathTransition();
         removePathAndNodes();
-        path1 = null;
-        path2 = null;
-        path3 = null;
-        path4 = null;
-        pathTransitionCircle.setNode(null);
-        pathTransitionCircle.setPath(null);
-        path1 = createEllipsePath(195+center.getCenterX(),
-                center.getCenterY(),200,
-                200, 0);
-        path2 = createEllipsePath(175+center.getCenterX(), 
-                center.getCenterY(), 180, 
-                180, 0);
-        path3 = createEllipsePath(155+center.getCenterX(),
-                center.getCenterY(), 160,
-                160, 0);
-        path4 = createEllipsePath(155+center.getCenterX(),
-                center.getCenterY(), 160,
-                160, 0);
-               
-        group.getChildren().addAll(rectTest, path1, path2, path3, v.getVectorBody(), v.getVectorHeadLeft(), v.getVectorHeadRight());                
+        if (!paneSimulate.getChildren().contains(rectTest)) {
+            path1 = null;
+            path2 = null;
 
-        pathTransitionCircle = createPathTransitionCircle(path1, (Node) rectTest);
-        pathTransitionCircle2 = createPathTransitionCircle(path2, v.getVectorBody());
-        pathTransitionCircle3 = createPathTransitionCircle(path3, v.getVectorHeadRight());
-        pathTransitionCircle4 = createPathTransitionCircle(path4, v.getVectorHeadLeft());
+            pathTransitionCircle.setNode(null);
+            pathTransitionCircle.setPath(null);
+            path1 = animationBackEnd.createEllipsePath(195+center.getCenterX(),
+                    center.getCenterY(),200,
+                    200, 0);
+            path2 = animationBackEnd.createEllipsePath(195+center.getCenterX(),
+                    center.getCenterY(),200,
+                    200, 0);
+            group.getChildren().addAll(rectTest, path1, path2, vectorForce.getArrowBody());                
+
+            pathTransitionCircle = animationBackEnd.createPathTransitionCircle(path1, (Node) rectTest, car);
+            pathTransitionCircle2 = animationBackEnd.createPathTransitionCircle(path2,  vectorForce.getArrowBody(), car);      
+        }
                 
-        v.getVectorHeadLeft().setStroke(Color.RED);
         playAllPathTransition();
-    }
-    
-    private PathTransition createPathTransitionCircle(Path path, Node node){
-        PathTransition pathTransitionCircle = new PathTransition();
-        pathTransitionCircle.setDuration(Duration.seconds(50/car.getSpeed()));
-        pathTransitionCircle.setPath(path);
-        pathTransitionCircle.setNode(node);
-        pathTransitionCircle.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-        pathTransitionCircle.setCycleCount(Timeline.INDEFINITE);
-        pathTransitionCircle.setAutoReverse(false);
-        pathTransitionCircle.setInterpolator(Interpolator.LINEAR);       
-        return pathTransitionCircle;
-    }
-    
-    private Path createEllipsePath(double centerX, double centerY, double radiusX, double radiusY, double rotate)
-    {
-        //https://stackoverflow.com/questions/14171856/javafx-2-circle-path-for-animation
-        ArcTo arcTo = new ArcTo();
-        arcTo.setX(centerX - radiusX + 1); // to simulate a full 360 degree celcius circle.
-        arcTo.setY(centerY - radiusY);
-        arcTo.setSweepFlag(false);
-        arcTo.setLargeArcFlag(true);
-        arcTo.setRadiusX(radiusX);
-        arcTo.setRadiusY(radiusY);
-        arcTo.setXAxisRotation(rotate);
-        
-        Path path = new Path();
-        path.getElements().addAll(
-                new MoveTo(centerX - radiusX, centerY - radiusY),
-                arcTo,
-                new ClosePath()); // close 1 px gap.
-        path.setStroke(Color.DODGERBLUE);
-        path.getStrokeDashArray().setAll(5d, 5d);
-        return path;
     }
     
     public void setSliders(){
@@ -399,30 +376,15 @@ public class UniformCircularMotionController extends Stage{
             group.getChildren().clear();
             clearPathElements();
             clearPathTransitions();
-            path1 = createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
+            path1 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
                     center.getCenterY(),200+8*(car.getRadius()-25),
                     200+8*(car.getRadius()-25), 0);
-            path2 = createEllipsePath(center.getCenterX()+180+180/25*(car.getRadius()-25), 
-                    center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
-                    180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
-            path3 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
-                    center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
-                    160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
-            path4 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
-                    center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
-                   160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
+            path2 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
+                    center.getCenterY(),200+8*(car.getRadius()-25),
+                    200+8*(car.getRadius()-25), 0);
  
             pathTransitionCircle.setNode(rectTest);
             pathTransitionCircle.setPath(path1);
-            
-            pathTransitionCircle2.setNode(v.getVectorBody());
-            pathTransitionCircle2.setPath(path2);
-
-            pathTransitionCircle3.setNode(v.getVectorHeadRight());
-            pathTransitionCircle3.setPath(path3);
-
-            pathTransitionCircle4.setNode(v.getVectorHeadLeft());
-            pathTransitionCircle4.setPath(path4);
 
             warningRadiusText.setText("");
             
@@ -434,7 +396,7 @@ public class UniformCircularMotionController extends Stage{
                 stopAllPathTransition();
             }
             
-            group.getChildren().addAll(rectTest, path1, path2, path3, v.getVectorBody(), v.getVectorHeadLeft(), v.getVectorHeadRight());                
+            group.getChildren().addAll(rectTest, path1, path2,  vectorForce.getArrowBody());                
             });                
     }
     
@@ -458,7 +420,6 @@ public class UniformCircularMotionController extends Stage{
         slider.setOnMouseDragged((event) -> {
                 textfield.setText(String.valueOf(round(slider.getValue())));
                 useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
-                v.setOpacity(Double.valueOf(textfield.getText()));           
                 warningMassText.setText("");
     });        
     }
@@ -477,59 +438,38 @@ public class UniformCircularMotionController extends Stage{
                 clearPathTransitions();           
                 clearPathTransitions();
                 if (car.getRadius() <= 41) {
-                    path1 = createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
+                    path1 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
                         center.getCenterY(),200+8*(car.getRadius()-25),
                         200+8*(car.getRadius()-25), 0);
-                    path2 = createEllipsePath(center.getCenterX()+180+180/25*(car.getRadius()-25), 
+                    path2 = animationBackEnd.createEllipsePath(center.getCenterX()+180+180/25*(car.getRadius()-25), 
                             center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
-                            180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);
-                    path3 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
-                            center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
-                            160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);
-                    path4 = createEllipsePath(center.getCenterX()+160+160/25*(car.getRadius()-25),
-                            center.getCenterY(), 160+160/25*(Double.valueOf(radiusTextField.getText())-25),
-                           160+160/25*(Double.valueOf(radiusTextField.getText())-25), 0);                
+                            180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);               
                     warningRadiusText.setText("");
                 }
                 else{
-                    path1 = createEllipsePath(center.getCenterX()+200+8*(41-25),
+                    path1 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(41-25),
                         center.getCenterY(),200+8*(41-25),
                         200+8*(41-25), 0);
-                    path2 = createEllipsePath(center.getCenterX()+180+180/25*(41-25), 
+                    path2 = animationBackEnd.createEllipsePath(center.getCenterX()+180+180/25*(41-25), 
                             center.getCenterY(), 180+180/25*(41-25), 
                             180+180/25*(41-25), 0);
-                    path3 = createEllipsePath(center.getCenterX()+160+160/25*(41-25),
-                            center.getCenterY(), 160+160/25*(41-25),
-                            160+160/25*(41-25), 0);
-                    path4 = createEllipsePath(center.getCenterX()+160+160/25*(41-25),
-                            center.getCenterY(), 160+160/25*(41-25),
-                           160+160/25*(41-25), 0);
                     warningRadiusText.setText(Settings.RADIUS_LIMIT_MESSAGE);
                     warningRadiusText.setFill(Color.RED);                
                 }
 
                 pathTransitionCircle.setNode(rectTest);
                 pathTransitionCircle.setPath(path1);
-
-                pathTransitionCircle2.setNode(v.getVectorBody());
-                pathTransitionCircle2.setPath(path2);
-
-                pathTransitionCircle3.setNode(v.getVectorHeadRight());
-                pathTransitionCircle3.setPath(path3);
-
-                pathTransitionCircle4.setNode(v.getVectorHeadLeft());
-                pathTransitionCircle4.setPath(path4);
                 
                 
                 if (!pauseButton.isDisabled()) {
                     playAllPathTransition();
                 }
                 else{
-                    pathTransitionCircle.playFromStart();
+                    playAllPathTransition();
                     stopAllPathTransition();
                 }
 
-                group.getChildren().addAll(rectTest, path1, path2, path3, v.getVectorBody(), v.getVectorHeadLeft(), v.getVectorHeadRight());
+                group.getChildren().addAll(rectTest, path1, path2,  vectorForce.getArrowBody());
         } catch (NumberFormatException e) {
                     if (!textfield.getText().isBlank()) {
                     System.out.println("error");
@@ -584,7 +524,6 @@ public class UniformCircularMotionController extends Stage{
                     slider.setValue(Double.valueOf(textfield.getText()));
                     useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
                     if (car.getMass() <= 40) {
-                        v.setOpacity(Double.valueOf(textfield.getText()));                        
                     }
                     else{
                         warningMassText.setText(Settings.MASS_LIMIT_MESSAGE);
@@ -644,7 +583,7 @@ public class UniformCircularMotionController extends Stage{
      * @return the angle made from the car with respect to the center's horizontal axis
      */
     public double getAngle(){
-        return Math.atan((center.getCenterY()-rectTest.getTranslateY())/(rectTest.getTranslateX()-center.getCenterX()));
+        return Math.atan((rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2)/(rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2));
     }
     
     /**
@@ -682,16 +621,7 @@ public class UniformCircularMotionController extends Stage{
      */
     public void removePathAndNodes(){
         group.getChildren().remove(rectTest);
-        group.getChildren().remove(path1);      
-        
-        group.getChildren().remove(v.getVectorBody());    
-        group.getChildren().remove(path2);    
-
-        group.getChildren().remove(v.getVectorHeadLeft());    
-        group.getChildren().remove(path3);    
-
-        group.getChildren().remove(v.getVectorHeadRight());    
-        group.getChildren().remove(path4);    
+        group.getChildren().remove(path1);       
     }
     
     /**
@@ -700,13 +630,7 @@ public class UniformCircularMotionController extends Stage{
     public void disableSlidersImageViewsAndTextFields(){
         pauseButton.setDisable(true);
         resetButton.setDisable(true);
-        playButton.setDisable(true);
-        radiusSlider.setDisable(true);
-        massSlider.setDisable(true);
-        speedSlider.setDisable(true);
-        radiusTextField.setDisable(true);
-        massTextField.setDisable(true);
-        speedTextField.setDisable(true);
+        playButton.setDisable(false);
     }
     
     /**
@@ -729,13 +653,9 @@ public class UniformCircularMotionController extends Stage{
      */
     public void clearPathElements(){
         path1.getElements().clear();
-        path2.getElements().clear();
-        path3.getElements().clear();
-        path4.getElements().clear();        
+        path2.getElements().clear();      
         path1 = null;
         path2 = null;
-        path3 = null;
-        path4 = null;    
     }
     
     /**
@@ -767,63 +687,4 @@ public class UniformCircularMotionController extends Stage{
         a.setContentText(string);
         a.show();
     }    
-    
-    /**
-     * A method used to switch the present simulation to another simulation
-     * @param simulationName the name of the simulation that is being switched to
-     */
-    public void switchSimulation(String simulationName){
-        
-            Stage currentStage = (Stage) uniformCircularMotionBorderPane.getScene().getWindow();
-
-            String destination = "/fxml/" + simulationName + ".fxml";
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
-
-            if (simulationName.equals("quit")) {
-                currentStage.close();
-            }
-            else{
-                switch (simulationName)
-                {
-                    case "stackedblock" ->
-                    {
-                        BlockFrontEndController blockcontroller = new BlockFrontEndController();
-                        loader.setController(blockcontroller);
-                    }
-                    case "projectile" ->
-                    {
-                        MainAppController projectileController = new MainAppController();
-                        loader.setController(projectileController);
-                    }
-                    case "ucm-scene-graph" ->
-                    {
-                        UniformCircularMotionController ucmController = new UniformCircularMotionController();
-                        loader.setController(ucmController);
-                    }
-                    case "conservation" ->
-                    {
-                        ConservationController controller = new ConservationController();
-                        loader.setController(controller);
-                    }
-                    case "mainmenu" ->
-                    {
-                        MainMenuController menuController = new MainMenuController(currentStage);
-                        loader.setController(menuController);
-                    }
-                    default ->
-                        System.out.println("Invalid simulation name");
-                }
-
-                try
-                {
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root, 1920, 1080);
-                    currentStage.setScene(scene);
-                } catch (IOException ex)
-                {
-                    System.out.println("Something went wrong changing scenes.");
-                }
-        }            
-    }
 }

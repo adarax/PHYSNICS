@@ -39,7 +39,7 @@ public class MainApp extends Application{
         } catch (IOException ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root, 1920, 1080);
         stage.setScene(scene);
         stage.setTitle("Uniform Circular Motion Controller");
         stage.setFullScreen(true);
