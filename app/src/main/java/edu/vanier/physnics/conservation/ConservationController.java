@@ -159,6 +159,7 @@ public class ConservationController {
          * Shows the graphs window.
          */
         buttonGraph.setOnMouseClicked((clicked) -> {
+            
             graphController.show();
         });
 

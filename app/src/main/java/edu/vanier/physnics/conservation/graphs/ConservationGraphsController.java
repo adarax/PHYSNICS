@@ -121,6 +121,7 @@ public class ConservationGraphsController {
      */
     public void show(){
         currentStage = (Stage) paneAnimation.getScene().getWindow();
+        currentStage.hide();
         currentStage.show();
     }
     
