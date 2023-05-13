@@ -2,7 +2,7 @@
 ## Program for Handling Your Scientific Needs In a Concise Simulation
 #### An application containing 4 simulations for the user to explore. PHYSNICS includes a **stacked block simulation**, a **uniform circular motion simulation**, a **conservation of energy simulation**, and a **projectile motion simulation**. Interact with the simulations to learn how these physical concepts work. Learn physics with **PHYSNICS**!
 ---
-## **Stacked block Simulation**
+## **Stacked Block Simulation**
 ## Description
 The stacked block simulation simulates a physics problem involving two blocks one on top of the other. 
 
