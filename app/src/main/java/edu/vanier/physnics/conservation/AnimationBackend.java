@@ -143,7 +143,8 @@ public class AnimationBackend {
     }
    
     /**
-     * @return Returns the time that the animation has been running for in seconds
+     * Returns the time that the animation has been running for in seconds
+     * @return current time of the animation
      */
     public double getCurrentTime() {
         return (mainAnimation.getCurrentTime().toSeconds());
@@ -167,46 +168,50 @@ public class AnimationBackend {
     }
 
     /**
-     * @return Getter for playing
+     * Getter for playing
+     * @return playing boolean
      */
     public boolean isPlaying() {
         return playing;
     }
 
     /**
-     * @param playing Setter for playing
+     * Setter for playing
+     * @param playing new boolean value for playing
      */
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
 
     /**
-     * @return Getter for mainAnimation
+     * Getter for mainAnimation
+     * @return main animation
      */
     public ParallelTransition getMainAnimation() {
         return mainAnimation;
     }
 
     /**
-     * @param mainAnimation setter for mainAnimation
+     * setter for mainAnimation
+     * @param mainAnimation new mainAnimation
      */
     public void setMainAnimation(ParallelTransition mainAnimation) {
         this.mainAnimation = mainAnimation;
     }
 
     /**
-     * 
+     * Getter for timeToCompleteOneCycleSeconds
      *
-     * @return Getter for timeToCompleteOneCycleSeconds
+     * @return returns the time to complete one cycle
      */
     public double getTimeToCompleteOneCycleSeconds() {
         return timeToCompleteOneCycleSeconds;
     }
 
     /**
-     * 
+     * setter for timeToCompleteOneCycleSeconds
      *
-     * @param timeToCompleteOneCycleSeconds setter for timeToCompleteOneCycleSeconds
+     * @param timeToCompleteOneCycleSeconds sets the time to complete one animation cycle
      */
     public void setTimeToCompleteOneCycleSeconds(double timeToCompleteOneCycleSeconds) {
         this.timeToCompleteOneCycleSeconds = timeToCompleteOneCycleSeconds;

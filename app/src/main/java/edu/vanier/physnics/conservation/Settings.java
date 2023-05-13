@@ -12,9 +12,6 @@ import javafx.scene.text.Font;
  * @author Benjamin Pratt
  */
 public class Settings {
-    
-     
-
     /**
      * Array of different gravitational accelerations from different planets
      *values obtained from https://space.nss.org/settlement/nasa/teacher/lessons/bryan/microgravity/gravback.html
