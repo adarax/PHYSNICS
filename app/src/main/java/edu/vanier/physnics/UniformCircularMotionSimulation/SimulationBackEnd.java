@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
@@ -221,5 +222,9 @@ public class SimulationBackEnd {
         {
             System.out.println("Something went wrong changing scenes.");
         }
+
+        currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        currentStage.setFullScreenExitHint("");
+        currentStage.setFullScreen(true);
     }
 }

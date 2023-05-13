@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 /**
@@ -91,6 +92,7 @@ public class MainMenuController extends App {
         stage.setMaximized(true);
         stage.sizeToScene();
         stage.getIcons().add(new Image("/images/app_icon.png"));
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
         stage.show();

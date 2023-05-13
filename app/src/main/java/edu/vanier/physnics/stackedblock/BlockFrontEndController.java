@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -434,6 +435,7 @@ public class BlockFrontEndController {
             System.out.println("Something went wrong changing scenes.");
         }
 
+        currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         currentStage.setFullScreenExitHint("");
         currentStage.setFullScreen(true);
     }

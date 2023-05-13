@@ -501,6 +501,7 @@ public class MainAppController {
             currentStage.setScene(scene);
             currentStage.setFullScreen(true);
             currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            currentStage.setFullScreenExitHint("");
         } catch (IOException problemChangingScenes) {
             System.out.println("Something went wrong changing scenes.");
         }

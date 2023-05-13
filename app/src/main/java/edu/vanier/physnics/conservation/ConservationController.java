@@ -26,6 +26,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -391,6 +392,10 @@ public class ConservationController {
         {
             System.out.println("Something went wrong changing scenes.");
         }
+        
+        currentStage.setFullScreen(true);
+        currentStage.setFullScreenExitHint("");
+        currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
     
     public void openGraphWindow(){
@@ -409,7 +414,9 @@ public class ConservationController {
         
         stage.setScene(scene);
         stage.setTitle("Current energy levels");
-        
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
     }
     
     public void drawArrow(double posx, double posy, double length, double width, double pointWidth){

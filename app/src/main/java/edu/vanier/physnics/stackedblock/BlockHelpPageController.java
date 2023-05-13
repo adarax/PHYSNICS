@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -115,6 +116,7 @@ public class BlockHelpPageController {
             System.out.println("Something went wrong changing scenes.");
         }
 
+        helpWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         helpWindow.setFullScreenExitHint("");
         helpWindow.setFullScreen(true);
     }

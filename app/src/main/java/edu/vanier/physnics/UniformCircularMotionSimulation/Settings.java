@@ -89,7 +89,7 @@ public class Settings {
     /**
      * The String to display if the simulation reaches past the limits of accuracy for the radius.
      */
-    static final String RADIUS_LIMIT_MESSAGE = "Simulation can only show radius up to 35 m. Any radius set beyond that reflect the simulation of a radius of 35 m.";   
+    static final String RADIUS_LIMIT_MESSAGE = "Simulation can only show radius up to 35 m. Any radius set beyond that reflect the simulation of a radius of less than 35 m.";   
     
     /**
      * The String to display if the simulation reaches past the limits of accuracy for the speed.
