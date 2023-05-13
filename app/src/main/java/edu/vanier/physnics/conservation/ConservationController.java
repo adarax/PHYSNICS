@@ -152,6 +152,7 @@ public class ConservationController {
             resetBall();
             disableSidebar(false);
             animBackend.setPlaying(false);
+            graphController.setup();
             valueListener.stop();
         });
 

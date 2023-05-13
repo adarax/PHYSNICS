@@ -54,7 +54,9 @@ public class ConservationGraphsController {
     /**
      * Initializes all UI elements and places them in the pane
      */
-    private void setup(){
+    public void setup(){
+        paneAnimation.getChildren().clear();
+    
         textVelocity = new Text("Current velocity: "  
                 + " m/s");
         textVelocity.setFont(GraphSettings.GRAPH_TEXT_FONT);
