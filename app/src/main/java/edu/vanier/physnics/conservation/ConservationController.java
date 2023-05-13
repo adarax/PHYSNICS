@@ -152,6 +152,7 @@ public class ConservationController {
             resetBall();
             disableSidebar(false);
             animBackend.setPlaying(false);
+            graphController.setup();
             valueListener.stop();
         });
 
@@ -159,6 +160,7 @@ public class ConservationController {
          * Shows the graphs window.
          */
         buttonGraph.setOnMouseClicked((clicked) -> {
+            
             graphController.show();
         });
 
@@ -384,7 +386,7 @@ public class ConservationController {
      * Gets the number from a string option. Used to get from the array of
      * friction coefficients and from the array of gravitational accelerations
      *
-     * @param option
+     * @param option Inputted string that a number needs to be extracted from
      * @return
      */
     public double getNumber(String option) {
@@ -416,7 +418,7 @@ public class ConservationController {
     /**
      * Switches to a different simulation or back to main menu
      *
-     * @param simulationName
+     * @param simulationName Name of the simulation that the user wishes to switch to
      */
     public void switchSimulation(String simulationName) {
         Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
@@ -489,11 +491,11 @@ public class ConservationController {
     /**
      * Draws a downward arrow at a certain position
      *
-     * @param posx
-     * @param posy
-     * @param length
-     * @param width
-     * @param pointWidth
+     * @param posx X position of the arrow
+     * @param posy Y position of the arrow
+     * @param length length of the arrow
+     * @param width width of the arrow
+     * @param pointWidth width of the point of the arrow
      */
     public void drawArrow(double posx, double posy, double length, double width, double pointWidth) {
         Line arrowShaft = new Line();
@@ -517,9 +519,9 @@ public class ConservationController {
      * Opens a color picked window and changes the color of the corresponding
      * object, either the ramp or the ball
      *
-     * @param objectColor
-     * @param title
-     * @param choice
+     * @param objectColor current color of the object
+     * @param title title of the opened stage
+     * @param choice choice between changing the ramp color or the ball color
      */
     public void getNewColor(Color objectColor, String title, String choice) {
         Stage colorPickerStage = new Stage();
@@ -593,7 +595,7 @@ public class ConservationController {
     /**
      * Disables the side bar options while the animation is playing.
      *
-     * @param status
+     * @param status disabled or enabled
      */
     public void disableSidebar(boolean status) {
         sliderHeight.setDisable(status);
@@ -625,17 +627,6 @@ public class ConservationController {
         helpStage.setResizable(false);
         helpStage.initModality(Modality.APPLICATION_MODAL);
         helpStage.show();
-
-    }
-
-    private void changeRamp() {
-
-        paneAnimation.getChildren().remove(ramp);
-        ramp = null;
-        ramp = new Ramp(rampHeightM, Settings.RAMP_THICKNESS,
-                Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
-        paneAnimation.getChildren().add(ramp);
-        ramp.createBallPath(ball);
 
     }
 }
