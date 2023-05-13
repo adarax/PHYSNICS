@@ -45,32 +45,32 @@ public class Ball extends Circle{
    
 
     /**
-     *
-     * @return Getter for massKg
+     * Getter for massKg
+     * @return current mass of the ball
      */
     public double getMassKg() {
         return massKg;
     }
 
     /**
-     * 
-     * @param massKg Setter for massKg
+     * Setter for massKg
+     * @param massKg new mass value
      */
     public void setMassKg(double massKg) {
         this.massKg = massKg;
     }
 
     /**
-     *
-     * @return Getter for ballPath
+     * Getter for ballPath
+     * @return path of the ball during the animation
      */
     public Path getBallPath() {
         return ballPath;
     }
 
     /**
-     * 
-     * @param ballPath Setter for ballPath
+     * Setter for ballPath
+     * @param ballPath sets a new ball path for the ball animation
      */
     public void setBallPath(Path ballPath) {
         this.ballPath = ballPath;
