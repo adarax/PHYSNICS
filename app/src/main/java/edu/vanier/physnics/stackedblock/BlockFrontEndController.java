@@ -107,7 +107,7 @@ public class BlockFrontEndController {
 
         addSliderEventHandlers();
 
-        menubuttonCentripetal.setOnAction(press -> switchSimulation("ucm-scene-graph"));
+        menubuttonCentripetal.setOnAction(press -> switchSimulation("uniform-circular-motion"));
         menubuttonConservation.setOnAction(press -> switchSimulation("conservation"));
         menubuttonProjectile.setOnAction(press -> switchSimulation("projectile"));
         menubuttonMainMenu.setOnAction(press -> switchSimulation("mainmenu"));
@@ -405,7 +405,7 @@ public class BlockFrontEndController {
                 MainAppController projectileController = new MainAppController();
                 loader.setController(projectileController);
             }
-            case "ucm-scene-graph" ->
+            case "uniform-circular-motion" ->
             {
                 UniformCircularMotionController ucmController = new UniformCircularMotionController();
                 loader.setController(ucmController);

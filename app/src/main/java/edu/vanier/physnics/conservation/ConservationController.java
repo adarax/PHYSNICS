@@ -200,7 +200,7 @@ public class ConservationController {
         });
          
         menuItemUCM.setOnAction((e) ->{
-            switchSimulation("ucm-scene-graph");
+            switchSimulation("uniform-circular-motion");
         });
         
         menuItemChangeBallColor.setOnAction((eventHandler) -> {
@@ -363,7 +363,7 @@ public class ConservationController {
                 MainAppController projectileController = new MainAppController();
                 loader.setController(projectileController);
             }
-            case "ucm-scene-graph" ->
+            case "uniform-circular-motion" ->
             {
                 UniformCircularMotionController ucmController = new UniformCircularMotionController();
                 loader.setController(ucmController);
@@ -404,7 +404,7 @@ public class ConservationController {
         try {
             scene = new Scene(loader.load(),600, 400);
         } catch (IOException ex) {
-            System.out.println("Graaph stage could not be opened");
+            System.out.println("Graph stage could not be opened");
         }
         
         stage.setScene(scene);

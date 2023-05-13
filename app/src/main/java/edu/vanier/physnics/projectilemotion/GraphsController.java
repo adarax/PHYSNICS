@@ -22,13 +22,13 @@ public class GraphsController {
     
     // List of elements present in the scene
     @FXML
-    private LineChart<?, ?> velocityXvsTime;
+    private LineChart<XYChart, XYChart> velocityXvsTime;
     
     @FXML
-    private LineChart<?, ?> velocityYvsTime;
+    private LineChart<XYChart, XYChart> velocityYvsTime;
     
     @FXML 
-    private LineChart<?, ?> accelerationYvsTime;
+    private LineChart<XYChart, XYChart> accelerationYvsTime;
     
     @FXML
     private MFXButton exitGraphsButton;

@@ -30,12 +30,12 @@ public class Settings {
     /**
      * The maximum radius of the simulation for the rectangle car.
      */
-    static final double MAX_RADIUS_RECTANGLE = 200+8*(40-25);
+    static final double MAX_RADIUS_RECTANGLE = 280;
     
     /**
      * The maximum radius of the simulation for the vectors.
      */
-    static final double MAX_RADIUS_VECTORS = 180+180/25*(40-25);
+    static final double MAX_RADIUS_VECTORS = 252;
     
     /**
      * The width of the rectangle.

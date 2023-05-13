@@ -46,7 +46,6 @@ public class UniformCircularMotionHelpController extends Stage{
      */
     public void closeWindow(){
         helpMenuCloseButton.setOnAction((event) -> {
-            System.out.println("Closing window...");
             primaryStage.close();
         });        
     }

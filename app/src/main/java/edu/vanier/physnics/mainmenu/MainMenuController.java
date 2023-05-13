@@ -73,7 +73,7 @@ public class MainMenuController extends App {
                 loader.setController(controller);
             }
             case "UCM" -> {
-                loader = new FXMLLoader(getClass().getResource("/fxml/ucm-scene-graph.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/fxml/uniform-circular-motion.fxml"));
                 UniformCircularMotionController controller = new UniformCircularMotionController();
                 loader.setController(controller);
             }

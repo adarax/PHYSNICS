@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PathTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -162,7 +163,6 @@ public class UniformCircularMotionController extends Stage{
      */
     @FXML
     void initialize(){
-        System.out.println("Booting up simulation...");
         setUp();
         //sends the user back to the main menu
         buttonHome.setOnMouseClicked((e) -> {        
@@ -179,21 +179,20 @@ public class UniformCircularMotionController extends Stage{
             simulationBackEnd.switchSimulation("stackedblock", uniformCircularMotionBorderPane);
         });
 
-        //sends the user to theenergy conservation simulation
+        //sends the user to the energy conservation simulation
         menuItemConservationEnergy.setOnAction((e) ->{
             simulationBackEnd.switchSimulation("conservation", uniformCircularMotionBorderPane);
         });
         
         //closes the application
         menuItemQuit.setOnAction((e) ->{
-            simulationBackEnd.switchSimulation("quit", uniformCircularMotionBorderPane);
+            Platform.exit();
         });
     }
     
     /**
      * Changes the color of the path, using a color picker window that pops up.
      */
-    @FXML
     public void changePathColor(){
         menuItemChangePathColor.setOnAction((event) -> {
             ChangeColorWindow changeColorWindow = new ChangeColorWindow(mainWindow);
@@ -206,7 +205,6 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Pauses the simulation.
      */
-    @FXML
     void pause(){
         pauseButton.setOnMouseClicked((event) -> {
             setImageViewsDisabling(true, false, false);
@@ -218,7 +216,6 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Plays the simulation and locks the play button, while making the pause and reset button enabled to be clicked on.
      */
-    @FXML
     void play(){
         playButton.setOnMouseClicked((event) -> {
             if (car.getSpeedMetersPerSeconds() != 0) {
@@ -237,7 +234,6 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Pop ups the help page in another window. Freezes the help button while window is up.
      */
-    @FXML
     void displayHelpPage(){
         helpButton.setOnMouseClicked((event) -> {
         helpButton.setDisable(true);
@@ -264,7 +260,6 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Resets the simulation back to default settings.
      */
-    @FXML
     void reset(){
         resetButton.setOnMouseClicked((event) -> {
             setImageViewsDisabling(true, true, false);
@@ -285,7 +280,6 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Sets up the necessary methods, and initial parameters for the simulation.
      */
-    @FXML
     public void setUp(){
         setImageViewsDisabling(true, true, false);
         setInitialParameters(Settings.CAR_INITIAL_RADIUS_METERS, Settings.CAR_INITIAL_SPEED_METERS_PER_SECONDS, Settings.CAR_INITIAL_MASS_KILOGRAMS);   
@@ -304,12 +298,10 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Hides or shows the acceleration or force vectors with their respective CheckBoxes.
      */
-    @FXML
     public void setVectorsVisibility(){
         forceMagnitudeCheckBox.setOnAction((event) -> {
             if (forceMagnitudeCheckBox.isSelected()) {
                 //hides the force vector if the Force magnitude CheckBox is checked
-                System.out.println("Hiding force magnitude");
                 vectorForce.getArrowBody().setVisible(false);
             }
             else{
@@ -320,7 +312,6 @@ public class UniformCircularMotionController extends Stage{
         accelerationMagnitudeCheckBox.setOnAction((event) -> {
             if (accelerationMagnitudeCheckBox.isSelected()) {
                 //hides the accelertaion vector if the accelertaion magnitude CheckBox is checked
-                System.out.println("Hiding acceleration magnitude");
                 vectorAcceleration.getArrowBody().setOpacity(0);
             }
             else{
