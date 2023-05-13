@@ -14,7 +14,7 @@ Enter desired values for forces and their angle on each block along with the fri
 ## Science Concepts
 This simulation uses the physics concepts of **forces** to find the total force upon each block and determining whether there is a sufficient net force to overcome friction. The forces can be applied at angles so the x and y components need to be calculated. 
 
-![Stacked block setup with vectors](public/readme-images/stacked-block-vectors.png)) 
+![Stacked block setup with vectors](public/readme-images/stacked-block-vectors.png)
 
 ---
 

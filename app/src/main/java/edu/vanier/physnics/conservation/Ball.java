@@ -19,8 +19,8 @@ public class Ball extends Circle{
     
     /**
      *  Constructor for the ball object. Sets the radius and the color of the ball.
-     * @param radius
-     * @param ballColor
+     * @param radius Radius of the ball
+     * @param ballColor Color of the ball
      */
     public Ball(double radius, Color ballColor){
         this.setRadius(radius);
@@ -30,10 +30,10 @@ public class Ball extends Circle{
     /**
      *  Constructor for the ball object. 
      * Sets color, radius and the x and y position of the ball.
-     * @param color
-     * @param centerX
-     * @param centerY
-     * @param radius
+     * @param color Color of the ball
+     * @param centerX Center X of the ball
+     * @param centerY CenterY of the ball
+     * @param radius Radius of the ball
      */
     public Ball(Color color, double centerX, double centerY, double radius){
         this.setCenterX(centerX);
@@ -53,8 +53,8 @@ public class Ball extends Circle{
     }
 
     /**
-     * Setter for massKg
-     * @param massKg
+     * 
+     * @param massKg Setter for massKg
      */
     public void setMassKg(double massKg) {
         this.massKg = massKg;
@@ -69,8 +69,8 @@ public class Ball extends Circle{
     }
 
     /**
-     * Setter for ballPath
-     * @param ballPath
+     * 
+     * @param ballPath Setter for ballPath
      */
     public void setBallPath(Path ballPath) {
         this.ballPath = ballPath;
