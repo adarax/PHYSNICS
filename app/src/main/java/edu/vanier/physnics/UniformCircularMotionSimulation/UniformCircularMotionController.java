@@ -449,9 +449,14 @@ public class UniformCircularMotionController extends Stage{
             } catch (NumberFormatException e) {
                     //error in case there is any erroneous value put in the textfield
                     if (!radiusTextField.getText().isBlank()) {
-                    simulationBackEnd.showErrorAlertAndReset(radiusTextField, radiusSlider, 20, "Invalid Radius Input. Please Try Again");
-                    useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
-                        linkRadiusTextFieldToSlider();
+                        simulationBackEnd.showErrorAlertAndReset(radiusTextField, radiusSlider, 20, "Invalid Radius Input. Please Try Again");
+                        useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                        linkRadiusTextFieldToSlider(); 
+                        adjustCarRadius();  
+                        //to prevent anything from showing up before starting the simulation
+                        if (!resetButton.isDisabled()) {
+                            group.getChildren().addAll(rectTest, pathCar, vectorForce.getArrowBody(),vectorAcceleration.getArrowBody());                
+                        }  
                     }
             }
         });
@@ -473,9 +478,10 @@ public class UniformCircularMotionController extends Stage{
             } catch (NumberFormatException e) {
                     //error in case there is any erroneous value put in the textfield
                 if (!speedTextField.getText().isBlank()) {
-                    simulationBackEnd.showErrorAlertAndReset(speedTextField, speedSlider, 10, "Invalid Speed Input. Please Try Again");
-                    useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                    simulationBackEnd.showErrorAlertAndReset(speedTextField, speedSlider, Settings.CAR_INITIAL_SPEED_METERS_PER_SECONDS, "Invalid Speed Input. Please Try Again");
+                    useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), Settings.CAR_INITIAL_SPEED_METERS_PER_SECONDS, simulationBackEnd.retrieveTextField(radiusTextField));
                     linkSpeedSliderToTextField();
+                    adjustSimulationNodesAnimationRate();
                 }
             }
         });
@@ -498,6 +504,7 @@ public class UniformCircularMotionController extends Stage{
                     simulationBackEnd.showErrorAlertAndReset(massTextField, massSlider, 20, "Invalid Mass Input. Please Try Again");
                     useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
                     linkMassTextFieldToSlider();
+                    adjustForceVectorOpacity();                
                     }
                 }
         });                    
