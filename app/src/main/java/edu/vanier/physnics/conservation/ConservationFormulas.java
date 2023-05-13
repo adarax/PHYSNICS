@@ -63,21 +63,6 @@ public class ConservationFormulas {
     }
      
     /**
-     * Finds the energy lost to friction on a section of a circle, defined between two angles.
-     * @param radius
-     * @param mass
-     * @param gravitationalAcceleration
-     * @param frictionCoefficent
-     * @param initialAngle
-     * @param finalAngle
-     * @return
-     */
-    public static double getFrictionEnergyOverCircleSection(double radius, double mass, double gravitationalAcceleration, 
-            double frictionCoefficent, double initialAngle, double finalAngle){
-        return Math.abs(radius*mass*gravitationalAcceleration*frictionCoefficent*(Math.sin(initialAngle) - Math.sin(finalAngle)));
-    }
-    
-    /**
      * Returns the height of an object from a potential energy
      * @param gravitationalAcceleration
      * @param mass

@@ -33,10 +33,6 @@ public class GraphSettings {
      */
     public static final double POTENTIAL_ENERGY_GRAPH_POSITION_X = 400;
 
-    /**
-     *X position of the friction energy graph
-     */
-    public static final double FRICTION_ENERGY_GRAPH_POSITION_X = 200;
     
     /**
      * Width of the graphs
@@ -63,10 +59,7 @@ public class GraphSettings {
      */
     public static final Color KINETIC_ENERGY_GRAPH_COLOR = Color.RED;
 
-    /**
-     * Color of the friction energy graph
-     */
-    public static final Color FRICTION_ENERGY_GRAPH_COLOR = Color.SILVER;
+    
     
     /**
      * X position of the current velocity text
@@ -107,16 +100,6 @@ public class GraphSettings {
      * Y position of the potential energy text
      */
     public static final double POTENTIAL_ENERGY_TEXT_POSITION_Y = PANE_HEIGHT - 50;
-    
-    /**
-     *  X position of the friction energy text
-     */
-    public static final double FRICTION_ENERGY_TEXT_POSITION_X = PANE_WIDTH/2-300; 
-
-    /**
-     * Y position of the friction energy text
-     */
-    public static final double FRICTION_ENERGY_TEXT_POSITION_Y = PANE_HEIGHT - 50;
     
     /**
      * X position of the total energy text

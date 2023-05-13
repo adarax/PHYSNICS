@@ -2,7 +2,6 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXSlider?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -97,22 +96,6 @@
                   <Insets left="50.0" top="40.0" />
                </VBox.margin>
             </MFXSlider>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Friction coefficient">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="50.0" top="40.0" />
-               </VBox.margin>
-            </Text>
-            <ChoiceBox fx:id="choiceBoxFrictionCoefficient" prefHeight="50.0" prefWidth="218.0">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
-            </ChoiceBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Height of the ramp" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
@@ -134,14 +117,6 @@
                   <Image url="@../images/graph_icon.png" />
                </image>
             </ImageView>
-            <CheckBox fx:id="checkBoxFriction" mnemonicParsing="false" prefHeight="47.0" prefWidth="139.0" text="Friction">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="50.0" top="30.0" />
-               </VBox.margin>
-            </CheckBox>
          </children>
          <BorderPane.margin>
             <Insets right="20.0" />

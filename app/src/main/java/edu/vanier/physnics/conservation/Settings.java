@@ -22,17 +22,6 @@ public class Settings {
     public static final String[] GRAVITATIONAL_ACCELERATION_CONSTANTS = {
         "Earth: 9.8", "Moon: 1.6", "Mars: 3.7", "Venus: 8.87", "Jupiter: 24.5", "Sun: 275"};
     
-   
-
-    /**
-     * Array of friction coefficients from different surfaces
-     * values for u obtained from
-     * https://www.engineersedge.com/coeffients_of_friction.htm Ball is assumed
-     * to be made of steel
-     */
-    public static final String[] FRICTION_COEFFICIENTS
-            = {"Aluminium: 0.61", "Brass: 0.5", "Cast Iron: 0.4", "Copper: 0.53", "Steel: 0.8"};
-    
     /**
      * Basic array of colors for the custom color picker window
      */
@@ -49,10 +38,6 @@ public class Settings {
      */
     public static double DEFAULT_HEIGHT = 10;
 
-    /**
-     * Default friction coefficient. Corresponds to aluminium in the array
-     */
-    public static double DEFAULT_FRICTION_COEFFICIENT = 0.61;
 
     /**
      * default gravitational acceleration. Corresponds to the one on earth.

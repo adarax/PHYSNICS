@@ -10,6 +10,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.shape.Rectangle;
@@ -117,41 +118,6 @@ public class AnimationBackend {
     }
 
     /**
-     * Animates the friction graph.
-     *
-     * @param frictionOverOneCyle
-     * @param TME
-     * @param FE
-     */
-    public void createFrictionGraphAnimation(double frictionOverOneCyle, double TME, Rectangle FE) {
-        double timeToOvertakeTME = (timeToCompleteOneCycleSeconds) * (TME / frictionOverOneCyle);
-        System.out.println(timeToOvertakeTME);
-        ScaleTransition stFe = new ScaleTransition(Duration.seconds(timeToOvertakeTME));
-        stFe.setNode(FE);
-
-        stFe.setToY(1);
-        stFe.setFromY(0);
-
-        stFe.setCycleCount(1);
-        stFe.setAutoReverse(false);
-        stFe.setInterpolator(Interpolator.EASE_BOTH);
-
-        TranslateTransition frictionEnergyGraphTranslation
-                = new TranslateTransition(Duration.seconds(timeToOvertakeTME), FE);
-        frictionEnergyGraphTranslation.setFromY(GraphSettings.GRAPHS_POSITION_Y);
-        frictionEnergyGraphTranslation.setToY(GraphSettings.GRAPHS_POSITION_Y - (GraphSettings.MAX_GRAPH_HEIGHT / 2));
-        frictionEnergyGraphTranslation.setCycleCount(1);
-        frictionEnergyGraphTranslation.setAutoReverse(false);
-        frictionEnergyGraphTranslation.setInterpolator(Interpolator.EASE_BOTH);
-
-        stFe.setOnFinished((eventHandler) -> {
-            mainAnimation.stop();
-        });
-
-        mainAnimation.getChildren().addAll(stFe, frictionEnergyGraphTranslation);
-    }
-
-    /**
      * Creates and then plays the animation of the ball without friction
      * involved.If the simulation is paused, it will resume it.
      *
@@ -162,8 +128,8 @@ public class AnimationBackend {
      * @param kineticEnergyRectangle
      * @param potentialEnergyRectangle
      */
-    public void playBallAnimationWithoutFriction(Ball ball, Ramp ramp, double height,
-            double gravitationalAcceleration, Rectangle kineticEnergyRectangle, Rectangle potentialEnergyRectangle, Rectangle frictionEnergyRectangle) {
+    public void playBallAnimation(Ball ball, Ramp ramp, double height,
+            double gravitationalAcceleration, Rectangle kineticEnergyRectangle, Rectangle potentialEnergyRectangle) {
         if (playing) {
             mainAnimation.play();
         } else {
@@ -176,6 +142,19 @@ public class AnimationBackend {
         }
 
     }
+    
+    /**
+     * Creates and then plays the animation of the ball without friction
+     * involved.If the simulation is paused, it will resume it.
+     *
+     * @param ball
+     * @param ramp
+     * @param height
+     * @param gravitationalAcceleration
+     * @param kineticEnergyRectangle
+     * @param potentialEnergyRectangle
+     */
+   
 
     /**
      * Returns the time that the animation has been running for in seconds

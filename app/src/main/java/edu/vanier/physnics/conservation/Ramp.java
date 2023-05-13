@@ -20,11 +20,11 @@ import javafx.scene.shape.Path;
  */
 public class Ramp extends Path {
 
-    private double radius;
-    private double thickness;
-    private double positionX;
-    private double positionY;
-    private Color rampColor;
+    protected double radius;
+    protected double thickness;
+    protected double positionX;
+    protected double positionY;
+    protected Color rampColor;
 
     /**
      * Constructor for the ramp. Sets the radius, thickness, positionX,

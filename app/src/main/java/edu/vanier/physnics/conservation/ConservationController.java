@@ -35,8 +35,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Main controller for the Conservation of energy window.
- * Instantiates all FXML elements and provides their functionalities.
+ * Main controller for the Conservation of energy window. Instantiates all FXML
+ * elements and provides their functionalities.
+ *
  * @author Benjamin Pratt
  */
 public class ConservationController {
@@ -72,13 +73,7 @@ public class ConservationController {
     private ImageView buttonHome;
 
     @FXML
-    private CheckBox checkBoxFriction;
-
-    @FXML
     private ChoiceBox<String> choiceBoxGravitationalAcceleration;
-
-    @FXML
-    private ChoiceBox<String> choiceBoxFrictionCoefficient;
 
     @FXML
     private Pane paneAnimation;
@@ -89,27 +84,20 @@ public class ConservationController {
     @FXML
     private MFXSlider sliderMass;
 
-   
     private Color rampColor;
     private Color ballColor;
 
-   
     private Ball ball;
 
     private double gravitationalAccelerationMetersPerSecondSquared;
-    private double frictionCoefficient;
     private double rampHeightM;
     private double massKg;
 
-    
     private AnimationBackend animBackend;
 
-    
     private Text textHeight;
     private Text textMass;
-    private Text textg;
-
-    private boolean friction;
+    private Text textGravitationalAcceleration;
 
     private Ramp ramp;
 
@@ -131,7 +119,7 @@ public class ConservationController {
 
         //setup the ramp and the ball, and the values
         setup();
-        
+
         /**
          * Creates and plays the animation for the ball in the ramp and for the
          * energy level graphs. Starts the animation timer to update the
@@ -139,9 +127,11 @@ public class ConservationController {
          * playing.
          */
         buttonPlay.setOnMouseClicked((clicked) -> {
-            animBackend.playBallAnimationWithoutFriction(ball, ramp, rampHeightM, gravitationalAccelerationMetersPerSecondSquared, graphController.getKineticEnergyGraph(),
-                    graphController.getPotentialEnergyGraph(), graphController.getFrictionGraph()
+
+            animBackend.playBallAnimation(ball, ramp, rampHeightM, gravitationalAccelerationMetersPerSecondSquared, graphController.getKineticEnergyGraph(),
+                    graphController.getPotentialEnergyGraph()
             );
+
             graphController.setTotalEnergyText(totalMechanicalEnergy);
             valueListener.start();
             disableSidebar(true);
@@ -207,22 +197,7 @@ public class ConservationController {
          */
         choiceBoxGravitationalAcceleration.setOnAction((clicked) -> {
             gravitationalAccelerationMetersPerSecondSquared = getNumber(choiceBoxGravitationalAcceleration.getValue());
-            textg.setText("Gravitational\n acceleration:\n" + gravitationalAccelerationMetersPerSecondSquared + " m/s^2");
-        });
-
-        /**
-         * changes the friction coefficent to the new value the user selected.
-         */
-        choiceBoxFrictionCoefficient.setOnAction((clicked) -> {
-            frictionCoefficient = getNumber(choiceBoxFrictionCoefficient.getValue());
-        });
-
-        /**
-         * Selects or unselects the friction option
-         */
-        checkBoxFriction.setOnAction((clicked) -> {
-            friction = !friction;
-
+            textGravitationalAcceleration.setText("Gravitational\n acceleration:\n" + gravitationalAccelerationMetersPerSecondSquared + " m/s^2");
         });
 
         /**
@@ -297,11 +272,11 @@ public class ConservationController {
      * update values accordingly
      */
     public void setup() {
+        choiceBoxGravitationalAcceleration.setStyle("-fx-font-size: 20;");
         //initializes the variables
         massKg = Settings.DEFAULT_MASS;
         rampHeightM = Settings.DEFAULT_HEIGHT;
         gravitationalAccelerationMetersPerSecondSquared = Settings.DEFAULT_GRAVITATIONAL_ACCELERATION;
-        frictionCoefficient = Settings.DEFAULT_FRICTION_COEFFICIENT;
 
         totalMechanicalEnergy = ConservationFormulas.potentialEnergy(massKg, gravitationalAccelerationMetersPerSecondSquared, rampHeightM);
 
@@ -316,25 +291,16 @@ public class ConservationController {
         //initialize the ball and ramp
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
 
-        //no friction on initialize
-        friction = false;
-
         paneAnimation.getChildren().add(ball);
 
         //draw the ramp
         createRamp();
 
-        //add the options to the choiceboxes
+        //add the options to the choiceboxe
         for (int i = 0; i < Settings.GRAVITATIONAL_ACCELERATION_CONSTANTS.length; i++) {
             choiceBoxGravitationalAcceleration.getItems().add(Settings.GRAVITATIONAL_ACCELERATION_CONSTANTS[i]);
         }
         choiceBoxGravitationalAcceleration.setValue(Settings.GRAVITATIONAL_ACCELERATION_CONSTANTS[0]);
-
-        //add the options to the choiceboxes
-        for (int i = 0; i < Settings.FRICTION_COEFFICIENTS.length; i++) {
-            choiceBoxFrictionCoefficient.getItems().add(Settings.FRICTION_COEFFICIENTS[i]);
-        }
-        choiceBoxFrictionCoefficient.setValue(Settings.FRICTION_COEFFICIENTS[0]);
 
         sliderMass.setValue(massKg);
         sliderHeight.setValue(rampHeightM);
@@ -372,22 +338,17 @@ public class ConservationController {
      * ball position.
      */
     public void updateValues() {
-        double currentHeight = rampHeightM - ((ball.getTranslateY()) / (ramp.getRadius() + ball.getRadius()) * rampHeightM);
+        double currentHeight = rampHeightM - (ball.getTranslateY() / (ramp.getRadius() + 
+                ball.getRadius()-ramp.getThickness()) * rampHeightM);
         double potentialEnergy = ConservationFormulas.potentialEnergy(massKg, gravitationalAccelerationMetersPerSecondSquared, currentHeight);
         double currentVelocity = ConservationFormulas.getCurrentVelocity(totalMechanicalEnergy, potentialEnergy, massKg);
         double kineticEnergy = ConservationFormulas.kineticEnergy(massKg, currentVelocity);
-        double frictionEnergy = 0;
-        double distanceTravelled = ConservationFormulas.getHalfCircleCircumference(rampHeightM) * (animBackend.getCurrentTime() / animBackend.getTimeToCompleteOneCycleSeconds());
-
-        if (friction) {
-
-        }
 
         graphController.setCurrentHeightText(currentHeight);
         graphController.setKineticEnergyText(kineticEnergy);
         graphController.setVelocityText(currentVelocity);
         graphController.setPotentialEnergy(potentialEnergy);
-        graphController.setFrictionEnergyText(frictionEnergy);
+
     }
 
     /**
@@ -410,11 +371,11 @@ public class ConservationController {
         textMass.setY(Settings.MASS_TEXT_POSITION_Y);
 
         //acceleration text placed to the right of the ramp
-        textg = new Text("Gravitational\n acceleration: \n" + gravitationalAccelerationMetersPerSecondSquared + " m/s^2");
-        textg.setFont(Settings.TEXT_FONT);
-        paneAnimation.getChildren().add(textg);
-        textg.setX(Settings.ACCELERATION_TEXT_POSITION_X);
-        textg.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
+        textGravitationalAcceleration = new Text("Gravitational\n acceleration: \n" + gravitationalAccelerationMetersPerSecondSquared + " m/s^2");
+        textGravitationalAcceleration.setFont(Settings.TEXT_FONT);
+        paneAnimation.getChildren().add(textGravitationalAcceleration);
+        textGravitationalAcceleration.setX(Settings.ACCELERATION_TEXT_POSITION_X);
+        textGravitationalAcceleration.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
 
         drawArrow(Settings.ARROW_POSITION_X,
                 Settings.ARROW_POSITION_Y, Settings.ARROW_LENGTH,
@@ -516,7 +477,7 @@ public class ConservationController {
         try {
             scene = new Scene(loader.load(), GraphSettings.PANE_WIDTH, GraphSettings.PANE_HEIGHT);
         } catch (IOException ex) {
-            System.out.println("Graaph stage could not be opened");
+            System.out.println("Graph stage could not be opened");
         }
 
         stage.setScene(scene);
@@ -560,7 +521,6 @@ public class ConservationController {
      * @param choice
      */
     public void getNewColor(Color objectColor, String title, String choice) {
-        Color chosenColor = objectColor;
         Stage colorPickerStage = new Stage();
         Pane colorPickerPane = new Pane();
 
@@ -637,9 +597,9 @@ public class ConservationController {
     public void disableSidebar(boolean status) {
         sliderHeight.setDisable(status);
         sliderMass.setDisable(status);
-        checkBoxFriction.setDisable(status);
+
         choiceBoxGravitationalAcceleration.setDisable(status);
-        choiceBoxFrictionCoefficient.setDisable(status);
+
     }
 
     /**
@@ -666,6 +626,17 @@ public class ConservationController {
         helpStage.setResizable(false);
         helpStage.initModality(Modality.APPLICATION_MODAL);
         helpStage.show();
+
+    }
+
+    private void changeRamp() {
+
+        paneAnimation.getChildren().remove(ramp);
+        ramp = null;
+        ramp = new Ramp(rampHeightM, Settings.RAMP_THICKNESS,
+                Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
+        paneAnimation.getChildren().add(ramp);
+        ramp.createBallPath(ball);
 
     }
 }

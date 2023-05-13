@@ -27,13 +27,11 @@ public class ConservationGraphsController {
     
     private Rectangle potentialEnergyGraph;
     private Rectangle kineticEnergyGraph;
-    private Rectangle FrictionGraph;
     
     private Text textPotentialEnergy;
     private Text textKineticEnergy;
     private Text textVelocity;
     private Text textCurrentHeight;
-    private Text textFrictionEnergy;
     private Text textTotalEnergy;
     
     private Line energyAxis;
@@ -81,12 +79,6 @@ public class ConservationGraphsController {
         textPotentialEnergy.setLayoutX(GraphSettings.POTENTIAL_ENERGY_TEXT_POSITION_X);
         textPotentialEnergy.setLayoutY(GraphSettings.POTENTIAL_ENERGY_TEXT_POSITION_Y);
         
-        textFrictionEnergy = new Text("Friction energy: "  
-                + " J");
-        textFrictionEnergy.setFont(GraphSettings.GRAPH_TEXT_FONT);
-        textFrictionEnergy.setLayoutX(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_X);
-        textFrictionEnergy.setLayoutY(GraphSettings.FRICTION_ENERGY_TEXT_POSITION_Y);
-        
         textTotalEnergy = new Text("Total energy: "  
                 + " J");
         textTotalEnergy.setFont(GraphSettings.GRAPH_TEXT_FONT);
@@ -119,14 +111,9 @@ public class ConservationGraphsController {
                 GraphSettings.ENERGY_AXIS_START_POSITION_Y+GraphSettings.ENERGY_AXIS_WIDTH);
         rightPoint.setStrokeWidth(GraphSettings.ENERGY_AXIS_STROKE_WIDTH);
         
-        FrictionGraph = new Rectangle(GraphSettings.FRICTION_ENERGY_GRAPH_POSITION_X, 
-                GraphSettings.GRAPHS_POSITION_Y, GraphSettings.GRAPH_WIDTH, 
-                GraphSettings.MAX_GRAPH_HEIGHT);
-        FrictionGraph.setFill(GraphSettings.FRICTION_ENERGY_GRAPH_COLOR);
+        paneAnimation.getChildren().addAll(textCurrentHeight,textKineticEnergy,textPotentialEnergy,textTotalEnergy,textVelocity,
+                kineticEnergyGraph, potentialEnergyGraph, leftPoint, rightPoint, energyAxis);
         
-        paneAnimation.getChildren().addAll(textVelocity, textKineticEnergy, 
-                textPotentialEnergy, potentialEnergyGraph, kineticEnergyGraph, textCurrentHeight,textFrictionEnergy, 
-                FrictionGraph, textTotalEnergy, energyAxis, leftPoint, rightPoint);
     }
     
     /**
@@ -162,15 +149,6 @@ public class ConservationGraphsController {
     public void setPotentialEnergy(double potentialEnergy){
         textPotentialEnergy.setText("Potential energy: "  
                 + oneDecimalConverter(potentialEnergy) + "J");
-    }
-    
-    /**
-     * Sets a new values of friction energy in the graph window
-     * @param frictionEnergy
-     */
-    public void setFrictionEnergyText(double frictionEnergy){
-        textFrictionEnergy.setText("Friction energy: "  
-                + oneDecimalConverter(frictionEnergy) + "J");
     }
     
     /**
@@ -217,22 +195,6 @@ public class ConservationGraphsController {
         this.potentialEnergyGraph = potentialEnergyGraph;
     }
 
-    /**
-     * getter for frictionGraph
-     * @return
-     */
-    public Rectangle getFrictionGraph() {
-        return FrictionGraph;
-    }
-
-    /**
-     * setter for frictionGraph
-     * @param FrictionGraph
-     */
-    public void setFrictionGraph(Rectangle FrictionGraph) {
-        this.FrictionGraph = FrictionGraph;
-    }
-    
     /**
      * getter for kineticEnergyGraph
      * @return
