@@ -138,72 +138,80 @@ public class Ramp extends Path {
     }
 
     /**
-     * 
-     * @return getter for radius
-     *
+     * getter for radius
+     * @return radius
      */
     public double getRadius() {
         return radius;
     }
 
     /**
-     * @param radius setter for radius
+     * setter for radius
+     * @param radius radius of the ramp
      */
     public void setRadius(double radius) {
         this.radius = radius;
     }
 
     /**
-     * @return getter for thickness
+     * getter for thickness
+     * @return thickness of the ramp
      */
     public double getThickness() {
         return thickness;
     }
 
     /**
-     * @param thickness setter for thickness
+     * setter for thickness
+     * @param thickness new thickness value
      */
     public void setThickness(double thickness) {
         this.thickness = thickness;
     }
 
     /**
-     * @return getter for postionX
+     * getter for postionX
+     * @return x position of the ramp
      */
     public double getPositionX() {
         return positionX;
     }
 
     /**
-     * @param positionX setter for positonX
+     * setter for positonX
+     * @param positionX new X position of the ramp
      */
     public void setPositionX(double positionX) {
         this.positionX = positionX;
     }
 
     /**
-     * @return getter for positionY
+     * getter for positionY
+     * @return y position of the ramp
      */
     public double getPositionY() {
         return positionY;
     }
 
     /**
-     * @param positionY  setter for positionY
+     * setter for positionY
+     * @param positionY new value for position Y of the ramp
      */
     public void setPositionY(double positionY) {
         this.positionY = positionY;
     }
 
     /**
-     * @return getter for rampColor
+     * getter for rampColor
+     * @return color of the ramp
      */
     public Color getRampColor() {
         return rampColor;
     }
 
     /**
-     * @param rampColor setter for rampColor
+     * setter for rampColor
+     * @param rampColor new color of the ramp
      */
     public void setRampColor(Color rampColor) {
         this.rampColor = rampColor;

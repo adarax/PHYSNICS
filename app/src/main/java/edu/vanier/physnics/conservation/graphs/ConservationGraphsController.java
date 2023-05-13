@@ -172,6 +172,7 @@ public class ConservationGraphsController {
     }
     
     /**
+     * Function to reduce a double number to a string with only 1 decimal point
      * @param value double value to reduce to 1 decimal points
      * @return Converts a double with many decimal points to only a single decimal point
      */
@@ -182,36 +183,18 @@ public class ConservationGraphsController {
     
 
     /**
-     * 
-     * @return getter for potentialEnergyGraph
+     * getter for potentialEnergyGraph
+     * @return rectangle of potential energy graph
      */
     public Rectangle getPotentialEnergyGraph() {
         return potentialEnergyGraph;
     }
-    
-    /**
-     * 
-     * @param potentialEnergyGraph setter for potentialEnergyGraph
-     */
-    public void setPotentialEnergyGraph(Rectangle potentialEnergyGraph) {
-        this.potentialEnergyGraph = potentialEnergyGraph;
-    }
 
     /**
-     * 
-     * @return getter for kineticEnergyGraph
+     * getter for kineticEnergyGraph
+     * @return rectangle of kinetic energy graph
      */
     public Rectangle getKineticEnergyGraph() {
         return kineticEnergyGraph;
-    }
-
-    /**
-     * s
-     * @param kineticEnergyGraph getter for kineticEnergyGraph
-     */
-    public void setKineticEnergyGraph(Rectangle kineticEnergyGraph) {
-        this.kineticEnergyGraph = kineticEnergyGraph;
-    }
-    
-    
+    }   
 }
