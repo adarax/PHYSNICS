@@ -85,6 +85,7 @@ public class MainMenuController extends App {
             stage.setScene(scene);
         } catch (IOException ex) {
             System.out.println("Something went wrong changing scenes.");
+            System.out.println(ex);
         }
 
         stage.setMaximized(true);

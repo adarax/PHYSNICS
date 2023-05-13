@@ -15,32 +15,55 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- *
- * @author Admin
+ * A class used to display the window where the user can change the color of the paths.
+ * @author Victor-Pen
  */
 public class ChangeColorWindow extends Stage{
+    /**
+     * The stage to set the color picker.
+     */
     Stage colorChangeStage = new Stage();
+    /**
+     * The color picker that will be used to change the color of the path.
+     */
     ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
+    /**
+     * A VBox to contain the color picker inside in the window.
+     */
     VBox vBox = new VBox(colorPicker);
+    /**
+     * A scene to set the color picker and the VBox.
+     */
     Scene scene = new Scene(vBox, 300, 50);           
 
+    /**
+     * Constructor that creates an instance of the class.
+     * @param mainWindow the main window that will pop up the color picker window/
+     */
     public ChangeColorWindow(Stage mainWindow){
         initModality(Modality.WINDOW_MODAL);
         initOwner(mainWindow);    
     }
     
-    public void changeColor(Path path1, Path path2){
+    /**
+     * Changes the color of the path
+     * @param path the path whose color will change
+     */
+    public void changeColor(Path path){
         colorChangeStage.setScene(scene);
         colorChangeStage.setResizable(false);
         colorChangeStage.setTitle("Change Path Color");
-        colorChangeStage.initModality(Modality.WINDOW_MODAL);
-        colorPicker.setValue((Color) path1.getStroke());
+        colorPicker.setValue((Color) path.getStroke());
         colorChangeStage.showAndWait();    
-        path1.setStroke(colorPicker.getValue());
-        path2.setStroke(colorPicker.getValue());     
+        path.setStroke(colorPicker.getValue());
     }
     
-    public void stop(MenuItem menuItem){
+    /**
+     * Disables the button used in the main stage to display the color changing 
+     * window, preventing said window from being opened multiple times.
+     * @param menuItem the menuItem to disable.
+     */
+    public void setDisableColorWindowButton(MenuItem menuItem){
         menuItem.setDisable(false);
     }
 }

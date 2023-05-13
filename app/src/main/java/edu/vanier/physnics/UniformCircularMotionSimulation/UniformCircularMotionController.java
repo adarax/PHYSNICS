@@ -1,24 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.vanier.physnics.UniformCircularMotionSimulation;
 
+import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -31,259 +24,257 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
 /**
- *
- * @author Admin
+ * A class used to handle everything concerning the simulation, its FXML components, and its display.
+ * @author Victor-Pen
  */
-public class UniformCircularMotionController extends Stage{ 
+public class UniformCircularMotionController extends Stage{   
+    /**The pause button of the simulation. */
     @FXML
     ImageView pauseButton;
+    /**The play button of the simulation. */
     @FXML
     ImageView playButton;
+    /**The reset button of the simulation. */
     @FXML
-    ImageView resetButton;  
+    ImageView resetButton;
+    /**The TextField that will hold the value of the car's radius. */
     @FXML
     TextField radiusTextField;
+    /**The Slider that will hold the value of the car's radius. */
     @FXML
     MFXSlider radiusSlider;
+    /**The TextField that will hold the value of the car's speed. */
     @FXML
     TextField speedTextField;
+    /**The Slider that will hold the value of the car's speed. */
     @FXML
     MFXSlider speedSlider;
+    /**The TextField that will hold the value of the car's mass. */
     @FXML
     TextField massTextField;
+    /**The Slider that will hold the value of the car's mass. */
     @FXML
     MFXSlider massSlider;
+    /**The CheckBox that will hide the acceleration vector if clicked on. */
     @FXML
-    Text centrAccelText;
+    MFXCheckbox accelerationMagnitudeCheckBox;
+    /**The CheckBox that will hide the force vector if clicked on. */
+    @FXML
+    MFXCheckbox forceMagnitudeCheckBox;
+    /**The Text that will display the value of the centripetal acceleration. */
+    @FXML
+    Text centripetalAccelerationText;
+    /**The Text that will display the value of the force. */
     @FXML
     Text forceText;
+    /**The Pane that contains the simulation. */
     @FXML
     Pane paneSimulate;
+    /**The Text that will display the value of the angle the force and acceleration vectors make with respect to the center of the revolving path. */
     @FXML
     Text angleText;
+    /**The Text that will display the value of the X component of the centripetal acceleration. */
     @FXML
-    Text accelXText;
+    Text accelerationXText;
+    /**The Text that will display the value of the Y component of the centripetal acceleration. */
     @FXML
-    Text accelYText;
+    Text accelerationYText;
+    /**The Text that will display the value of the X component of the force. */
     @FXML
     Text forceXText;
+    /**The Text that will display the value of the Y component of the force. */
     @FXML
     Text forceYText;
-    @FXML
-    MenuButton MenuButtonMenu;
+    /**The Menu Button that, when clicked on, shows the user the options of going to another simulation or quitting the application. */
     @FXML
     MenuItem menuItemConservationEnergy;
+    /**The Menu Item that, when clicked on, sends the user to the Stacked Blocks Simulation. */
     @FXML
     MenuItem menuItemStacked;
+    /**The Menu Item that, when clicked on, sends the user to the Projectile Motion Simulation. */
     @FXML
     MenuItem menuItemProjectile;
+    /**The Menu Item that, when clicked on, quits the window. */
     @FXML
     MenuItem menuItemQuit;
+    /**The Menu Item that, when clicked on, lets the user change the color of the path. */
     @FXML
     MenuItem menuItemChangePathColor;   
+    /**The Button that, when clicked on, sends the user back to the main menu. */
     @FXML
     ImageView buttonHome; 
+    /**The Button that, when clicked on, shows the user the help page. */
     @FXML
     ImageView helpButton; 
+    /**The BorderPane containing the simulation and all the sliders, Texts, and TextFields. */
     @FXML
     BorderPane uniformCircularMotionBorderPane;
+    /**The Text that will display a warning message if the user goes above a certain value for the mass. */
     @FXML
     Text warningMassText = new Text();
+    /**The Text that will display a warning message if the user goes above a certain value for the speed. */
     @FXML
     Text warningSpeedText = new Text();
+    /**The Text that will display a warning message if the user goes above a certain value for the radius. */
     @FXML
     Text warningRadiusText = new Text();
-    
+    /**The Stage containing the simulation. */    
     Stage mainWindow = new Stage();
-    Timeline timeline;
-    
+    /**The Car that is revolving in the simulation. */        
     Car car = new Car();
-    Path path1 = new Path();
-    Path path2 = new Path();
-    
+    /**The Path that the Car is revolving on. */        
+    Path pathCar = new Path();
+    /**The Path that the Force Vector is revolving on. */        
+    Path pathForceVector = new Path();
+    /**The Path that the Acceleration Vector is revolving on. */        
+    Path pathAccelerationVector = new Path();   
+    /**The Rectangle that is used to represent the car in the simulation. */        
     Rectangle rectTest = new Rectangle(50,30, Color.ORANGE);
+    /**The Vector that represents the centripetal force vector of the car. */        
+    Vector vectorForce = new Vector(0,0, 30, 60,Settings.VECTOR_TYPE[0]);
+    /**The Vector that represents the centripetal acceleration vector of the car. */        
+    Vector vectorAcceleration = new Vector(0,0, 30, 30, Settings.VECTOR_TYPE[1]);      
+    /**The Center around which the car and arrows will revolve. */        
     Circle center = new Circle(Settings.CENTER_MARKER_X_COORDINATE, Settings.CENTER_MARKER_Y_COORDINATE, 2, Color.RED);
-    Group group = new Group();    
-    Vector vectorForce = new Vector(0,0, Settings.VECTOR_TYPE[0]);
-    PathTransition pathTransitionCircle = new PathTransition();
-    PathTransition pathTransitionCircle2 = new PathTransition();
-    PathTransition pathTransitionCircle3 = new PathTransition();
-    PathTransition pathTransitionCircle4 = new PathTransition();
+    /**The Group that houses all paths, and nodes that will be displayed and that will change with the parameters of the simulation. */        
+    Group group = new Group();      
+    /**The PathTransition that the Car is revolving on. */        
+    PathTransition pathTransitionCircleCar = new PathTransition();
+    /**The PathTransition that the Force Vector is revolving on. */        
+    PathTransition pathTransitionCircleForceVector = new PathTransition();
+    /**The PathTransition that the Acceleration Vector is revolving on. */        
+    PathTransition pathTransitionCircleAccelerationVector = new PathTransition();  
+    /**Indicates whether the simulation is playing (true) or not (false). */        
     private boolean playing = false;
-    SimulationBackEnd animationBackEnd = new SimulationBackEnd();
-    
-    AnimationTimer timerAngle = new AnimationTimer() {
-        
+    /**An instantiation of the class containing additional methods for the simulation that are more back end. */        
+    SimulationBackEnd simulationBackEnd = new SimulationBackEnd();
+    /**An animation timer that dynamically updates the values of force, acceleration, and its components depending on the parameters set. */        
+    AnimationTimer timerAngle = new AnimationTimer() {      
         @Override
         public void handle(long l) {
-            double coordinateX = rectTest.getTranslateX()+rectTest.getWidth()/2;
-            double coordinateY = -center.getCenterY()+rectTest.getTranslateY()+rectTest.getHeight()/2;
-            double angle = getAngle()*180/Math.PI;
-            if (coordinateX > 0) {
-                if (coordinateY > 0) {
-                    if (angle > 0) {
-                        angle = 360-Math.abs(angle);
-                    }
-                    else{
-                        angle = 180+Math.abs(angle);
-                    }
-                }
-                else{
-                    if (angle < 0) {
-                        angle = Math.abs(angle);
-                    }
-                    else{
-                        angle = 180-Math.abs(angle);
-                    }
-                }
-            }         
-            angleText.setText(String.valueOf(round(angle)));
-            centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
-            accelXText.setText(String.valueOf(round(Math.cos(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
-            accelYText.setText(String.valueOf(round(Math.sin(Math.toRadians(angle))*Double.valueOf(centrAccelText.getText()))));
-            forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));
-            forceXText.setText(String.valueOf(round(Math.cos(Math.toRadians(angle))*Double.valueOf(forceText.getText()))));
-            forceYText.setText(String.valueOf(round(Math.sin(Math.toRadians(angle))*Double.valueOf(forceText.getText()))));
-        }
+            useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+        };
     };
     
-    
-    
+    /**
+     * Initializes methods so that they can work in the simulation.
+     */
     @FXML
     void initialize(){
         System.out.println("Booting up simulation...");
         setUp();
+        //sends the user back to the main menu
         buttonHome.setOnMouseClicked((e) -> {        
-            animationBackEnd.switchSimulation("mainmenu", uniformCircularMotionBorderPane);
+            simulationBackEnd.switchSimulation("mainmenu", uniformCircularMotionBorderPane);
         });
         
+        //sends the user to the projectile motion simulation
         menuItemProjectile.setOnAction((e) ->{
-            animationBackEnd.switchSimulation("projectile", uniformCircularMotionBorderPane);
+            simulationBackEnd.switchSimulation("projectile", uniformCircularMotionBorderPane);
         });
         
+        //sends the user to the stacked block simulation
         menuItemStacked.setOnAction((e) ->{
-            animationBackEnd.switchSimulation("stackedblock", uniformCircularMotionBorderPane);
+            simulationBackEnd.switchSimulation("stackedblock", uniformCircularMotionBorderPane);
         });
-         
+
+        //sends the user to theenergy conservation simulation
         menuItemConservationEnergy.setOnAction((e) ->{
-            animationBackEnd.switchSimulation("conservation", uniformCircularMotionBorderPane);
+            simulationBackEnd.switchSimulation("conservation", uniformCircularMotionBorderPane);
         });
         
+        //closes the application
         menuItemQuit.setOnAction((e) ->{
-            animationBackEnd.switchSimulation("quit", uniformCircularMotionBorderPane);
+            simulationBackEnd.switchSimulation("quit", uniformCircularMotionBorderPane);
         });
     }
     
+    /**
+     * Changes the color of the path, using a color picker window that pops up.
+     */
     @FXML
     public void changePathColor(){
         menuItemChangePathColor.setOnAction((event) -> {
             ChangeColorWindow changeColorWindow = new ChangeColorWindow(mainWindow);
             menuItemChangePathColor.setDisable(true);
-            changeColorWindow.changeColor(path1, path2);
-            changeColorWindow.stop(menuItemChangePathColor);
+            changeColorWindow.changeColor(pathCar);
+            changeColorWindow.setDisableColorWindowButton(menuItemChangePathColor);
         });
     }
     
-    @FXML
-    public double retrieveRadiusTextField(){
-        double radius = 0;
-        try {
-            radius = Double.valueOf(radiusTextField.getText());
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-        return radius;
-    }
-    
-    @FXML
-    public double retrieveSpeedTextField(){
-        double speed = 0;
-        try {
-            speed = Double.valueOf(speedTextField.getText());
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-        return speed;
-    }
-
-    @FXML
-    public double retrieveMassTextField(){
-        double mass = 0;
-        try {
-            mass = Double.valueOf(massTextField.getText());
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-        return mass;
-    }
-    
+    /**
+     * Pauses the simulation.
+     */
     @FXML
     void pause(){
         pauseButton.setOnMouseClicked((event) -> {
-            System.out.println("pausing...");
-            pauseButton.setDisable(true);
-            playButton.setDisable(false);
-            resetButton.setDisable(false);
+            setImageViewsDisabling(true, false, false);
             pauseAllPathTransition();
             timerAngle.stop();
         });
     }
     
+    /**
+     * Plays the simulation and locks the play button, while making the pause and reset button enabled to be clicked on.
+     */
     @FXML
     void play(){
         playButton.setOnMouseClicked((event) -> {
-            System.out.println("playing...");
-            playButton.setDisable(true);
-            pauseButton.setDisable(false);
-            resetButton.setDisable(false);
-            timerAngle.start();
-            enableSlidersImageViewsAndTextFields();        
-            if (!playing) {
-                revolveCar();
-                playing = true;
+            if (car.getSpeedMetersPerSeconds() != 0) {
+                setImageViewsDisabling(false, false, true);
+                timerAngle.start();
+                if (!playing) {
+                    revolveCar();
+                    playing = true;
+                }
+                pauseAllPathTransition();
+                playAllPathTransition();                
             }
-            pauseAllPathTransition();
-            playAllPathTransition();
         });
     }
 
+    /**
+     * Pop ups the help page in another window. Freezes the help button while window is up.
+     */
     @FXML
     void displayHelpPage(){
         helpButton.setOnMouseClicked((event) -> {
+        helpButton.setDisable(true);
         Stage stage = new Stage();
                 FXMLLoader uniformCircularMotionHelpLoader = new FXMLLoader(getClass().getResource("/fxml/helpUniformCircularMotion.fxml"));
-                Pane root = null;
-                
+                Pane root = null;               
             try {
+                //loading the help page
                 UniformCircularMotionHelpController uniformCircularMotionHelpController = new UniformCircularMotionHelpController(stage);
                 uniformCircularMotionHelpLoader.setController(uniformCircularMotionHelpController);
                 root = uniformCircularMotionHelpLoader.load();               
             } catch (IOException ex) {
                 Logger.getLogger(UniformCircularMotionHelpController.class.getName()).log(Level.SEVERE, null, ex);
             } 
+                //displaying the help page
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.setTitle("About Uniform Circular Motion simulation...");
-                stage.show();            
+                stage.showAndWait();
+                helpButton.setDisable(false);
         });
     }
     
+    /**
+     * Resets the simulation back to default settings.
+     */
     @FXML
     void reset(){
         resetButton.setOnMouseClicked((event) -> {
-            System.out.println("resetting...");
-            disableSlidersImageViewsAndTextFields();
+            setImageViewsDisabling(true, true, false);
             stopAllPathTransition();
             group.getChildren().clear();
-            radiusTextField.setText("25");
-            massTextField.setText("10");
-            speedTextField.setText("10");
-            radiusSlider.setValue(25);
-            massSlider.setValue(10);
-            speedSlider.setValue(10);
+            //resetting back to default parameters
+            setInitialParameters(Settings.CAR_INITIAL_RADIUS_METERS, Settings.CAR_INITIAL_SPEED_METERS_PER_SECONDS, Settings.CAR_INITIAL_MASS_KILOGRAMS);   
+            useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
             timerAngle.stop();
+            //clearing all paths, PathTransitions, and warning messages (basically making the simulation display blank)
             clearPathElements();
             clearPathTransitions();
             clearWarningMessages();
@@ -291,20 +282,15 @@ public class UniformCircularMotionController extends Stage{
       });
     }    
     
+    /**
+     * Sets up the necessary methods, and initial parameters for the simulation.
+     */
     @FXML
     public void setUp(){
-        pauseButton.setPickOnBounds(false);
-        resetButton.setPickOnBounds(false);
-        playButton.setPickOnBounds(true);
-        radiusTextField.setText("20");
-        massTextField.setText("10");
-        speedTextField.setText("10");
-        radiusSlider.setValue(20);
-        massSlider.setValue(10);
-        speedSlider.setValue(10);
-        useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());
+        setImageViewsDisabling(true, true, false);
+        setInitialParameters(Settings.CAR_INITIAL_RADIUS_METERS, Settings.CAR_INITIAL_SPEED_METERS_PER_SECONDS, Settings.CAR_INITIAL_MASS_KILOGRAMS);   
+        useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
         paneSimulate.getChildren().add(center);  
-        disableSlidersImageViewsAndTextFields();
         setSliders();
         pause();
         play();
@@ -312,366 +298,440 @@ public class UniformCircularMotionController extends Stage{
         displayHelpPage();
         changePathColor();
         paneSimulate.getChildren().add(group);
+        setVectorsVisibility();
     }
     
+    /**
+     * Hides or shows the acceleration or force vectors with their respective CheckBoxes.
+     */
+    @FXML
+    public void setVectorsVisibility(){
+        forceMagnitudeCheckBox.setOnAction((event) -> {
+            if (forceMagnitudeCheckBox.isSelected()) {
+                //hides the force vector if the Force magnitude CheckBox is checked
+                System.out.println("Hiding force magnitude");
+                vectorForce.getArrowBody().setVisible(false);
+            }
+            else{
+                //shows the force vector if the Force magnitude CheckBox is unchecked
+                vectorForce.getArrowBody().setVisible(true);
+            }
+        });
+        accelerationMagnitudeCheckBox.setOnAction((event) -> {
+            if (accelerationMagnitudeCheckBox.isSelected()) {
+                //hides the accelertaion vector if the accelertaion magnitude CheckBox is checked
+                System.out.println("Hiding acceleration magnitude");
+                vectorAcceleration.getArrowBody().setOpacity(0);
+            }
+            else{
+                //shows the accelertaion vector if the accelertaion magnitude CheckBox is unchecked
+                vectorAcceleration.getArrowBody().setOpacity(1);
+            }            
+        });
+    }
+    
+    /**
+     * Sets the initial parameters of the radius, speed, and mass of the simulation into the sliders and TextFields.
+     * @param initialRadius the initial value of the car's radius
+     * @param initialSpeed the initial speed of the car's radius
+     * @param initialMass the initial mass of the car's radius
+     */
+    public void setInitialParameters(double initialRadius, double initialSpeed, double initialMass){
+        radiusTextField.setText(String.valueOf(initialRadius));
+        radiusSlider.setValue(initialRadius);
+        massTextField.setText(String.valueOf(initialMass));
+        massSlider.setValue(initialMass);
+        speedTextField.setText(String.valueOf(initialSpeed));
+        speedSlider.setValue(initialSpeed);    
+    }
+    
+    /**
+     * Sets up the revolving of the car when the simulation starts.
+     */
     public void revolveCar(){       
         stopAllPathTransition();
-        removePathAndNodes();
+        vectorForce.setOpacity(0.5);
         if (!paneSimulate.getChildren().contains(rectTest)) {
-            path1 = null;
-            path2 = null;
-
-            pathTransitionCircle.setNode(null);
-            pathTransitionCircle.setPath(null);
-            path1 = animationBackEnd.createEllipsePath(195+center.getCenterX(),
-                    center.getCenterY(),200,
-                    200, 0);
-            path2 = animationBackEnd.createEllipsePath(195+center.getCenterX(),
-                    center.getCenterY(),200,
-                    200, 0);
-            group.getChildren().addAll(rectTest, path1, path2, vectorForce.getArrowBody());                
-
-            pathTransitionCircle = animationBackEnd.createPathTransitionCircle(path1, (Node) rectTest, car);
-            pathTransitionCircle2 = animationBackEnd.createPathTransitionCircle(path2,  vectorForce.getArrowBody(), car);      
-        }
-                
+            nullPaths();
+            clearPathTransitions();           
+            setPathTrajectories();            
+            group.getChildren().addAll(rectTest, pathCar, vectorForce.getArrowBody(), vectorAcceleration.getArrowBody());
+            //creates the path transitions for the car, and force and acceleration vectors
+            pathTransitionCircleCar = simulationBackEnd.createPathTransitionCircle(pathCar, (Node) rectTest, car);
+            pathTransitionCircleForceVector = simulationBackEnd.createPathTransitionCircle(pathForceVector,  vectorForce.getArrowBody(), car);      
+            pathTransitionCircleAccelerationVector = simulationBackEnd.createPathTransitionCircle(pathAccelerationVector,  vectorAcceleration.getArrowBody(), car);      
+        }               
         playAllPathTransition();
     }
     
+    /**
+     * Sets all the sliders correctly and make them link with their respective TextFields.
+     */
     public void setSliders(){
-        setSliderRange(radiusSlider, 1, 25);
-        setSliderRange(massSlider, 0, 25);
-        setSliderRange(speedSlider, 0, 30);
+        simulationBackEnd.setSliderRange(radiusSlider, 1, 25);
+        simulationBackEnd.setSliderRange(massSlider, 0, 40);
+        simulationBackEnd.setSliderRange(speedSlider, 0, 30);
         
-        linkRadiusSliderToTextField(radiusSlider, radiusTextField);
-        linkMassSliderToTextField(massSlider, massTextField);
-        linkSpeedSliderToTextField(speedSlider, speedTextField);
+        //links all sliders to their respective TextFields
+        linkRadiusSliderToTextField();
+        linkMassSliderToTextField();
+        linkSpeedSliderToTextField();
         
-        linkMassTextFieldToSlider(massSlider, massTextField);
-        linkRadiusTextFieldToSlider(radiusSlider, radiusTextField);
-        linkSpeedTextFieldToSlider(speedSlider, speedTextField);
+        //links all TextFields to their respective sliders
+        linkMassTextFieldToSlider();
+        linkRadiusTextFieldToSlider();
+        linkSpeedTextFieldToSlider();
     }
     
-    public void linkRadiusSliderToTextField(MFXSlider slider, TextField textfield){
-        slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(round(slider.getValue())));
-            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());       
-            pathTransitionCircle.stop();
-            pathTransitionCircle2.stop();
-            pathTransitionCircle3.stop();
-            pathTransitionCircle4.stop();
-            group.getChildren().clear();
-            clearPathElements();
-            clearPathTransitions();
-            path1 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
-                    center.getCenterY(),200+8*(car.getRadius()-25),
-                    200+8*(car.getRadius()-25), 0);
-            path2 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
-                    center.getCenterY(),200+8*(car.getRadius()-25),
-                    200+8*(car.getRadius()-25), 0);
- 
-            pathTransitionCircle.setNode(rectTest);
-            pathTransitionCircle.setPath(path1);
-
-            warningRadiusText.setText("");
-            
+    /**
+     * Synchronizes the values in the radius slider to its TextField.
+     */
+    public void linkRadiusSliderToTextField(){
+        radiusSlider.setOnMouseDragged((event) -> {
+            radiusTextField.setText(String.valueOf(Formulas.roundTwoDecimals(radiusSlider.getValue())));
+            useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+            adjustCarRadius();
             if (!pauseButton.isDisabled()) {
+                //when the animation is still playing
                 playAllPathTransition();
             }
             else{
-                pathTransitionCircle.playFromStart();
+                //when the animation is paused
+                pathTransitionCircleCar.playFromStart();
+                pathTransitionCircleForceVector.playFromStart();
+                pathTransitionCircleAccelerationVector.playFromStart();
                 stopAllPathTransition();
+            }    
+            //to prevent anything from showing up before starting the simulation
+            if (!resetButton.isDisabled()) {
+                group.getChildren().addAll(rectTest, pathCar, vectorForce.getArrowBody(),vectorAcceleration.getArrowBody());                
             }
-            
-            group.getChildren().addAll(rectTest, path1, path2,  vectorForce.getArrowBody());                
-            });                
+        });                
     }
     
-    public void linkSpeedSliderToTextField(MFXSlider slider, TextField textfield){
-        slider.setOnMouseDragged((event) -> {
-            textfield.setText(String.valueOf(round(slider.getValue())));
-            useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue()); 
+    /**
+     * Synchronizes the values in the speed slider to its TextField.
+     */
+    public void linkSpeedSliderToTextField(){
+        speedSlider.setOnMouseDragged((event) -> {
+            speedTextField.setText(String.valueOf(Formulas.roundTwoDecimals(speedSlider.getValue())));
+            useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
             pauseAllPathTransition();
-            pathTransitionCircle.setRate(0.1*car.getSpeed());
-            pathTransitionCircle2.setRate(0.1*car.getSpeed());
-            pathTransitionCircle3.setRate(0.1*car.getSpeed());
-            pathTransitionCircle4.setRate(0.1*car.getSpeed());
-            warningSpeedText.setText("");
-            if (!pauseButton.isDisabled()) {
+            adjustSimulationNodesAnimationRate();
+            //to play the simulation only when it is not paused
+            if (!pauseButton.isDisabled() && group.getChildren().contains(rectTest)) {
                playAllPathTransition();
             }
         });
     }
 
-    public void linkMassSliderToTextField(MFXSlider slider, TextField textfield){
-        slider.setOnMouseDragged((event) -> {
-                textfield.setText(String.valueOf(round(slider.getValue())));
-                useEnteredValuesToCalculate(massSlider.getValue(), speedSlider.getValue(), radiusSlider.getValue());            
-                warningMassText.setText("");
-    });        
+    /**
+     * Synchronizes the values in the mass slider to its TextField.
+     */
+    public void linkMassSliderToTextField(){
+        massSlider.setOnMouseDragged((event) -> {
+                massTextField.setText(String.valueOf(Formulas.roundTwoDecimals(massSlider.getValue())));
+                useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                if (!forceMagnitudeCheckBox.isSelected()) {
+                    adjustForceVectorOpacity();                
+                }
+        });        
     }
 
-    public void linkRadiusTextFieldToSlider(MFXSlider slider, TextField textfield){
-        textfield.setOnKeyTyped((event) -> {
+    /**
+     * Synchronizes the values in the radius TextField to its slider.
+     */
+    public void linkRadiusTextFieldToSlider(){
+        radiusTextField.setOnKeyTyped((event) -> {
             try {
-                slider.setValue(Double.valueOf(textfield.getText()));
-                useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                pathTransitionCircle.stop();
-                pathTransitionCircle2.stop();
-                pathTransitionCircle3.stop();
-                pathTransitionCircle4.stop();
-                group.getChildren().clear();
-                clearPathElements();
-                clearPathTransitions();           
-                clearPathTransitions();
-                if (car.getRadius() <= 41) {
-                    path1 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(car.getRadius()-25),
-                        center.getCenterY(),200+8*(car.getRadius()-25),
-                        200+8*(car.getRadius()-25), 0);
-                    path2 = animationBackEnd.createEllipsePath(center.getCenterX()+180+180/25*(car.getRadius()-25), 
-                            center.getCenterY(), 180+180/25*(Double.valueOf(radiusTextField.getText())-25), 
-                            180+180/25*(Double.valueOf(radiusTextField.getText())-25), 0);               
-                    warningRadiusText.setText("");
+                useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                radiusSlider.setValue(Double.valueOf(radiusTextField.getText()));          
+                //prevents the user from having too big or small values that will make the simulation look weird
+                if (Double.valueOf(radiusTextField.getText()) < 1 || Double.valueOf(radiusTextField.getText()) > Settings.SIMULATION_INPUT_MAXIMUM) {
+                    throw new NumberFormatException();
                 }
-                else{
-                    path1 = animationBackEnd.createEllipsePath(center.getCenterX()+200+8*(41-25),
-                        center.getCenterY(),200+8*(41-25),
-                        200+8*(41-25), 0);
-                    path2 = animationBackEnd.createEllipsePath(center.getCenterX()+180+180/25*(41-25), 
-                            center.getCenterY(), 180+180/25*(41-25), 
-                            180+180/25*(41-25), 0);
-                    warningRadiusText.setText(Settings.RADIUS_LIMIT_MESSAGE);
-                    warningRadiusText.setFill(Color.RED);                
-                }
-
-                pathTransitionCircle.setNode(rectTest);
-                pathTransitionCircle.setPath(path1);
-                
-                
-                if (!pauseButton.isDisabled()) {
-                    playAllPathTransition();
-                }
-                else{
-                    playAllPathTransition();
-                    stopAllPathTransition();
-                }
-
-                group.getChildren().addAll(rectTest, path1, path2,  vectorForce.getArrowBody());
-        } catch (NumberFormatException e) {
-                    if (!textfield.getText().isBlank()) {
-                    System.out.println("error");
-                    System.out.println(e);
-                    radiusSlider.setValue(20);
-                    radiusTextField.setText("20");
-                    useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                    popAlert("Invalid Radius Input. Please Try Again");
-                        linkRadiusTextFieldToSlider(slider, textfield);
+                adjustCarRadius();  
+                //to prevent anything from showing up before starting the simulation
+                if (!resetButton.isDisabled()) {
+                    group.getChildren().addAll(rectTest, pathCar, vectorForce.getArrowBody(),vectorAcceleration.getArrowBody());                
+                }  
+            } catch (NumberFormatException e) {
+                    //error in case there is any erroneous value put in the textfield
+                    if (!radiusTextField.getText().isBlank()) {
+                    simulationBackEnd.showErrorAlertAndReset(radiusTextField, radiusSlider, 20, "Invalid Radius Input. Please Try Again");
+                    useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                        linkRadiusTextFieldToSlider();
                     }
             }
         });
     }
     
-    public void linkSpeedTextFieldToSlider(MFXSlider slider, TextField textfield){
-        textfield.setOnKeyTyped((event) -> {
+    /**
+     * Synchronizes the values in the speed TextField to its slider.
+     */
+    public void linkSpeedTextFieldToSlider(){
+        speedTextField.setOnKeyTyped((event) -> {
             try {
-                slider.setValue(Double.valueOf(textfield.getText()));
-                useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                if (car.getSpeed() <= 200) {
-                    pathTransitionCircle.setRate(0.1*car.getSpeed());
-                    pathTransitionCircle2.setRate(0.1*car.getSpeed());
-                    pathTransitionCircle3.setRate(0.1*car.getSpeed());
-                    pathTransitionCircle4.setRate(0.1*car.getSpeed());                    
-                    warningSpeedText.setText("");
+                speedSlider.setValue(Double.valueOf(speedTextField.getText()));
+                useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                //prevents the user from having too big or small values that will make the calculations be wrong
+                if (Double.valueOf(speedTextField.getText()) > Settings.SIMULATION_INPUT_MAXIMUM) {
+                    throw new NumberFormatException();
                 }
-                else{
-                    pathTransitionCircle.setRate(20);
-                    pathTransitionCircle2.setRate(20);
-                    pathTransitionCircle3.setRate(20);
-                    pathTransitionCircle4.setRate(20);   
-                    warningSpeedText.setText(Settings.SPEED_LIMIT_MESSAGE);
-                    warningSpeedText.setFill(Color.RED);
+                adjustSimulationNodesAnimationRate();
+            } catch (NumberFormatException e) {
+                    //error in case there is any erroneous value put in the textfield
+                if (!speedTextField.getText().isBlank()) {
+                    simulationBackEnd.showErrorAlertAndReset(speedTextField, speedSlider, 10, "Invalid Speed Input. Please Try Again");
+                    useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                    linkSpeedSliderToTextField();
+                }
+            }
+        });
+    }
+
+    /**
+     * Synchronizes the values in the mass TextField to its slider.
+     */
+    public void linkMassTextFieldToSlider(){
+        massTextField.setOnKeyTyped((event) -> {
+            try {
+                massSlider.setValue(Double.valueOf(massTextField.getText()));
+                useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                if (!forceMagnitudeCheckBox.isSelected()) {
+                    adjustForceVectorOpacity();                
                 }
             } catch (NumberFormatException e) {
-                    if (!textfield.getText().isBlank()) {
-                        System.out.println("error");
-                        System.out.println(e);
-                        speedSlider.setValue(10);
-                        speedTextField.setText("10");
-                        popAlert("Invalid Speed Input. Please Try Again");
-                        useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                        linkSpeedSliderToTextField(slider, textfield);
+                //error in case there is any erroneous value put in the textfield
+                if (!massTextField.getText().isBlank()) {
+                    simulationBackEnd.showErrorAlertAndReset(massTextField, massSlider, 20, "Invalid Mass Input. Please Try Again");
+                    useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+                    linkMassTextFieldToSlider();
                     }
-            }
-        });
-    }
-
-    public void linkMassTextFieldToSlider(MFXSlider slider, TextField textfield){
-            textfield.setOnKeyTyped((event) -> {
-                try {
-                    slider.setValue(Double.valueOf(textfield.getText()));
-                    useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                    if (car.getMass() <= 40) {
-                    }
-                    else{
-                        warningMassText.setText(Settings.MASS_LIMIT_MESSAGE);
-                        warningMassText.setFill(Color.RED);                    
-                    }
-                } 
-                catch (NumberFormatException e) {
-                    if (!textfield.getText().isBlank()) {
-                        System.out.println("Error");
-                        System.out.println(e);
-                        massTextField.setText("10");
-                        massSlider.setValue(10);
-                        popAlert("Invalid Mass Input. Please Try Again");                        
-                        useEnteredValuesToCalculate(retrieveMassTextField(), retrieveSpeedTextField(), retrieveRadiusTextField());
-                        linkMassTextFieldToSlider(slider, textfield);
-                        }
-                    }
-            });                    
-    }
-
-    public void setSliderRange(MFXSlider slider, double min, double max){
-        slider.setMin(min);
-        slider.setMax(max);
-        slider.setShowMajorTicks(true);
-        slider.setShowTicksAtEdges(true);
+                }
+        });                    
     }
     
+    /**
+     * Calculates the acceleration of the car using the entered parameters.
+     * @param mass the current mass of the car
+     * @param speed the current speed of the car
+     * @param radius the current radius of the car
+     */
     public void useEnteredValuesToCalculate(Double mass, Double speed, Double radius){
-        System.out.println("Printing: " 
-                            + "\nRadius: " + radius
-                            + "\nSpeed: " + speed
-                            + "\nMass: " +round(mass));
-        car.setMass(mass);
-        car.setSpeed(speed);
-        car.setRadius(radius);
-
-        System.out.println(round(mass));
+        //setting the variables of the car
+        car.setMassKilograms(mass);
+        car.setSpeedMetersPerSeconds(speed);
+        car.setRadiusMeters(radius);
         
-        centrAccelText.setText(String.valueOf(round(Formulas.calculateAccelerationCentripetal(car))));
-        forceText.setText(String.valueOf(round(Formulas.calculateForce(car))));    
+        //determining the angle
+        double coordinateX = rectTest.getTranslateX()+rectTest.getWidth()/2;
+        double coordinateY = -center.getCenterY()+rectTest.getTranslateY()+rectTest.getHeight()/2;
+        double angle = Formulas.getAngleDegrees((rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2),(rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2))*180/Math.PI;
+        angle = Formulas.determineQuadrantDegrees(angle, coordinateX, coordinateY);
+        //setting the values for the texts of the force, acceleration and their components
+        angleText.setText(String.valueOf(Formulas.roundTwoDecimals(angle)));
+        centripetalAccelerationText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateAccelerationCentripetalMetersPerSecondsSquared(car))));
+        accelerationXText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeXComponent(Double.valueOf(centripetalAccelerationText.getText()), angle))));
+        accelerationYText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeYComponent(Double.valueOf(centripetalAccelerationText.getText()), angle))));
+        forceText.setText(String.valueOf(Formulas.roundTwoDecimals(Formulas.calculateForceNewtons(car))));
+        forceXText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeXComponent(Double.valueOf(forceText.getText()), angle))));
+        forceYText.setText(String.valueOf(-Formulas.roundTwoDecimals(-Formulas.returnMagnitudeYComponent(Double.valueOf(forceText.getText()), angle))));        
     }
     
-    /**
-     * Rounds a double value to 2 decimal places.
-     * @param value the number to round
-     * @return the value, rounded to 2 decimal places
-     */
-    public double round(double value){
-        //https://stackoverflow.com/questions/5710394/how-do-i-round-a-double-to-two-decimal-places-in-java
-        double valueToRound = Math.round(value*100.00);
-        valueToRound = valueToRound/100.00;
-        return valueToRound;
-    }
-    
-    /**
-     * Returns the angle of the car with respect to the circle
-     * @return the angle made from the car with respect to the center's horizontal axis
-     */
-    public double getAngle(){
-        return Math.atan((rectTest.getTranslateY()-center.getCenterY()+rectTest.getHeight()/2)/(rectTest.getTranslateX()-center.getCenterX()+rectTest.getWidth()/2));
-    }
-    
-    /**
-     * Pauses all path transitions in the simulation.
-     */
+    /** Pauses all path transitions in the simulation. */
     public void pauseAllPathTransition(){
-        pathTransitionCircle.pause();
-        pathTransitionCircle2.pause();
-        pathTransitionCircle3.pause();
-        pathTransitionCircle4.pause();        
+        pathTransitionCircleCar.pause();
+        pathTransitionCircleForceVector.pause();
+        pathTransitionCircleAccelerationVector.pause();
     }
     
     /**
      * Stops all path transitions in the simulation.
      */
     public void stopAllPathTransition(){
-        pathTransitionCircle.stop();
-        pathTransitionCircle2.stop();
-        pathTransitionCircle3.stop();
-        pathTransitionCircle4.stop();        
+        pathTransitionCircleCar.stop();
+        pathTransitionCircleForceVector.stop();
+        pathTransitionCircleAccelerationVector.stop();
     }
 
-    /**
-     * PLays all path transitions in the simulation.
-     */
+    /** Plays all path transitions in the simulation. */
     public void playAllPathTransition(){
-        pathTransitionCircle.play();
-        pathTransitionCircle2.play();
-        pathTransitionCircle3.play();
-        pathTransitionCircle4.play();        
+        pathTransitionCircleCar.play();
+        pathTransitionCircleForceVector.play();
+        pathTransitionCircleAccelerationVector.play();
     }
     
     /**
-     * Removes all paths and nodes from the group.
+     * Sets the pause, reset, and play button to whether they can be clicked on or not
+     * @param pauseBoolean whether the pause button can be clicked on (false) or not (true) 
+     * @param resetBoolean whether the reset button can be clicked on (false) or not (true) 
+     * @param playBoolean whether the play button can be clicked on (false) or not (true) 
      */
-    public void removePathAndNodes(){
-        group.getChildren().remove(rectTest);
-        group.getChildren().remove(path1);       
-    }
-    
-    /**
-     * Disables the sliders, imageViews and the TextFields to be clicked on.
-     */
-    public void disableSlidersImageViewsAndTextFields(){
-        pauseButton.setDisable(true);
-        resetButton.setDisable(true);
-        playButton.setDisable(false);
-    }
-    
-    /**
-     * Enables the sliders, imageViews and the TextFields to be clicked on.
-     */
-    public void enableSlidersImageViewsAndTextFields(){
-        pauseButton.setDisable(false);
-        resetButton.setDisable(false);
-        playButton.setDisable(false);
-        radiusSlider.setDisable(false);
-        massSlider.setDisable(false);
-        speedSlider.setDisable(false);
-        radiusTextField.setDisable(false);
-        massTextField.setDisable(false);
-        speedTextField.setDisable(false);
+    public void setImageViewsDisabling(boolean pauseBoolean, boolean resetBoolean, boolean playBoolean){
+        pauseButton.setDisable(pauseBoolean);
+        resetButton.setDisable(resetBoolean);
+        playButton.setDisable(playBoolean);
     }
 
     /**
      * Wipes away all elements that are attached to the path variables, and resets the path variables to null.
      */
     public void clearPathElements(){
-        path1.getElements().clear();
-        path2.getElements().clear();      
-        path1 = null;
-        path2 = null;
+        pathCar.getElements().clear();
+        pathForceVector.getElements().clear();      
+        pathAccelerationVector.getElements().clear();      
     }
     
     /**
-     * Wipes away all paths and nodes associated to the Path Transitions.
+     * Removes all paths.
      */
-    public void clearPathTransitions(){
-        pathTransitionCircle.setNode(null);
-        pathTransitionCircle.setPath(null);
-        pathTransitionCircle2.setNode(null);
-        pathTransitionCircle2.setPath(null);
-        pathTransitionCircle3.setNode(null);
-        pathTransitionCircle3.setPath(null);
-        pathTransitionCircle4.setNode(null);
-        pathTransitionCircle4.setPath(null);
+    public void nullPaths(){
+        pathCar = null;
+        pathForceVector = null;
+        pathAccelerationVector = null;
     }
     
-   public void clearWarningMessages(){
+    /**
+     * Wipes away all paths and nodes associated to the three Path Transitions.
+     */
+    public void clearPathTransitions(){
+        pathTransitionCircleCar.setNode(null);
+        pathTransitionCircleCar.setPath(null);
+        pathTransitionCircleForceVector.setNode(null);
+        pathTransitionCircleForceVector.setPath(null);
+        pathTransitionCircleAccelerationVector.setNode(null);
+        pathTransitionCircleAccelerationVector.setPath(null);
+    }
+    
+    /**
+     * Removes all warning messages from the window.
+     */
+    public void clearWarningMessages(){
        warningMassText.setText("");
        warningSpeedText.setText("");
        warningRadiusText.setText("");
-   }
+    }
     
     /**
-     * Makes an alert pop-up
-     * @param string the String to display in the pop-up message
+     * Sets the trajectory of the paths 
      */
-    public void popAlert(String string){
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setContentText(string);
-        a.show();
-    }    
+    public void setPathTrajectories(){
+        //setting the path for the car
+        pathCar = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS));
+        //setting the path for the force vector
+        pathForceVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS));     
+        //setting the path for the acceleration vector
+        pathAccelerationVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
+                180+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_VECTORS/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS)); 
+        
+    }
+    
+    /**
+     * Sets the trajectories for the paths when the radius of the car is bigger than 41 m.
+     * @param b a parameter Boolean that is used to override the setPathTrajectories() method.
+     */
+    public void setPathTrajectories(boolean b){
+        pathCar = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.MAX_RADIUS_RECTANGLE,
+            center.getCenterY(),Settings.MAX_RADIUS_RECTANGLE,
+            Settings.MAX_RADIUS_RECTANGLE);            
+        pathForceVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.MAX_RADIUS_VECTORS,
+            center.getCenterY(),Settings.MAX_RADIUS_VECTORS,
+            Settings.MAX_RADIUS_VECTORS); 
+        pathAccelerationVector = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.MAX_RADIUS_VECTORS,
+            center.getCenterY(),Settings.MAX_RADIUS_VECTORS,
+            Settings.MAX_RADIUS_VECTORS);         
+    }
+    
+    /**
+     * Adjusts the rate that the nodes are traveling at.
+     */
+    public void adjustSimulationNodesAnimationRate(){
+        if (car.getSpeedMetersPerSeconds() <= Settings.SIMULATION_MAXIMUM_SPEED_METERS_PER_SECONDS) {
+            //if the speed is within the range that is supported by the simulation
+            pathTransitionCircleCar.setRate(0.1*car.getSpeedMetersPerSeconds());
+            pathTransitionCircleForceVector.setRate(0.1*car.getSpeedMetersPerSeconds());
+            pathTransitionCircleAccelerationVector.setRate(0.1*car.getSpeedMetersPerSeconds());
+            warningSpeedText.setText("");
+        }
+        else{
+            //fix the rate if the speed is above the limit (200 m/s)
+            pathTransitionCircleCar.setRate(20);
+            pathTransitionCircleForceVector.setRate(20);
+            pathTransitionCircleAccelerationVector.setRate(20);
+            warningSpeedText.setText(Settings.SPEED_LIMIT_MESSAGE);
+            warningSpeedText.setFill(Color.RED);
+        }    
+    }
+    
+    /**
+     * Adjusts the opacity of the force vector.
+     */
+    public void adjustForceVectorOpacity(){
+        if (car.getMassKilograms() <= Settings.SIMULATION_MAXIMUM_MASS_KILOGRAMS && car.getMassKilograms()> 0) {
+            //if the mass is within the range that is supported by the simulation
+            vectorForce.getArrowBody().setVisible(true);               
+            vectorForce.setOpacity(0.025*car.getMassKilograms());
+            warningMassText.setText("");
+        }
+        else if (car.getMassKilograms() == 0) {
+            //for when the mass is 0 kg (no mass)
+            vectorForce.getArrowBody().setVisible(false);               
+            vectorForce.setOpacity(0.025*car.getMassKilograms());
+            warningMassText.setText("");
+        }
+        else if (car.getMassKilograms() > Settings.SIMULATION_INPUT_MAXIMUM) {
+            //if the mass exceeds the maximum limit supported by the possible calculations in the simulation
+            vectorForce.setOpacity(1);
+            throw new NumberFormatException();
+        }
+        else{
+            //if the mass exceeds the limit of the simulation, but is still within the range of calculations possible.
+            vectorForce.getArrowBody().setVisible(true);               
+            linkRadiusSliderToTextField();
+            warningMassText.setText(Settings.MASS_LIMIT_MESSAGE);
+            warningMassText.setFill(Color.RED);                    
+        }  
+    }
+    
+    /** Adjusts the opacity of the car radius depending on the parameters that have been set.*/
+    public void adjustCarRadius(){
+        useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
+        stopAllPathTransition();
+        group.getChildren().clear();
+        clearPathElements();
+        clearPathTransitions();           
+        if (car.getRadiusMeters() <= Settings.SIMULATION_MAXIMUM_RADIUS_METERS) {
+            //if the radius is within the range that is supported by the simulation
+            setPathTrajectories();
+            warningRadiusText.setText("");
+        }
+        else{
+            //if the radius exceeds the range that is supported by the simulation
+            setPathTrajectories(true);
+            warningRadiusText.setText(Settings.RADIUS_LIMIT_MESSAGE);
+            warningRadiusText.setFill(Color.RED);                
+        }
+
+        pathTransitionCircleCar.setNode(rectTest);
+        pathTransitionCircleCar.setPath(pathCar);           
+        pathTransitionCircleForceVector.setNode(vectorForce.getArrowBody());
+        pathTransitionCircleForceVector.setPath(pathForceVector); 
+        pathTransitionCircleAccelerationVector.setNode(vectorAcceleration.getArrowBody());
+        pathTransitionCircleAccelerationVector.setPath(pathAccelerationVector); 
+        
+        //play the simulation if the simulation was still playing, else it pauses
+        if (!pauseButton.isDisabled()) {
+            playAllPathTransition();
+        }
+        else{
+            playAllPathTransition();
+            stopAllPathTransition();
+        }        
+    }
 }
