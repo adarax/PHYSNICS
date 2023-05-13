@@ -6,6 +6,7 @@ package edu.vanier.physnics.conservation;
 
 import edu.vanier.physnics.UniformCircularMotionSimulation.UniformCircularMotionController;
 import edu.vanier.physnics.conservation.graphs.ConservationGraphsController;
+import edu.vanier.physnics.conservation.graphs.GraphSettings;
 import edu.vanier.physnics.mainmenu.MainMenuController;
 import edu.vanier.physnics.projectilemotion.MainAppController;
 import edu.vanier.physnics.stackedblock.BlockFrontEndController;
@@ -13,36 +14,37 @@ import io.github.palexdev.materialfx.controls.MFXSlider;
 import java.io.IOException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
+ * Main controller for the Conservation of energy window. Instantiates all FXML
+ * elements and provides their functionalities.
  *
- * @author benja
+ * @author Benjamin Pratt
  */
 public class ConservationController {
-    
 
     @FXML
-    private ImageView btnGraph;
+    private ImageView buttonGraph;
 
     @FXML
     private MenuItem menuItemProjectile;
@@ -57,28 +59,22 @@ public class ConservationController {
     private MenuItem menuItemUCM;
 
     @FXML
-    private ImageView btnPause;
+    private ImageView buttonPause;
 
     @FXML
-    private ImageView btnPlay;
+    private ImageView buttonPlay;
 
     @FXML
-    private ImageView btnReset;
-    
+    private ImageView buttonReset;
+
     @FXML
-    private ImageView btnHelp;
-    
-    @FXML 
+    private ImageView buttonHelp;
+
+    @FXML
     private ImageView buttonHome;
 
     @FXML
-    private CheckBox checkBoxFriction;
-
-    @FXML
-    private ChoiceBox<String> choiceBoxg;
-
-    @FXML
-    private ChoiceBox<String> choiceBoxu;
+    private ChoiceBox<String> choiceBoxGravitationalAcceleration;
 
     @FXML
     private Pane paneAnimation;
@@ -88,279 +84,354 @@ public class ConservationController {
 
     @FXML
     private MFXSlider sliderMass;
-    
-    @FXML
-    private MenuItem menuItemChangeBallColor;
-    
-    @FXML
-     private MenuItem menuItemChangeRampColor;
-    
-    //color of the ramp and the ball
+
     private Color rampColor;
     private Color ballColor;
-    
-    //ball object
+
     private Ball ball;
-    
-    //physics variables (TODO: add units to variables and rename)
-    private double g; //m/s^2
-    private double u; //no units
-    private double rampHeight; //m
-    private double mass; // kg
-    
-    //object to generate the animation of the ball
+
+    private double gravitationalAccelerationMetersPerSecondSquared;
+    private double rampHeightM;
+    private double massKg;
+
     private AnimationBackend animBackend;
-    
-    //text objects for different values
+
     private Text textHeight;
     private Text textMass;
-    private Text textg;
-    
-    private boolean friction;
-    
+    private Text textGravitationalAcceleration;
+
     private Ramp ramp;
-    
+
     private ConservationGraphsController graphController;
-    
-    private AnimationTimer updater;
-    
-   
+
+    private AnimationTimer valueListener;
+
+    private EventHandler changeRampColor;
+    private EventHandler changeBallColor;
+
+    private double totalMechanicalEnergy;
+
+    /**
+     * Initializes methods for the main conservation window. Gives functionality
+     * to every UI element in the FXML
+     */
     @FXML
-    public void initialize(){
-        
+    public void initialize() {
+
         //setup the ramp and the ball, and the values
         setup();
-        
-        
-        btnPlay.setOnMouseClicked((e) -> {
-            animBackend.playBallAnimation(ball, rampHeight, g, graphController.getKEGraph(), 
-                    graphController.getPEGraph());
-            //updater.start();
+
+        /**
+         * Creates and plays the animation for the ball in the ramp and for the
+         * energy level graphs. Starts the animation timer to update the
+         * variables dynamically. Disables the sidebar while the animation is
+         * playing.
+         */
+        buttonPlay.setOnMouseClicked((clicked) -> {
+
+            animBackend.playBallAnimation(ball, ramp, rampHeightM, gravitationalAccelerationMetersPerSecondSquared, graphController.getKineticEnergyGraph(),
+                    graphController.getPotentialEnergyGraph()
+            );
+
+            graphController.setTotalEnergyText(totalMechanicalEnergy);
+            valueListener.start();
+            disableSidebar(true);
         });
-        
-        btnPause.setOnMouseClicked((e) -> {
+
+        /**
+         * Pauses the animation.
+         */
+        buttonPause.setOnMouseClicked((clicked) -> {
             animBackend.pause();
         });
-        
-        btnReset.setOnMouseClicked((e) -> {
+
+        /**
+         * Resets the animation and enables the sidebar to allow the user to
+         * adjust the variables.
+         */
+        buttonReset.setOnMouseClicked((clicked) -> {
             resetBall();
+            disableSidebar(false);
+            animBackend.setPlaying(false);
+            valueListener.stop();
         });
-        
-        btnGraph.setOnMouseClicked((e) -> {
+
+        /**
+         * Shows the graphs window.
+         */
+        buttonGraph.setOnMouseClicked((clicked) -> {
             graphController.show();
         });
-        
-        btnHelp.setOnMouseClicked((e) -> {
-        
+
+        /**
+         * Opens the help window.
+         */
+        buttonHelp.setOnMouseClicked((clicked) -> {
+            openHelpMenu();
         });
-        
-        sliderMass.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
-                mass = sliderMass.getValue();
-                textMass.setText("Mass of the ball: " + mass + " kg");
-                
-            } 
+
+        /**
+         * Sets the mass variable to its new value when the mass slider is
+         * interacted with.
+         */
+        sliderMass.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            massKg = sliderMass.getValue();
+            ball.setMassKg(massKg);
+            textMass.setText("Mass of the ball: " + massKg + " kg");
         });
-        
-        sliderHeight.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
-                rampHeight = sliderHeight.getValue();
-                textHeight.setText("Height: " + rampHeight + " m");
-            } 
+
+        /**
+         * Sets the height value of the ramp and changes its size to reflect the
+         * change.
+         */
+        sliderHeight.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            paneAnimation.getChildren().remove(ramp);
+            ramp = null;
+            rampHeightM = sliderHeight.getValue();
+            createRamp();
+            textHeight.setText("Height: " + rampHeightM + " m");
         });
-        
-        choiceBoxg.setOnAction((e) -> {
-            g = getNumber(choiceBoxg.getValue());
-            textg.setText("Gravitational\n acceleration: " + g + " m/s^2");
-            
+
+        /**
+         * Changes the gravitational acceleration constant to the new value that
+         * the user selected.
+         */
+        choiceBoxGravitationalAcceleration.setOnAction((clicked) -> {
+            gravitationalAccelerationMetersPerSecondSquared = getNumber(choiceBoxGravitationalAcceleration.getValue());
+            textGravitationalAcceleration.setText("Gravitational\n acceleration:\n" + gravitationalAccelerationMetersPerSecondSquared + " m/s^2");
         });
-        
-        choiceBoxu.setOnAction((e) -> {
-            u = getNumber(choiceBoxu.getValue());
-        });
-        
-        checkBoxFriction.setOnAction((e) -> {
-            friction = !friction;
-            
-        });
-        
-        menuItemQuit.setOnAction((e) -> {
+
+        /**
+         * Exits the program.
+         */
+        menuItemQuit.setOnAction((clicked) -> {
             Platform.exit();
         });
-        
-        buttonHome.setOnMouseClicked((e) -> {        
+
+        /**
+         * Returns back to main menu.
+         */
+        buttonHome.setOnMouseClicked((e) -> {
             switchSimulation("mainmenu");
         });
-        
-        menuItemProjectile.setOnAction((e) ->{
+
+        /**
+         * goes to projectile simulation window
+         */
+        menuItemProjectile.setOnAction((e) -> {
             switchSimulation("projectile");
         });
-        
-        menuItemStacked.setOnAction((e) ->{
+
+        /**
+         * Goes to stacked block simulation
+         */
+        menuItemStacked.setOnAction((e) -> {
             switchSimulation("stackedblock");
         });
          
         menuItemUCM.setOnAction((e) ->{
             switchSimulation("uniform-circular-motion");
         });
-        
-        menuItemChangeBallColor.setOnAction((eventHandler) -> {
-            ballColor = getNewColor((Color) ball.getFill(), "Change ball color");
-            ball.setFill(ballColor);
-        });
-        
-        menuItemChangeRampColor.setOnAction((eventHandler) -> {
-            rampColor = getNewColor(rampColor, "Change ramp color");
-            ramp = null;
-            paneAnimation.getChildren().remove(ramp);
-            createRamp();
-        });
-        
-        
-        
-    };
-    
-    public void setup(){
+
+        /**
+         * Opens the color picker window to allow the user to select a new color
+         * for the ramp
+         */
+        changeRampColor = (EventHandler) (Event event) -> {
+            if (!animBackend.isPlaying()) {
+                getNewColor(rampColor, "Change ramp color", "ramp");
+                paneAnimation.getChildren().remove(ramp);
+                ramp = null;
+                createRamp();
+            }
+        };
+
+        ramp.setOnMouseClicked(changeRampColor);
+
+        /**
+         * Opens the color picker window to allow the user to select a new color
+         * for the ball
+         */
+        changeBallColor = (EventHandler) (Event event) -> {
+            if (!animBackend.isPlaying()) {
+                getNewColor((Color) ball.getFill(), "Change ball color", "ball");
+                ball.setFill(ballColor);
+            }
+        };
+
+        ball.setOnMouseClicked(changeBallColor);
+
+    }
+
+    /**
+     * @author benja Initializes all the variables and non-FXML UI elements.
+     * Adds options to the different choice boxes. Creates the animation timer
+     * that will monitor the position of the ball during the animation and
+     * update values accordingly
+     */
+    public void setup() {
+        choiceBoxGravitationalAcceleration.setStyle("-fx-font-size: 20;");
+        //initializes the variables
+        massKg = Settings.DEFAULT_MASS;
+        rampHeightM = Settings.DEFAULT_HEIGHT;
+        gravitationalAccelerationMetersPerSecondSquared = Settings.DEFAULT_GRAVITATIONAL_ACCELERATION;
+
+        totalMechanicalEnergy = ConservationFormulas.potentialEnergy(massKg, gravitationalAccelerationMetersPerSecondSquared, rampHeightM);
+
         openGraphWindow();
         //initialize the animation backend
         animBackend = new AnimationBackend();
-        
+
         //setup color of the ramp and the ball
         rampColor = Settings.INITTIAL_RAMP_COLOR;
         ballColor = Settings.INITTIAL_BALL_COLOR;
-        
+
         //initialize the ball and ramp
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
-        
-        //no friction on initialize
-        friction = false;
-        
+
         paneAnimation.getChildren().add(ball);
-        
+
         //draw the ramp
         createRamp();
-        
-        
-        
-        //add the options to the choiceboxes
-        for(int i = 0; i<Settings.GRAVITATIONAL_CONSTANTS.length; i++){
-            choiceBoxg.getItems().add(Settings.GRAVITATIONAL_CONSTANTS[i]);
+
+        //add the options to the choiceboxe
+        for (int i = 0; i < Settings.GRAVITATIONAL_ACCELERATION_CONSTANTS.length; i++) {
+            choiceBoxGravitationalAcceleration.getItems().add(Settings.GRAVITATIONAL_ACCELERATION_CONSTANTS[i]);
         }
-        choiceBoxg.setValue(Settings.GRAVITATIONAL_CONSTANTS[0]);
-        
-         //add the options to the choiceboxes
-        for(int i = 0; i<Settings.FRICTION_COEFFICIENTS.length; i++){
-            choiceBoxu.getItems().add(Settings.FRICTION_COEFFICIENTS[i]);
-        }
-        choiceBoxu.setValue(Settings.FRICTION_COEFFICIENTS[0]);
-        
-        //initializes the variables
-        mass = 10;
-        rampHeight = 10;
-        g = 9.8;
-        
-        sliderMass.setValue(mass);
-        sliderHeight.setValue(rampHeight);
-        
-        ball.setMass(mass);
-        
+        choiceBoxGravitationalAcceleration.setValue(Settings.GRAVITATIONAL_ACCELERATION_CONSTANTS[0]);
+
+        sliderMass.setValue(massKg);
+        sliderHeight.setValue(rampHeightM);
+
+        ball.setMassKg(massKg);
+
         setValueIndicators();
-        
-        updater = new AnimationTimer() {
-        @Override
-        public void handle(long l) {
-           // updateValues();
-        }
-        };   
+
+        valueListener = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                updateValues();
+
+            }
+        };
     }
-    
-    public void createRamp(){
+
+    /**
+     * Draws a new ramp on the animation pane
+     */
+    public void createRamp() {
         //draw the ramp
-        ramp = new Ramp(Settings.RAMP_RADIUS, Settings.RAMP_THICKNESS, 
+        ramp = new Ramp(rampHeightM, Settings.RAMP_THICKNESS,
                 Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
-        
+
         //set the path of the ball
         ramp.createBallPath(ball);
-        
+        ramp.setOnMouseClicked(changeRampColor);
+
         paneAnimation.getChildren().add(ramp);
     }
-    
-    public void updateValues(){
-        double currentHeight = 
-                (0.5*(-g)*animBackend.getCurrentTime()*animBackend.getCurrentTime())+100;
-        graphController.setVelocityText(ConservationFormulas.getCurrentVelocity(
-                ConservationFormulas.potentialEnergy(mass, g, rampHeight), 
-                ConservationFormulas.potentialEnergy(mass, g, currentHeight), mass));
-        System.out.println(currentHeight);
+
+    /**
+     * Updates the potential, kinetic and friction energy based on the current
+     * ball position.
+     */
+    public void updateValues() {
+        double currentHeight = rampHeightM - (ball.getTranslateY() / (ramp.getRadius() + 
+                ball.getRadius()-ramp.getThickness()) * rampHeightM);
+        double potentialEnergy = ConservationFormulas.potentialEnergy(massKg, gravitationalAccelerationMetersPerSecondSquared, currentHeight);
+        double currentVelocity = ConservationFormulas.getCurrentVelocity(totalMechanicalEnergy, potentialEnergy, massKg);
+        double kineticEnergy = ConservationFormulas.kineticEnergy(massKg, currentVelocity);
+
+        graphController.setCurrentHeightText(currentHeight);
+        graphController.setKineticEnergyText(kineticEnergy);
+        graphController.setVelocityText(currentVelocity);
+        graphController.setPotentialEnergy(potentialEnergy);
+
     }
-    
-    public void setValueIndicators(){
+
+    /**
+     * Creates and adds to the animation pane the value indicators for height of
+     * the ramp, mass of the ball and gravitational acceleration
+     */
+    public void setValueIndicators() {
         //height text placed to the left of the ramp
-        textHeight = new Text("Height: " + rampHeight + " m");
+        textHeight = new Text("Height: " + rampHeightM + " m");
         textHeight.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textHeight);
-        textHeight.setX(Settings.HEIGHT_TEXT_POSITION_X);
-        textHeight.setY(Settings.HEIGHT_TEXT_POSITION_Y);
-        
+        textHeight.setX(Settings.RAMP_HEIGHT_TEXT_POSITION_X);
+        textHeight.setY(Settings.RAMP_HEIGHT_TEXT_POSITION_Y);
+
         //mass text placed on top of the ramp
-        textMass = new Text("Mass of the ball: " + mass + " kg");
+        textMass = new Text("Mass of the ball: " + massKg + " kg");
         textMass.setFont(Settings.TEXT_FONT);
         paneAnimation.getChildren().add(textMass);
         textMass.setX(Settings.MASS_TEXT_POSITION_X);
         textMass.setY(Settings.MASS_TEXT_POSITION_Y);
-        
+
         //acceleration text placed to the right of the ramp
-        textg = new Text("Gravitational\n acceleration: \n" + g + " m/s^2");
-        textg.setFont(Settings.TEXT_FONT);
-        paneAnimation.getChildren().add(textg);
-        textg.setX(Settings.ACCELERATION_TEXT_POSITION_X);
-        textg.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
-       
-        drawArrow(Settings.ARROW_POSITION_X, 
-                Settings.ARROW_POSITION_Y, Settings.ARROW_LENGTH, 
+        textGravitationalAcceleration = new Text("Gravitational\n acceleration: \n" + gravitationalAccelerationMetersPerSecondSquared + " m/s^2");
+        textGravitationalAcceleration.setFont(Settings.TEXT_FONT);
+        paneAnimation.getChildren().add(textGravitationalAcceleration);
+        textGravitationalAcceleration.setX(Settings.ACCELERATION_TEXT_POSITION_X);
+        textGravitationalAcceleration.setY(Settings.ACCELERATION_TEXT_POSITION_Y);
+
+        drawArrow(Settings.ARROW_POSITION_X,
+                Settings.ARROW_POSITION_Y, Settings.ARROW_LENGTH,
                 Settings.ARROW_THICKNESS, Settings.ARROW_POINT_WIDTH);
-        
+
     }
-    
-    public double getNumber(String option){
+
+    /**
+     * Gets the number from a string option. Used to get from the array of
+     * friction coefficients and from the array of gravitational accelerations
+     *
+     * @param option
+     * @return
+     */
+    public double getNumber(String option) {
         String value = "";
-        for(int i = 0; i<option.length(); i++){
-            if(Character.isDigit(option.charAt(i)) || option.charAt(i) == '.' ){
+        for (int i = 0; i < option.length(); i++) {
+            if (Character.isDigit(option.charAt(i)) || option.charAt(i) == '.') {
                 value += option.charAt(i);
             }
         }
-            
+
         return Double.parseDouble(value);
     }
-    
-    private void resetBall(){
+
+    /**
+     * Resets the ball to its original position
+     */
+    public void resetBall() {
         animBackend.reset();
         paneAnimation.getChildren().remove(ball);
         ball = null;
         ball = new Ball(Settings.BALL_RADIUS, ballColor);
         ramp.createBallPath(ball);
-        ball.setMass(mass);
+        ball.setMassKg(massKg);
+        ball.setOnMouseClicked(changeBallColor);
         paneAnimation.getChildren().add(ball);
-            
+
     }
-    
-    public void switchSimulation(String simulationName)
-    {
+
+    /**
+     * Switches to a different simulation or back to main menu
+     *
+     * @param simulationName
+     */
+    public void switchSimulation(String simulationName) {
         Stage currentStage = (Stage) paneAnimation.getScene().getWindow();
 
         String destination = "/fxml/" + simulationName + ".fxml";
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(destination));
 
-        switch (simulationName)
-        {
-            case "stackedblock" ->
-            {
+        switch (simulationName) {
+            case "stackedblock" -> {
                 BlockFrontEndController blockcontroller = new BlockFrontEndController();
                 loader.setController(blockcontroller);
             }
-            case "projectile" ->
-            {
+            case "projectile" -> {
                 MainAppController projectileController = new MainAppController();
                 loader.setController(projectileController);
             }
@@ -369,13 +440,11 @@ public class ConservationController {
                 UniformCircularMotionController ucmController = new UniformCircularMotionController();
                 loader.setController(ucmController);
             }
-            case "conservation" ->
-            {
+            case "conservation" -> {
                 ConservationController controller = new ConservationController();
                 loader.setController(controller);
             }
-            case "mainmenu" ->
-            {
+            case "mainmenu" -> {
                 MainMenuController menuController = new MainMenuController(currentStage);
                 loader.setController(menuController);
             }
@@ -383,13 +452,11 @@ public class ConservationController {
                 System.out.println("Invalid simulation name");
         }
 
-        try
-        {
+        try {
             Parent root = loader.load();
             Scene scene = new Scene(root, 1920, 1080);
             currentStage.setScene(scene);
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("Something went wrong changing scenes.");
         }
         
@@ -397,78 +464,184 @@ public class ConservationController {
         currentStage.setFullScreenExitHint("");
         currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
-    
-    public void openGraphWindow(){
+
+    /**
+     * Opens the graph window at the start of the program, but keeps it hidden
+     * until the user presses the graph button
+     */
+    public void openGraphWindow() {
         Stage stage = new Stage();
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation_graphs.fxml"));
-        graphController = new ConservationGraphsController(ball);
+        graphController = new ConservationGraphsController();
         loader.setController(graphController);
-        
+
         Scene scene = null;
         try {
-            scene = new Scene(loader.load(),600, 400);
+            scene = new Scene(loader.load(), GraphSettings.PANE_WIDTH, GraphSettings.PANE_HEIGHT);
         } catch (IOException ex) {
             System.out.println("Graph stage could not be opened");
         }
-        
+
         stage.setScene(scene);
         stage.setTitle("Current energy levels");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
     }
-    
-    public void drawArrow(double posx, double posy, double length, double width, double pointWidth){
-        //draw arrowShaft and the two points for gravitational acceleration
+
+    /**
+     * Draws a downward arrow at a certain position
+     *
+     * @param posx
+     * @param posy
+     * @param length
+     * @param width
+     * @param pointWidth
+     */
+    public void drawArrow(double posx, double posy, double length, double width, double pointWidth) {
         Line arrowShaft = new Line();
         arrowShaft.setStartY(posy);
         arrowShaft.setStartX(posx);
         arrowShaft.setEndX(posx);
-        arrowShaft.setEndY(posy+length);
+        arrowShaft.setEndY(posy + length);
         arrowShaft.setStrokeWidth(width);
-        
-        Line leftPoint = new Line(posx, posy+length, posx+pointWidth , posy+length-pointWidth);
+
+        Line leftPoint = new Line(posx, posy + length, posx + pointWidth, posy + length - pointWidth);
         leftPoint.setStrokeWidth(width);
-        
-        Line rightPoint = new Line(posx, posy+length, posx-pointWidth , posy+length-pointWidth);
+
+        Line rightPoint = new Line(posx, posy + length, posx - pointWidth, posy + length - pointWidth);
         rightPoint.setStrokeWidth(width);
-        
+
         paneAnimation.getChildren().addAll(arrowShaft, leftPoint, rightPoint);
+
     }
-    
-    public Color getNewColor(Color objectColor, String title) {
+
+    /**
+     * Opens a color picked window and changes the color of the corresponding
+     * object, either the ramp or the ball
+     *
+     * @param objectColor
+     * @param title
+     * @param choice
+     */
+    public void getNewColor(Color objectColor, String title, String choice) {
         Stage colorPickerStage = new Stage();
-        VBox v = new VBox();
+        Pane colorPickerPane = new Pane();
+
+        double colorPickerHeight = 300;
+        double colorPickerWidth = 450;
+        double squareSides = 50;
+
         //components
-        ColorPicker cpicker = new ColorPicker();
-        cpicker.setValue(objectColor);
-        Button submit = new Button("Submit");
-        Button cancel = new Button("Cancel");
-        Label label = new Label(title);
-        //adding everything to the scene
-        v.getChildren().addAll(label, cpicker, submit, cancel);
-        Scene cPickerScene = new Scene(v, 150, 100);
-        //adds everything to the stage
-        colorPickerStage.setScene(cPickerScene);
+        for (int i = 0; i < (Settings.COLOR_LIST.length); i++) {
+            Rectangle colorChoice = new Rectangle();
+            colorChoice.setHeight(squareSides);
+            colorChoice.setWidth(squareSides);
+            if (i < 4) {
+                colorChoice.setX(squareSides + 100 * i);
+                colorChoice.setY(100);
+
+            } else {
+                colorChoice.setX(squareSides + 100 * (i - 4));
+                colorChoice.setY(200);
+            }
+
+            colorChoice.setFill(Settings.COLOR_LIST[i]);
+            colorChoice.setStroke(Color.BLACK);
+
+            if (choice.equals("ramp")) {
+                colorChoice.setOnMouseClicked((eventHandler) -> {
+                    rampColor = (Color) colorChoice.getFill();
+                    colorPickerStage.close();
+                });
+            } else {
+                colorChoice.setOnMouseClicked((eventHandler) -> {
+                    ballColor = (Color) colorChoice.getFill();
+                    colorPickerStage.close();
+                });
+            }
+
+            colorPickerPane.getChildren().add(colorChoice);
+        }
+        ColorPicker extraColorOptions = new ColorPicker();
+        extraColorOptions.setLayoutX(colorPickerWidth / 2 - 50);
+        extraColorOptions.setLayoutY(50);
+
+        if (choice.equals("ramp")) {
+            extraColorOptions.setValue(rampColor);
+            extraColorOptions.setOnAction((eventHandler) -> {
+                rampColor = extraColorOptions.getValue();
+                colorPickerStage.close();
+            });
+        } else {
+            extraColorOptions.setValue(ballColor);
+            extraColorOptions.setOnAction((eventHandler) -> {
+                ballColor = extraColorOptions.getValue();
+                colorPickerStage.close();
+            });
+        }
+
+        colorPickerPane.getChildren().add(extraColorOptions);
+
+        Scene colorPickerScene = new Scene(colorPickerPane, colorPickerWidth, colorPickerHeight);
+
+        colorPickerStage.setScene(colorPickerScene);
         colorPickerStage.setTitle(title);
         colorPickerStage.setResizable(false);
-
-        submit.setOnAction((e) -> {
-            colorPickerStage.close();
-        });
-
-        cancel.setOnAction((e) -> {
-            cpicker.setValue(null);
-            colorPickerStage.close();
-        });
+        colorPickerStage.initModality(Modality.APPLICATION_MODAL);
 
         colorPickerStage.showAndWait();
+    }
 
-        if (cpicker.getValue() != null) {
-            return cpicker.getValue();
-        } else {
-            return objectColor;
+    /**
+     * Disables the side bar options while the animation is playing.
+     *
+     * @param status
+     */
+    public void disableSidebar(boolean status) {
+        sliderHeight.setDisable(status);
+        sliderMass.setDisable(status);
+
+        choiceBoxGravitationalAcceleration.setDisable(status);
+
+    }
+
+    /**
+     * Opens the help menu and defines the functionality for the return button.
+     */
+    public void openHelpMenu() {
+        Stage helpStage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conservation_help.fxml"));
+        ConservationHelpPageController controller = new ConservationHelpPageController();
+        loader.setController(controller);
+
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load(), Settings.HELP_MENU_WIDTH, Settings.HELP_MENU_HEIGHT);
+        } catch (IOException ex) {
+            System.out.println("Graaph stage could not be opened");
         }
+
+        helpStage.setScene(scene);
+        helpStage.setTitle("Current energy levels");
+
+        helpStage.setTitle("Help Menu");
+        helpStage.setResizable(false);
+        helpStage.initModality(Modality.APPLICATION_MODAL);
+        helpStage.show();
+
+    }
+
+    private void changeRamp() {
+
+        paneAnimation.getChildren().remove(ramp);
+        ramp = null;
+        ramp = new Ramp(rampHeightM, Settings.RAMP_THICKNESS,
+                Settings.RAMP_POSITION_X, Settings.RAMP_POISTION_Y, rampColor);
+        paneAnimation.getChildren().add(ramp);
+        ramp.createBallPath(ball);
+
     }
 }
