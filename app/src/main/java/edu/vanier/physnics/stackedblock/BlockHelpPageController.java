@@ -26,6 +26,7 @@ import javafx.stage.Stage;
  */
 public class BlockHelpPageController {
 
+    /// Consider putting this in a resource file
     private final String HELP_PARAGRAPH = """
                                           Drag the force sliders to adjust the forces applied on M1 and M2.\n
                                           Drag the angle sliders to adjust the angle (to the horizontal) that the forces will have.\n
@@ -109,9 +110,9 @@ public class BlockHelpPageController {
         try
         {
             Parent root = loader.load();
-            Scene scene = new Scene(root, 1920, 1080);
+            Scene scene = new Scene(root, 1920, 1080); /// Is there a reason why the sizes are like this. Magic numbers.
             helpWindow.setScene(scene);
-        } catch (IOException ex)
+        } catch (IOException ex) /// abbreviated variable name
         {
             System.out.println("Something went wrong changing scenes.");
         }

@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
+ * /// This should be removed from the code source and used inside a test package.
  * Class that was used to display the simulation, before all simulations were merged together and the main menu was made.
  * @author Victor-Pen
  */

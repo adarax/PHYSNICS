@@ -10,7 +10,7 @@ import javafx.animation.Interpolator;
  */
 public class AccelerateInterpolator extends Interpolator {
     
-    private final double factor;
+    private final double factor; /// naming convention violation
     
     /**
      * Constructor for the AccelerateInterpolator class.
@@ -22,6 +22,7 @@ public class AccelerateInterpolator extends Interpolator {
         this.factor = factor;
     }
     
+    /// Missing units
     /**
      * Calculates what the x position of the animated object should be as time
      * progresses using the kinematic motion equation x = 1/2 * a * t^2.

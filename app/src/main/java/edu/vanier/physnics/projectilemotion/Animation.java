@@ -60,7 +60,7 @@ public class Animation {
         // Position of the floor in pixels
         final double POSITION_FLOOR_PIXELS = 835;
         
-        // length of cannon used to move ball from inital position to edge of cannon.
+        // length of cannon used to move ball from inital position to edge of cannon. /// typo
         final double CANNON_LENGTH = 68;
         // Using the cannon length and launch angle, calculates the position of the cannon Edge using trigonometry.
         double cannonEdgeXPixels = INITIAL_BALL_POSITION_X_PIXELS + ((Math.cos(Math.toRadians(launchAngleDegrees))) * CANNON_LENGTH);
@@ -144,7 +144,7 @@ public class Animation {
      */
     public void rotateCannon(ImageView cannonBarrel, double launchAngleDegrees) {
         RotateTransition rotate = new RotateTransition();
-        rotate.setToAngle(-launchAngleDegrees);
+        rotate.setToAngle(-launchAngleDegrees); /// why negative?
         rotate.setNode(cannonBarrel);
         rotate.play();
     }
@@ -184,6 +184,7 @@ public class Animation {
      * @return controlY the max height of parabola
      */
     public double getHeightPixels(double launchAngleDegrees, double xDisplacementPixels) {
+        /// magic number: 70
         double controlY = Math.tan(Math.toRadians(launchAngleDegrees)) * ((70 + xDisplacementPixels) / 2);
         return controlY;
     }

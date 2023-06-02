@@ -19,6 +19,9 @@ import javafx.stage.Stage;
  * @author Benjamin Pratt
  */
 public class ConservationHelpPageController {
+
+    /// Consider putting this in a resource files and loading it dynamically. This is not really human readable.
+    /// Plus, you lose access to spellcheckers.
     /**
      * Text block that will be displayed in the help window
      */

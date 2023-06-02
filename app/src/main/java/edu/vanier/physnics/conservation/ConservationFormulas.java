@@ -12,10 +12,10 @@ public class ConservationFormulas {
     
     /**
      * Calculates the potential energy of the object at a certain height
-     * @param mass mass of the object
-     * @param gravitationalAcceleration applied gravitational acceleration
-     * @param height current height of the ball
-     * @return potential energy
+     * @param mass mass of the object /// missing units
+     * @param gravitationalAcceleration applied gravitational acceleration /// missing units
+     * @param height current height of the ball /// missing units
+     * @return potential energy /// missing units
      */
     public static double potentialEnergy(double mass,double gravitationalAcceleration, double height){
         return mass*gravitationalAcceleration*height;
@@ -23,9 +23,9 @@ public class ConservationFormulas {
     
     /**
      * Calculates the kinetic energy of the object at a certain speed
-     * @param mass mass of the ball
-     * @param velocity current velocity of the ball
-     * @return kinetic energy 
+     * @param mass mass of the ball /// missing units
+     * @param velocity current velocity of the ball /// missing units
+     * @return kinetic energy  /// missing units
      */
     public static double kineticEnergy(double mass, double velocity){
         return 0.5*mass*velocity*velocity;
@@ -33,15 +33,16 @@ public class ConservationFormulas {
     
     /**
      * Calculates the current velocity of an object based on the total mechanical energy, potential energy and mass of the ball
-     * @param totalMechanicalEnergy total mechanical of the system
-     * @param potentialEnergy current potential energy of the object
-     * @param mass mass of the object
-     * @return velocity
+     * @param totalMechanicalEnergy total mechanical of the system /// missing units
+     * @param potentialEnergy current potential energy of the object /// missing units
+     * @param mass mass of the object /// missing units
+     * @return velocity /// missing units
      */
     public static double getCurrentVelocity(double totalMechanicalEnergy, double potentialEnergy, double mass){
         return Math.sqrt(((totalMechanicalEnergy-potentialEnergy)*2)/mass);
     }
     
+    /// missing units
     /**
      * Time it takes for the object to from one side of the ramp to the other
      * @param height starting height of the ramp
@@ -53,6 +54,7 @@ public class ConservationFormulas {
     }
     
     
+    /// missing units
     /**
      * gets the circumference of a semicircle
      * @param radius radius of the circle
@@ -62,6 +64,7 @@ public class ConservationFormulas {
         return Math.PI*radius;
     }
      
+    /// missing units
     /**
      * Returns the height of an object from a potential energy
      * @param gravitationalAcceleration applied gravitational acceleration

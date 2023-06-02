@@ -19,7 +19,7 @@ public class Equations {
      * @param gravityMetersPerSecondSquared Gravitational Acceleration entered by user
      * @param launchAngleDegrees Launch Angle entered by user
      * @param initialVelocityMetersPerSecond  Initial Velocity entered by user
-     * @return The maximum height reached by projectile motion
+     * @return The maximum height reached by projectile motion /// in meters
      */
     public static double getMaxHeightMeters(double launchAngleDegrees, double initialVelocityMetersPerSecond, double gravityMetersPerSecondSquared) {
        double sinSquaredTheta = Math.pow(Math.sin(Math.toRadians(launchAngleDegrees)), 2);
@@ -50,6 +50,7 @@ public class Equations {
      * velocity gets the y-component. Since there is acceleration, this number needs
      * to be subtracted every second.
      * 
+     * /// Typo
      * {@code veloctiyYMetersPerSecond = (sin(launchAngleDegrees) * initialVelocityMetersPerSecond) - gravityMetersPerSecondSquared * currentTimeSeconds}
      * 
      * @param launchAngleDegrees Launch angle entered by user

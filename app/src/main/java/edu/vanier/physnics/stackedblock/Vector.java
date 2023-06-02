@@ -71,6 +71,9 @@ public class Vector {
      */
     protected ArrayList<Double> asComponents()
     {
+        /// This method should return a class with two fields: x and y
+        /// Instead of using ArrayList<>.get(), you can just do .x and .y
+
         ArrayList<Double> asComponents = new ArrayList<>();
 
         double xComponent = Math.cos(Math.toRadians(directionInDegrees)) * magnitudeInNewtons;
@@ -129,7 +132,7 @@ public class Vector {
     /**
      * The type of force that the Vector is.
      */
-    protected enum FORCE_TYPE
+    protected enum FORCE_TYPE /// naming convention violation
     {
         APPLIED,
         FRICTION

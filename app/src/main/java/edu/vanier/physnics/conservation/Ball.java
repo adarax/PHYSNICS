@@ -13,7 +13,7 @@ import javafx.scene.shape.Path;
  * @author Benjamin Pratt
  */
 public class Ball extends Circle{
-    private double massKg;
+    private double massKg; /// expand the unit
     
     private Path ballPath;
     
@@ -33,7 +33,7 @@ public class Ball extends Circle{
      * @param color Color of the ball
      * @param centerX Center X of the ball
      * @param centerY CenterY of the ball
-     * @param radius Radius of the ball
+     * @param radius Radius of the ball /// missing units, if in pixels, say so at least in the docs
      */
     public Ball(Color color, double centerX, double centerY, double radius){
         this.setCenterX(centerX);
@@ -43,6 +43,7 @@ public class Ball extends Circle{
         
     }
    
+    /// Does having these methods make a difference compared to public fields?
 
     /**
      * Getter for massKg

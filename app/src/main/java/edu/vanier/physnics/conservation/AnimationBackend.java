@@ -28,7 +28,7 @@ public class AnimationBackend {
 
     private double timeToCompleteOneCycleSeconds;
 
-    private boolean playing;
+    private boolean playing; /// boolean variable naming problem
 
     /**
      * Constructor for the animation backend object Initializes the
@@ -47,8 +47,8 @@ public class AnimationBackend {
      * height and the gravitational acceleration.
      *
      * @param ball ball to animate
-     * @param height initial height of the ball
-     * @param gravitationalAcceleration gravitational acceleration
+     * @param height initial height of the ball /// missing units
+     * @param gravitationalAcceleration gravitational acceleration /// missing units
      */
     public void createBallAnimation(Ball ball, double height, double gravitationalAcceleration) {
 
@@ -167,6 +167,9 @@ public class AnimationBackend {
         }
     }
 
+    /// If making the fields public results in the same benefits as
+    /// getters and setters, then make them public and delete the methods.
+
     /**
      * Getter for playing
      * @return playing boolean
@@ -179,7 +182,7 @@ public class AnimationBackend {
      * Setter for playing
      * @param playing new boolean value for playing
      */
-    public void setPlaying(boolean playing) {
+    public void setPlaying(boolean playing) { /// boolean variable naming problem
         this.playing = playing;
     }
 

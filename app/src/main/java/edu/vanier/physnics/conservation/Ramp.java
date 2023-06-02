@@ -26,6 +26,7 @@ public class Ramp extends Path {
     private double positionY;
     private Color rampColor;
 
+    /// Missing units
     /**
      * Constructor for the ramp. Sets the radius, thickness, positionX,
      * positionY and ramp color variables. Draws the ramp using the inputted
@@ -70,7 +71,7 @@ public class Ramp extends Path {
         arcToInner.setRadiusY(radius);
 
         // return to original x and y position
-        MoveTo moveTo2 = new MoveTo();
+        MoveTo moveTo2 = new MoveTo(); /// bad naming, just call it 'moveToOriginalPosition'
         moveTo2.setX(positionX - radius);
         moveTo2.setY(positionY - radius - thickness);
 
@@ -131,12 +132,15 @@ public class Ramp extends Path {
      * resonable size and yet doesn't get so big that it goes out of the screen.
      * This allows the simulation to be able to handle a larger range of mass
      * values.
+     * 
+     * /// Inappropriate documentation!
      */
     public final void determineAndSetRampRadius() {
         radius = 100 * Math.log(radius / 2) + 200;
 
     }
 
+    /// Getters and setters for nothing in particular.
     /**
      * getter for radius
      * @return radius

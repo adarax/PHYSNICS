@@ -212,25 +212,25 @@ public class ConservationController {
         /**
          * Returns back to main menu.
          */
-        buttonHome.setOnMouseClicked((e) -> {
+        buttonHome.setOnMouseClicked((e) -> { /// single letter variable
             switchSimulation("mainmenu");
         });
 
         /**
          * goes to projectile simulation window
          */
-        menuItemProjectile.setOnAction((e) -> {
+        menuItemProjectile.setOnAction((e) -> { /// single letter variable
             switchSimulation("projectile");
         });
 
         /**
          * Goes to stacked block simulation
          */
-        menuItemStacked.setOnAction((e) -> {
+        menuItemStacked.setOnAction((e) -> { /// single letter variable
             switchSimulation("stackedblock");
         });
          
-        menuItemUCM.setOnAction((e) ->{
+        menuItemUCM.setOnAction((e) ->{ /// single letter variable
             switchSimulation("uniform-circular-motion");
         });
 
@@ -310,7 +310,7 @@ public class ConservationController {
 
         valueListener = new AnimationTimer() {
             @Override
-            public void handle(long l) {
+            public void handle(long l) { /// single letter variable
                 updateValues();
 
             }
@@ -491,11 +491,11 @@ public class ConservationController {
     /**
      * Draws a downward arrow at a certain position
      *
-     * @param posx X position of the arrow
-     * @param posy Y position of the arrow
+     * @param posx X position of the arrow /// abbreviated variable name
+     * @param posy Y position of the arrow /// abbreviated variable name
      * @param length length of the arrow
      * @param width width of the arrow
-     * @param pointWidth width of the point of the arrow
+     * @param pointWidth width of the point of the arrow /// in pixels?
      */
     public void drawArrow(double posx, double posy, double length, double width, double pointWidth) {
         Line arrowShaft = new Line();
@@ -536,12 +536,12 @@ public class ConservationController {
             Rectangle colorChoice = new Rectangle();
             colorChoice.setHeight(squareSides);
             colorChoice.setWidth(squareSides);
-            if (i < 4) {
-                colorChoice.setX(squareSides + 100 * i);
+            if (i < 4) { /// magic numbers
+                colorChoice.setX(squareSides + 100 * i); /// magic numbers
                 colorChoice.setY(100);
 
             } else {
-                colorChoice.setX(squareSides + 100 * (i - 4));
+                colorChoice.setX(squareSides + 100 * (i - 4)); /// magic numbers!
                 colorChoice.setY(200);
             }
 
@@ -563,7 +563,7 @@ public class ConservationController {
             colorPickerPane.getChildren().add(colorChoice);
         }
         ColorPicker extraColorOptions = new ColorPicker();
-        extraColorOptions.setLayoutX(colorPickerWidth / 2 - 50);
+        extraColorOptions.setLayoutX(colorPickerWidth / 2 - 50); /// magic numbers!
         extraColorOptions.setLayoutY(50);
 
         if (choice.equals("ramp")) {
@@ -595,7 +595,7 @@ public class ConservationController {
     /**
      * Disables the side bar options while the animation is playing.
      *
-     * @param status disabled or enabled
+     * @param status disabled or enabled /// boolean variable naming, change to "isEnabled"
      */
     public void disableSidebar(boolean status) {
         sliderHeight.setDisable(status);
@@ -618,7 +618,7 @@ public class ConservationController {
         Scene scene = null;
         try {
             scene = new Scene(loader.load(), Settings.HELP_MENU_WIDTH, Settings.HELP_MENU_HEIGHT);
-        } catch (IOException ex) {
+        } catch (IOException ex) { /// abbreviated variable name
             System.out.println("Help page could not be opened");
         }
 

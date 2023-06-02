@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
  */
 public class GraphSettings {
 
+    /// Missing units
     /**
      * Width of the graph window
      */

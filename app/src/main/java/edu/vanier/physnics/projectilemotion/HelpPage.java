@@ -33,7 +33,7 @@ public class HelpPage {
         // Loads scene graph to ScrollPane
         try {
             root = loader.load();
-        } catch (IOException ex) {
+        } catch (IOException ex) { /// abbreviated variable name
             Logger.getLogger(HelpPage.class.getName()).log(Level.SEVERE, null, ex);
         }
         

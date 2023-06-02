@@ -20,7 +20,7 @@ import javafx.util.Duration;
  */
 public class BlockAnimation {
 
-    private final int floorHeight = 50;
+    private final int floorHeight = 50; /// naming convention violation
 
     /**
      * Sets up the blocks in their initial positions, and is used when the
@@ -164,7 +164,7 @@ public class BlockAnimation {
             AnimationTimer blockAnimationTimer = new AnimationTimer()
             {
                 @Override
-                public void handle(long l)
+                public void handle(long l) /// single letter variable
                 {
                     reactToConditions(block, displacement, acceleration);
                 }
@@ -289,7 +289,7 @@ public class BlockAnimation {
         fallAnimationTimer = new AnimationTimer()
         {
             @Override
-            public void handle(long l)
+            public void handle(long l) /// single letter variable
             {
                 double verticalTranslation = topBlock.getTranslateY();
                 

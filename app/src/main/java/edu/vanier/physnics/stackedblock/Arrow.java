@@ -67,6 +67,7 @@ public class Arrow extends StackPane {
      */
     protected final void sizeAndPositionToBlock()
     {
+        /// In pixels?
         double blockWidth = correspondingBlock.getDrawingWidth();
         double blockHeight = correspondingBlock.getDrawingHeight();
 
@@ -91,7 +92,7 @@ public class Arrow extends StackPane {
         try
         {
             quadrant = forceVector.findQuadrant();
-        } catch (IllegalArgumentException ex)
+        } catch (IllegalArgumentException ex) /// abbreviated variable name
         {
             System.out.println(ex.getMessage());
         }
@@ -263,7 +264,7 @@ public class Arrow extends StackPane {
         return correspondingBlock;
     }
 
-    private enum SIDE {
+    private enum SIDE { /// naming convention violation
         RIGHT,
         LEFT
     }

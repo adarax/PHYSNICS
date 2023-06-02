@@ -47,7 +47,7 @@ public class Vector {
         arrowBody.setFitWidth(fitWidth);
         arrowBody.setFitHeight(fitHeight);
         if (vectorType.equals("FORCE")) {
-            arrowBody.setOpacity(0.5);
+            arrowBody.setOpacity(0.5); /// magic number
         }
    }   
     

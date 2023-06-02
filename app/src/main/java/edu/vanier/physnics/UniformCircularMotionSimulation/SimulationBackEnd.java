@@ -88,6 +88,7 @@ public class SimulationBackEnd {
     public PathTransition createPathTransitionCircle(Path path, Node node, Car car)
     {
         PathTransition pathTransitionCircle = new PathTransition();
+        /// magic number, why 50?
         pathTransitionCircle.setDuration(Duration.seconds(50 / car.getSpeedMetersPerSeconds()));
         pathTransitionCircle.setPath(path);
         pathTransitionCircle.setNode(node);
@@ -132,6 +133,7 @@ public class SimulationBackEnd {
             //in case the textfield detects a non-number, it will push an error and return 0.
             System.out.println("Error");
         }
+        /// you should check for negative numbers too
         return valueInTextField;
     }
 
@@ -161,7 +163,7 @@ public class SimulationBackEnd {
      */
     public void popAlert(String string)
     {
-        Alert a = new Alert(Alert.AlertType.ERROR);
+        Alert a = new Alert(Alert.AlertType.ERROR); /// single letter variable
         a.setContentText(string);
         a.show();
     }
@@ -218,7 +220,7 @@ public class SimulationBackEnd {
             Parent root = loader.load();
             Scene scene = new Scene(root, 1920, 1080);
             currentStage.setScene(scene);
-        } catch (IOException ex)
+        } catch (IOException ex) /// abbreviated variable name 
         {
             System.out.println("Something went wrong changing scenes.");
         }

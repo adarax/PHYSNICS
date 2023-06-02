@@ -9,6 +9,9 @@ package edu.vanier.physnics.stackedblock;
 public class Settings {
     private static boolean isDark = false;
 
+
+    /// Why have getters and setters when you can make it public?
+    /// Getters and setters are meant for side effects when accessing the field.
     /**
      * Returns the boolean value of isDark. If true, the application
      * is in dark mode. If false, the application is in light mode.

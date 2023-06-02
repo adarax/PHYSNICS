@@ -19,8 +19,8 @@ public class BlockFormulas {
     /**
      * Calculates the total normal force on a block.
      *
-     * @param contributingMassInKg mass of Block plus any masses on top of it
-     * @param opposingForces other vertical forces that may change the net normal force
+     * @param contributingMassInKg mass of Block plus any masses on top of it /// Type out kilograms
+     * @param opposingForces other vertical forces that may change the net normal force /// Missing units
      * @return magnitude of the total normal force on the block in Newtons
      */
     protected double calculateNormalForceMagnitude(double opposingForces, double... contributingMassInKg)

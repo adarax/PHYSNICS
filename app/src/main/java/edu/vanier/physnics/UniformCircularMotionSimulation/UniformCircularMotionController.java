@@ -153,7 +153,7 @@ public class UniformCircularMotionController extends Stage{
     /**An animation timer that dynamically updates the values of force, acceleration, and its components depending on the parameters set. */        
     AnimationTimer timerAngle = new AnimationTimer() {      
         @Override
-        public void handle(long l) {
+        public void handle(long l) { /// single letter variable
             useEnteredValuesToCalculate(simulationBackEnd.retrieveTextField(massTextField), simulationBackEnd.retrieveTextField(speedTextField), simulationBackEnd.retrieveTextField(radiusTextField));
         };
     };
@@ -165,27 +165,27 @@ public class UniformCircularMotionController extends Stage{
     void initialize(){
         setUp();
         //sends the user back to the main menu
-        buttonHome.setOnMouseClicked((e) -> {        
+        buttonHome.setOnMouseClicked((e) -> { /// single letter variable    
             simulationBackEnd.switchSimulation("mainmenu", uniformCircularMotionBorderPane);
         });
         
         //sends the user to the projectile motion simulation
-        menuItemProjectile.setOnAction((e) ->{
+        menuItemProjectile.setOnAction((e) ->{ /// single letter variable
             simulationBackEnd.switchSimulation("projectile", uniformCircularMotionBorderPane);
         });
         
         //sends the user to the stacked block simulation
-        menuItemStacked.setOnAction((e) ->{
+        menuItemStacked.setOnAction((e) ->{ /// single letter variable
             simulationBackEnd.switchSimulation("stackedblock", uniformCircularMotionBorderPane);
         });
 
         //sends the user to the energy conservation simulation
-        menuItemConservationEnergy.setOnAction((e) ->{
+        menuItemConservationEnergy.setOnAction((e) ->{ /// single letter variable
             simulationBackEnd.switchSimulation("conservation", uniformCircularMotionBorderPane);
         });
         
         //closes the application
-        menuItemQuit.setOnAction((e) ->{
+        menuItemQuit.setOnAction((e) ->{ /// single letter variable
             Platform.exit();
         });
     }
@@ -245,7 +245,7 @@ public class UniformCircularMotionController extends Stage{
                 UniformCircularMotionHelpController uniformCircularMotionHelpController = new UniformCircularMotionHelpController(stage);
                 uniformCircularMotionHelpLoader.setController(uniformCircularMotionHelpController);
                 root = uniformCircularMotionHelpLoader.load();               
-            } catch (IOException ex) {
+            } catch (IOException ex) { /// abbreviated variable name
                 Logger.getLogger(UniformCircularMotionHelpController.class.getName()).log(Level.SEVERE, null, ex);
             } 
                 //displaying the help page
@@ -446,7 +446,7 @@ public class UniformCircularMotionController extends Stage{
                 if (!resetButton.isDisabled()) {
                     group.getChildren().addAll(rectTest, pathCar, vectorForce.getArrowBody(),vectorAcceleration.getArrowBody());                
                 }  
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) { /// single letter variable
                     //error in case there is any erroneous value put in the textfield
                     if (!radiusTextField.getText().isBlank()) {
                         simulationBackEnd.showErrorAlertAndReset(radiusTextField, radiusSlider, 20, "Invalid Radius Input. Please Try Again");
@@ -475,7 +475,7 @@ public class UniformCircularMotionController extends Stage{
                     throw new NumberFormatException();
                 }
                 adjustSimulationNodesAnimationRate();
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) { /// single letter variable
                     //error in case there is any erroneous value put in the textfield
                 if (!speedTextField.getText().isBlank()) {
                     simulationBackEnd.showErrorAlertAndReset(speedTextField, speedSlider, Settings.CAR_INITIAL_SPEED_METERS_PER_SECONDS, "Invalid Speed Input. Please Try Again");
@@ -498,7 +498,7 @@ public class UniformCircularMotionController extends Stage{
                 if (!forceMagnitudeCheckBox.isSelected()) {
                     adjustForceVectorOpacity();                
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) { /// single letter variable
                 //error in case there is any erroneous value put in the textfield
                 if (!massTextField.getText().isBlank()) {
                     simulationBackEnd.showErrorAlertAndReset(massTextField, massSlider, 20, "Invalid Mass Input. Please Try Again");
@@ -614,7 +614,10 @@ public class UniformCircularMotionController extends Stage{
     /**
      * Sets the trajectory of the paths 
      */
-    public void setPathTrajectories(){
+    public void setPathTrajectories() {
+        /// you should space out these calculations properly on different lines
+        /// + term * product
+        /// + another term * factor ...
         //setting the path for the car
         pathCar = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
                 center.getCenterY(),Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR+Settings.CENTER_MARKER_INITIAL_RADIUS_REVOLVING_CAR/Settings.CAR_INITIAL_RADIUS_METERS*(car.getRadiusMeters()-Settings.CAR_INITIAL_RADIUS_METERS),
@@ -634,7 +637,7 @@ public class UniformCircularMotionController extends Stage{
      * Sets the trajectories for the paths when the radius of the car is bigger than 41 m.
      * @param b a parameter Boolean that is used to override the setPathTrajectories() method.
      */
-    public void setPathTrajectories(boolean b){
+    public void setPathTrajectories(boolean b){ /// single letter variable, if not used, you can call it dummy
         pathCar = simulationBackEnd.createEllipsePath(center.getCenterX()+Settings.MAX_RADIUS_RECTANGLE,
             center.getCenterY(),Settings.MAX_RADIUS_RECTANGLE,
             Settings.MAX_RADIUS_RECTANGLE);            
@@ -652,6 +655,7 @@ public class UniformCircularMotionController extends Stage{
     public void adjustSimulationNodesAnimationRate(){
         if (car.getSpeedMetersPerSeconds() <= Settings.SIMULATION_MAXIMUM_SPEED_METERS_PER_SECONDS) {
             //if the speed is within the range that is supported by the simulation
+            /// what is 0.1? (magic number)
             pathTransitionCircleCar.setRate(0.1*car.getSpeedMetersPerSeconds());
             pathTransitionCircleForceVector.setRate(0.1*car.getSpeedMetersPerSeconds());
             pathTransitionCircleAccelerationVector.setRate(0.1*car.getSpeedMetersPerSeconds());
@@ -674,13 +678,13 @@ public class UniformCircularMotionController extends Stage{
         if (car.getMassKilograms() <= Settings.SIMULATION_MAXIMUM_MASS_KILOGRAMS && car.getMassKilograms()> 0) {
             //if the mass is within the range that is supported by the simulation
             vectorForce.getArrowBody().setVisible(true);               
-            vectorForce.setOpacity(0.025*car.getMassKilograms());
+            vectorForce.setOpacity(0.025*car.getMassKilograms()); /// magic number
             warningMassText.setText("");
         }
         else if (car.getMassKilograms() == 0) {
             //for when the mass is 0 kg (no mass)
             vectorForce.getArrowBody().setVisible(false);               
-            vectorForce.setOpacity(0.025*car.getMassKilograms());
+            vectorForce.setOpacity(0.025*car.getMassKilograms()); /// magic number
             warningMassText.setText("");
         }
         else if (car.getMassKilograms() > Settings.SIMULATION_INPUT_MAXIMUM) {

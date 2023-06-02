@@ -468,12 +468,12 @@ public class BlockFrontEndController {
      * An enum to standardize the naming of the top and bottom block in the
      * simulation.
      */
-    protected enum POSITION {
+    protected enum POSITION { /// naming convention violation
         TOP,
         BOTTOM
     }
     
-    private enum ANIMATION_STATE {
+    private enum ANIMATION_STATE { /// naming convention violation
         PLAYING,
         PAUSED,
         RESET

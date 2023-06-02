@@ -51,6 +51,8 @@ public class Car {
         this.massKilograms = mass;
     }
     
+    /// Consider making these fields public and removing the following methods,
+    /// if having these methods makes no difference.
     /**
      * Getter for the car's speedMetersPerSeconds
      * @return the speedMetersPerSeconds of the car

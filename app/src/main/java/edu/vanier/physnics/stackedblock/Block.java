@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Block extends StackPane {
 
-    private double mass, drawingHeight, drawingWidth;
+    private double mass, drawingHeight, drawingWidth; /// missing units
     private POSITION blockId;
     private ArrayList<Vector> forcesExperienced;
     private Color blockColor;
@@ -219,7 +219,7 @@ public class Block extends StackPane {
      */
     protected final void determineAndSetDrawingHeight()
     {
-        double heightValue = 100 * Math.log(mass / 2) + 40;
+        double heightValue = 100 * Math.log(mass / 2) + 40; /// if 40 is the default height, wrap that in a variable
         this.setDrawingHeight(heightValue);
     }
 
@@ -322,7 +322,7 @@ public class Block extends StackPane {
      */
     protected final int determineLabelFontSize()
     {
-        return (int) (7 * Math.log(this.drawingHeight));
+        return (int) (7 * Math.log(this.drawingHeight)); /// if 7 is a default size, wrap this in a variable
     }
 
     /**
